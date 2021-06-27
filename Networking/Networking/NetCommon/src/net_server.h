@@ -95,7 +95,7 @@ namespace olc
 
 								// And very important! Issue a task to the connection's
 								// asio context to sit and wait for bytes to arrive!
-								m_deqConnections.back()->ConnectToClient(nIDCounter++);
+								m_deqConnections.back()->ConnectToClient(this, nIDCounter++);
 
 								std::cout << "[" << m_deqConnections.back()->GetID() << "] Connection Approved\n";
 							}
@@ -181,6 +181,7 @@ namespace olc
 			// Force server to respond to incoming messages
 			void Update(size_t nMaxMessages = -1, bool bWait = false)
 			{
+				// We dont need tge server to occupy 100% of a CPU core
 				if (bWait) m_qMessagesIn.wait();
 
 				// Process as many messages as you can up to the value
@@ -219,6 +220,13 @@ namespace olc
 			{
 
 			}
+
+			public:
+				// Called when a client is validated
+				virtual void OnClientValidated(std::shared_ptr<connection<T>> client)
+				{
+
+				}
 
 
 		protected:
