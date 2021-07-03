@@ -42,27 +42,39 @@ static const char* fShader = "res/shaders/render3D.frag.glsl";
 void CreateObjects()
 {
 	unsigned int indices[] = {
-		0, 3, 1,
-		1, 3, 2,
-		2, 3, 0,
-		0, 1, 2
+		0, 3, 1//,
+		//1, 3, a2,
+		//2, 3, 0,
+		//0, 1, 2
 	};
 
+	//GLfloat vertices[] = {
+	////	    x,     y,    z,     u,    v, 
+	//	-1.0f, -1.0f, 0.0f,  0.0f, 0.0f,
+	//	 0.0f, -1.0f, 1.0f,  0.5f, 0.0f,
+	//	 1.0f, -1.0f, 0.0f,  1.0f, 0.0f,
+	//	 0.0f,  1.0f, 0.0f,  0.5f, 1.0f
+	//};
+
+
 	GLfloat vertices[] = {
-	//	    x,     y,    z,     u,    v, 
-		-1.0f, -1.0f, 0.0f,  0.0f, 0.0f,
-		 0.0f, -1.0f, 1.0f,  0.5f, 0.0f,
-		 1.0f, -1.0f, 0.0f,  1.0f, 0.0f,
-		 0.0f,  1.0f, 0.0f,  0.5f, 1.0f
+		//	    x,     y,    z,     u,    v, 
+			-1.0f, -1.0f, 0.0f,  0.0f, 0.0f,
+			 0.0f, -1.0f, 1.0f,  0.0f, 0.0f,
+			 1.0f, -1.0f, 0.0f,  0.0f, 0.0f,
+			 0.0f,  1.0f, 0.0f,  0.0f, 0.0f
 	};
 
 	Mesh* obj1 = new Mesh();
-	obj1->CreateMesh(vertices, indices, 20, 12);
+	obj1->CreateMesh(vertices, indices, sizeof(vertices), sizeof(indices) / sizeof(uint32_t));
 	meshList.push_back(obj1);
+	
+	//obj1->CreateMesh(vertices, indices, 20, 12);
+	//meshList.push_back(obj1);
 
-	Mesh* obj2 = new Mesh();
-	obj2->CreateMesh(vertices, indices, 20, 12);
-	meshList.push_back(obj2);
+	//Mesh* obj2 = new Mesh();
+	//obj2->CreateMesh(vertices, indices, 20, 12);
+	//meshList.push_back(obj2);
 }
 
 void CreateShaders()
@@ -123,12 +135,12 @@ int main()
 		meshList[0]->RenderMesh();
 
 		// Render Second object
-		model = glm::mat4();
-		model = glm::translate(model, glm::vec3(0.0f, 1.0f, -2.5f));
-		model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
-		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-		dirtTexture->UseTexture();
-		meshList[1]->RenderMesh();
+		//model = glm::mat4();
+		//model = glm::translate(model, glm::vec3(0.0f, 1.0f, -2.5f));
+		//model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
+		//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+		//dirtTexture->UseTexture();
+		//meshList[1]->RenderMesh();
 
 		// Unassign shader
 		glUseProgram(0);
