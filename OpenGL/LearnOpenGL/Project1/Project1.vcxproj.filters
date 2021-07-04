@@ -1216,6 +1216,6 @@
     <ClInclude Include="..\vendor\glm\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\04-HelloTriangleEx2.cpp" />
   </ItemGroup>
 </Project>
