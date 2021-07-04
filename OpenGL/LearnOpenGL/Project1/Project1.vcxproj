@@ -549,6 +549,12 @@
     <ClInclude Include="..\vendor\glm\glm\vec3.hpp" />
     <ClInclude Include="..\vendor\glm\glm\vec4.hpp" />
     <ClInclude Include="..\vendor\glm\glm\vector_relational.hpp" />
+    <ClInclude Include="src\core\Includes.h" />
+    <ClInclude Include="src\core\Shaders.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\core\Shaders.cpp" />
+    <ClCompile Include="src\main\09-ShadersEx1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\vendor\GLFW\GLFW.vcxproj">
@@ -560,9 +566,6 @@
     <ProjectReference Include="..\vendor\imgui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\04-HelloTriangleEx2.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
