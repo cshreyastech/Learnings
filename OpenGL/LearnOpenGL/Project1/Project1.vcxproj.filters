@@ -1277,6 +1277,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\Shaders.cpp" />
-    <ClCompile Include="src\main\12-TexturesOverlayEx3.cpp" />
+    <ClCompile Include="src\main\01-GettingStarted\03-Textures\03-TexturesOverlayEx3.cpp" />
   </ItemGroup>
 </Project>
