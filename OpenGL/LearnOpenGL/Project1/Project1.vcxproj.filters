@@ -1277,6 +1277,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\Shaders.cpp" />
-    <ClCompile Include="src\main\01-GettingStarted\04-Transformations\02-TransformationsEx1.cpp" />
+    <ClCompile Include="src\main\01-GettingStarted\05-CoordinateSystems\03-CoordinateSystems3DManyCubes.cpp" />
   </ItemGroup>
 </Project>
