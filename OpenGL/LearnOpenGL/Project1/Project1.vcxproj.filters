@@ -1274,9 +1274,11 @@
     </ClInclude>
     <ClInclude Include="src\core\Includes.h" />
     <ClInclude Include="src\core\Shaders.h" />
+    <ClInclude Include="src\core\Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\Shaders.cpp" />
-    <ClCompile Include="src\main\01-GettingStarted\05-CoordinateSystems\03-CoordinateSystems3DManyCubes.cpp" />
+    <ClCompile Include="src\main\01-GettingStarted\05-CoordinateSystems\07-CoordinateSystemRefractored.cpp" />
+    <ClCompile Include="src\core\Camera.cpp" />
   </ItemGroup>
 </Project>
