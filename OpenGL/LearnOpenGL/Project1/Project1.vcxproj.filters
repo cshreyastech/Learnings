@@ -1278,7 +1278,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\Shaders.cpp" />
-    <ClCompile Include="src\main\01-GettingStarted\05-CoordinateSystems\07-CoordinateSystemRefractored.cpp" />
     <ClCompile Include="src\core\Camera.cpp" />
+    <ClCompile Include="src\main\01-GettingStarted\06-Exercise\01-Polygons.cpp" />
   </ItemGroup>
 </Project>
