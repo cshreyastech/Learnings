@@ -1,4 +1,6 @@
 // Server side implementation of UDP client-server model
+// g++ -std=c++14 03-ucp_server.c -o udp_server
+
 #include <bits/stdc++.h>
 #include <stdlib.h>
 #include <unistd.h>
