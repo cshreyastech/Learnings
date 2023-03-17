@@ -37,15 +37,15 @@ int main(int argc, char** argv) {
   std::unique_ptr<SocketClient> client_ptr(new SocketClient(hostname, port));
   client_ptr->ConnectToServer();
   client_ptr->SendImageDims(cols, rows);
-  // while (1) {
-  //   cv::Mat image;
-  //   GenerateImage(cols, rows, image);
-  //   client_ptr->SendImage(image);
-  // }
+  while (1) {
+    cv::Mat image;
+    GenerateImage(cols, rows, image);
+    client_ptr->SendImage(image);
+  }
 
-  cv::Mat image;
-  GenerateImage(cols, rows, image);
-  client_ptr->SendImage(image);
+  // cv::Mat image;
+  // GenerateImage(cols, rows, image);
+  // client_ptr->SendImage(image);
   
   return 1; // Should not return
 }
