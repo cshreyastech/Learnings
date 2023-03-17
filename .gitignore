@@ -28,3 +28,4 @@ scripts/__pycache__
 [Bb][Uu][Ii][Ll][Dd]/*
 
 OpenCV/build/*
+OpenCV/outImages/*

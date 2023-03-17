@@ -35,7 +35,10 @@ find_package( OpenCV REQUIRED )
 
 
 # INCLUDE OPENCV DIRECTORIES
-include_directories( ${OpenCV_INCLUDE_DIRS})
+include_directories( 
+  ${OpenCV_INCLUDE_DIRS}
+  include
+  )
 
 
 # MACRO TO COMPILE CPP FILES
@@ -55,8 +58,23 @@ ENDMACRO()
 # COMPILE CPP FILES USING THIS LINE
 ######## EDIT THE FILE NAMES ########
 # add_example(sampleCode)
-add_example(image_receiver)
-add_example(image_sender)
+# add_example(image_receiver)
+# add_example(image_sender)
 
-add_example(server)
-add_example(client)
+# add_example(server)
+# add_example(client)
+
+ADD_EXECUTABLE(sample_server 
+  src/toy/socket_server.cpp
+  src/toy/sample_server.cpp
+  )
+
+TARGET_LINK_LIBRARIES(sample_server ${OpenCV_LIBS} )
+
+
+ADD_EXECUTABLE(sample_client 
+  src/toy/socket_client.cpp
+  src/toy/sample_client.cpp
+  )
+
+TARGET_LINK_LIBRARIES(sample_client ${OpenCV_LIBS} )
