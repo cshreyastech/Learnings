@@ -177,7 +177,7 @@ void SocketServer::ReceiveImageBoy(cv::Mat& image) {
       image_ptr += 3;
     }
   }
-  
+
   std::ostringstream oss;
   oss << out_path_ << "/pic_" << std::to_string(pic_count_++) << ".jpg";
   pic_filename_ = oss.str();
@@ -188,6 +188,18 @@ void SocketServer::ReceiveImageBoy(cv::Mat& image) {
 void SocketServer::WriteImage(cv::Mat& image) {
   cv::imwrite(pic_filename_, image);
 }
+
+void SocketServer::ShowImage(cv::Mat& image) {
+  cv::namedWindow( "Display window", cv::WINDOW_AUTOSIZE );// Create a window for display.
+  cv::imshow("Display window", image);                   // Show our image inside it.
+
+  cv::waitKey(0);
+}
+
+void SocketServer::DestroyAllWindows() {
+  cv::destroyAllWindows();
+}
+
 
 int SocketServer::GetWidth() {
   return image_dims_.width;

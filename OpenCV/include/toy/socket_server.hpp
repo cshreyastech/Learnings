@@ -10,6 +10,7 @@
 #include <netinet/in.h>
 
 #include <opencv2/core.hpp>
+#include <opencv2/highgui.hpp>
 
 class SocketServer {
  public:
@@ -19,6 +20,8 @@ class SocketServer {
   void ReceiveImage(cv::Mat& image);
   void ReceiveImageBoy(cv::Mat& image);
   void WriteImage(cv::Mat& image);
+  void ShowImage(cv::Mat& image);
+  void DestroyAllWindows();
   int GetWidth();
   int GetHeight();
 
