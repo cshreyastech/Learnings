@@ -4,6 +4,30 @@
 #include <opencv2/core.hpp> // Mat
 
 #include "toy/socket_server.hpp"
+#include <iostream>
+
+std::string type2str(int type) {
+  std::string r;
+
+  uchar depth = type & CV_MAT_DEPTH_MASK;
+  uchar chans = 1 + (type >> CV_CN_SHIFT);
+
+  switch ( depth ) {
+    case CV_8U:  r = "8U"; break;
+    case CV_8S:  r = "8S"; break;
+    case CV_16U: r = "16U"; break;
+    case CV_16S: r = "16S"; break;
+    case CV_32S: r = "32S"; break;
+    case CV_32F: r = "32F"; break;
+    case CV_64F: r = "64F"; break;
+    default:     r = "User"; break;
+  }
+
+  r += "C";
+  r += (chans+'0');
+
+  return r;
+}
 
 bool DirExists(const char* path) {
   struct stat info;
@@ -35,10 +59,19 @@ int main(int argc, char** argv) {
   std::unique_ptr<SocketServer> server_ptr(new SocketServer(port, argv[2]));
   server_ptr->ConnectToNetwork();
   server_ptr->ReceiveImageDims();
-  while(1) {
-    cv::Mat image;
-    server_ptr->ReceiveImage(image);
-    server_ptr->WriteImage(image);
-  }
+  // while(1) {
+  //   cv::Mat image;
+  //   server_ptr->ReceiveImage(image);
+  //   server_ptr->WriteImage(image);
+  // }
+
+  cv::Mat image;
+  // server_ptr->ReceiveImage(image);
+  server_ptr->ReceiveImageBoy(image);
+  std::cout << "Boy Image Data type = " << type2str(image.type()) << std::endl;
+  std::cout << "Boy Image Dimensions = " << image.size() << std::endl;
+
+  server_ptr->WriteImage(image);
+  
   return 1; // Should not return
 }

@@ -3,6 +3,42 @@
 #include <memory> // unique_ptr
 #include <cstdlib> // atoi
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h> 
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <iostream>
+
+std::string type2str(int type) {
+  std::string r;
+
+  uchar depth = type & CV_MAT_DEPTH_MASK;
+  uchar chans = 1 + (type >> CV_CN_SHIFT);
+
+  switch ( depth ) {
+    case CV_8U:  r = "8U"; break;
+    case CV_8S:  r = "8S"; break;
+    case CV_16U: r = "16U"; break;
+    case CV_16S: r = "16S"; break;
+    case CV_32S: r = "32S"; break;
+    case CV_32F: r = "32F"; break;
+    case CV_64F: r = "64F"; break;
+    default:     r = "User"; break;
+  }
+
+  r += "C";
+  r += (chans+'0');
+
+  return r;
+}
+
+
 void GenerateImage(int rows, int cols, cv::Mat& image) {
   int lol = 0;
   image = cv::Mat::zeros(rows, cols, CV_8UC3);
@@ -37,15 +73,31 @@ int main(int argc, char** argv) {
   std::unique_ptr<SocketClient> client_ptr(new SocketClient(hostname, port));
   client_ptr->ConnectToServer();
   client_ptr->SendImageDims(cols, rows);
-  while (1) {
-    cv::Mat image;
-    GenerateImage(cols, rows, image);
-    client_ptr->SendImage(image);
-  }
+  // while (1) {
+  //   cv::Mat image;
+  //   GenerateImage(cols, rows, image);
+  //   client_ptr->SendImage(image);
+  // }
 
-  // cv::Mat image;
-  // GenerateImage(cols, rows, image);
-  // client_ptr->SendImage(image);
+  cv::Mat image;
+  GenerateImage(cols, rows, image);
   
+  std::cout << "Data type = " << type2str(image.type()) << std::endl;
+  std::cout << "Image Dimensions = " << image.size() << std::endl;
+
+
+  std::string imagePath = "../boy.jpg";
+
+  // Read image in Grayscale format
+  cv::Mat boy_image = cv::imread(imagePath, 1);
+  std::cout << "Boy Image Data type = " << type2str(boy_image.type()) << std::endl;
+  std::cout << "Boy Image Dimensions = " << boy_image.size() << std::endl;
+
+
+  // client_ptr->SendImage(image);
+  // client_ptr->SendImage(image);
+  client_ptr->SendImage(boy_image);
+  client_ptr->SendImage(boy_image);
+
   return 1; // Should not return
 }

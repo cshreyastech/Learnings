@@ -17,6 +17,7 @@ class SocketServer {
   void ConnectToNetwork();
   void ReceiveImageDims();
   void ReceiveImage(cv::Mat& image);
+  void ReceiveImageBoy(cv::Mat& image);
   void WriteImage(cv::Mat& image);
   int GetWidth();
   int GetHeight();

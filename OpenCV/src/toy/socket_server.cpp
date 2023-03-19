@@ -140,6 +140,51 @@ void SocketServer::ReceiveImage(cv::Mat& image) {
   pic_filename_ = oss.str();
 }
 
+void SocketServer::ReceiveImageBoy(cv::Mat& image) {
+
+  int num_bytes = 0;
+  int image_ptr = 0;
+  int image_size = 0;
+
+  // Reset image
+  image = cv::Mat::zeros(image_dims_, CV_8UC3);
+
+  // Get image size
+  image_size = image.total() * image.elemSize();
+
+  // Allocate space for image buffer
+  uchar sock_data[image_size];
+
+  // Save image data to buffer
+  for (int i = 0; i < image_size; i += num_bytes) {
+    num_bytes = recv(sock_fdesc_conn_, sock_data + i, image_size - i, 0);
+    if (num_bytes == -1) {
+      printf("ERROR!: recv failed\n"
+             "i: %d\n"
+             "sock_fdesc: %d\n"
+             "image_size: %d\n"
+             "num_bytes: %d\n", i, sock_fdesc_conn_, image_size, num_bytes);
+      exit(1);
+    }
+  }
+
+  // Write image data to cv::Mat
+  for (int i = 0;  i < image_dims_.height; ++i) {
+    for (int j = 0; j < image_dims_.width; ++j) {
+      image.at<cv::Vec3b>(i,j) = cv::Vec3b(sock_data[image_ptr+0],
+                                           sock_data[image_ptr+1],
+                                           sock_data[image_ptr+2]);
+      image_ptr += 3;
+    }
+  }
+  
+  std::ostringstream oss;
+  oss << out_path_ << "/pic_" << std::to_string(pic_count_++) << ".jpg";
+  pic_filename_ = oss.str();
+}
+
+
+
 void SocketServer::WriteImage(cv::Mat& image) {
   cv::imwrite(pic_filename_, image);
 }
