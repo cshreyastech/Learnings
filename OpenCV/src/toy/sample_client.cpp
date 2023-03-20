@@ -55,22 +55,35 @@ void GenerateImage(int rows, int cols, cv::Mat& image) {
 
 void AssertCond(bool assert_cond, const char* fail_msg) {
   if (!assert_cond) {
-    printf("Error: %s\nUsage: ./pic-client <port> <rows> <cols>\n", fail_msg);
+    // printf("Error: %s\nUsage: ./pic-client <port> <rows> <cols>\n", fail_msg);
+    printf("Error: %s\nUsage: ./pic-client <ip> <port>\n", fail_msg);
     exit(1);
   }
 }
 
 void ParseArgs(int argc, char** argv) {
-  AssertCond(argc == 4, "Wrong number of arguments");
+  AssertCond(argc == 3, "Wrong number of arguments");
 }
 
 int main(int argc, char** argv) {
   ParseArgs(argc, argv);
-  int port = atoi(argv[1]);
-  int cols = atoi(argv[2]);
-  int rows = atoi(argv[3]);
-  const char hostname[] = "localhost";
-  std::unique_ptr<SocketClient> client_ptr(new SocketClient(hostname, port));
+  
+  std::string hostname = argv[1]; 
+  int port = atoi(argv[2]);
+  // int cols = atoi(argv[2]);
+  // int rows = atoi(argv[3]);
+
+  std::string imagePath = "../boy.jpg";
+
+  // Read image in Grayscale format
+  cv::Mat boy_image = cv::imread(imagePath, 1);
+  std::cout << "Boy Image Data type = " << type2str(boy_image.type()) << std::endl;
+  std::cout << "Boy Image Dimensions = " << boy_image.size() << std::endl;
+
+  int cols = boy_image.cols; //480;
+  int rows = boy_image.rows;// 360;
+  // const char hostname[] = "localhost";
+  std::unique_ptr<SocketClient> client_ptr(new SocketClient(hostname.c_str(), port));
   client_ptr->ConnectToServer();
   client_ptr->SendImageDims(cols, rows);
   // while (1) {
@@ -80,18 +93,12 @@ int main(int argc, char** argv) {
   // }
 
   cv::Mat image;
-  GenerateImage(cols, rows, image);
+  // GenerateImage(cols, rows, image);
   
-  std::cout << "Data type = " << type2str(image.type()) << std::endl;
-  std::cout << "Image Dimensions = " << image.size() << std::endl;
+  // std::cout << "Data type = " << type2str(image.type()) << std::endl;
+  // std::cout << "Image Dimensions = " << image.size() << std::endl;
 
 
-  std::string imagePath = "../boy.jpg";
-
-  // Read image in Grayscale format
-  cv::Mat boy_image = cv::imread(imagePath, 1);
-  std::cout << "Boy Image Data type = " << type2str(boy_image.type()) << std::endl;
-  std::cout << "Boy Image Dimensions = " << boy_image.size() << std::endl;
 
 
   // client_ptr->SendImage(image);

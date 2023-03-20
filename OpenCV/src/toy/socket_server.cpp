@@ -5,6 +5,7 @@
 #include <sys/stat.h>
 
 #include <opencv2/imgcodecs.hpp>
+#include <iostream>
 
 SocketServer::SocketServer(int port, std::string out_path) :
     image_dims_(cv::Size2i(0, 0)),
@@ -28,6 +29,7 @@ void SocketServer::ConnectToNetwork() {
     exit(1);
   }
 
+  // std::cout << "server_addr_" << server_addr_.c_str() << std::endl;
   // Zero out server address struct
   memset((char*)&server_addr_, 0, server_addr_size_);
 
