@@ -2,13 +2,17 @@
 // programming
 #include <arpa/inet.h>
 #include <stdio.h>
-#include <string.h>
+#include <string>
+#include <cstring>
 #include <sys/socket.h>
 #include <unistd.h>
-#define PORT 8080
+// #define PORT 8080
 
 int main(int argc, char const* argv[])
 {
+  std::string hostname = argv[1]; 
+  int PORT = atoi(argv[2]);
+
   int status, valread, client_fd;
   struct sockaddr_in serv_addr;
   char* hello = "Hello from client";
@@ -23,7 +27,7 @@ int main(int argc, char const* argv[])
 
   // Convert IPv4 and IPv6 addresses from text to binary
   // form
-  if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)
+  if (inet_pton(AF_INET, hostname.c_str() , &serv_addr.sin_addr)
     <= 0) {
     printf(
       "\nInvalid address/ Address not supported \n");

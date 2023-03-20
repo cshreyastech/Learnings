@@ -6,9 +6,11 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#define PORT 8080
+// #define PORT 8080
 int main(int argc, char const* argv[])
 {
+  int PORT = atoi(argv[1]);
+  
   int server_fd, new_socket, valread;
   struct sockaddr_in address;
   int opt = 1;
