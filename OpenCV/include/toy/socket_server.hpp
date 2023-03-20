@@ -14,7 +14,8 @@
 
 class SocketServer {
  public:
-  SocketServer(int port, std::string out_path);
+  // SocketServer(int port, std::string out_path);
+  SocketServer(int port);
   void ConnectToNetwork();
   void ReceiveImageDims();
   void ReceiveImage(cv::Mat& image);
@@ -30,7 +31,7 @@ class SocketServer {
   struct sockaddr_in server_addr_;
   struct sockaddr_in client_addr_;
   std::string pic_filename_;
-  std::string out_path_;
+  // std::string out_path_;
   socklen_t client_len_;
   size_t server_addr_size_;
   int port_;

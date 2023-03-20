@@ -7,9 +7,19 @@
 #include <opencv2/imgcodecs.hpp>
 #include <iostream>
 
-SocketServer::SocketServer(int port, std::string out_path) :
+// SocketServer::SocketServer(int port, std::string out_path) :
+//     image_dims_(cv::Size2i(0, 0)),
+//     out_path_(out_path),
+//     client_len_(0),
+//     server_addr_size_(sizeof(server_addr_)),
+//     port_(port),
+//     pic_count_(0),
+//     sock_fdesc_init_(0),
+//     sock_fdesc_conn_(0) {
+//   client_len_ = server_addr_size_;
+// }
+SocketServer::SocketServer(int port) :
     image_dims_(cv::Size2i(0, 0)),
-    out_path_(out_path),
     client_len_(0),
     server_addr_size_(sizeof(server_addr_)),
     port_(port),
@@ -137,9 +147,9 @@ void SocketServer::ReceiveImage(cv::Mat& image) {
       image_ptr += 4;
     }
   }
-  std::ostringstream oss;
-  oss << out_path_ << "/pic_" << std::to_string(pic_count_++) << ".jpg";
-  pic_filename_ = oss.str();
+  // std::ostringstream oss;
+  // oss << out_path_ << "/pic_" << std::to_string(pic_count_++) << ".jpg";
+  // pic_filename_ = oss.str();
 }
 
 void SocketServer::ReceiveImageBoy(cv::Mat& image) {
@@ -180,9 +190,9 @@ void SocketServer::ReceiveImageBoy(cv::Mat& image) {
     }
   }
 
-  std::ostringstream oss;
-  oss << out_path_ << "/pic_" << std::to_string(pic_count_++) << ".jpg";
-  pic_filename_ = oss.str();
+  // std::ostringstream oss;
+  // oss << out_path_ << "/pic_" << std::to_string(pic_count_++) << ".jpg";
+  // pic_filename_ = oss.str();
 }
 
 
