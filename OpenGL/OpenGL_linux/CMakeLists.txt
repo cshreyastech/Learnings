@@ -28,13 +28,14 @@ include_directories(
   PRIVATE glfw 
   PRIVATE GLU 
   PRIVATE GL 
-  # PRIVATE Xrandr 
-  # PRIVATE Xxf86vm 
-  # PRIVATE Xi 
-  # PRIVATE Xinerama 
-  # PRIVATE X11 
-  # PRIVATE rt 
-  # PRIVATE dl
+  PRIVATE Xrandr 
+  PRIVATE Xxf86vm 
+  PRIVATE Xi 
+  PRIVATE Xinerama 
+  PRIVATE X11 
+  PRIVATE rt 
+  PRIVATE dl
+  PRIVATE GLEW
   )
 
 
