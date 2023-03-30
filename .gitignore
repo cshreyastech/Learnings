@@ -24,8 +24,10 @@ scripts/__pycache__
 # Files
 *.user
 
+
 # Ignore all build folders
 [Bb][Uu][Ii][Ll][Dd]/*
 
 OpenCV/build/*
 OpenCV/outImages/*
+OpenGL/OpenGL_linux/build/*
