@@ -5,6 +5,46 @@
 #include <string>
 #include <sstream>
 
+#include <stdio.h>
+#include <signal.h>
+
+// https://www.oreilly.com/library/view/secure-programming-cookbook/0596003943/ch12s13.html
+   
+#define SPC_DEBUGGER_PRESENT (num_traps == 0)
+static int num_traps = 0;
+   
+static void dbg_trap(int signo) {
+  num_traps++;
+}
+
+// #define ASSERT(x) if (!(x))
+
+int spc_trap_detect(void) {
+  if (signal(SIGTRAP, dbg_trap) == SIG_ERR) return 0;
+  raise(SIGTRAP);
+  return 1;
+}
+
+
+
+
+
+
+static void GLClearError()
+{
+  while(glGetError() != GL_NO_ERROR);
+}
+
+static bool GLLogCall()
+{
+  while(GLenum error = glGetError())
+  {
+    std::cout << "[OpenGL Error] (" << error << ")" << std::endl;
+    return false;
+  }
+  return true;
+}
+
 struct ShaderProgramSource
 {
   std::string VertexSource;
@@ -140,10 +180,6 @@ int main(void)
 
 
 
-
-  // glBindBuffer(GL_ARRAY_BUFFER, 0);
-  
-
   ShaderProgramSource source = ParseShader("../res/shaders/Basic.shader");
   // std::cout << source.VertexSource << std::endl;
   // std::cout << source.FragmentSource << std::endl;
@@ -151,14 +187,24 @@ int main(void)
   unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
   glUseProgram(shader);
   
+  // int x;
+  // spc_trap_detect();
+  // for (x = 0; x < 10; x++) {
+  //   if (SPC_DEBUGGER_PRESENT) printf("being debugged!\n");
+  //   else printf("y\n");
+  // }  
+
+
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(window))
   {
     /* Render here */
     glClear(GL_COLOR_BUFFER_BIT);
 
+    GLClearError();
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
+    GLLogCall();
+    
     /* Swap front and back buffers */
     glfwSwapBuffers(window);
 

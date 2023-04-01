@@ -12,7 +12,11 @@
           "${file}",
           "-o",
           // "src/Application.cpp"
-          "${fileDirname}/${fileBasenameNoExtension}"
+          "${fileDirname}/${fileBasenameNoExtension}",
+          "-lglfw",
+          "-lGLU",
+          "-lGL",
+          "-lGLEW"
         ],
         "options": {
           "cwd": "${fileDirname}"
