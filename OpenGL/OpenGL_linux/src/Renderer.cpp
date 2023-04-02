@@ -1,12 +1,6 @@
 #include "Renderer.h"
 #include <iostream>
 
-void RaiseDebugError()
-{
-  raise(SIGTRAP);
-}
-
-
 void GLClearError()
 {
   while(glGetError() != GL_NO_ERROR);
