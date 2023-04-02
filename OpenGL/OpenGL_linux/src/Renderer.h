@@ -1,4 +1,6 @@
-// #pragma once
+#ifndef _RENDERER_
+#define _RENDERER_
+
 #include <GL/glew.h>
 #include <signal.h>
 
@@ -9,3 +11,5 @@
 
 void GLClearError();
 bool GLLogCall(const char* function, const char* file, int line);
+
+#endif
