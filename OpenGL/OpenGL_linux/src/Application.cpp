@@ -135,10 +135,6 @@ int main(void)
     2, 3, 0
   };
 
-  unsigned int vao;
-  GLCall(glGenVertexArrays(1, &vao));
-  GLCall(glBindVertexArray(vao));
-
   VertexArray va;
   VertexBuffer vb(positions, 4 * 2 * sizeof(float));
 
@@ -150,9 +146,6 @@ int main(void)
   IndexBuffer ib(indices, 6);
 
   ShaderProgramSource source = ParseShader("../res/shaders/Basic.shader");
-  // std::cout << source.VertexSource << std::endl;
-  // std::cout << source.FragmentSource << std::endl;
-
   unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
   GLCall(glUseProgram(shader));
 
@@ -160,7 +153,7 @@ int main(void)
   GLCall(glUniform4f(location, 0.8f, 0.3f, 0.8f, 1.0f)); 
 
   // Unbound
-  GLCall(glBindVertexArray(0));
+  // GLCall(glBindVertexArray(0));
   GLCall(glUseProgram(0));
   GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
   GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
