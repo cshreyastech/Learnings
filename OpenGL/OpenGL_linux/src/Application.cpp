@@ -153,7 +153,7 @@ int main(void)
   GLCall(glUniform4f(location, 0.8f, 0.3f, 0.8f, 1.0f)); 
 
   // Unbound
-  // GLCall(glBindVertexArray(0));
+  va.Unbind();
   GLCall(glUseProgram(0));
   GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
   GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
