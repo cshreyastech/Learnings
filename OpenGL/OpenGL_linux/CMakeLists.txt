@@ -14,13 +14,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 # INCLUDE OPENCV DIRECTORIES
 include_directories( 
 #  include
+  src
   )
 
 
 
 
   ADD_EXECUTABLE(${PROJECT_NAME} 
-    src/Application.cpp)
+    src/IndexBuffer.cpp
+    src/VertexBuffer.cpp
+    src/Renderer.cpp
+    src/Application.cpp
+    )
 
   #Set Linker flags
   set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
