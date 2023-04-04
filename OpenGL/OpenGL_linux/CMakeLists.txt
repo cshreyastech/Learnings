@@ -21,11 +21,12 @@ include_directories(
 
 
   ADD_EXECUTABLE(${PROJECT_NAME} 
-    src/VertexBufferLayout.cpp
-    src/VertexArray.cpp
     src/IndexBuffer.cpp
-    src/VertexBuffer.cpp
     src/Renderer.cpp
+    src/Shader.cpp
+    src/VertexArray.cpp
+    src/VertexBuffer.cpp
+    src/VertexBufferLayout.cpp
     src/Application.cpp
     )
 
