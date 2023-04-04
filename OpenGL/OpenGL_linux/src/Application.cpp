@@ -78,7 +78,7 @@ int main(void)
   while (!glfwWindowShouldClose(window))
   {
     /* Render here */
-    GLCall(glClear(GL_COLOR_BUFFER_BIT));
+    renderer.Clear();
 
     shader.Bind();
     shader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
