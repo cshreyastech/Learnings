@@ -1,3 +1,6 @@
 {
-  "cmake.sourceDirectory": "${workspaceFolder}/OpenCV"
+  "cmake.sourceDirectory": "${workspaceFolder}/OpenCV",
+  "files.associations": {
+    "sstream": "cpp"
+  }
 }
