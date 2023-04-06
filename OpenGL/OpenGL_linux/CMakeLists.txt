@@ -17,10 +17,9 @@ include_directories(
   src
   )
 
-
-
-
   ADD_EXECUTABLE(${PROJECT_NAME} 
+    src/vendor/stb_image/stb_image.cpp
+    src/Texture.cpp
     src/IndexBuffer.cpp
     src/Renderer.cpp
     src/Shader.cpp

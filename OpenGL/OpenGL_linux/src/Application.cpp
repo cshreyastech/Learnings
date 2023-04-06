@@ -7,6 +7,7 @@
 #include "VertexArray.h"
 #include "Shader.h"
 #include "VertexBufferLayout.h"
+#include "Texture.h"
 
 int main(void)
 {
@@ -39,10 +40,10 @@ int main(void)
 
 
   float positions[] = {
-    -0.5f, -0.5f,
-     0.5f, -0.5f,
-     0.5f,  0.5f,
-    -0.5f,  0.5f,
+    -0.5f, -0.5f, 0.0f, 0.0f,
+     0.5f, -0.5f, 1.0f, 0.0f,
+     0.5f,  0.5f, 1.0f, 1.0f,
+    -0.5f,  0.5f, 0.0f, 1.0f
   };
 
   unsigned int indices[] = {
@@ -50,10 +51,16 @@ int main(void)
     2, 3, 0
   };
 
+  // Enable blending
+  GLCall(glEnable(GL_BLEND));
+  GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
+
   VertexArray va;
-  VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+  VertexBuffer vb(positions, 4 * 4 * sizeof(float));
 
   VertexBufferLayout layout;
+  layout.Push<float>(2);
   layout.Push<float>(2);
   va.AddBuffer(vb, layout);
   
@@ -62,7 +69,12 @@ int main(void)
 
   Shader shader("../res/shaders/Basic.shader");
   shader.Bind();
-  GLCall(shader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f)); 
+  // GLCall(shader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f)); 
+
+  Texture texture("../res/textures/ChernoLogo.png");
+  texture.Bind(2);
+  // 0 should match the slot mentioned in texture.Bind()
+  shader.SetUniform1i("u_Texture", 2);
 
   // Unbound
   va.Unbind();
@@ -81,7 +93,7 @@ int main(void)
     renderer.Clear();
 
     shader.Bind();
-    shader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
+    // shader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
 
     renderer.Draw(va, ib, shader);
     
