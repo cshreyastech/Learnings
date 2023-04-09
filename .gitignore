@@ -31,3 +31,4 @@ scripts/__pycache__
 OpenCV/build/*
 OpenCV/outImages/*
 OpenGL/OpenGL_linux/build/*
+OpenGL/MinimalCode/build/*

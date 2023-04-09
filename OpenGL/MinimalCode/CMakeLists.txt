@@ -19,13 +19,6 @@ include_directories(
 
   ADD_EXECUTABLE(${PROJECT_NAME} 
     src/vendor/stb_image/stb_image.cpp
-    src/Texture.cpp
-    src/IndexBuffer.cpp
-    src/Renderer.cpp
-    src/Shader.cpp
-    src/VertexArray.cpp
-    src/VertexBuffer.cpp
-    src/VertexBufferLayout.cpp
     src/Application.cpp
     )
 
