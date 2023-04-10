@@ -17,14 +17,7 @@ include_directories(
   src
   )
 
-  ADD_EXECUTABLE(${PROJECT_NAME} 
-    src/vendor/stb_image/stb_image.cpp
-    src/Application.cpp
-    )
-
-  #Set Linker flags
-  set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-  TARGET_LINK_LIBRARIES(${PROJECT_NAME} 
+set(target_libraries
   PRIVATE glfw 
   PRIVATE GLU 
   PRIVATE GL 
@@ -35,8 +28,19 @@ include_directories(
   PRIVATE X11 
   PRIVATE rt 
   PRIVATE dl
+  pthread
   PRIVATE GLEW
   )
+
+  ADD_EXECUTABLE(01_creating_window 
+    src/vendor/stb_image/stb_image.cpp
+    src/vendor/glad/glad.c
+    src/01-hello_window.cpp
+    )
+
+  #Set Linker flags
+  set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+  TARGET_LINK_LIBRARIES(01_creating_window ${target_libraries})
 
 
 

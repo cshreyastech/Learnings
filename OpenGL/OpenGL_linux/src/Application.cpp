@@ -73,8 +73,8 @@ int main(void)
 
   Texture texture("../res/textures/ChernoLogo.png");
   texture.Bind(2);
-  // 0 should match the slot mentioned in texture.Bind()
-  shader.SetUniform1i("u_Texture", 2);
+  // // 0 should match the slot mentioned in texture.Bind()
+  // shader.SetUniform1i("u_Texture", 2);
 
   // Unbound
   va.Unbind();
@@ -91,6 +91,10 @@ int main(void)
   {
     /* Render here */
     renderer.Clear();
+
+    // texture.Bind(2);
+    // 0 should match the slot mentioned in texture.Bind()
+    shader.SetUniform1i("u_Texture", 2);
 
     shader.Bind();
     // shader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
