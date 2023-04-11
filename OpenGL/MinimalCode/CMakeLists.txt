@@ -32,16 +32,23 @@ set(target_libraries
   PRIVATE GLEW
   )
 
-  ADD_EXECUTABLE(01_creating_window 
-    src/vendor/stb_image/stb_image.cpp
-    src/vendor/glad/glad.c
-    src/01-hello_window.cpp
-    )
+ADD_EXECUTABLE(01_hello_window
+  src/vendor/glad/glad.c
+  src/01-hello_window.cpp
+  )
 
-  #Set Linker flags
-  set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-  TARGET_LINK_LIBRARIES(01_creating_window ${target_libraries})
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(01_hello_window ${target_libraries})
 
 
+ADD_EXECUTABLE(02_hello_triange 
+  src/vendor/glad/glad.c
+  src/02-hello_triangle.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(02_hello_triange ${target_libraries})
 
 
