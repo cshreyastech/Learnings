@@ -7,13 +7,13 @@
 
 #include <GLFW/glfw3.h>
 
-
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+int layout_location = 1;
 
 const char *vertexShaderSource = "#version 330 core\n"
   "layout (location = 0) in vec3 aPos;\n"
@@ -107,10 +107,18 @@ int main()
   // ------------------------------------------------------------------
   // add a new set of vertices to form a second triangle (a total of 6 vertices); the vertex attribute configuration remains the same (still one 3-float position vector per vertex)
   float vertices[] = {
-  -0.5f, -0.5f, 0.0f,
-   0.5f, -0.5f, 0.0f,
-   0.0f,  0.5f, 0.0f
+    // first triangle
+    -0.9f, -0.5f, 0.0f,  // left 
+    -0.0f, -0.5f, 0.0f,  // right
+    -0.45f, 0.5f, 0.0f,  // top 
+    // second triangle
+     0.0f, -0.5f, 0.0f,  // left
+     0.9f, -0.5f, 0.0f,  // right
+     0.45f, 0.5f, 0.0f   // top 
   }; 
+  const int dimention = 3;
+  const int vertices_n = sizeof(vertices) / sizeof(vertices[0]);
+  const int sides_n = vertices_n / dimention;
 
   unsigned int VBO, VAO;
   glGenVertexArrays(1, &VAO);
@@ -121,7 +129,12 @@ int main()
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+  
+  unsigned int stride = sizeof(float) * dimention; 
+  // std::cout << "stride: " << stride << std::endl;
+
+  // layout (location = 0)
+  glVertexAttribPointer(0, dimention, GL_FLOAT, GL_FALSE, stride, (void*)0);
   glEnableVertexAttribArray(0);
 
   // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
@@ -134,6 +147,7 @@ int main()
 
   // uncomment this call to draw in wireframe polygons.
   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 
   // render loop
   // -----------
@@ -151,7 +165,9 @@ int main()
     // draw our first triangle
     glUseProgram(shaderProgram);
     glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-    glDrawArrays(GL_TRIANGLES, 0, 3); // set the count to 6 since we're drawing 6 vertices now (2 triangles); not 3!
+    // glDrawArrays(GL_TRIANGLES, 0, 3); 
+    glDrawArrays(GL_TRIANGLES, 0, sides_n); 
+    // set the count to 6 since we're drawing 6 vertices now (2 triangles); not 3!
     // glBindVertexArray(0); // no need to unbind it every time 
 
     // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
