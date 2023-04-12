@@ -15,6 +15,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 include_directories( 
 #  include
   src
+  src/core
   )
 
 set(target_libraries
@@ -108,3 +109,13 @@ ADD_EXECUTABLE(03_3-more_attributes
 #Set Linker flags
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 TARGET_LINK_LIBRARIES(03_3-more_attributes ${target_libraries})
+
+ADD_EXECUTABLE(03_4-using_shader_class 
+  src/vendor/glad/glad.c
+  src/core/Shader.cpp
+  src/03_4-using_shader_class.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(03_4-using_shader_class ${target_libraries})
