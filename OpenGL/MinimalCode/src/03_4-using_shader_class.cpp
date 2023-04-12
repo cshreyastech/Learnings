@@ -13,25 +13,6 @@ void processInput(GLFWwindow *window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-const char *vertexShaderSource = "#version 330 core\n"
-  "layout (location = 0) in vec3 aPos;\n"
-  "layout (location = 1) in vec3 aColor;\n"
-  "out vec3 ourColor;\n"
-  "void main()\n"
-  "{\n"
-  "   gl_Position = vec4(aPos, 1.0);\n"
-  "   ourColor = aColor;\n"
-  "}\0";
-
-const char *fragmentShaderSource = "#version 330 core\n"
-  "out vec4 FragColor;\n"
-  "in vec3 ourColor;\n"
-  "void main()\n"
-  "{\n"
-  "   FragColor = vec4(ourColor, 1.0);\n"
-  "}\n\0";
-
-
 int main()
 {
   // glfw: initialize and configure
@@ -67,7 +48,11 @@ int main()
 
   // build and compile our shader program
   // ------------------------------------
-  Shader ourShader("../src/res/shaders/3.4.shader.vs", "../src/res/shaders/3.4.shader.fs");
+  // Shader ourShader("../src/res/shaders/3.4.shader.vs", "../src/res/shaders/3.4.shader.fs");
+  // Shader ourShader("../src/res/shaders/3.ex1.shader.vs", "../src/res/shaders/3.4.shader.fs");
+  // Shader ourShader("../src/res/shaders/3.ex2.shader.vs", "../src/res/shaders/3.4.shader.fs");
+  Shader ourShader("../src/res/shaders/3.ex3.shader.vs", "../src/res/shaders/3.ex3.shader.fs");
+
 
   // set up vertex data (and buffer(s)) and configure vertex attributes
   // ------------------------------------------------------------------
@@ -97,6 +82,9 @@ int main()
 
   glBindVertexArray(VAO);
 
+
+  // float offset = 0.5f; //Exercise 3.2
+  
   // render loop
   // -----------
   while (!glfwWindowShouldClose(window))
@@ -111,6 +99,7 @@ int main()
     glClear(GL_COLOR_BUFFER_BIT);
 
     // render the triangle
+    // ourShader.setFloat("xOffset", offset); //Exercise 3.2
     ourShader.use();
     glBindVertexArray(VAO);
     
