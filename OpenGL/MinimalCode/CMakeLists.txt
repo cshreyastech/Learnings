@@ -60,3 +60,12 @@ ADD_EXECUTABLE(02_1_hello_trianges
 #Set Linker flags
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 TARGET_LINK_LIBRARIES(02_1_hello_trianges ${target_libraries})
+
+ADD_EXECUTABLE(02_2-two_triangles_diff_objs 
+  src/vendor/glad/glad.c
+  src/02_2-two_triangles_diff_objs.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(02_2-two_triangles_diff_objs ${target_libraries})

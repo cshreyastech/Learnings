@@ -194,6 +194,7 @@ void processInput(GLFWwindow *window)
 {
   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     glfwSetWindowShouldClose(window, true);
+  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
