@@ -69,3 +69,42 @@ ADD_EXECUTABLE(02_2-two_triangles_diff_objs
 #Set Linker flags
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 TARGET_LINK_LIBRARIES(02_2-two_triangles_diff_objs ${target_libraries})
+
+
+ADD_EXECUTABLE(02_3-two_triangles_two_objs_two_shaders 
+  src/vendor/glad/glad.c
+  src/02_3-two_triangles_two_objs_two_shaders.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(02_3-two_triangles_two_objs_two_shaders ${target_libraries})
+
+
+ADD_EXECUTABLE(03_1-shaders 
+  src/vendor/glad/glad.c
+  src/03_1-shaders.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(03_1-shaders ${target_libraries})
+
+
+ADD_EXECUTABLE(03_2-uniform 
+  src/vendor/glad/glad.c
+  src/03_2-uniform.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(03_2-uniform ${target_libraries})
+
+ADD_EXECUTABLE(03_3-more_attributes 
+  src/vendor/glad/glad.c
+  src/03_3-more_attributes.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(03_3-more_attributes ${target_libraries})
