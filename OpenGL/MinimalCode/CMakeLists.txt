@@ -16,6 +16,7 @@ include_directories(
 #  include
   src
   src/core
+  src/tbd
   )
 
 set(target_libraries
@@ -193,11 +194,6 @@ ADD_EXECUTABLE(04_3-dynamic-textures
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 TARGET_LINK_LIBRARIES(04_3-dynamic-textures ${target_libraries})
 
-include_directories( 
-#  include
-  src/tbd
-  )
-
 ADD_EXECUTABLE(10_1-framebuffer_tbd
   src/vendor/stb_image/stb_image.cpp
   src/vendor/glad/glad.c
@@ -208,3 +204,30 @@ ADD_EXECUTABLE(10_1-framebuffer_tbd
 #Set Linker flags
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 TARGET_LINK_LIBRARIES(10_1-framebuffer_tbd ${target_libraries})
+
+
+ADD_EXECUTABLE(frame_publisher
+  src/vendor/stb_image/stb_image.cpp
+  src/vendor/glad/glad.c
+
+  src/tbd/client_server/client/frame_publisher.cpp
+  src/tbd/client_server/client/socket_client.cpp
+  
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(frame_publisher ${target_libraries})
+
+ADD_EXECUTABLE(frame_receiver
+  src/vendor/stb_image/stb_image.cpp
+  src/vendor/glad/glad.c
+
+  src/tbd/client_server/server/frame_receiver2.cpp
+  src/tbd/client_server/server/socket_server.cpp
+  
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(frame_receiver ${target_libraries})

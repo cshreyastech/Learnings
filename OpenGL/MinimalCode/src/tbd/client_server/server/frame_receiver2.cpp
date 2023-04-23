@@ -16,11 +16,21 @@
 #include <cstdlib>
 #include <unistd.h>
 
+#include <memory> // unique_ptr
+#include <sys/stat.h>
+
+#include "client_server/server/socket_server.hpp"
+
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 unsigned int loadTexture(const char *path);
+void AssertCond(bool assert_cond, const char* fail_msg);
+void ParseArgs(int argc, char** argv);
+unsigned int GetTextureID(unsigned char *data, int width, int height, GLenum format);
+
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -36,8 +46,16 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-int main()
+int main(int argc, char** argv)
 {
+  ParseArgs(argc, argv);
+  int port = atoi(argv[1]);
+
+  std::unique_ptr<SocketServer> server_ptr(new SocketServer(port));
+  server_ptr->ConnectToNetwork();
+  server_ptr->ReceiveImageDims();
+
+
   // glfw: initialize and configure
   // ------------------------------
   glfwInit();
@@ -54,9 +72,9 @@ int main()
   GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
   if (window == NULL)
   {
-      std::cout << "Failed to create GLFW window" << std::endl;
-      glfwTerminate();
-      return -1;
+    std::cout << "Failed to create GLFW window" << std::endl;
+    glfwTerminate();
+    return -1;
   }
   glfwMakeContextCurrent(window);
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -70,8 +88,8 @@ int main()
   // ---------------------------------------
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
   {
-      std::cout << "Failed to initialize GLAD" << std::endl;
-      return -1;
+    std::cout << "Failed to initialize GLAD" << std::endl;
+    return -1;
   }
 
   // configure global opengl state
@@ -85,50 +103,6 @@ int main()
 
   // set up vertex data (and buffer(s)) and configure vertex attributes
   // ------------------------------------------------------------------
-  // float cubeVertices[] = {
-  //     // positions          // texture Coords
-  //     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-  //      0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-  //      0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-  //      0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-  //     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-  //     -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-  //     -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-  //      0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-  //      0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-  //      0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-  //     -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-  //     -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-  //     -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-  //     -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-  //     -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-  //     -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-  //     -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-  //     -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-  //      0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-  //      0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-  //      0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-  //      0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-  //      0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-  //      0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-  //     -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-  //      0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-  //      0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-  //      0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-  //     -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-  //     -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-  //     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-  //      0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-  //      0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-  //      0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-  //     -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-  //     -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-  // };
   float planeVertices[] = {
     // positions          // texture Coords 
      5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
@@ -149,17 +123,6 @@ int main()
      1.0f, -1.0f,  1.0f, 0.0f,
      1.0f,  1.0f,  1.0f, 1.0f
   };
-  // cube VAO
-  // unsigned int cubeVAO, cubeVBO;
-  // glGenVertexArrays(1, &cubeVAO);
-  // glGenBuffers(1, &cubeVBO);
-  // glBindVertexArray(cubeVAO);
-  // glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
-  // glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), &cubeVertices, GL_STATIC_DRAW);
-  // glEnableVertexAttribArray(0);
-  // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-  // glEnableVertexAttribArray(1);
-  // glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
   // plane VAO
   unsigned int planeVAO, planeVBO;
   glGenVertexArrays(1, &planeVAO);
@@ -183,12 +146,6 @@ int main()
   glEnableVertexAttribArray(1);
   glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
-  // load textures
-  // -------------
-  // unsigned int cubeTexture = loadTexture(std::filesystem::path("../src/tbd/container.jpg").c_str());
-  // unsigned int floorTexture = loadTexture(std::filesystem::path("../src/tbd/metal.png").c_str());
-  // unsigned int floorTexture = 
-  //   loadTexture(std::filesystem::path("../src/res/texture/dynamic_textures/container0.jpg").c_str());
   
   // shader configuration
   // --------------------
@@ -223,22 +180,25 @@ int main()
       cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << endl;
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+
+  unsigned char* data;
+  server_ptr->ReceiveTextureData(&data);
+  std::cout << "Received data in frame_receiver2\n";
+
+
+  int width = 512;
+  int height = 512;
+  GLenum format = GL_RGB;
+  unsigned int floorTexture = 
+  
+  GetTextureID(data, width, height, format);
+  // free(data);
   // draw as wireframe
   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-  int i = 0;
-  // render loop
   // -----------
   while (!glfwWindowShouldClose(window))
   {
-    // std::cout << i << std::endl;
-    // std::string texture_path = "../src/res/texture/dynamic_textures/container0.jpg";
-    std::string texture_path = "../src/res/texture/dynamic_textures/container" + std::to_string(i) + ".jpg";
-    unsigned int floorTexture = 
-    // loadTexture(std::filesystem::path("../src/res/texture/dynamic_textures/container0.jpg").c_str());
-    loadTexture(std::filesystem::path(texture_path).c_str());
-    i++;
-    if(i == 10) i = 0;
     // per-frame time logic
     // --------------------
     float currentFrame = static_cast<float>(glfwGetTime());
@@ -266,17 +226,7 @@ int main()
     glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
     shader.setMat4("view", view);
     shader.setMat4("projection", projection);
-    // cubes
-    // glBindVertexArray(cubeVAO);
-    // glActiveTexture(GL_TEXTURE0);
-    // glBindTexture(GL_TEXTURE_2D, cubeTexture);
-    // model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -1.0f));
-    // shader.setMat4("model", model);
-    // glDrawArrays(GL_TRIANGLES, 0, 36);
-    // model = glm::mat4(1.0f);
-    // model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
-    // shader.setMat4("model", model);
-    // glDrawArrays(GL_TRIANGLES, 0, 36);
+
     // floor
     glBindVertexArray(planeVAO);
     glBindTexture(GL_TEXTURE_2D, floorTexture);
@@ -374,42 +324,35 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
   camera.ProcessMouseScroll(static_cast<float>(yoffset));
 }
 
-// utility function for loading a 2D texture from file
-// ---------------------------------------------------
-unsigned int loadTexture(char const * path)
+unsigned int GetTextureID(unsigned char *data, int width, int height, GLenum format)
 {
   unsigned int textureID;
   glGenTextures(1, &textureID);
+   
+  glBindTexture(GL_TEXTURE_2D, textureID);
+  glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+  glGenerateMipmap(GL_TEXTURE_2D);
 
-  int width, height, nrComponents;
-  unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
-  if (data)
-  {
-    GLenum format;
-    if (nrComponents == 1)
-      format = GL_RED;
-    else if (nrComponents == 3)
-      format = GL_RGB;
-    else if (nrComponents == 4)
-      format = GL_RGBA;
-    
-    glBindTexture(GL_TEXTURE_2D, textureID);
-    glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-    glGenerateMipmap(GL_TEXTURE_2D);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    stbi_image_free(data);
-  }
-  else
-  {
-    std::cout << "Texture failed to load at path: " << path << std::endl;
-    stbi_image_free(data);
-  }
-
+  // free(data);
   return textureID;
 }
 
+
+void AssertCond(bool assert_cond, const char* fail_msg) {
+  if (!assert_cond) {
+    // printf("Error: %s\nUsage: ./pic-server <port> <out_path>\n", fail_msg);
+    printf("Error: %s\nUsage: ./pic-server <port>\n", fail_msg);
+    exit(1);
+  }
+}
+
+void ParseArgs(int argc, char** argv) {
+  // AssertCond(argc == 3, "Wrong number of arguments");
+  AssertCond(argc == 2, "Wrong number of arguments");
+  // AssertCond(DirExists(argv[2]), "Supplied directory does not exist");
+}
