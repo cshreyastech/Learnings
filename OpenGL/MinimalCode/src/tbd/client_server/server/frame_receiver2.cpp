@@ -181,10 +181,6 @@ int main(int argc, char** argv)
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 
-  // int width = 512;
-  // int height = 512;
-  // GLenum format = GL_RGB;
-
   const int image_width = server_ptr->TextureWidth();
   const int image_height = server_ptr->TextureHeight();
   GLenum image_format = ImageFormat(server_ptr->TextureChannels());
@@ -208,7 +204,6 @@ int main(int argc, char** argv)
 
     unsigned char* data;
     server_ptr->ReceiveTextureData(&data);
-    std::cout << "Received data in frame_receiver2\n";
     unsigned int floorTexture = GetTextureID(data, image_width, image_height, image_format);
     // free(data);
 
