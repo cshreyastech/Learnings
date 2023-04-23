@@ -28,11 +28,20 @@ public:
 
     client_ptr_->SendImageDims(image_width_, image_height_);    
     
-    unsigned char *data; 
-    GetImageData(image_path.c_str(), &data);
+    int i = 0;
+    while(1)
+    {
+      image_path = "../src/res/texture/dynamic_textures/container" + std::to_string(i) + ".jpg";
 
-    client_ptr_->SendImage(data, image_width_, image_height_, image_channels_n_);
-    free(data);
+      unsigned char *data; 
+      GetImageData(image_path.c_str(), &data);
+
+      client_ptr_->SendImage(data, image_width_, image_height_, image_channels_n_);
+      free(data);
+
+      i++;
+      if(i == 10) i = 0;
+    }
   }
 
   ~ImageConverter()

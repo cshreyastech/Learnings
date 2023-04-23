@@ -180,19 +180,11 @@ int main(int argc, char** argv)
       cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << endl;
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-
-  unsigned char* data;
-  server_ptr->ReceiveTextureData(&data);
-  std::cout << "Received data in frame_receiver2\n";
-
-
   int width = 512;
   int height = 512;
   GLenum format = GL_RGB;
-  unsigned int floorTexture = 
   
-  GetTextureID(data, width, height, format);
-  // free(data);
+  
   // draw as wireframe
   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -208,6 +200,12 @@ int main(int argc, char** argv)
     // input
     // -----
     processInput(window);
+
+    unsigned char* data;
+    server_ptr->ReceiveTextureData(&data);
+    std::cout << "Received data in frame_receiver2\n";
+    unsigned int floorTexture = GetTextureID(data, width, height, format);
+    // free(data);
 
 
     // render
