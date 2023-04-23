@@ -11,25 +11,27 @@
 
 class SocketServer {
  public:
-  SocketServer(int port);
+  SocketServer(const int port);
   void ConnectToNetwork();
   void ReceiveImageDims();
   void ReceiveTextureData(unsigned char** data);
   void DestroyAllWindows();
-  int GetWidth();
-  int GetHeight();
+  inline const int TextureWidth() const { return image_width_; }
+  inline const int TextureHeight() const { return image_height_; }
+  inline const int TextureChannels() const { return image_channels_; }
+
 
  private:
-  int height_{0}, width_{0};
+  const int image_width_{0}, image_height_{0}, image_channels_{0};
+
   struct sockaddr_in server_addr_;
   struct sockaddr_in client_addr_;
-  std::string pic_filename_;
-  socklen_t client_len_;
-  size_t server_addr_size_;
-  int port_;
-  int pic_count_;
-  int sock_fdesc_init_;
-  int sock_fdesc_conn_;
+  const std::string pic_filename_{""};
+  socklen_t client_len_{0};
+  const size_t server_addr_size_{0};
+  const int port_{0};
+  int sock_fdesc_init_{0};
+  int sock_fdesc_conn_{0};
 };
 
 #endif

@@ -8,10 +8,9 @@
 #include <iostream>
 #include <unistd.h>
 
-SocketClient::SocketClient(const char* hostname, int port) :
+SocketClient::SocketClient(const char* hostname, const int port) :
     hostname_ (hostname),
     port_(port),
-    pic_num_(0),
     socket_fdesc_(0) {}
 
 void SocketClient::ConnectToServer() {
@@ -49,23 +48,32 @@ void SocketClient::ConnectToServer() {
   free(addrinfo_resp);
 }
 
-void SocketClient::SendImageDims(int cols, int rows) {
-  // Send number of rows to server
-  if (send(socket_fdesc_, (char*)&cols, sizeof(cols), 0) == -1) {
-    perror("Error sending rows");
+void SocketClient::SendImageDims(const int image_width, const int image_height, const int image_channels)
+{
+  // Send number of width to server
+  if (send(socket_fdesc_, (char*)&image_width, sizeof(image_width), 0) == -1) {
+    perror("Error sending image width");
     exit(1);
   }
 
-  // Send number of cols to server
-  if (send(socket_fdesc_, (char*)&rows, sizeof(rows), 0) == -1) {
-    perror("Error sending cols");
+  // Send number of height to server
+  if (send(socket_fdesc_, (char*)&image_height, sizeof(image_height), 0) == -1) {
+    perror("Error sending height");
+    exit(1);
+  }
+
+  // Send number of channels
+  if (send(socket_fdesc_, (char*)&image_channels, sizeof(image_channels), 0) == -1) {
+    perror("Error sending channels");
     exit(1);
   }
 }
 
-void SocketClient::SendImage(unsigned char* data, int image_width, int image_height, int image_channels_n)
+
+void SocketClient::SendImage(const unsigned char* data, const int image_width, 
+                             const int image_height, const int image_channels)
 {
-  int image_size = image_width * image_height * image_channels_n;
+  int image_size = image_width * image_height * image_channels;
 
   unsigned char data_arr[image_size];
   memcpy(data_arr, data, image_size);

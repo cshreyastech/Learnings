@@ -30,7 +30,7 @@ unsigned int loadTexture(const char *path);
 void AssertCond(bool assert_cond, const char* fail_msg);
 void ParseArgs(int argc, char** argv);
 unsigned int GetTextureID(unsigned char *data, int width, int height, GLenum format);
-
+const GLenum ImageFormat(const int image_channels);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -49,7 +49,7 @@ float lastFrame = 0.0f;
 int main(int argc, char** argv)
 {
   ParseArgs(argc, argv);
-  int port = atoi(argv[1]);
+  const int port = atoi(argv[1]);
 
   std::unique_ptr<SocketServer> server_ptr(new SocketServer(port));
   server_ptr->ConnectToNetwork();
@@ -180,9 +180,14 @@ int main(int argc, char** argv)
       cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << endl;
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-  int width = 512;
-  int height = 512;
-  GLenum format = GL_RGB;
+
+  // int width = 512;
+  // int height = 512;
+  // GLenum format = GL_RGB;
+
+  const int image_width = server_ptr->TextureWidth();
+  const int image_height = server_ptr->TextureHeight();
+  GLenum image_format = ImageFormat(server_ptr->TextureChannels());
   
   
   // draw as wireframe
@@ -204,7 +209,7 @@ int main(int argc, char** argv)
     unsigned char* data;
     server_ptr->ReceiveTextureData(&data);
     std::cout << "Received data in frame_receiver2\n";
-    unsigned int floorTexture = GetTextureID(data, width, height, format);
+    unsigned int floorTexture = GetTextureID(data, image_width, image_height, image_format);
     // free(data);
 
 
@@ -353,4 +358,13 @@ void ParseArgs(int argc, char** argv) {
   // AssertCond(argc == 3, "Wrong number of arguments");
   AssertCond(argc == 2, "Wrong number of arguments");
   // AssertCond(DirExists(argv[2]), "Supplied directory does not exist");
+}
+
+const GLenum ImageFormat(const int image_channels)
+{
+  if (image_channels == 1) return GL_RED;
+  if (image_channels == 3) return GL_RGB;
+  if (image_channels == 4) return GL_RGBA;
+
+  return 0;
 }

@@ -7,11 +7,10 @@
 #include <iostream>
 #include <cassert>
 
-SocketServer::SocketServer(int port) :
+SocketServer::SocketServer(const int port) :
     client_len_(0),
     server_addr_size_(sizeof(server_addr_)),
     port_(port),
-    pic_count_(0),
     sock_fdesc_init_(0),
     sock_fdesc_conn_(0) {
   client_len_ = server_addr_size_;
@@ -69,12 +68,9 @@ void SocketServer::ReceiveImageDims() {
   ssize_t bytes_sent = 0;
   size_t dims_size = 0;
 
-  int cols = 0;
-  int rows = 0;
+  size_t sizeof_dims = sizeof(image_height_);
 
-  size_t sizeof_dims = sizeof(height_);
-
-  if (bytes_sent = recv(sock_fdesc_conn_, (char*)&cols, sizeof_dims, 0) == -1) {
+  if (bytes_sent = recv(sock_fdesc_conn_, (char*)&image_width_, sizeof_dims, 0) == -1) {
     printf("ERROR!: recv failed\n"
            "sock_fdesc: %d\n"
            "image_size: %zu\n"
@@ -82,17 +78,26 @@ void SocketServer::ReceiveImageDims() {
     exit(1);
   }
   else {
-      printf("Received rows: %d, cols: %d\n", rows, cols);
+      printf("Image dimensions: [%d]\n", image_width_);
     }
 
-  if (bytes_sent = recv(sock_fdesc_conn_, (char*)&rows, sizeof_dims, 0) == -1) {
+  if (bytes_sent = recv(sock_fdesc_conn_, (char*)&image_height_, sizeof_dims, 0) == -1) {
     printf("ERROR!: recv failed\n"
            "sock_fdesc: %d\n"
            "image_size: %zu\n"
            "bytes_sent: %zu\n", sock_fdesc_conn_, dims_size, bytes_sent);
     exit(1);
   }
-  printf("Image dimensions: [%dx%d]\n", cols, rows);
+  printf("Image dimensions: [%dx%d]\n", image_height_, image_width_);
+
+  if (bytes_sent = recv(sock_fdesc_conn_, (char*)&image_channels_, sizeof_dims, 0) == -1) {
+    printf("ERROR!: recv failed\n"
+           "sock_fdesc: %d\n"
+           "image_size: %zu\n"
+           "bytes_sent: %zu\n", sock_fdesc_conn_, dims_size, bytes_sent);
+    exit(1);
+  }
+  printf("Image dimensions: [%dx%dx%d]\n", image_height_, image_width_, image_channels_);
 }
 
 void SocketServer::ReceiveTextureData(unsigned char** data)
@@ -100,10 +105,9 @@ void SocketServer::ReceiveTextureData(unsigned char** data)
 
   int num_bytes = 0;
   int total_num_bytes = 0;
-  // int image_ptr = 0;
-  // int image_size = image_width * image_height * image_channels_n;
+  int image_size = image_width_ * image_height_ * image_channels_;
 
-  int image_size = 512 * 512 * 3;
+  // int image_size = 512 * 512 * 3;
 
   // Allocate space for image buffer
   unsigned char sock_data[image_size];
@@ -125,14 +129,5 @@ void SocketServer::ReceiveTextureData(unsigned char** data)
 
   printf("image_size: %d, total_num_bytes: %d\n", image_size, total_num_bytes);
 
-
   *data = sock_data;
 }
-
-// int SocketServer::GetWidth() {
-//   return image_dims_.width;
-// }
-
-// int SocketServer::GetHeight() {
-//   return image_dims_.height;
-// }

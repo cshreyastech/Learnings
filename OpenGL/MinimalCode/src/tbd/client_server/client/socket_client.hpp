@@ -13,17 +13,14 @@
 
 class SocketClient {
  public:
-  SocketClient(const char* hostname, int port);
+  SocketClient(const char* hostname, const int port);
   void ConnectToServer();
-  void SendImageDims(const int image_rows, const int image_cols);
-  void SendImage(unsigned char* data, int image_width_, int image_height_, int image_channels_n);
-  // void SendImage(unsigned char** data);
-  // void SendImage(cv::Mat& image);
+  void SendImageDims(const int image_width, const int image_height, const int image_channels);
+  void SendImage(const unsigned char* data, const int image_width, const int image_height, const int image_channels);
 
  private:
   const char* hostname_;
-  int port_;
-  int pic_num_;
+  const int port_;
   int socket_fdesc_;
 };
 
