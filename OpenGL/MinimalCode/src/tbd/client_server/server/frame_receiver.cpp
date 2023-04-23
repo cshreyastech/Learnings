@@ -38,6 +38,7 @@ int main(int argc, char** argv) {
   std::unique_ptr<SocketServer> server_ptr(new SocketServer(port));
   server_ptr->ConnectToNetwork();
   server_ptr->ReceiveImageDims();
+
   // while(1) {
   //   cv::Mat image;
   //   server_ptr->ReceiveImageBoy(image);

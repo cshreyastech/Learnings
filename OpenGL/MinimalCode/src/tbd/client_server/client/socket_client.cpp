@@ -66,27 +66,12 @@ void SocketClient::SendImageDims(int cols, int rows) {
 void SocketClient::SendImage(unsigned char* data, int image_width, int image_height, int image_channels_n)
 {
   int image_size = image_width * image_height * image_channels_n;
-  // std::cout << image_width << ", " << image_height << ", " << image_channels_n << std::endl;
-  // std::cout << "image_size: " << image_size << std::endl;
+
   unsigned char data_arr[image_size];
   memcpy(data_arr, data, image_size);
-  // std::cout << data[3000] << ", " << data_arr[3000] << std::endl;
-  
-  // int num_bytes = send(socket_fdesc_, &data, image_size, 0);
   int num_bytes = send(socket_fdesc_, data_arr, image_size, 0);
 
-  // ssize_t n_data = write(socket_fdesc_, data, image_size);
-  // ssize_t n_data = write(socket_fdesc_, data_arr, image_size);
-  // std::cout << "n_data: " << n_data << std::endl;
 
   printf("Sent %d bytes of %d-byte image to port %d\n",
          num_bytes, image_size, port_);
 }
-
-// void SocketClient::SendImage(cv::Mat& image) {
-//   image = image.reshape(0,1);
-//   int image_size = image.total() * image.elemSize();
-//   int num_bytes = send(socket_fdesc_, image.data, image_size, 0);
-//   // printf("Sent %d bytes of %d-byte image to port %d\n",
-//   //        num_bytes, image_size, port_);
-// }

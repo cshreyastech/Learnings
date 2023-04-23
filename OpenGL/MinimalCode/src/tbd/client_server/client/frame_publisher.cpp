@@ -26,15 +26,10 @@ public:
     std::string image_path = "../src/res/texture/dynamic_textures/container0.jpg";
     GetImageAttributes(image_path.c_str());
 
-    client_ptr_->SendImageDims(image_width_, image_height_);
-
-    
-    GetImageAttributes(image_path.c_str());
+    client_ptr_->SendImageDims(image_width_, image_height_);    
     
     unsigned char *data; 
     GetImageData(image_path.c_str(), &data);
-    // std::cout << data[0] << std::endl;
-    // std::cout << data[2] << std::endl;
 
     client_ptr_->SendImage(data, image_width_, image_height_, image_channels_n_);
     free(data);
