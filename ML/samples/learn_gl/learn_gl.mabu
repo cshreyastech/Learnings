@@ -1,0 +1,28 @@
+KIND = program
+INCS = \
+    include/ \
+
+SRCS = \
+    src/core/shader.cpp \
+    # main.cpp \
+    # src/01-hello_window.cpp \
+    # src/02-hello_triangle.cpp \
+    # src/02_1-hello_triangles.cpp \
+    # src/03_1-shaders.cpp \
+    # src/03_2-uniform.cpp \
+    # src/03_3-more_attributes.cpp \
+    # src/03_4-using_shader_class.cpp \
+    # src/04_1-texture.cpp \
+    src/04_3-dynamic_textures.cpp
+
+DEFS = \
+    ML_DEFAULT_LOG_TAG="learn_gl" \
+
+USES = \
+    ../samples_common \
+
+REFS = \
+    ../../app_framework/app_framework \
+    ../../app_framework/external/glad \
+
+ DATAS = data/ : data/
