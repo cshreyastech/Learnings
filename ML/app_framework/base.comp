@@ -2,5 +2,5 @@
 # This provides the settings used by the generated CMake toolchain
 # (these override the defaults from MLSDK/tools/mabu/data/templates/cmake/default/base.comp)
 #
-OPTIONS=standard-c++/11
+OPTIONS=standard-c++/17
 USES=stdc++

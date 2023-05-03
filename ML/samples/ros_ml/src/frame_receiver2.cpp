@@ -24,7 +24,32 @@
 #include <cmath>
 #include <chrono>
 
-#include "learn_gl/shader.h"
+
+#include <app_framework/application.h>
+#include <app_framework/ml_macros.h>
+#include <app_framework/toolset.h>
+#include <gflags/gflags.h>
+
+#include <ml_connections.h>
+#include <ml_privileges.h>
+
+#include <future>
+#include <thread>
+
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/socket.h>
+#include <stdlib.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+#include "server/socket_server.hpp"
+#include "core/shader.hpp"
+
+#include <memory> // unique_ptr
+#include <sys/stat.h>
+#include <ml_lifecycle.h>
+#include <cstdlib>
 
 enum class AppStatus { Stopped, Paused, Running };
 
@@ -47,7 +72,22 @@ static void OnResume(void *application_context) {
   ML_LOG(Info, "On resume called.");
 }
 
-int main() {
+const GLenum ImageFormat(const int image_channels);
+
+std::unique_ptr<SocketServer> server_ptr;
+void exiting() 
+{
+  ML_LOG(Info, "Exiting");
+}
+
+int main(int argc, char **argv) {
+  const int port = 8080;
+  // Connect to Network
+  std::unique_ptr<SocketServer> server_ptr(new SocketServer(port));
+  // std::atexit(exiting(1));
+  server_ptr->ConnectToNetwork();
+  server_ptr->ReceiveImageDims();
+
   // set up host-specific graphics surface
   ml::app_framework::GraphicsContext graphics_context;
   graphics_context.MakeCurrent();
@@ -142,24 +182,24 @@ int main() {
   //----------------------------------------------//
   ML_LOG(Info, "Start loop.");
 
-  auto start = std::chrono::steady_clock::now();
+  // auto start = std::chrono::steady_clock::now();
 
   // Get ready to connect our GL context to the MLSDK graphics API
   GLuint framebuffer_id = 0;
   glGenFramebuffers(1, &framebuffer_id);
 
-  int i = 0;
+  const int width = server_ptr->TextureWidth();
+  const int height = server_ptr->TextureHeight();
+  GLenum image_format = ImageFormat(server_ptr->TextureChannels());
+
+  // int i = 0;
   while (AppStatus::Stopped != status) {
     if (AppStatus::Paused == status) {
       continue;
     }
-    // load image, create texture and generate mipmaps
-    int width, height, nrChannels;
-    // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
-    // unsigned char *data = stbi_load(FileSystem::getPath("../src/res/texture/container.jpg").c_str(), &width, &height, &nrChannels, 0);
-    std::string texture_path = "data/res/texture/dynamic_textures/container" + std::to_string(i) + ".jpg";
 
-    unsigned char *data = stbi_load(texture_path.c_str(), &width, &height, &nrChannels, 0);
+    unsigned char* data;
+    server_ptr->ReceiveTextureData(&data);
 
     if (data)
     {
@@ -171,9 +211,6 @@ int main() {
       ML_LOG(Info,"Failed to load texture");
     }
     
-    stbi_image_free(data);
-    i++;
-    if(i == 10) i = 0;
 
     MLGraphicsFrameParamsEx frame_params;
     MLGraphicsFrameParamsExInit(&frame_params);
@@ -236,6 +273,16 @@ int main() {
   // clean up system
   UNWRAP_MLRESULT(MLGraphicsDestroyClient(&graphics_client));
   UNWRAP_MLRESULT(MLPerceptionShutdown());
+
+  
+  return 0;
+}
+
+const GLenum ImageFormat(const int image_channels)
+{
+  if (image_channels == 1) return GL_RED;
+  if (image_channels == 3) return GL_RGB;
+  if (image_channels == 4) return GL_RGBA;
 
   return 0;
 }

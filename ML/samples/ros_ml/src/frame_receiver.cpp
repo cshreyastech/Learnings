@@ -24,7 +24,27 @@
 #include <cmath>
 #include <chrono>
 
-#include "learn_gl/shader.h"
+
+#include <app_framework/application.h>
+#include <app_framework/ml_macros.h>
+#include <app_framework/toolset.h>
+#include <gflags/gflags.h>
+
+#include <ml_connections.h>
+#include <ml_privileges.h>
+
+#include <future>
+#include <thread>
+
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/socket.h>
+#include <stdlib.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+#include "server/socket_server.hpp"
+#include "core/shader.hpp"
 
 enum class AppStatus { Stopped, Paused, Running };
 

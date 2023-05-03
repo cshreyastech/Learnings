@@ -3,7 +3,7 @@ DEFS.osx = ML_OSX
 DEFS.linux = ML_LINUX
 DEFS.lumin = ML_LUMIN
 
-OPTIONS = standard-c++/11 exceptions/on warn/on package/debuggable/on
+OPTIONS = standard-c++/17 exceptions/on warn/on package/debuggable/on
 
 CFLAGS.debug_msvc = -MDd
 CFLAGS.release_msvc = -MD

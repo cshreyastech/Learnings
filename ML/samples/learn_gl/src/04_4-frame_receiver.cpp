@@ -25,6 +25,7 @@
 #include <chrono>
 
 #include "learn_gl/shader.h"
+#include "server/socket_server.hpp"
 
 enum class AppStatus { Stopped, Paused, Running };
 

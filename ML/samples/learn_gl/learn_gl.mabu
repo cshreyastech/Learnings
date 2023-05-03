@@ -4,6 +4,7 @@ INCS = \
 
 SRCS = \
     src/core/shader.cpp \
+    # src/server/socket_server.cpp \
     # main.cpp \
     # src/01-hello_window.cpp \
     # src/02-hello_triangle.cpp \
@@ -13,8 +14,9 @@ SRCS = \
     # src/03_3-more_attributes.cpp \
     # src/03_4-using_shader_class.cpp \
     # src/04_1-texture.cpp \
-    src/04_3-dynamic_textures.cpp
-
+    src/04_3-dynamic_textures.cpp \
+    # src/04_4-frame_receiver.cpp \
+    
 DEFS = \
     ML_DEFAULT_LOG_TAG="learn_gl" \
 
