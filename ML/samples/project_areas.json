@@ -12,24 +12,27 @@
   ],
 
   "samples": [
-    "audio_input/",
-    "audio_output/",
-    "bluetooth/",
-    "connections/",
-    "controller/",
-    "eye_tracking/",
-    "hand_tracking/",
-    "head_tracking/",
-    "image_capture/",
-    "image_tracking/",
-    "lifecycle/",
-    "locale/",
-    "location/",
-    "meshing/",
-    "pcf/",
-    "planes/",
-    "privileges/",
-    "raycast/",
-    "simple_gl_app/"
+    // "audio_input/",
+    // "audio_output/",
+    // "bluetooth/",
+    // "connections/",
+    // "controller/",
+    // "eye_tracking/",
+    // "hand_tracking/",
+    // "head_tracking/",
+    // "image_capture/",
+    // "image_tracking/",
+    // "lifecycle/",
+    // "locale/",
+    // "location/",
+    // "meshing/",
+    // "pcf/",
+    // "planes/",
+    // "privileges/",
+    // "raycast/",
+    // "simple_gl_app/",
+    // "learn_gl/"
+    // "learn_gl_tbd/"
+    "ros_ml/"
   ]
 }
