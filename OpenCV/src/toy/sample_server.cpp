@@ -62,21 +62,21 @@ int main(int argc, char** argv) {
   std::unique_ptr<SocketServer> server_ptr(new SocketServer(port));
   server_ptr->ConnectToNetwork();
   server_ptr->ReceiveImageDims();
-  // while(1) {
-  //   cv::Mat image;
-  //   server_ptr->ReceiveImage(image);
-  //   server_ptr->WriteImage(image);
-  // }
+  while(1) {
+    cv::Mat image;
+    server_ptr->ReceiveImageBoy(image);
+    server_ptr->ShowImage(image);
+  }
 
-  cv::Mat image;
-  // server_ptr->ReceiveImage(image);
-  server_ptr->ReceiveImageBoy(image);
-  std::cout << "Boy Image Data type = " << type2str(image.type()) << std::endl;
-  std::cout << "Boy Image Dimensions = " << image.size() << std::endl;
+  // cv::Mat image;
+  // // server_ptr->ReceiveImage(image);
+  // server_ptr->ReceiveImageBoy(image);
+  // std::cout << "Boy Image Data type = " << type2str(image.type()) << std::endl;
+  // std::cout << "Boy Image Dimensions = " << image.size() << std::endl;
 
-  // server_ptr->WriteImage(image);
-  server_ptr->ShowImage(image);
-  server_ptr->DestroyAllWindows();
+  // // server_ptr->WriteImage(image);
+  // server_ptr->ShowImage(image);
+  // server_ptr->DestroyAllWindows();
   
   return 1; // Should not return
 }

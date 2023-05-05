@@ -202,10 +202,9 @@ void SocketServer::WriteImage(cv::Mat& image) {
 }
 
 void SocketServer::ShowImage(cv::Mat& image) {
-  cv::namedWindow( "Display window", cv::WINDOW_AUTOSIZE );// Create a window for display.
-  cv::imshow("Display window", image);                   // Show our image inside it.
-
-  cv::waitKey(0);
+  cv::namedWindow( "Display window from Server", cv::WINDOW_AUTOSIZE );// Create a window for display.
+  cv::imshow("Display window from Server", image);                   // Show our image inside it.
+  cv::waitKey(1);
 }
 
 void SocketServer::DestroyAllWindows() {

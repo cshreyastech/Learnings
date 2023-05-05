@@ -194,6 +194,18 @@ ADD_EXECUTABLE(04_3-dynamic-textures
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 TARGET_LINK_LIBRARIES(04_3-dynamic-textures ${target_libraries})
 
+ADD_EXECUTABLE(04_4-only_texture
+  src/vendor/stb_image/stb_image.cpp
+  src/vendor/glad/glad.c
+  src/core/Shader.cpp
+  src/04_4-only_texture.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(04_4-only_texture ${target_libraries})
+
+
 ADD_EXECUTABLE(10_1-framebuffer_tbd
   src/vendor/stb_image/stb_image.cpp
   src/vendor/glad/glad.c

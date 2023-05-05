@@ -61,20 +61,20 @@ ENDMACRO()
 # add_example(image_receiver)
 # add_example(image_sender)
 
-add_example(server)
-add_example(client)
+# add_example(server)
+# add_example(client)
 
-# ADD_EXECUTABLE(sample_server 
-#   src/toy/socket_server.cpp
-#   src/toy/sample_server.cpp
-#   )
+ADD_EXECUTABLE(sample_server 
+  src/toy/socket_server.cpp
+  src/toy/sample_server.cpp
+  )
 
-# TARGET_LINK_LIBRARIES(sample_server ${OpenCV_LIBS} )
+TARGET_LINK_LIBRARIES(sample_server ${OpenCV_LIBS} )
 
 
-# ADD_EXECUTABLE(sample_client 
-#   src/toy/socket_client.cpp
-#   src/toy/sample_client.cpp
-#   )
+ADD_EXECUTABLE(sample_client 
+  src/toy/socket_client.cpp
+  src/toy/sample_client.cpp
+  )
 
-# TARGET_LINK_LIBRARIES(sample_client ${OpenCV_LIBS} )
+TARGET_LINK_LIBRARIES(sample_client ${OpenCV_LIBS} )
