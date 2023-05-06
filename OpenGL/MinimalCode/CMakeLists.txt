@@ -205,6 +205,38 @@ ADD_EXECUTABLE(04_4-only_texture
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 TARGET_LINK_LIBRARIES(04_4-only_texture ${target_libraries})
 
+ADD_EXECUTABLE(05_1-transformation
+  src/vendor/stb_image/stb_image.cpp
+  src/vendor/glad/glad.c
+  src/core/Shader.cpp
+  src/01-GettingStarted/05-Transformation/05_1-transformation.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(05_1-transformation ${target_libraries})
+
+ADD_EXECUTABLE(05_2-transformations
+  src/vendor/stb_image/stb_image.cpp
+  src/vendor/glad/glad.c
+  src/core/Shader.cpp
+  src/01-GettingStarted/05-Transformation/05_2-transformations.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(05_2-transformations ${target_libraries})
+
+ADD_EXECUTABLE(05_ex-2
+  src/vendor/stb_image/stb_image.cpp
+  src/vendor/glad/glad.c
+  src/core/Shader.cpp
+  src/01-GettingStarted/05-Transformation/05_ex-2.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(05_ex-2 ${target_libraries})
 
 ADD_EXECUTABLE(10_1-framebuffer_tbd
   src/vendor/stb_image/stb_image.cpp
