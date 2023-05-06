@@ -50,8 +50,8 @@ int main()
 
   // build and compile our shader program
   // ------------------------------------
-  Shader ourShader("../src/res/shaders/4.1.shader.vs", "../src/res/shaders/4.2.shader.fs");
-  // Shader ourShader("../src/res/shaders/4.1.shader.vs", "../src/res/shaders/4.ex1.shader.fs");
+  Shader ourShader("../src/res/shaders/04-Textures/4.1.shader.vs", "../src/res/shaders/04-Textures/4.2.shader.fs");
+  // Shader ourShader("../src/res/shaders/04-Textures/4.1.shader.vs", "../src/res/shaders/04-Textures/4.ex1.shader.fs");
 
   // set up vertex data (and buffer(s)) and configure vertex attributes
   // ------------------------------------------------------------------
@@ -100,8 +100,8 @@ int main()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // set texture wrapping to GL_REPEAT (default wrapping method)
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   // set texture filtering parameters
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   // load image, create texture and generate mipmaps
   int width, height, nrChannels;
   stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis

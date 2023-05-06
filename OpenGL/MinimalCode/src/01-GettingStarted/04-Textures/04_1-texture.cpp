@@ -50,29 +50,17 @@ int main()
 
   // build and compile our shader program
   // ------------------------------------
-  Shader ourShader("../src/res/shaders/4.4.shader.vs", "../src/res/shaders/4.4.shader.fs");
+  Shader ourShader("../src/res/shaders/04-Textures/4.1.shader.vs", "../src/res/shaders/04-Textures/4.1.shader.fs");
 
 
   // set up vertex data (and buffer(s)) and configure vertex attributes
   // ------------------------------------------------------------------
   float vertices[] = {
-    // // positions          // colors           // texture coords
-    //  0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-    //  0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-    // -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-    // -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
-
-    // positions        // texture coords
-    //  0.5f,  0.5f, 0.0f,   1.0f, 1.0f,   // top right
-    //  0.5f, -0.5f, 0.0f,   1.0f, 0.0f,   // bottom right
-    // -0.5f, -0.5f, 0.0f,   0.0f, 0.0f,   // bottom left
-    // -0.5f,  0.5f, 0.0f,   0.0f, 1.0f    // top left     
-
-     1.0f,  1.0f, 0.0f,   1.0f, 1.0f,   // top right
-     1.0f, -1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-    -1.0f, -1.0f, 0.0f,   0.0f, 0.0f,   // bottom left
-    -1.0f,  1.0f, 0.0f,   0.0f, 1.0f    // top left     
-
+    // positions          // colors           // texture coords
+     0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+     0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+    -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
   };
 
   unsigned int indices[] = {  
@@ -92,23 +80,15 @@ int main()
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-  // // position attribute
-  // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-  // glEnableVertexAttribArray(0);
-  // // color attribute
-  // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-  // glEnableVertexAttribArray(1);
-  // // texture coord attribute
-  // glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-  // glEnableVertexAttribArray(2);
-
-
   // position attribute
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);
-  // texture coord attribute
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+  // color attribute
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
+  // texture coord attribute
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+  glEnableVertexAttribArray(2);
 
 
   // load and create a texture 
@@ -128,6 +108,26 @@ int main()
   // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
   // unsigned char *data = stbi_load(FileSystem::getPath("../src/res/texture/container.jpg").c_str(), &width, &height, &nrChannels, 0);
   unsigned char *data = stbi_load("../src/res/texture/container.jpg", &width, &height, &nrChannels, 0);
+
+
+
+  // int32_t c = 0;
+  // int32_t w = 0;
+  // int32_t h = 0;
+
+  // void *buffer = nullptr;
+  // int size = width * height * nrChannels;
+  // buffer = stbi_load_from_memory((unsigned char *)data, size, &w, &h, &c, 3);
+  // if (buffer)
+  // {
+  //   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
+  //   glGenerateMipmap(GL_TEXTURE_2D);
+  // }
+  // else
+  // {
+  //     std::cout << "Failed to load texture" << std::endl;
+  // }
+  // stbi_image_free(buffer);
 
 
   if (data)

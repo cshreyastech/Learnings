@@ -16,7 +16,7 @@ include_directories(
 #  include
   src
   src/core
-  src/tbd
+  src/01-GettingStarted/tbd
   )
 
 set(target_libraries
@@ -36,7 +36,7 @@ set(target_libraries
 
 ADD_EXECUTABLE(01_hello_window
   src/vendor/glad/glad.c
-  src/01-hello_window.cpp
+  src/01-GettingStarted/01-CreatingWindow/01-hello_window.cpp
   )
 
 #Set Linker flags
@@ -46,7 +46,7 @@ TARGET_LINK_LIBRARIES(01_hello_window ${target_libraries})
 
 ADD_EXECUTABLE(02_hello_triange 
   src/vendor/glad/glad.c
-  src/02-hello_triangle.cpp
+  src/01-GettingStarted/02-CreatingTriange/02-hello_triangle.cpp
   )
 
 #Set Linker flags
@@ -56,7 +56,7 @@ TARGET_LINK_LIBRARIES(02_hello_triange ${target_libraries})
 
 ADD_EXECUTABLE(02_1_hello_trianges 
   src/vendor/glad/glad.c
-  src/02_1-hello_triangles.cpp
+  src/01-GettingStarted/02-CreatingTriange/02_1-hello_triangles.cpp
   )
 
 #Set Linker flags
@@ -65,7 +65,7 @@ TARGET_LINK_LIBRARIES(02_1_hello_trianges ${target_libraries})
 
 ADD_EXECUTABLE(02_2-two_triangles_diff_objs 
   src/vendor/glad/glad.c
-  src/02_2-two_triangles_diff_objs.cpp
+  src/01-GettingStarted/02-CreatingTriange/02_2-two_triangles_diff_objs.cpp
   )
 
 #Set Linker flags
@@ -75,7 +75,7 @@ TARGET_LINK_LIBRARIES(02_2-two_triangles_diff_objs ${target_libraries})
 
 ADD_EXECUTABLE(02_3-two_triangles_two_objs_two_shaders 
   src/vendor/glad/glad.c
-  src/02_3-two_triangles_two_objs_two_shaders.cpp
+  src/01-GettingStarted/02-CreatingTriange/02_3-two_triangles_two_objs_two_shaders.cpp
   )
 
 #Set Linker flags
@@ -85,7 +85,7 @@ TARGET_LINK_LIBRARIES(02_3-two_triangles_two_objs_two_shaders ${target_libraries
 
 ADD_EXECUTABLE(03_1-shaders 
   src/vendor/glad/glad.c
-  src/03_1-shaders.cpp
+  src/01-GettingStarted/03-Shaders/03_1-shaders.cpp
   )
 
 #Set Linker flags
@@ -95,7 +95,7 @@ TARGET_LINK_LIBRARIES(03_1-shaders ${target_libraries})
 
 ADD_EXECUTABLE(03_2-uniform 
   src/vendor/glad/glad.c
-  src/03_2-uniform.cpp
+  src/01-GettingStarted/03-Shaders/03_2-uniform.cpp
   )
 
 #Set Linker flags
@@ -104,7 +104,7 @@ TARGET_LINK_LIBRARIES(03_2-uniform ${target_libraries})
 
 ADD_EXECUTABLE(03_3-more_attributes 
   src/vendor/glad/glad.c
-  src/03_3-more_attributes.cpp
+  src/01-GettingStarted/03-Shaders/03_3-more_attributes.cpp
   )
 
 #Set Linker flags
@@ -114,7 +114,7 @@ TARGET_LINK_LIBRARIES(03_3-more_attributes ${target_libraries})
 ADD_EXECUTABLE(03_4-using_shader_class 
   src/vendor/glad/glad.c
   src/core/Shader.cpp
-  src/03_4-using_shader_class.cpp
+  src/01-GettingStarted/03-Shaders/03_4-using_shader_class.cpp
   )
 
 #Set Linker flags
@@ -126,7 +126,7 @@ ADD_EXECUTABLE(04_1-texture
   src/vendor/stb_image/stb_image.cpp
   src/vendor/glad/glad.c
   src/core/Shader.cpp
-  src/04_1-texture.cpp
+  src/01-GettingStarted/04-Textures/04_1-texture.cpp
   )
 
 #Set Linker flags
@@ -138,7 +138,7 @@ ADD_EXECUTABLE(04_2-multiple_textures
   src/vendor/stb_image/stb_image.cpp
   src/vendor/glad/glad.c
   src/core/Shader.cpp
-  src/04_2-multiple_textures.cpp
+  src/01-GettingStarted/04-Textures/04_2-multiple_textures.cpp
   )
 
 #Set Linker flags
@@ -150,7 +150,7 @@ ADD_EXECUTABLE(04_ex-2
   src/vendor/stb_image/stb_image.cpp
   src/vendor/glad/glad.c
   src/core/Shader.cpp
-  src/04_ex-2.cpp
+  src/01-GettingStarted/04-Textures/04_ex-2.cpp
   )
 
 #Set Linker flags
@@ -161,7 +161,7 @@ ADD_EXECUTABLE(04_ex-3
   src/vendor/stb_image/stb_image.cpp
   src/vendor/glad/glad.c
   src/core/Shader.cpp
-  src/04_ex-3.cpp
+  src/01-GettingStarted/04-Textures/04_ex-3.cpp
   )
 
 #Set Linker flags
@@ -173,7 +173,7 @@ ADD_EXECUTABLE(04_ex-4
   src/vendor/stb_image/stb_image.cpp
   src/vendor/glad/glad.c
   src/core/Shader.cpp
-  src/04_ex-4.cpp
+  src/01-GettingStarted/04-Textures/04_ex-4.cpp
   )
 
 #Set Linker flags
@@ -187,7 +187,7 @@ ADD_EXECUTABLE(04_3-dynamic-textures
   src/vendor/glad/glad.c
   src/core/Shader.cpp
   src/core/Renderer.cpp
-  src/04_3-dynamic_textures.cpp
+  src/01-GettingStarted/04-Textures/04_3-dynamic_textures.cpp
   )
 
 #Set Linker flags
@@ -198,7 +198,7 @@ ADD_EXECUTABLE(04_4-only_texture
   src/vendor/stb_image/stb_image.cpp
   src/vendor/glad/glad.c
   src/core/Shader.cpp
-  src/04_4-only_texture.cpp
+  src/01-GettingStarted/04-Textures/04_4-only_texture.cpp
   )
 
 #Set Linker flags
@@ -210,7 +210,7 @@ ADD_EXECUTABLE(10_1-framebuffer_tbd
   src/vendor/stb_image/stb_image.cpp
   src/vendor/glad/glad.c
 
-  src/tbd/10_1-framebuffer_V2.cpp
+  src/01-GettingStarted/tbd/10_1-framebuffer_V2.cpp
   )
 
 #Set Linker flags
@@ -222,8 +222,8 @@ ADD_EXECUTABLE(frame_publisher
   src/vendor/stb_image/stb_image.cpp
   src/vendor/glad/glad.c
 
-  src/tbd/client_server/client/frame_publisher.cpp
-  src/tbd/client_server/client/socket_client.cpp
+  src/01-GettingStarted/tbd/client_server/client/frame_publisher.cpp
+  src/01-GettingStarted/tbd/client_server/client/socket_client.cpp
   
   )
 
@@ -235,8 +235,8 @@ ADD_EXECUTABLE(frame_receiver
   src/vendor/stb_image/stb_image.cpp
   src/vendor/glad/glad.c
 
-  src/tbd/client_server/server/frame_receiver2.cpp
-  src/tbd/client_server/server/socket_server.cpp
+  src/01-GettingStarted/tbd/client_server/server/frame_receiver2.cpp
+  src/01-GettingStarted/tbd/client_server/server/socket_server.cpp
   
   )
 

@@ -48,10 +48,11 @@ int main()
 
   // build and compile our shader program
   // ------------------------------------
-  // Shader ourShader("../src/res/shaders/3.4.shader.vs", "../src/res/shaders/3.4.shader.fs");
-  // Shader ourShader("../src/res/shaders/3.ex1.shader.vs", "../src/res/shaders/3.4.shader.fs");
-  // Shader ourShader("../src/res/shaders/3.ex2.shader.vs", "../src/res/shaders/3.4.shader.fs");
-  Shader ourShader("../src/res/shaders/3.ex3.shader.vs", "../src/res/shaders/3.ex3.shader.fs");
+  // Shader ourShader("../src/res/shaders/03-Shaders/3.4.shader.vs", "../src/res/shaders/03-Shaders/3.4.shader.fs");
+  // Shader ourShader("../src/res/shaders/03-Shaders/3.ex1.shader.vs", "../src/res/shaders/03-Shaders/3.4.shader.fs");
+  // Shader ourShader("../src/res/shaders/03-Shaders/3.ex2.shader.vs", "../src/res/shaders/03-Shaders/3.4.shader.fs");
+  Shader ourShader("../src/res/shaders/03-Shaders/3.ex3.shader.vs", 
+                   "../src/res/shaders/03-Shaders/3.ex3.shader.fs");
 
 
   // set up vertex data (and buffer(s)) and configure vertex attributes

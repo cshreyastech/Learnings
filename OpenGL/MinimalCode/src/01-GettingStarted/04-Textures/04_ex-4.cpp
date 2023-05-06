@@ -1,3 +1,4 @@
+
 #include "vendor/glad/glad.h"
 #include <GLFW/glfw3.h>
 
@@ -13,6 +14,8 @@ void processInput(GLFWwindow *window);
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+// stores how much we're seeing of either texture
+float mixValue = 0.2f;
 
 int main()
 {
@@ -49,8 +52,8 @@ int main()
 
   // build and compile our shader program
   // ------------------------------------
-  // Shader ourShader("../src/res/shaders/4.1.shader.vs", "../src/res/shaders/4.2.shader.fs");
-  Shader ourShader("../src/res/shaders/4.1.shader.vs", "../src/res/shaders/4.ex1.shader.fs");
+  // Shader ourShader("../src/res/shaders/04-Textures/4.1.shader.vs", "../src/res/shaders/04-Textures/4.2.shader.fs");
+  Shader ourShader("../src/res/shaders/04-Textures/4.1.shader.vs", "../src/res/shaders/04-Textures/4.ex4.shader.fs");
 
   // set up vertex data (and buffer(s)) and configure vertex attributes
   // ------------------------------------------------------------------
@@ -167,6 +170,9 @@ int main()
     glActiveTexture(GL_TEXTURE1); // activate the texture unit first before binding texture
     glBindTexture(GL_TEXTURE_2D, texture2);
 
+    // set the texture mix value in the shader
+    ourShader.setFloat("mixValue", mixValue);
+
     ourShader.use();
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -195,6 +201,19 @@ void processInput(GLFWwindow *window)
 {
   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     glfwSetWindowShouldClose(window, true);
+
+  if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+  {
+    mixValue += 0.001f; // change this value accordingly (might be too slow or too fast based on system hardware)
+    if(mixValue >= 1.0f)
+      mixValue = 1.0f;
+  }
+  if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+  {
+    mixValue -= 0.001f; // change this value accordingly (might be too slow or too fast based on system hardware)
+    if (mixValue <= 0.0f)
+      mixValue = 0.0f;
+  }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
