@@ -238,6 +238,50 @@ ADD_EXECUTABLE(05_ex-2
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 TARGET_LINK_LIBRARIES(05_ex-2 ${target_libraries})
 
+ADD_EXECUTABLE(06_1-mvp1
+  src/vendor/stb_image/stb_image.cpp
+  src/vendor/glad/glad.c
+  src/core/Shader.cpp
+  src/01-GettingStarted/06-CoordinateSystems/06_1-mvp1.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(06_1-mvp1 ${target_libraries})
+
+ADD_EXECUTABLE(06_2-3d
+  src/vendor/stb_image/stb_image.cpp
+  src/vendor/glad/glad.c
+  src/core/Shader.cpp
+  src/01-GettingStarted/06-CoordinateSystems/06_2-3d.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(06_2-3d ${target_libraries})
+
+ADD_EXECUTABLE(06_3-more_cubes
+  src/vendor/stb_image/stb_image.cpp
+  src/vendor/glad/glad.c
+  src/core/Shader.cpp
+  src/01-GettingStarted/06-CoordinateSystems/06_3-more_cubes.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(06_3-more_cubes ${target_libraries})
+
+ADD_EXECUTABLE(06_ex-3
+  src/vendor/stb_image/stb_image.cpp
+  src/vendor/glad/glad.c
+  src/core/Shader.cpp
+  src/01-GettingStarted/06-CoordinateSystems/06_ex-3.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(06_ex-3 ${target_libraries})
+
 ADD_EXECUTABLE(10_1-framebuffer_tbd
   src/vendor/stb_image/stb_image.cpp
   src/vendor/glad/glad.c
