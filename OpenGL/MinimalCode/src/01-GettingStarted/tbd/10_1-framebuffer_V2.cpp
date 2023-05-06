@@ -80,8 +80,8 @@ int main()
 
   // build and compile shaders
   // -------------------------
-  Shader shader("../src/tbd/5.1.framebuffers.vs", "../src/tbd/5.1.framebuffers.fs");
-  Shader screenShader("../src/tbd/5.1.framebuffers_screen.vs", "../src/tbd/5.1.framebuffers_screen.fs");
+  Shader shader("../src/res/shaders/tbd/5.1.framebuffers.vs", "../src/res/shaders/tbd/5.1.framebuffers.fs");
+  Shader screenShader("../src/res/shaders/tbd/5.1.framebuffers_screen.vs", "../src/res/shaders/tbd/5.1.framebuffers_screen.fs");
 
   // set up vertex data (and buffer(s)) and configure vertex attributes
   // ------------------------------------------------------------------
