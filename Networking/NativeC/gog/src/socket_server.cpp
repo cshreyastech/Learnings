@@ -188,17 +188,38 @@ void SocketServer::SendEyeTrackingData2(int counter)
 
 
   send(sock_fdesc_conn_, buffer, sizeof_dims, 0);
-  // int size = 1;
-  // bytes_received = send(sock_fdesc_conn_, (char*)&counter, sizeof_dims, 0);
-  // printf("Sent %ld bytes of %ld byte int to port %d\n",
-  //        bytes_received, sizeof_dims, port_);
 }
+
+
+
+void SocketServer::SendEyeTrackingData3(const float counter)
+{
+  // ssize_t bytes_received = 0;
+  // size_t dims_size = 0;
+
+
+
+  // size_t sizeof_dims = sizeof(int);
+  // printf("sizeof_dims %ld\n", sizeof_dims);
+
+  // unsigned char buffer[sizeof_dims], *ptr;
+  // ptr = serialize_temp(buffer, counter);
+
+  // printf("buffer %d, %d, %d, %d\n", buffer[0], buffer[1], buffer[2], buffer[3]);
+
+
+  // send(sock_fdesc_conn_, buffer, sizeof_dims, 0);
+}
+
 
 SocketServer::~SocketServer()
 {
+  // closing the listening socket
+  shutdown(sock_fdesc_conn_, SHUT_RD);
   // closing the connected socket
   close(sock_fdesc_init_);
-  // closing the listening socket
-  shutdown(sock_fdesc_conn_, SHUT_RDWR);
-  printf("Closed socket at port %d\n", port_);    
+  printf("Closed socket at port %d\n", port_); 
+
+  // TBD
+  // https://stackoverflow.com/questions/12730477/close-is-not-closing-socket-properly 
 }

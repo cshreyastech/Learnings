@@ -9,6 +9,11 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include "gog/struct_declarations.hpp"
+
 class SocketServer {
  public:
   SocketServer(const int port);
@@ -23,6 +28,7 @@ class SocketServer {
 
   void SendEyeTrackingData(const int counter);
   void SendEyeTrackingData2(const int counter);
+  void SendEyeTrackingData3(const float counter);
 
   void DestroyAllWindows();
   inline const int TextureWidth() const { return image_width_; }
@@ -41,6 +47,7 @@ class SocketServer {
   const int port_{0};
   int sock_fdesc_init_{0};
   int sock_fdesc_conn_{0};
+
 };
 
 

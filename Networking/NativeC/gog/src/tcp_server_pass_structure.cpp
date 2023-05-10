@@ -22,6 +22,7 @@ int main(int argc, char** argv)
   server_ptr->SendEyeTrackingDims(sizeof(int));
 
   int counter = 9089809;
+  // float counter = 1.234f;
   printf("counter: %d\n", counter);
   // server_ptr->SendEyeTrackingData(counter);
 

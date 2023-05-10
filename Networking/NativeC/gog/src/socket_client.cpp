@@ -99,7 +99,13 @@ unsigned char * SocketClient::deserialize_int(unsigned char *buffer, int value)
   // buffer[2] = value >> 8;
   // buffer[3] = value;
 
-  value = (buffer[0] << 24) + (buffer[1] << 16) + (buffer[2] << 8) + (buffer[3] << 0);
+  // value = (buffer[0] << 24) + (buffer[1] << 16) + (buffer[2] << 8) + (buffer[3] << 0);
+
+  value = 0;
+  value |= ((long)buffer[0]) << 24;
+  value |= ((long)buffer[1]) << 16;
+  value |= ((long)buffer[2]) << 8;
+  value |= ((long)buffer[3]);
 
   printf("value: %d\n", value);
   return buffer + 4;
