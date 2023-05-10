@@ -32,6 +32,8 @@ OpenCV/build/*
 OpenCV/outImages/*
 OpenGL/OpenGL_linux/build/*
 OpenGL/MinimalCode/build/*
+Networking/NativeC/gog/build/*
+
 
 ML/app_framework/.out/*
 ML/app_framework/external/.out/*
