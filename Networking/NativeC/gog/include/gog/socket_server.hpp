@@ -24,7 +24,9 @@ class SocketServer {
 
   void SendEyeTrackingDims(const int eye_track_dims);
   unsigned char * serialize_int(unsigned char *buffer, int value);
+  unsigned char * serialize_float(unsigned char *buffer, float value);
   unsigned char * serialize_temp(unsigned char *buffer, int &value);
+  unsigned char * serialize_temp(unsigned char *buffer, float &value);
 
   void SendEyeTrackingData(const int counter);
   void SendEyeTrackingData2(const int counter);
@@ -35,6 +37,10 @@ class SocketServer {
   inline const int TextureHeight() const { return image_height_; }
   inline const int TextureChannels() const { return image_channels_; }
 
+
+  // To be moved to client
+  unsigned char * deserialize_float(unsigned char *buffer, float value);
+  unsigned char * deserialize_temp(unsigned char *buffer, float &value);
 
  private:
   const int image_width_{0}, image_height_{0}, image_channels_{0};

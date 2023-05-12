@@ -154,15 +154,13 @@ void SocketServer::SendEyeTrackingData(int counter)
          bytes_received, sizeof_dims, port_);
 }
 
-
-
 unsigned char * SocketServer::serialize_int(unsigned char *buffer, int value)
 {
   /* Write big-endian int value into buffer; assumes 32-bit int and 8-bit char. */
-  buffer[0] = value >> 24;
-  buffer[1] = value >> 16;
-  buffer[2] = value >> 8;
-  buffer[3] = value;
+  buffer[0] = ((long)value) >> 24;
+  buffer[1] = ((long)value) >> 16;
+  buffer[2] = ((long)value) >> 8;
+  buffer[3] = ((long)value);
 
   return buffer + 4;
 }
@@ -170,6 +168,48 @@ unsigned char * SocketServer::serialize_int(unsigned char *buffer, int value)
 unsigned char * SocketServer::serialize_temp(unsigned char *buffer, int &value)
 {
   buffer = serialize_int(buffer, value);
+  return buffer;
+}
+
+unsigned char * SocketServer::serialize_float(unsigned char *buffer, float value)
+{
+  /* Write big-endian int value into buffer; assumes 32-bit int and 8-bit char. */
+float f;
+    buffer[0] = ((long)value & 0xff000000) >> 24;
+    buffer[1] = ((long)value & 0x00ff0000) >> 16;
+    buffer[2] = ((long)value & 0x0000ff00) >> 8;
+    buffer[3] = ((long)value & 0x000000ff);
+    return buffer + 4;
+}
+
+unsigned char * SocketServer::serialize_temp(unsigned char *buffer, float &value)
+{
+  buffer = serialize_float(buffer, value);
+  return buffer;
+}
+
+
+unsigned char * SocketServer::deserialize_float(unsigned char *buffer, float value)
+{
+  // value |= ((long)buffer[0]) << 24;
+  // value |= ((long)buffer[1]) << 16;
+  // value |= ((long)buffer[2]) << 8;
+  // value |= ((long)buffer[3]);
+  
+
+  // value |= 
+  printf("%ld\n", ((long)buffer[0] & 0xff000000)  << 24);
+  // value |= ((long)buffer[1]) << 16;
+  // value |= ((long)buffer[2]) << 8;
+  // value |= ((long)buffer[3]);
+
+  // printf("value: %f\n", value);
+  return buffer + 4;
+}
+
+unsigned char * SocketServer::deserialize_temp(unsigned char *buffer, float &value)
+{
+  buffer = deserialize_float(buffer, value);
   return buffer;
 }
 
@@ -192,22 +232,20 @@ void SocketServer::SendEyeTrackingData2(int counter)
 
 
 
-void SocketServer::SendEyeTrackingData3(const float counter)
+void SocketServer::SendEyeTrackingData3(float counter)
 {
-  // ssize_t bytes_received = 0;
-  // size_t dims_size = 0;
+  ssize_t bytes_received = 0;
+  size_t dims_size = 0;
 
+  size_t sizeof_dims = sizeof(float);
+  printf("sizeof_dims %ld\n", sizeof_dims);
 
+  unsigned char buffer[sizeof_dims], *ptr;
+  ptr = serialize_temp(buffer, counter);
 
-  // size_t sizeof_dims = sizeof(int);
-  // printf("sizeof_dims %ld\n", sizeof_dims);
+  printf("buffer %d, %d, %d, %d\n", buffer[0], buffer[1], buffer[2], buffer[3]);
 
-  // unsigned char buffer[sizeof_dims], *ptr;
-  // ptr = serialize_temp(buffer, counter);
-
-  // printf("buffer %d, %d, %d, %d\n", buffer[0], buffer[1], buffer[2], buffer[3]);
-
-
+  deserialize_temp(buffer, counter);
   // send(sock_fdesc_conn_, buffer, sizeof_dims, 0);
 }
 
