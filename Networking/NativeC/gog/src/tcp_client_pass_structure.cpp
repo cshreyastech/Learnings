@@ -12,6 +12,8 @@
 #include <memory> // unique_ptr
 
 #include "gog/socket_client.hpp"
+#include "gog/struct_declarations.hpp"
+
 int main()
 {
 
@@ -22,8 +24,7 @@ int main()
   client_ptr->ConnectToServer();
   client_ptr->ReceiveEyeTrackingDims();
 
-  int counter = 0;
-  // client_ptr->ReceiveEyeTrackingData(counter);
-  client_ptr->ReceiveEyeTrackingData2(counter);
+  Transformation t_w_e;
+  client_ptr->ReceiveEyeTrackingData(t_w_e);
   return 0;
 }

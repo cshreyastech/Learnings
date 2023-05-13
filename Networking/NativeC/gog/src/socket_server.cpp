@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <cassert>
+#include <algorithm>
 
 #include "gog/socket_server.hpp"
 
@@ -134,6 +135,8 @@ void SocketServer::ReceiveTextureData(unsigned char** data)
 
 void SocketServer::SendEyeTrackingDims(const int eye_track_dims)
 {
+  eye_track_dims_ = eye_track_dims;
+
   // Send number of width to server
   if (send(sock_fdesc_conn_, (char*)&eye_track_dims, sizeof(eye_track_dims), 0) == -1) {
     perror("Error sending eye_track_dims");
@@ -141,119 +144,102 @@ void SocketServer::SendEyeTrackingDims(const int eye_track_dims)
   }
 }
 
-void SocketServer::SendEyeTrackingData(int counter)
+
+/*
+ * Convert a packet into a byte string.
+ */
+template <typename PacketType>
+std::string SocketServer::serialize(PacketType &packet)
 {
-  ssize_t bytes_received = 0;
+  auto ptr = reinterpret_cast<char*>(&packet);
+  return std::string(ptr, ptr + sizeof packet);
+}
+
+void SocketServer::SendEyeTrackingData(Transformation t_w_e)
+{
+  ssize_t bytes_sent = 0;
   size_t dims_size = 0;
 
-  size_t sizeof_dims = sizeof(int);
+  size_t sizeof_dims = eye_track_dims_;
+  std::string serilized_t_w_e_str = serialize<Transformation>(t_w_e);
+  // std::string serilized_t_w_e_str = "012345678901234567890123";
+  // printf("serilized_t_w_e_str: %s\n", serilized_t_w_e_str.c_str());
+  sizeof_dims = serilized_t_w_e_str.length() + 1;
+  //1----------------------------------//
+  // char serilized_t_w_e_array[serilized_t_w_e_str.length()];
+  // strcpy(serilized_t_w_e_array, serilized_t_w_e_str.c_str());
 
-  // int size = 1;
-  bytes_received = send(sock_fdesc_conn_, (char*)&counter, sizeof_dims, 0);
+  // unsigned char serilized_t_w_e_unsigned_array[sizeof(serilized_t_w_e_array)];
+  // std::copy(serilized_t_w_e_array, 
+  //   serilized_t_w_e_array + sizeof(serilized_t_w_e_array),
+  //   serilized_t_w_e_unsigned_array);
+
+  unsigned char serilized_t_w_e_unsigned_array[sizeof_dims];
+  strcpy(reinterpret_cast<char*>(serilized_t_w_e_unsigned_array), serilized_t_w_e_str.c_str());
+
+  for(int i = 0; i < sizeof_dims; i++)
+  {
+    printf("serilized_t_w_e_unsigned_array[%d]=%c\n", i, serilized_t_w_e_unsigned_array[i]);
+  }
+
+  bytes_sent = send(sock_fdesc_conn_, serilized_t_w_e_unsigned_array, sizeof_dims, 0);
   printf("Sent %ld bytes of %ld byte int to port %d\n",
-         bytes_received, sizeof_dims, port_);
-}
-
-unsigned char * SocketServer::serialize_int(unsigned char *buffer, int value)
-{
-  /* Write big-endian int value into buffer; assumes 32-bit int and 8-bit char. */
-  buffer[0] = ((long)value) >> 24;
-  buffer[1] = ((long)value) >> 16;
-  buffer[2] = ((long)value) >> 8;
-  buffer[3] = ((long)value);
-
-  return buffer + 4;
-}
-
-unsigned char * SocketServer::serialize_temp(unsigned char *buffer, int &value)
-{
-  buffer = serialize_int(buffer, value);
-  return buffer;
-}
-
-unsigned char * SocketServer::serialize_float(unsigned char *buffer, float value)
-{
-  /* Write big-endian int value into buffer; assumes 32-bit int and 8-bit char. */
-float f;
-    buffer[0] = ((long)value & 0xff000000) >> 24;
-    buffer[1] = ((long)value & 0x00ff0000) >> 16;
-    buffer[2] = ((long)value & 0x0000ff00) >> 8;
-    buffer[3] = ((long)value & 0x000000ff);
-    return buffer + 4;
-}
-
-unsigned char * SocketServer::serialize_temp(unsigned char *buffer, float &value)
-{
-  buffer = serialize_float(buffer, value);
-  return buffer;
-}
-
-
-unsigned char * SocketServer::deserialize_float(unsigned char *buffer, float value)
-{
-  // value |= ((long)buffer[0]) << 24;
-  // value |= ((long)buffer[1]) << 16;
-  // value |= ((long)buffer[2]) << 8;
-  // value |= ((long)buffer[3]);
+         bytes_sent, sizeof_dims, port_);  
   
 
-  // value |= 
-  printf("%ld\n", ((long)buffer[0] & 0xff000000)  << 24);
-  // value |= ((long)buffer[1]) << 16;
-  // value |= ((long)buffer[2]) << 8;
-  // value |= ((long)buffer[3]);
 
-  // printf("value: %f\n", value);
-  return buffer + 4;
+  //2----------------------------------//
+
+  // unsigned char serilized_t_w_e_unsigned_array[serilized_t_w_e_str.length() + 1];
+  // std::strncpy(serilized_t_w_e_unsigned_array, 
+  //   serilized_t_w_e_str,
+  //   sizeof(serilized_t_w_e_unsigned_array));
+
+  // sizeof_dims = sizeof(serilized_t_w_e_unsigned_array);
+  // bytes_sent = send(sock_fdesc_conn_, serilized_t_w_e_unsigned_array, sizeof_dims, 0);
+  // printf("Sent %ld bytes of %ld byte int to port %d\n",
+  //        bytes_sent, sizeof_dims, port_);  
+  //----------------------------------//
+
+
+
+
+  // unsigned char serilized_t_w_e_array[sizeof_dims];
+  // strcpy(static_cast<char*>(serilized_t_w_e_array), serilized_t_w_e_str.c_str());
+
+  // // for(int i = 0; i < sizeof_dims; i++)
+  // // {
+  // //   printf("sock_data[%d]=%c\n", i, serilized_t_w_e_array[i]);
+  // // }
+  // // printf("serilized_t_w_e: %s\n", serilized_t_w_e.c_str());
+  // bytes_sent = send(sock_fdesc_conn_, serilized_t_w_e_array, sizeof_dims, 0);
+  // printf("Sent %ld bytes of %ld byte int to port %d\n",
+  //        bytes_sent, sizeof_dims, port_);
+
+  // unsigned char data_arr[sizeof_dims];
+  // int num_bytes = send(sock_fdesc_conn_, data_arr, sizeof_dims, 0);
+
+  // // printf("Sent %d bytes of %d-byte image to port %d\n",
+  // //        num_bytes, image_size, port_);
+
+  // int image_size = eye_track_dims_;
+  // unsigned char data_arr[image_size];
+
+  // std::string serilized_t_w_e = serialize<Transformation>(t_w_e);
+  // unsigned char
+  // memcpy(data_arr, serilized_t_w_e.data, image_size);
+  // int num_bytes = send(socket_fdesc_, data_arr, image_size, 0);
+
+  // printf("Sent %d bytes of %d-byte image to port %d\n",
+  //        num_bytes, image_size, port_);
+
+
 }
-
-unsigned char * SocketServer::deserialize_temp(unsigned char *buffer, float &value)
-{
-  buffer = deserialize_float(buffer, value);
-  return buffer;
-}
-
-void SocketServer::SendEyeTrackingData2(int counter)
-{
-  ssize_t bytes_received = 0;
-  size_t dims_size = 0;
-
-  size_t sizeof_dims = sizeof(int);
-  printf("sizeof_dims %ld\n", sizeof_dims);
-
-  unsigned char buffer[sizeof_dims], *ptr;
-  ptr = serialize_temp(buffer, counter);
-
-  printf("buffer %d, %d, %d, %d\n", buffer[0], buffer[1], buffer[2], buffer[3]);
-
-
-  send(sock_fdesc_conn_, buffer, sizeof_dims, 0);
-}
-
-
-
-void SocketServer::SendEyeTrackingData3(float counter)
-{
-  ssize_t bytes_received = 0;
-  size_t dims_size = 0;
-
-  size_t sizeof_dims = sizeof(float);
-  printf("sizeof_dims %ld\n", sizeof_dims);
-
-  unsigned char buffer[sizeof_dims], *ptr;
-  ptr = serialize_temp(buffer, counter);
-
-  printf("buffer %d, %d, %d, %d\n", buffer[0], buffer[1], buffer[2], buffer[3]);
-
-  deserialize_temp(buffer, counter);
-  // send(sock_fdesc_conn_, buffer, sizeof_dims, 0);
-}
-
 
 SocketServer::~SocketServer()
 {
   // closing the listening socket
-  shutdown(sock_fdesc_conn_, SHUT_RD);
+  shutdown(sock_fdesc_conn_, SHUT_RDWR);
   // closing the connected socket
   close(sock_fdesc_init_);
   printf("Closed socket at port %d\n", port_); 

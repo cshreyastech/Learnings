@@ -7,8 +7,8 @@
 #include <unistd.h> // close
 #include <sys/stat.h>
 
-
 #include "gog/socket_client.hpp"
+#include <bits/stdc++.h>
 
 SocketClient::SocketClient(const char* hostname, int port) :
     hostname_ (hostname),
@@ -70,118 +70,95 @@ void SocketClient::ReceiveEyeTrackingDims()
     }
 }
 
-void SocketClient::ReceiveEyeTrackingData(const int &counter)
+
+template <typename PacketType>
+PacketType SocketClient::deserialize(std::string &buf, bool partialProcessing)
 {
-  ssize_t bytes_received = 0;
-  size_t dims_size = 0;
+  PacketType packet;
+  size_t bufSize = buf.length();
+  size_t packetSize = sizeof packet;
 
-  size_t sizeof_dims = sizeof(int);
+  if (packetSize > bufSize)
+    printf("Packet larger than buffer size. Partial read: %ld\n", (packetSize - bufSize));
 
-  if (bytes_received = recv(socket_fdesc_, (char*)&counter, sizeof_dims, 0) == -1) {
-    printf("ERROR!: recv failed\n"
-           "sock_fdesc: %d\n"
-           "image_size: %zu\n"
-           "bytes_received: %zu\n", socket_fdesc_, dims_size, bytes_received);
-    exit(1);
+  if (packetSize < bufSize && !partialProcessing)
+    printf("Packet smaller than buffer size. Bytes unprocessed: %ld\n", (bufSize - packetSize));
+
+  auto ptr = reinterpret_cast<char*>(&buf[0]);
+  std::memcpy(&packet, ptr, (packetSize < bufSize) ? packetSize : bufSize);
+  return packet;
+}
+
+
+std::string SocketClient::convertToString(char* a, int size)
+{
+  int i;
+  std::string s = "";
+  for (i = 0; i < size; i++) {
+      s = s + a[i];
   }
-  else {
-      // printf("Eye tracking: [%d]\n", counter);
-      printf("Received %ld bytes of %ld byte int at port %d, data:[%d]\n",
-         bytes_received, sizeof_dims, port_, counter);
-    }
+  return s;
 }
 
-unsigned char * SocketClient::deserialize_int(unsigned char *buffer, int value)
-{
-  /* Write big-endian int value into buffer; assumes 32-bit int and 8-bit char. */
-  // buffer[0] = value >> 24;
-  // buffer[1] = value >> 16;
-  // buffer[2] = value >> 8;
-  // buffer[3] = value;
-
-  // value = (buffer[0] << 24) + (buffer[1] << 16) + (buffer[2] << 8) + (buffer[3] << 0);
-
-  value = 0;
-  value |= ((long)buffer[0]) << 24;
-  value |= ((long)buffer[1]) << 16;
-  value |= ((long)buffer[2]) << 8;
-  value |= ((long)buffer[3]);
-
-  printf("value: %d\n", value);
-  return buffer + 4;
-}
-
-unsigned char * SocketClient::deserialize_temp(unsigned char *buffer, int &value)
-{
-  buffer = deserialize_int(buffer, value);
-  return buffer;
-}
-
-void SocketClient::ReceiveEyeTrackingData2(int &counter)
+void SocketClient::ReceiveEyeTrackingData(Transformation t_w_e)
 {
   int num_bytes = 0;
   int total_num_bytes = 0;
-  size_t sizeof_dims = sizeof(int);
+  int image_size = eye_track_dims_ + 1;
 
+  // int image_size = 512 * 512 * 3;
 
-  unsigned char sock_data[sizeof_dims];
+  // Allocate space for image buffer
+  unsigned char serilized_t_w_e_unsigned_array[image_size];
 
   // Save image data to buffer
-  for (int i = 0; i < sizeof_dims; i += num_bytes) {
-    num_bytes = recv(socket_fdesc_, sock_data + i, sizeof_dims - i, 0);
+  for (int i = 0; i < image_size; i += num_bytes) {
+    num_bytes = recv(socket_fdesc_, serilized_t_w_e_unsigned_array + i, image_size - i, 0);
     total_num_bytes += num_bytes;
 
     if (num_bytes == -1) {
       printf("ERROR!: recv failed\n"
              "i: %d\n"
              "sock_fdesc: %d\n"
-             "data_size: %ld\n"
-             "num_bytes: %d\n", i, socket_fdesc_, sizeof_dims, num_bytes);
+             "image_size: %d\n"
+             "num_bytes: %d\n", i, socket_fdesc_, image_size, num_bytes);
       exit(1);
     }
   }
+  printf("image_size: %d, total_num_bytes: %d\n", image_size, total_num_bytes);
+  for(int i = 0; i < total_num_bytes; i++)
+  {
+    printf("serilized_t_w_e_unsigned_array[%d]=%c\n", i, serilized_t_w_e_unsigned_array[i]);
+  }
 
-  // printf("sock_data %d, %d, %d, %d\n", sock_data[0], sock_data[1], sock_data[2], sock_data[3]);
+  std::string serilized_t_w_e_str = (const char*)serilized_t_w_e_unsigned_array;
+  printf("serilized_string length: %ld\n", serilized_t_w_e_str.length());
+  // std::string output = deserialize<std::string>(serilized_t_w_e_str, false);
+  // printf("output: %s\n", output.c_str());
 
-  deserialize_temp(sock_data, counter);
+
+  // t_w_e = 
+  // printf("i: %d, f: %f, t[%f], t[%f], t[%f], t[%f]\n", 
+  //   t_w_e.i, t_w_e.f, t_w_e.t[0], t_w_e.t[1], t_w_e.t[2], t_w_e.t[3]);
+
+  // for(int i = 0; i < total_num_bytes; i++)
+  // {
+  //   printf("sock_data[%d]=%c\n", i, sock_data[i]);
+  // }
+  // sock_data[image_size] = '\0';
+  // printf("sock_data[%c]\n", sock_data[6]);
+  // std::string serilized_t_w_e = convertToString(sock_data, image_size);
+  // printf("serilized_string length: %ld\n", serilized_t_w_e.length());
+  // printf("serilized_t_w_e: %s\n", serilized_t_w_e.c_str());
+  
+  
+  // t_w_e = deserialize<Transformation>(serilized_t_w_e, false);
+  // printf("i: %d, f: %f, t[%f], t[%f], t[%f], t[%f]\n", 
+  //   t_w_e.i, t_w_e.f, t_w_e.t[0], t_w_e.t[1], t_w_e.t[2], t_w_e.t[3]);
 
 
+  // *data = sock_data;
 }
-
-
-
-// void SocketServer::ReceiveTextureData(unsigned char** data)
-// {
-
-//   int num_bytes = 0;
-//   int total_num_bytes = 0;
-//   int image_size = image_width_ * image_height_ * image_channels_;
-
-//   // int image_size = 512 * 512 * 3;
-
-//   // Allocate space for image buffer
-//   unsigned char sock_data[image_size];
-
-//   // Save image data to buffer
-//   for (int i = 0; i < image_size; i += num_bytes) {
-//     num_bytes = recv(sock_fdesc_conn_, sock_data + i, image_size - i, 0);
-//     total_num_bytes += num_bytes;
-
-//     if (num_bytes == -1) {
-//       printf("ERROR!: recv failed\n"
-//              "i: %d\n"
-//              "sock_fdesc: %d\n"
-//              "image_size: %d\n"
-//              "num_bytes: %d\n", i, sock_fdesc_conn_, image_size, num_bytes);
-//       exit(1);
-//     }
-//   }
-
-//   // printf("image_size: %d, total_num_bytes: %d\n", image_size, total_num_bytes);
-
-//   *data = sock_data;
-// }
-
 
 SocketClient::~SocketClient()
 {

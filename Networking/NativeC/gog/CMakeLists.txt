@@ -42,3 +42,19 @@ ADD_EXECUTABLE(tcp_client_pass_structure
   )
 
 # TARGET_LINK_LIBRARIES(tcp_client_pass_structure  OpenGL_LIBS)
+
+ADD_EXECUTABLE(serialize_deserialize 
+    src/serialize_deserialize.cpp
+  )
+
+ADD_EXECUTABLE(serialize_deserialize2 
+    src/serialize_deserialize2.cpp
+  )
+
+ADD_EXECUTABLE(char_array_to_string 
+    src/char_array_to_string.cpp
+  )
+
+ADD_EXECUTABLE(char_array_to_string2 
+    src/char_array_to_string2.cpp
+  )

@@ -12,4 +12,10 @@ struct Transformation
   glm::vec4 t;
 };
 
+
+struct Transformation1
+{
+  int i;
+};
+
 #endif
