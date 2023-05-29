@@ -51,6 +51,18 @@ ADD_EXECUTABLE(serialize_deserialize2
     src/serialize_deserialize2.cpp
   )
 
+ADD_EXECUTABLE(serialize_deserialize3
+    src/serialize_deserialize3.cpp
+  )
+
+ADD_EXECUTABLE(serialize_deserialize4
+    src/serialize_deserialize4.cpp
+  )
+
+ADD_EXECUTABLE(serialize_deserialize5
+    src/serialize_deserialize5.cpp
+  )
+
 ADD_EXECUTABLE(char_array_to_string 
     src/char_array_to_string.cpp
   )

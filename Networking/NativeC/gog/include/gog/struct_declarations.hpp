@@ -18,4 +18,10 @@ struct Transformation1
   int i;
 };
 
+struct Transformation3
+{
+  glm::quat q_w_eye;
+  glm::vec3 p_w_eye;
+};
+
 #endif
