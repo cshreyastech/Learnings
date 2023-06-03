@@ -10,8 +10,8 @@
 using namespace std;
 
 
-void serialize(Transformation3* msgPacket, char *data);
-void deserialize(char *data, Transformation3* msgPacket);
+void serialize(Transformation3* msgPacket, unsigned char *data);
+void deserialize(unsigned char *data, Transformation3* msgPacket);
 void printMsg(Transformation3* msgPacket);
 
 int main()
@@ -23,7 +23,7 @@ int main()
   printMsg(&newMsg);
 
   const int packet_size = sizeof(Transformation3);
-  char data[packet_size];
+  unsigned char data[packet_size];
 
   serialize(&newMsg, data);
  
@@ -33,7 +33,7 @@ int main()
   return 0;
 }
 
-void serialize(Transformation3* msgPacket, char *data)
+void serialize(Transformation3* msgPacket, unsigned char *data)
 {
   float *q = (float*)data;
 
@@ -49,7 +49,7 @@ void serialize(Transformation3* msgPacket, char *data)
   *q = p_w_eye[2]; q++;
 }
 
-void deserialize(char *data, Transformation3* msgPacket)
+void deserialize(unsigned char *data, Transformation3* msgPacket)
 {
   float *q = (float*)data;
   msgPacket->q_w_eye[0] = *q; q++;
