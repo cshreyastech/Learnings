@@ -32,6 +32,7 @@ void ResourcePool::InitializePresetResources() {
 
 std::shared_ptr<Node> ResourcePool::LoadNodeHierarchy(const std::string &path, const aiScene *ai_scene,
                                                       const aiNode *ai_node) {
+  ML_LOG(Info, "ResourcePool::LoadNodeHierarchy");
   ML_LOG(Info, "Loading node %s", ai_node->mName.C_Str());
   auto node = std::make_shared<Node>();
   aiVector3D position{};
@@ -59,6 +60,7 @@ std::shared_ptr<Node> ResourcePool::LoadNodeHierarchy(const std::string &path, c
 }
 
 std::shared_ptr<Node> ResourcePool::LoadAsset(const std::string &path) {
+  ML_LOG(Info, "ResourcePool::LoadAsset");
   Assimp::Importer importer;
   const aiScene *ai_scene = importer.ReadFile(path.c_str(), aiProcess_Triangulate | aiProcess_GenSmoothNormals |
                                                                 aiProcess_FlipUVs | aiProcess_JoinIdenticalVertices);
@@ -71,6 +73,7 @@ std::shared_ptr<Node> ResourcePool::LoadAsset(const std::string &path) {
 }
 
 Model ResourcePool::LoadModel(const std::string &path, const aiScene *ai_scene, size_t mesh_index) {
+  ML_LOG(Info, "ResourcePool::LoadModel");
   const aiMesh *ai_mesh = ai_scene->mMeshes[mesh_index];
   ML_LOG(Info, "Loading mesh %s", ai_mesh->mName.C_Str());
 
@@ -237,6 +240,7 @@ Model ResourcePool::LoadModel(const std::string &path, const aiScene *ai_scene, 
 }
 
 std::shared_ptr<Texture> ResourcePool::LoadAssimpEmbeddedTexture(const aiTexture *ai_tex, GLint gl_internal_format) {
+  ML_LOG(Info, "ResourcePool::LoadAssimpEmbeddedTexture()");
   int32_t channels = 0;
   GLuint gl_texture = 0;
   int32_t width = 0;
@@ -272,6 +276,7 @@ std::shared_ptr<Texture> ResourcePool::LoadAssimpEmbeddedTexture(const aiTexture
 }
 
 std::shared_ptr<Texture> ResourcePool::LoadTexture(const std::string &path, GLint gl_internal_format) {
+  ML_LOG(Info, "ResourcePool::LoadTexture()");
   auto texture = GetCacheElement<Texture>(texture_cache_, path);
   if (texture) {
     return texture;

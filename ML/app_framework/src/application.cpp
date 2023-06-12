@@ -81,6 +81,7 @@ __declspec(dllexport) DWORD AmdPowerXpressRequestHighPerformance = 0x00000001;
 std::atomic<bool> Application::exit_signal_;
 
 Application::Application(int argc, char **argv) {
+  // ML_LOG(Info, "inside Application()");
   InitializeLifecycle();
   ParseArgs(argc, argv);
   SetTitle(gflags::ProgramInvocationShortName());
@@ -137,6 +138,7 @@ const std::vector<std::string> &Application::GetLifecycleStartupArgUri() const {
 }
 
 void Application::Initialize() {
+  ML_LOG(Info, "inside Initialize()");
   exit_signal_ = false;
   InitializePerception();
   if (use_gfx_) {
@@ -151,6 +153,7 @@ void Application::Initialize() {
 }
 
 void Application::InitializeLifecycle() {
+  ML_LOG(Info, "inside InitializeLifecycle()");
   // let system know our app has started
   MLLifecycleCallbacksEx lifecycle_callbacks = {};
   MLLifecycleCallbacksExInit(&lifecycle_callbacks);
@@ -202,6 +205,7 @@ void Application::InitializeLifecycleSelfInfo() {
 }
 
 void Application::InitializePerception() {
+  ML_LOG(Info, "inside InitializePerception()");
   MLPerceptionSettings perception_settings = {};
   UNWRAP_MLRESULT_FATAL(MLPerceptionInitSettings(&perception_settings));
   UNWRAP_MLRESULT_FATAL(MLPerceptionStartup(&perception_settings));
@@ -221,6 +225,7 @@ static void PrintGlDebugMessage(GLenum source, GLenum type, GLuint id, GLenum se
 }
 
 void Application::InitializeGraphics() {
+  ML_LOG(Info, "InitializeGraphics()");
 #ifdef ML_LUMIN
   graphics_context_.reset(new GraphicsContext());
 #else
@@ -388,6 +393,7 @@ void Application::Update() {
 }
 
 void Application::Render() {
+  // ML_LOG(Info, "Application::Render()");
   // Trivial BFS traversal, no partition
   VisitNode(root_);
   queue_.push(root_);
@@ -521,6 +527,7 @@ void Application::RunApp() {
   // Set the app status to running.
   // lifecycle_status_ gets updated by the Lifecycle callback function and
   // app_status_ gets synced to lifecycle_status_ in Application::Update().
+  ML_LOG(Verbose, "Inside RunApp().");
   app_status_ = ApplicationStatus::Running;
   lifecycle_status_ = ApplicationStatus::Running;
 

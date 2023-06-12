@@ -1,0 +1,20 @@
+KIND = program
+
+INCS = \
+    include \
+
+SRCS = \
+    src/main.cpp \
+    src/gl_eye_tracking.cpp \
+
+DEFS = \
+    ML_DEFAULT_LOG_TAG="gl_eye_tracking" \
+
+USES = \
+    ../samples_common \
+
+REFS = \
+    ../../app_framework/app_framework \
+    ../../app_framework/external/glad \
+
+DATAS = data/ : data/

@@ -32,6 +32,7 @@ Material::~Material() {
 
 void Material::UpdateMaterialUniformBuffer() {
   // Pack the buffer
+  ML_LOG(Info, "Material::UpdateMaterialUniformBuffer");
   for (const auto& des : blk_desc_.entries) {
     auto variable = variables_by_name_[des.name];
     const auto& variable_size = variable->GetSize();
@@ -52,6 +53,7 @@ void Material::UpdateMaterialUniformBuffer() {
 
 void Material::UpdateMaterialUniforms() {
   // Update texture
+  ML_LOG(Info, "Material::UpdateMaterialUniforms()");
   for(int i = 0; i < textures_des_.size(); ++i) {
     const auto& des = textures_des_[i];
     auto variable = variables_by_name_[des.name];
@@ -65,6 +67,7 @@ void Material::UpdateMaterialUniforms() {
 }
 
 void Material::BuildVariables() {
+  ML_LOG(Info, "Material::BuildVariables()");
   const auto& fragment_ubo_blk_list = frag_->GetUniformBlocks();
   auto fragment_ubo_it = fragment_ubo_blk_list.find(UniformName::kMaterial);
   if (fragment_ubo_it != fragment_ubo_blk_list.end()) {

@@ -18,6 +18,7 @@ RenderTarget::~RenderTarget() {
 }
 
 void RenderTarget::InitializeFramebuffer() {
+  ML_LOG(Info, "InitializeFramebuffer()");
   gl_framebuffer_ = 0;
   if (color_) {
     width_ = color_->GetWidth();

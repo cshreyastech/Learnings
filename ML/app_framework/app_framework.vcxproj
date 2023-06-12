@@ -1,0 +1,974 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ML">
+      <Configuration>Debug</Configuration>
+      <Platform>ML</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ML">
+      <Configuration>Release</Configuration>
+      <Platform>ML</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <!-- Project global & default -->
+    <ProjectGuid>{8C7E18F9-9365-43FA-83AC-7BB2C0E61BFF}</ProjectGuid>
+    <MLProjectFile>app_framework.mabu</MLProjectFile>
+    <MLProjectKind>static_shared</MLProjectKind>
+    <MLMfitExtraArgs>
+    </MLMfitExtraArgs>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectCapability Include="MLProject" />
+    <ProjectCapability Include="NoVCDefaultBuildUpToDateCheckProvider" />
+  </ItemGroup>
+  <PropertyGroup>
+    <PlatformTargetsFound>True</PlatformTargetsFound>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ML'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ML'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <UseDefaultDebuggersPropertyPageSchemas>false</UseDefaultDebuggersPropertyPageSchemas>
+    <UseDefaultPropertyPageSchemas>false</UseDefaultPropertyPageSchemas>
+  </PropertyGroup>
+  <ItemGroup>
+    <PropertyPageSchema Include="$(VCTargetsPath)$(LangID)\ProjectItemsSchema.xml" />
+    <PropertyPageSchema Include="$(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\general.xaml">
+      <Context>Project</Context>
+    </PropertyPageSchema>
+    <PropertyPageSchema Include="$(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\build.xaml" />
+    <PropertyPageSchema Include="$(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\intellisense.xaml" />
+    <!--Only show this page if the project is to create a package. -->
+    <PropertyPageSchema Condition="$([System.String]::copy($(MLProjectFile)).ToLower().EndsWith('.package'))" Include="$(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\package_signing.xaml" />
+    <PropertyPageSchema Include="$(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\build_events.xml" />
+    <PropertyPageSchema Condition="'$(MLProjectKind)' == 'program'" Include="&#xA;                        $(VCTargetsPath)$(LangID)\debugger_general.xml;&#xA;                        $(VCTargetsPath)$(LangID)\debugger_local_windows.xml;&#xA;                        $(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\debugger.xaml" />
+    <!-- Property sheet only rules -->
+    <PropertyPageSchema Include="$(VCTargetsPath)$(LangID)\general_makefile_ps.xml;$(VCTargetsPath)$(LangID)\usermacros.xml">
+      <Context>PropertySheet</Context>
+    </PropertyPageSchema>
+    <!-- File only rules -->
+    <PropertyPageSchema Include="$(VCTargetsPath)$(LangID)\general_file.xml">
+      <Context>File</Context>
+    </PropertyPageSchema>
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ML'">
+    <MLSDK>C:\Users\cshre\MagicLeap\mlsdk\v0.26.0</MLSDK>
+    <!--This is for internal use only. Will hold derived value.-->
+    <MLMabuSigningOption>
+    </MLMabuSigningOption>
+    <MLCertificateFile>
+    </MLCertificateFile>
+    <!--This should appear before <NMakeBuildCommandLine> -->
+    <MLExtraBuildOption>
+    </MLExtraBuildOption>
+    <MabuTargetFullSpec>debug_lumin_clang-3.8_aarch64</MabuTargetFullSpec>
+    <ExecutablePath>$(MLSDK);$(PATH)</ExecutablePath>
+    <IncludePath />
+    <ReferencePath>
+    </ReferencePath>
+    <LibraryPath>
+    </LibraryPath>
+    <NMakeBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t device_debug -v -j8 --set-options=ide/visualstudio $(MLMabuSigningOption) $(MLExtraBuildOption)</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t device_debug -r -v -j8 --set-options=ide/visualstudio $(MLMabuSigningOption) $(MLExtraBuildOption)</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t device_debug -c -v -j8 --set-options=ide/visualstudio $(MLExtraBuildOption)</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>GLM_FORCE_CTOR_INIT=1;ML_DEFAULT_LOG_TAG="app_framework";ML_LUMIN;_GNU_SOURCE=1;_LP64=1;__AARCH64EL__=1;__ANDROID__=1;__ARM_64BIT_STATE=1;__ARM_ACLE=200;__ARM_ALIGN_MAX_STACK_PWR=4;__ARM_ARCH=8;__ARM_ARCH_ISA_A64=1;__ARM_ARCH_PROFILE='A';__ARM_FEATURE_CLZ=1;__ARM_FEATURE_DIRECTED_ROUNDING=1;__ARM_FEATURE_DIV=1;__ARM_FEATURE_FMA=1;__ARM_FEATURE_IDIV=1;__ARM_FEATURE_LDREX=0xF;__ARM_FEATURE_NUMERIC_MAXMIN=1;__ARM_FEATURE_UNALIGNED=1;__ARM_FP16_ARGS=1;__ARM_FP16_FORMAT_IEEE=1;__ARM_FP=0xE;__ARM_NEON=1;__ARM_NEON_FP=0xE;__ARM_PCS_AAPCS64=1;__ARM_SIZEOF_MINIMAL_ENUM=4;__ARM_SIZEOF_WCHAR_T=4;__ATOMIC_ACQUIRE=2;__ATOMIC_ACQ_REL=4;__ATOMIC_CONSUME=1;__ATOMIC_RELAXED=0;__ATOMIC_RELEASE=3;__ATOMIC_SEQ_CST=5;__BIGGEST_ALIGNMENT__=16;__BYTE_ORDER__=__ORDER_LITTLE_ENDIAN__;__CHAR16_TYPE__=unsigned short;__CHAR32_TYPE__=unsigned int;__CHAR_BIT__=8;__CHAR_UNSIGNED__=1;__CONSTANT_CFSTRINGS__=1;__DBL_DECIMAL_DIG__=17;__DBL_DENORM_MIN__=4.9406564584124654e-324;__DBL_DIG__=15;__DBL_EPSILON__=2.2204460492503131e-16;__DBL_HAS_DENORM__=1;__DBL_HAS_INFINITY__=1;__DBL_HAS_QUIET_NAN__=1;__DBL_MANT_DIG__=53;__DBL_MAX_10_EXP__=308;__DBL_MAX_EXP__=1024;__DBL_MAX__=1.7976931348623157e+308;__DBL_MIN_10_EXP__=(-307);__DBL_MIN_EXP__=(-1021);__DBL_MIN__=2.2250738585072014e-308;__DECIMAL_DIG__=__LDBL_DECIMAL_DIG__;__DEPRECATED=1;__ELF__=1;__EXCEPTIONS=1;__FINITE_MATH_ONLY__=0;__FLT_DECIMAL_DIG__=9;__FLT_DENORM_MIN__=1.40129846e-45F;__FLT_DIG__=6;__FLT_EPSILON__=1.19209290e-7F;__FLT_EVAL_METHOD__=0;__FLT_HAS_DENORM__=1;__FLT_HAS_INFINITY__=1;__FLT_HAS_QUIET_NAN__=1;__FLT_MANT_DIG__=24;__FLT_MAX_10_EXP__=38;__FLT_MAX_EXP__=128;__FLT_MAX__=3.40282347e+38F;__FLT_MIN_10_EXP__=(-37);__FLT_MIN_EXP__=(-125);__FLT_MIN__=1.17549435e-38F;__FLT_RADIX__=2;__GCC_ATOMIC_BOOL_LOCK_FREE=2;__GCC_ATOMIC_CHAR16_T_LOCK_FREE=2;__GCC_ATOMIC_CHAR32_T_LOCK_FREE=2;__GCC_ATOMIC_CHAR_LOCK_FREE=2;__GCC_ATOMIC_INT_LOCK_FREE=2;__GCC_ATOMIC_LLONG_LOCK_FREE=2;__GCC_ATOMIC_LONG_LOCK_FREE=2;__GCC_ATOMIC_POINTER_LOCK_FREE=2;__GCC_ATOMIC_SHORT_LOCK_FREE=2;__GCC_ATOMIC_TEST_AND_SET_TRUEVAL=1;__GCC_ATOMIC_WCHAR_T_LOCK_FREE=2;__GCC_HAVE_SYNC_COMPARE_AND_SWAP_1=1;__GCC_HAVE_SYNC_COMPARE_AND_SWAP_2=1;__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4=1;__GCC_HAVE_SYNC_COMPARE_AND_SWAP_8=1;__GNUC_GNU_INLINE__=1;__GNUC_MINOR__=2;__GNUC_PATCHLEVEL__=1;__GNUC__=4;__GNUG__=4;__GXX_ABI_VERSION=1002;__GXX_EXPERIMENTAL_CXX0X__=1;__GXX_RTTI=1;__GXX_WEAK__=1;__INT16_C_SUFFIX__;__INT16_FMTd__="hd";__INT16_FMTi__="hi";__INT16_MAX__=32767;__INT16_TYPE__=short;__INT32_C_SUFFIX__;__INT32_FMTd__="d";__INT32_FMTi__="i";__INT32_MAX__=2147483647;__INT32_TYPE__=int;__INT64_C_SUFFIX__=L;__INT64_FMTd__="ld";__INT64_FMTi__="li";__INT64_MAX__=9223372036854775807L;__INT64_TYPE__=long int;__INT8_C_SUFFIX__;__INT8_FMTd__="hhd";__INT8_FMTi__="hhi";__INT8_MAX__=127;__INT8_TYPE__=signed char;__INTMAX_C_SUFFIX__=L;__INTMAX_FMTd__="ld";__INTMAX_FMTi__="li";__INTMAX_MAX__=9223372036854775807L;__INTMAX_TYPE__=long int;__INTMAX_WIDTH__=64;__INTPTR_FMTd__="ld";__INTPTR_FMTi__="li";__INTPTR_MAX__=9223372036854775807L;__INTPTR_TYPE__=long int;__INTPTR_WIDTH__=64;__INT_FAST16_FMTd__="hd";__INT_FAST16_FMTi__="hi";__INT_FAST16_MAX__=32767;__INT_FAST16_TYPE__=short;__INT_FAST32_FMTd__="d";__INT_FAST32_FMTi__="i";__INT_FAST32_MAX__=2147483647;__INT_FAST32_TYPE__=int;__INT_FAST64_FMTd__="ld";__INT_FAST64_FMTi__="li";__INT_FAST64_MAX__=9223372036854775807L;__INT_FAST64_TYPE__=long int;__INT_FAST8_FMTd__="hhd";__INT_FAST8_FMTi__="hhi";__INT_FAST8_MAX__=127;__INT_FAST8_TYPE__=signed char;__INT_LEAST16_FMTd__="hd";__INT_LEAST16_FMTi__="hi";__INT_LEAST16_MAX__=32767;__INT_LEAST16_TYPE__=short;__INT_LEAST32_FMTd__="d";__INT_LEAST32_FMTi__="i";__INT_LEAST32_MAX__=2147483647;__INT_LEAST32_TYPE__=int;__INT_LEAST64_FMTd__="ld";__INT_LEAST64_FMTi__="li";__INT_LEAST64_MAX__=9223372036854775807L;__INT_LEAST64_TYPE__=long int;__INT_LEAST8_FMTd__="hhd";__INT_LEAST8_FMTi__="hhi";__INT_LEAST8_MAX__=127;__INT_LEAST8_TYPE__=signed char;__INT_MAX__=2147483647;__LDBL_DECIMAL_DIG__=36;__LDBL_DENORM_MIN__=6.47517511943802511092443895822764655e-4966L;__LDBL_DIG__=33;__LDBL_EPSILON__=1.92592994438723585305597794258492732e-34L;__LDBL_HAS_DENORM__=1;__LDBL_HAS_INFINITY__=1;__LDBL_HAS_QUIET_NAN__=1;__LDBL_MANT_DIG__=113;__LDBL_MAX_10_EXP__=4932;__LDBL_MAX_EXP__=16384;__LDBL_MAX__=1.18973149535723176508575932662800702e+4932L;__LDBL_MIN_10_EXP__=(-4931);__LDBL_MIN_EXP__=(-16381);__LDBL_MIN__=3.36210314311209350626267781732175260e-4932L;__LITTLE_ENDIAN__=1;__LONG_LONG_MAX__=9223372036854775807LL;__LONG_MAX__=9223372036854775807L;__LP64__=1;__NO_INLINE__=1;__ORDER_BIG_ENDIAN__=4321;__ORDER_LITTLE_ENDIAN__=1234;__ORDER_PDP_ENDIAN__=3412;__PIC__=1;__POINTER_WIDTH__=64;__PRAGMA_REDEFINE_EXTNAME=1;__PTRDIFF_FMTd__="ld";__PTRDIFF_FMTi__="li";__PTRDIFF_MAX__=9223372036854775807L;__PTRDIFF_TYPE__=long int;__PTRDIFF_WIDTH__=64;__SCHAR_MAX__=127;__SHRT_MAX__=32767;__SIG_ATOMIC_MAX__=2147483647;__SIG_ATOMIC_WIDTH__=32;__SIZEOF_DOUBLE__=8;__SIZEOF_FLOAT__=4;__SIZEOF_INT128__=16;__SIZEOF_INT__=4;__SIZEOF_LONG_DOUBLE__=16;__SIZEOF_LONG_LONG__=8;__SIZEOF_LONG__=8;__SIZEOF_POINTER__=8;__SIZEOF_PTRDIFF_T__=8;__SIZEOF_SHORT__=2;__SIZEOF_SIZE_T__=8;__SIZEOF_WCHAR_T__=4;__SIZEOF_WINT_T__=4;__SIZE_FMTX__="lX";__SIZE_FMTo__="lo";__SIZE_FMTu__="lu";__SIZE_FMTx__="lx";__SIZE_MAX__=18446744073709551615UL;__SIZE_TYPE__=long unsigned int;__SIZE_WIDTH__=64;__STDC_HOSTED__=1;__STDC_UTF_16__=1;__STDC_UTF_32__=1;__STDC__=1;__STRICT_ANSI__=1;__UINT16_C_SUFFIX__;__UINT16_FMTX__="hX";__UINT16_FMTo__="ho";__UINT16_FMTu__="hu";__UINT16_FMTx__="hx";__UINT16_MAX__=65535;__UINT16_TYPE__=unsigned short;__UINT32_C_SUFFIX__=U;__UINT32_FMTX__="X";__UINT32_FMTo__="o";__UINT32_FMTu__="u";__UINT32_FMTx__="x";__UINT32_MAX__=4294967295U;__UINT32_TYPE__=unsigned int;__UINT64_C_SUFFIX__=UL;__UINT64_FMTX__="lX";__UINT64_FMTo__="lo";__UINT64_FMTu__="lu";__UINT64_FMTx__="lx";__UINT64_MAX__=18446744073709551615UL;__UINT64_TYPE__=long unsigned int;__UINT8_C_SUFFIX__;__UINT8_FMTX__="hhX";__UINT8_FMTo__="hho";__UINT8_FMTu__="hhu";__UINT8_FMTx__="hhx";__UINT8_MAX__=255;__UINT8_TYPE__=unsigned char;__UINTMAX_C_SUFFIX__=UL;__UINTMAX_FMTX__="lX";__UINTMAX_FMTo__="lo";__UINTMAX_FMTu__="lu";__UINTMAX_FMTx__="lx";__UINTMAX_MAX__=18446744073709551615UL;__UINTMAX_TYPE__=long unsigned int;__UINTMAX_WIDTH__=64;__UINTPTR_FMTX__="lX";__UINTPTR_FMTo__="lo";__UINTPTR_FMTu__="lu";__UINTPTR_FMTx__="lx";__UINTPTR_MAX__=18446744073709551615UL;__UINTPTR_TYPE__=long unsigned int;__UINTPTR_WIDTH__=64;__UINT_FAST16_FMTX__="hX";__UINT_FAST16_FMTo__="ho";__UINT_FAST16_FMTu__="hu";__UINT_FAST16_FMTx__="hx";__UINT_FAST16_MAX__=65535;__UINT_FAST16_TYPE__=unsigned short;__UINT_FAST32_FMTX__="X";__UINT_FAST32_FMTo__="o";__UINT_FAST32_FMTu__="u";__UINT_FAST32_FMTx__="x";__UINT_FAST32_MAX__=4294967295U;__UINT_FAST32_TYPE__=unsigned int;__UINT_FAST64_FMTX__="lX";__UINT_FAST64_FMTo__="lo";__UINT_FAST64_FMTu__="lu";__UINT_FAST64_FMTx__="lx";__UINT_FAST64_MAX__=18446744073709551615UL;__UINT_FAST64_TYPE__=long unsigned int;__UINT_FAST8_FMTX__="hhX";__UINT_FAST8_FMTo__="hho";__UINT_FAST8_FMTu__="hhu";__UINT_FAST8_FMTx__="hhx";__UINT_FAST8_MAX__=255;__UINT_FAST8_TYPE__=unsigned char;__UINT_LEAST16_FMTX__="hX";__UINT_LEAST16_FMTo__="ho";__UINT_LEAST16_FMTu__="hu";__UINT_LEAST16_FMTx__="hx";__UINT_LEAST16_MAX__=65535;__UINT_LEAST16_TYPE__=unsigned short;__UINT_LEAST32_FMTX__="X";__UINT_LEAST32_FMTo__="o";__UINT_LEAST32_FMTu__="u";__UINT_LEAST32_FMTx__="x";__UINT_LEAST32_MAX__=4294967295U;__UINT_LEAST32_TYPE__=unsigned int;__UINT_LEAST64_FMTX__="lX";__UINT_LEAST64_FMTo__="lo";__UINT_LEAST64_FMTu__="lu";__UINT_LEAST64_FMTx__="lx";__UINT_LEAST64_MAX__=18446744073709551615UL;__UINT_LEAST64_TYPE__=long unsigned int;__UINT_LEAST8_FMTX__="hhX";__UINT_LEAST8_FMTo__="hho";__UINT_LEAST8_FMTu__="hhu";__UINT_LEAST8_FMTx__="hhx";__UINT_LEAST8_MAX__=255;__UINT_LEAST8_TYPE__=unsigned char;__USER_LABEL_PREFIX__;__VERSION__="4.2.1 Compatible Android Clang 3.8.275480 ";__WCHAR_MAX__=4294967295U;__WCHAR_TYPE__=unsigned int;__WCHAR_UNSIGNED__=1;__WCHAR_WIDTH__=32;__WINT_TYPE__=unsigned int;__WINT_UNSIGNED__=1;__WINT_WIDTH__=32;__aarch64__=1;__clang__=1;__clang_major__=3;__clang_minor__=8;__clang_patchlevel__=275480;__clang_version__="3.8.275480 ";__cplusplus=201406L;__cpp_aggregate_nsdmi=201304;__cpp_alias_templates=200704;__cpp_attributes=200809;__cpp_binary_literals=201304;__cpp_constexpr=201304;__cpp_decltype=200707;__cpp_decltype_auto=201304;__cpp_delegating_constructors=200604;__cpp_digit_separators=201309;__cpp_exceptions=199711;__cpp_generic_lambdas=201304;__cpp_inheriting_constructors=200802;__cpp_init_captures=201304;__cpp_initializer_lists=200806;__cpp_lambdas=200907;__cpp_nsdmi=200809;__cpp_range_based_for=200907;__cpp_raw_strings=200710;__cpp_ref_qualifiers=200710;__cpp_return_type_deduction=201304;__cpp_rtti=199711;__cpp_rvalue_references=200610;__cpp_static_assert=200410;__cpp_unicode_characters=200704;__cpp_unicode_literals=200710;__cpp_user_defined_literals=200809;__cpp_variable_templates=201304;__cpp_variadic_templates=200704;__gnu_linux__=1;__linux=1;__linux__=1;__llvm__=1;__pic__=1;__private_extern__=extern;__unix=1;__unix__=1</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(MLSDK)\include;$(MLSDK)\lumin\stl\libc++\include;$(MLSDK)\lumin\usr\include;$(MLSDK)\tools\toolchains\lib64\clang\3.8.275480\include;$(ProjectDir)\external\glad\include;$(ProjectDir)\external\glm-0.9.9.4;$(ProjectDir)\external\imgui-1.68;$(ProjectDir)\external\package\debug_lumin_clang-3.8_aarch64\include;$(ProjectDir)\external\stb-master;$(ProjectDir)\include;$(ProjectDir)\include\app_framework\render</NMakeIncludeSearchPath>
+    <NMakeForcedIncludes>$(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\ml_is.h</NMakeForcedIncludes>
+    <PackageFile>[no-package]</PackageFile>
+    <IntDir>.out\debug_lumin_clang-3.8_aarch64</IntDir>
+    <OutDir>$(ProjectDir)\$(IntDir)</OutDir>
+    <NMakeOutput>$(IntDir)\libapp_framework.a</NMakeOutput>
+    <ELFFile>$(NMakeOutput)</ELFFile>
+    <DebuggerFlavor>MLDebugger</DebuggerFlavor>
+    <!-- following are defaults for debugger options -->
+    <Attach>false</Attach>
+    <EnableAutoStop>true</EnableAutoStop>
+    <AutoStopAtFunction>main</AutoStopAtFunction>
+    <EnablePrettyPrinting>true</EnablePrettyPrinting>
+    <MLDownloadOnStart>true</MLDownloadOnStart>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ML'">
+    <MLSDK>C:\Users\cshre\MagicLeap\mlsdk\v0.26.0</MLSDK>
+    <!--This is for internal use only. Will hold derived value.-->
+    <MLMabuSigningOption>
+    </MLMabuSigningOption>
+    <MLCertificateFile>
+    </MLCertificateFile>
+    <MLExtraBuildOption>
+    </MLExtraBuildOption>
+    <MabuTargetFullSpec>release_lumin_clang-3.8_aarch64</MabuTargetFullSpec>
+    <ExecutablePath>$(MLSDK);$(PATH)</ExecutablePath>
+    <IncludePath />
+    <ReferencePath>
+    </ReferencePath>
+    <LibraryPath>
+    </LibraryPath>
+    <NMakeBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t device_release -v -j8 --set-options=ide/visualstudio $(MLMabuSigningOption) $(MLExtraBuildOption)</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t device_release -r -v -j8 --set-options=ide/visualstudio $(MLMabuSigningOption) $(MLExtraBuildOption)</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t device_release -c -v -j8 --set-options=ide/visualstudio $(MLExtraBuildOption)</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>GLM_FORCE_CTOR_INIT=1;ML_DEFAULT_LOG_TAG="app_framework";ML_LUMIN;_GNU_SOURCE=1;_LP64=1;__AARCH64EL__=1;__ANDROID__=1;__ARM_64BIT_STATE=1;__ARM_ACLE=200;__ARM_ALIGN_MAX_STACK_PWR=4;__ARM_ARCH=8;__ARM_ARCH_ISA_A64=1;__ARM_ARCH_PROFILE='A';__ARM_FEATURE_CLZ=1;__ARM_FEATURE_DIRECTED_ROUNDING=1;__ARM_FEATURE_DIV=1;__ARM_FEATURE_FMA=1;__ARM_FEATURE_IDIV=1;__ARM_FEATURE_LDREX=0xF;__ARM_FEATURE_NUMERIC_MAXMIN=1;__ARM_FEATURE_UNALIGNED=1;__ARM_FP16_ARGS=1;__ARM_FP16_FORMAT_IEEE=1;__ARM_FP=0xE;__ARM_NEON=1;__ARM_NEON_FP=0xE;__ARM_PCS_AAPCS64=1;__ARM_SIZEOF_MINIMAL_ENUM=4;__ARM_SIZEOF_WCHAR_T=4;__ATOMIC_ACQUIRE=2;__ATOMIC_ACQ_REL=4;__ATOMIC_CONSUME=1;__ATOMIC_RELAXED=0;__ATOMIC_RELEASE=3;__ATOMIC_SEQ_CST=5;__BIGGEST_ALIGNMENT__=16;__BYTE_ORDER__=__ORDER_LITTLE_ENDIAN__;__CHAR16_TYPE__=unsigned short;__CHAR32_TYPE__=unsigned int;__CHAR_BIT__=8;__CHAR_UNSIGNED__=1;__CONSTANT_CFSTRINGS__=1;__DBL_DECIMAL_DIG__=17;__DBL_DENORM_MIN__=4.9406564584124654e-324;__DBL_DIG__=15;__DBL_EPSILON__=2.2204460492503131e-16;__DBL_HAS_DENORM__=1;__DBL_HAS_INFINITY__=1;__DBL_HAS_QUIET_NAN__=1;__DBL_MANT_DIG__=53;__DBL_MAX_10_EXP__=308;__DBL_MAX_EXP__=1024;__DBL_MAX__=1.7976931348623157e+308;__DBL_MIN_10_EXP__=(-307);__DBL_MIN_EXP__=(-1021);__DBL_MIN__=2.2250738585072014e-308;__DECIMAL_DIG__=__LDBL_DECIMAL_DIG__;__DEPRECATED=1;__ELF__=1;__EXCEPTIONS=1;__FINITE_MATH_ONLY__=0;__FLT_DECIMAL_DIG__=9;__FLT_DENORM_MIN__=1.40129846e-45F;__FLT_DIG__=6;__FLT_EPSILON__=1.19209290e-7F;__FLT_EVAL_METHOD__=0;__FLT_HAS_DENORM__=1;__FLT_HAS_INFINITY__=1;__FLT_HAS_QUIET_NAN__=1;__FLT_MANT_DIG__=24;__FLT_MAX_10_EXP__=38;__FLT_MAX_EXP__=128;__FLT_MAX__=3.40282347e+38F;__FLT_MIN_10_EXP__=(-37);__FLT_MIN_EXP__=(-125);__FLT_MIN__=1.17549435e-38F;__FLT_RADIX__=2;__GCC_ATOMIC_BOOL_LOCK_FREE=2;__GCC_ATOMIC_CHAR16_T_LOCK_FREE=2;__GCC_ATOMIC_CHAR32_T_LOCK_FREE=2;__GCC_ATOMIC_CHAR_LOCK_FREE=2;__GCC_ATOMIC_INT_LOCK_FREE=2;__GCC_ATOMIC_LLONG_LOCK_FREE=2;__GCC_ATOMIC_LONG_LOCK_FREE=2;__GCC_ATOMIC_POINTER_LOCK_FREE=2;__GCC_ATOMIC_SHORT_LOCK_FREE=2;__GCC_ATOMIC_TEST_AND_SET_TRUEVAL=1;__GCC_ATOMIC_WCHAR_T_LOCK_FREE=2;__GCC_HAVE_SYNC_COMPARE_AND_SWAP_1=1;__GCC_HAVE_SYNC_COMPARE_AND_SWAP_2=1;__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4=1;__GCC_HAVE_SYNC_COMPARE_AND_SWAP_8=1;__GNUC_GNU_INLINE__=1;__GNUC_MINOR__=2;__GNUC_PATCHLEVEL__=1;__GNUC__=4;__GNUG__=4;__GXX_ABI_VERSION=1002;__GXX_EXPERIMENTAL_CXX0X__=1;__GXX_RTTI=1;__GXX_WEAK__=1;__INT16_C_SUFFIX__;__INT16_FMTd__="hd";__INT16_FMTi__="hi";__INT16_MAX__=32767;__INT16_TYPE__=short;__INT32_C_SUFFIX__;__INT32_FMTd__="d";__INT32_FMTi__="i";__INT32_MAX__=2147483647;__INT32_TYPE__=int;__INT64_C_SUFFIX__=L;__INT64_FMTd__="ld";__INT64_FMTi__="li";__INT64_MAX__=9223372036854775807L;__INT64_TYPE__=long int;__INT8_C_SUFFIX__;__INT8_FMTd__="hhd";__INT8_FMTi__="hhi";__INT8_MAX__=127;__INT8_TYPE__=signed char;__INTMAX_C_SUFFIX__=L;__INTMAX_FMTd__="ld";__INTMAX_FMTi__="li";__INTMAX_MAX__=9223372036854775807L;__INTMAX_TYPE__=long int;__INTMAX_WIDTH__=64;__INTPTR_FMTd__="ld";__INTPTR_FMTi__="li";__INTPTR_MAX__=9223372036854775807L;__INTPTR_TYPE__=long int;__INTPTR_WIDTH__=64;__INT_FAST16_FMTd__="hd";__INT_FAST16_FMTi__="hi";__INT_FAST16_MAX__=32767;__INT_FAST16_TYPE__=short;__INT_FAST32_FMTd__="d";__INT_FAST32_FMTi__="i";__INT_FAST32_MAX__=2147483647;__INT_FAST32_TYPE__=int;__INT_FAST64_FMTd__="ld";__INT_FAST64_FMTi__="li";__INT_FAST64_MAX__=9223372036854775807L;__INT_FAST64_TYPE__=long int;__INT_FAST8_FMTd__="hhd";__INT_FAST8_FMTi__="hhi";__INT_FAST8_MAX__=127;__INT_FAST8_TYPE__=signed char;__INT_LEAST16_FMTd__="hd";__INT_LEAST16_FMTi__="hi";__INT_LEAST16_MAX__=32767;__INT_LEAST16_TYPE__=short;__INT_LEAST32_FMTd__="d";__INT_LEAST32_FMTi__="i";__INT_LEAST32_MAX__=2147483647;__INT_LEAST32_TYPE__=int;__INT_LEAST64_FMTd__="ld";__INT_LEAST64_FMTi__="li";__INT_LEAST64_MAX__=9223372036854775807L;__INT_LEAST64_TYPE__=long int;__INT_LEAST8_FMTd__="hhd";__INT_LEAST8_FMTi__="hhi";__INT_LEAST8_MAX__=127;__INT_LEAST8_TYPE__=signed char;__INT_MAX__=2147483647;__LDBL_DECIMAL_DIG__=36;__LDBL_DENORM_MIN__=6.47517511943802511092443895822764655e-4966L;__LDBL_DIG__=33;__LDBL_EPSILON__=1.92592994438723585305597794258492732e-34L;__LDBL_HAS_DENORM__=1;__LDBL_HAS_INFINITY__=1;__LDBL_HAS_QUIET_NAN__=1;__LDBL_MANT_DIG__=113;__LDBL_MAX_10_EXP__=4932;__LDBL_MAX_EXP__=16384;__LDBL_MAX__=1.18973149535723176508575932662800702e+4932L;__LDBL_MIN_10_EXP__=(-4931);__LDBL_MIN_EXP__=(-16381);__LDBL_MIN__=3.36210314311209350626267781732175260e-4932L;__LITTLE_ENDIAN__=1;__LONG_LONG_MAX__=9223372036854775807LL;__LONG_MAX__=9223372036854775807L;__LP64__=1;__NO_INLINE__=1;__ORDER_BIG_ENDIAN__=4321;__ORDER_LITTLE_ENDIAN__=1234;__ORDER_PDP_ENDIAN__=3412;__PIC__=1;__POINTER_WIDTH__=64;__PRAGMA_REDEFINE_EXTNAME=1;__PTRDIFF_FMTd__="ld";__PTRDIFF_FMTi__="li";__PTRDIFF_MAX__=9223372036854775807L;__PTRDIFF_TYPE__=long int;__PTRDIFF_WIDTH__=64;__SCHAR_MAX__=127;__SHRT_MAX__=32767;__SIG_ATOMIC_MAX__=2147483647;__SIG_ATOMIC_WIDTH__=32;__SIZEOF_DOUBLE__=8;__SIZEOF_FLOAT__=4;__SIZEOF_INT128__=16;__SIZEOF_INT__=4;__SIZEOF_LONG_DOUBLE__=16;__SIZEOF_LONG_LONG__=8;__SIZEOF_LONG__=8;__SIZEOF_POINTER__=8;__SIZEOF_PTRDIFF_T__=8;__SIZEOF_SHORT__=2;__SIZEOF_SIZE_T__=8;__SIZEOF_WCHAR_T__=4;__SIZEOF_WINT_T__=4;__SIZE_FMTX__="lX";__SIZE_FMTo__="lo";__SIZE_FMTu__="lu";__SIZE_FMTx__="lx";__SIZE_MAX__=18446744073709551615UL;__SIZE_TYPE__=long unsigned int;__SIZE_WIDTH__=64;__STDC_HOSTED__=1;__STDC_UTF_16__=1;__STDC_UTF_32__=1;__STDC__=1;__STRICT_ANSI__=1;__UINT16_C_SUFFIX__;__UINT16_FMTX__="hX";__UINT16_FMTo__="ho";__UINT16_FMTu__="hu";__UINT16_FMTx__="hx";__UINT16_MAX__=65535;__UINT16_TYPE__=unsigned short;__UINT32_C_SUFFIX__=U;__UINT32_FMTX__="X";__UINT32_FMTo__="o";__UINT32_FMTu__="u";__UINT32_FMTx__="x";__UINT32_MAX__=4294967295U;__UINT32_TYPE__=unsigned int;__UINT64_C_SUFFIX__=UL;__UINT64_FMTX__="lX";__UINT64_FMTo__="lo";__UINT64_FMTu__="lu";__UINT64_FMTx__="lx";__UINT64_MAX__=18446744073709551615UL;__UINT64_TYPE__=long unsigned int;__UINT8_C_SUFFIX__;__UINT8_FMTX__="hhX";__UINT8_FMTo__="hho";__UINT8_FMTu__="hhu";__UINT8_FMTx__="hhx";__UINT8_MAX__=255;__UINT8_TYPE__=unsigned char;__UINTMAX_C_SUFFIX__=UL;__UINTMAX_FMTX__="lX";__UINTMAX_FMTo__="lo";__UINTMAX_FMTu__="lu";__UINTMAX_FMTx__="lx";__UINTMAX_MAX__=18446744073709551615UL;__UINTMAX_TYPE__=long unsigned int;__UINTMAX_WIDTH__=64;__UINTPTR_FMTX__="lX";__UINTPTR_FMTo__="lo";__UINTPTR_FMTu__="lu";__UINTPTR_FMTx__="lx";__UINTPTR_MAX__=18446744073709551615UL;__UINTPTR_TYPE__=long unsigned int;__UINTPTR_WIDTH__=64;__UINT_FAST16_FMTX__="hX";__UINT_FAST16_FMTo__="ho";__UINT_FAST16_FMTu__="hu";__UINT_FAST16_FMTx__="hx";__UINT_FAST16_MAX__=65535;__UINT_FAST16_TYPE__=unsigned short;__UINT_FAST32_FMTX__="X";__UINT_FAST32_FMTo__="o";__UINT_FAST32_FMTu__="u";__UINT_FAST32_FMTx__="x";__UINT_FAST32_MAX__=4294967295U;__UINT_FAST32_TYPE__=unsigned int;__UINT_FAST64_FMTX__="lX";__UINT_FAST64_FMTo__="lo";__UINT_FAST64_FMTu__="lu";__UINT_FAST64_FMTx__="lx";__UINT_FAST64_MAX__=18446744073709551615UL;__UINT_FAST64_TYPE__=long unsigned int;__UINT_FAST8_FMTX__="hhX";__UINT_FAST8_FMTo__="hho";__UINT_FAST8_FMTu__="hhu";__UINT_FAST8_FMTx__="hhx";__UINT_FAST8_MAX__=255;__UINT_FAST8_TYPE__=unsigned char;__UINT_LEAST16_FMTX__="hX";__UINT_LEAST16_FMTo__="ho";__UINT_LEAST16_FMTu__="hu";__UINT_LEAST16_FMTx__="hx";__UINT_LEAST16_MAX__=65535;__UINT_LEAST16_TYPE__=unsigned short;__UINT_LEAST32_FMTX__="X";__UINT_LEAST32_FMTo__="o";__UINT_LEAST32_FMTu__="u";__UINT_LEAST32_FMTx__="x";__UINT_LEAST32_MAX__=4294967295U;__UINT_LEAST32_TYPE__=unsigned int;__UINT_LEAST64_FMTX__="lX";__UINT_LEAST64_FMTo__="lo";__UINT_LEAST64_FMTu__="lu";__UINT_LEAST64_FMTx__="lx";__UINT_LEAST64_MAX__=18446744073709551615UL;__UINT_LEAST64_TYPE__=long unsigned int;__UINT_LEAST8_FMTX__="hhX";__UINT_LEAST8_FMTo__="hho";__UINT_LEAST8_FMTu__="hhu";__UINT_LEAST8_FMTx__="hhx";__UINT_LEAST8_MAX__=255;__UINT_LEAST8_TYPE__=unsigned char;__USER_LABEL_PREFIX__;__VERSION__="4.2.1 Compatible Android Clang 3.8.275480 ";__WCHAR_MAX__=4294967295U;__WCHAR_TYPE__=unsigned int;__WCHAR_UNSIGNED__=1;__WCHAR_WIDTH__=32;__WINT_TYPE__=unsigned int;__WINT_UNSIGNED__=1;__WINT_WIDTH__=32;__aarch64__=1;__clang__=1;__clang_major__=3;__clang_minor__=8;__clang_patchlevel__=275480;__clang_version__="3.8.275480 ";__cplusplus=201406L;__cpp_aggregate_nsdmi=201304;__cpp_alias_templates=200704;__cpp_attributes=200809;__cpp_binary_literals=201304;__cpp_constexpr=201304;__cpp_decltype=200707;__cpp_decltype_auto=201304;__cpp_delegating_constructors=200604;__cpp_digit_separators=201309;__cpp_exceptions=199711;__cpp_generic_lambdas=201304;__cpp_inheriting_constructors=200802;__cpp_init_captures=201304;__cpp_initializer_lists=200806;__cpp_lambdas=200907;__cpp_nsdmi=200809;__cpp_range_based_for=200907;__cpp_raw_strings=200710;__cpp_ref_qualifiers=200710;__cpp_return_type_deduction=201304;__cpp_rtti=199711;__cpp_rvalue_references=200610;__cpp_static_assert=200410;__cpp_unicode_characters=200704;__cpp_unicode_literals=200710;__cpp_user_defined_literals=200809;__cpp_variable_templates=201304;__cpp_variadic_templates=200704;__gnu_linux__=1;__linux=1;__linux__=1;__llvm__=1;__pic__=1;__private_extern__=extern;__unix=1;__unix__=1</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(MLSDK)\include;$(MLSDK)\lumin\stl\libc++\include;$(MLSDK)\lumin\usr\include;$(MLSDK)\tools\toolchains\lib64\clang\3.8.275480\include;$(ProjectDir)\external\glad\include;$(ProjectDir)\external\glm-0.9.9.4;$(ProjectDir)\external\imgui-1.68;$(ProjectDir)\external\package\release_lumin_clang-3.8_aarch64\include;$(ProjectDir)\external\stb-master;$(ProjectDir)\include;$(ProjectDir)\include\app_framework\render</NMakeIncludeSearchPath>
+    <NMakeForcedIncludes>$(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\ml_is.h</NMakeForcedIncludes>
+    <PackageFile>[no-package]</PackageFile>
+    <IntDir>.out\release_lumin_clang-3.8_aarch64</IntDir>
+    <OutDir>$(ProjectDir)\$(IntDir)</OutDir>
+    <NMakeOutput>$(IntDir)\libapp_framework.a</NMakeOutput>
+    <ELFFile>$(NMakeOutput)</ELFFile>
+    <DebuggerFlavor>MLDebugger</DebuggerFlavor>
+    <!-- following are defaults for debugger options -->
+    <Attach>false</Attach>
+    <EnableAutoStop>false</EnableAutoStop>
+    <AutoStopAtFunction>
+    </AutoStopAtFunction>
+    <EnablePrettyPrinting>true</EnablePrettyPrinting>
+    <MLDownloadOnStart>true</MLDownloadOnStart>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <MLSDK>C:\Users\cshre\MagicLeap\mlsdk\v0.26.0</MLSDK>
+    <MLCertificateFile>
+    </MLCertificateFile>
+    <MLExtraBuildOption>
+    </MLExtraBuildOption>
+    <MabuTargetFullSpec>debug_win_msvc-2019-16.11_x64</MabuTargetFullSpec>
+    <ExecutablePath>$(MLSDK);$(PATH)</ExecutablePath>
+    <NMakeBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t msvc-2019_debug -v -j8 $(MLExtraBuildOption)</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t msvc-2019_debug -r -v -j8 $(MLExtraBuildOption)</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t msvc-2019_debug -c -v -j8 $(MLExtraBuildOption)</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>GLFW_INCLUDE_NONE=1;GLM_FORCE_CTOR_INIT=1;ML_DEFAULT_LOG_TAG="app_framework";ML_USE_HIGH_PERFORMANCE_GPU=1;ML_WINDOWS;NOGDI;WIN32_LEAN_AND_MEAN;_USE_MATH_DEFINES</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>C:Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\ATLMFC\include;C:Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include;C:Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt;C:Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared;C:Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt;C:Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um;C:Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt;$(MLSDK)\include;$(ProjectDir)\external\glad\include;$(ProjectDir)\external\glm-0.9.9.4;$(ProjectDir)\external\imgui-1.68;$(ProjectDir)\external\package\debug_win_msvc-2019-16.11_x64\include;$(ProjectDir)\external\stb-master;$(ProjectDir)\include;$(ProjectDir)\include\app_framework\render</NMakeIncludeSearchPath>
+    <PackageFile>[no-package]</PackageFile>
+    <IntDir>.out\debug_win_msvc-2019-16.11_x64</IntDir>
+    <OutDir>$(ProjectDir)\$(IntDir)</OutDir>
+    <NMakeOutput>$(IntDir)\app_framework.lib</NMakeOutput>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <!-- following are defaults for debugger options -->
+    <Attach>false</Attach>
+    <!-- Environment for running with Simulator (ML Remote).This may also be changed at runtime -->
+    <LocalDebuggerEnvironment>
+    </LocalDebuggerEnvironment>
+    <!-- set this for launching Lumin RT examples -->
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)\$ml_asset_folder$</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <MLSDK>C:\Users\cshre\MagicLeap\mlsdk\v0.26.0</MLSDK>
+    <MLCertificateFile>
+    </MLCertificateFile>
+    <MLExtraBuildOption>
+    </MLExtraBuildOption>
+    <MabuTargetFullSpec>release_win_msvc-2019-16.11_x64</MabuTargetFullSpec>
+    <ExecutablePath>$(MLSDK);$(PATH)</ExecutablePath>
+    <NMakeBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t msvc-2019_release -v -j8 $(MLExtraBuildOption)</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t msvc-2019_release -r -v -j8 $(MLExtraBuildOption)</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t msvc-2019_release -c -v -j8 $(MLExtraBuildOption)</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>GLFW_INCLUDE_NONE=1;GLM_FORCE_CTOR_INIT=1;ML_DEFAULT_LOG_TAG="app_framework";ML_USE_HIGH_PERFORMANCE_GPU=1;ML_WINDOWS;NOGDI;WIN32_LEAN_AND_MEAN;_USE_MATH_DEFINES</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>C:Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\ATLMFC\include;C:Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include;C:Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt;C:Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared;C:Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt;C:Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um;C:Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt;$(MLSDK)\include;$(ProjectDir)\external\glad\include;$(ProjectDir)\external\glm-0.9.9.4;$(ProjectDir)\external\imgui-1.68;$(ProjectDir)\external\package\release_win_msvc-2019-16.11_x64\include;$(ProjectDir)\external\stb-master;$(ProjectDir)\include;$(ProjectDir)\include\app_framework\render</NMakeIncludeSearchPath>
+    <PackageFile>[no-package]</PackageFile>
+    <IntDir>.out\release_win_msvc-2019-16.11_x64</IntDir>
+    <OutDir>$(ProjectDir)\$(IntDir)</OutDir>
+    <NMakeOutput>$(IntDir)\app_framework.lib</NMakeOutput>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <!-- following are defaults for debugger options -->
+    <Attach>false</Attach>
+    <!-- Environment for running with Simulator (ML Remote).This may also be changed at runtime -->
+    <LocalDebuggerEnvironment>
+    </LocalDebuggerEnvironment>
+    <!-- set this for launching Lumin RT examples -->
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)\$ml_asset_folder$</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src/application.cpp" />
+    <ClCompile Include="src/cli_args_parser.cpp" />
+    <ClCompile Include="src/convert.cpp" />
+    <ClCompile Include="src/gui.cpp" />
+    <ClCompile Include="src/input/input_command_handler.cpp" />
+    <ClCompile Include="src/input/ml_input_handler.cpp" />
+    <ClCompile Include="src/node.cpp" />
+    <ClCompile Include="src/registry.cpp" />
+    <ClCompile Include="src/render/buffer.cpp" />
+    <ClCompile Include="src/render/geometry_program.cpp" />
+    <ClCompile Include="src/render/material.cpp" />
+    <ClCompile Include="src/render/mesh.cpp" />
+    <ClCompile Include="src/render/program.cpp" />
+    <ClCompile Include="src/render/render_target.cpp" />
+    <ClCompile Include="src/render/renderer.cpp" />
+    <ClCompile Include="src/render/texture.cpp" />
+    <ClCompile Include="src/render/variable.cpp" />
+    <ClCompile Include="src/resource_pool.cpp" />
+    <ClCompile Include="external/glad/src/glad.c" />
+    <ClCompile Include="external/imgui-1.68/examples/imgui_impl_opengl3.cpp" />
+    <ClCompile Include="external/imgui-1.68/imgui.cpp" />
+    <ClCompile Include="external/imgui-1.68/imgui_demo.cpp" />
+    <ClCompile Include="external/imgui-1.68/imgui_draw.cpp" />
+    <ClCompile Include="external/imgui-1.68/imgui_widgets.cpp" />
+    <ClCompile Include="external/stb_lib/stblib.cpp" />
+    <ClCompile Include="src/device/graphics_context.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include/app_framework/components/camera_component.h" />
+    <ClInclude Include="include/app_framework/components/light_component.h" />
+    <ClInclude Include="include/app_framework/components/magicleap_mesh_component.h" />
+    <ClInclude Include="include/app_framework/components/renderable_component.h" />
+    <ClInclude Include="include/app_framework/components/text_component.h" />
+    <ClInclude Include="include/app_framework/geometry/axis_mesh.h" />
+    <ClInclude Include="include/app_framework/geometry/cube_mesh.h" />
+    <ClInclude Include="include/app_framework/geometry/quad_mesh.h" />
+    <ClInclude Include="include/app_framework/input/input_command_handler.h" />
+    <ClInclude Include="include/app_framework/input/input_handler.h" />
+    <ClInclude Include="include/app_framework/input/ml_input_handler.h" />
+    <ClInclude Include="include/app_framework/material/flat_material.h" />
+    <ClInclude Include="include/app_framework/material/magicleap_mesh_visualization_material.h" />
+    <ClInclude Include="include/app_framework/material/oes_textured_material.h" />
+    <ClInclude Include="include/app_framework/material/pbr_material.h" />
+    <ClInclude Include="include/app_framework/material/textured_material.h" />
+    <ClInclude Include="include/app_framework/render/buffer.h" />
+    <ClInclude Include="include/app_framework/render/fragment_program.h" />
+    <ClInclude Include="include/app_framework/render/geometry_program.h" />
+    <ClInclude Include="include/app_framework/render/gl_type_size.h" />
+    <ClInclude Include="include/app_framework/render/index_buffer.h" />
+    <ClInclude Include="include/app_framework/render/material.h" />
+    <ClInclude Include="include/app_framework/render/mesh.h" />
+    <ClInclude Include="include/app_framework/render/program.h" />
+    <ClInclude Include="include/app_framework/render/renderer.h" />
+    <ClInclude Include="include/app_framework/render/render_target.h" />
+    <ClInclude Include="include/app_framework/render/texture.h" />
+    <ClInclude Include="include/app_framework/render/variable.h" />
+    <ClInclude Include="include/app_framework/render/vertex_buffer.h" />
+    <ClInclude Include="include/app_framework/render/vertex_program.h" />
+    <ClInclude Include="include/app_framework/shader/magicleap_mesh_gs_program.h" />
+    <ClInclude Include="include/app_framework/shader/magicleap_mesh_vs_program.h" />
+    <ClInclude Include="include/app_framework/shader/oes_textured_fs_program.h" />
+    <ClInclude Include="include/app_framework/shader/pbr_fs_program.h" />
+    <ClInclude Include="include/app_framework/shader/pbr_vs_program.h" />
+    <ClInclude Include="include/app_framework/shader/simple_textured_fs_program.h" />
+    <ClInclude Include="include/app_framework/shader/simple_textured_vs_program.h" />
+    <ClInclude Include="include/app_framework/shader/solid_color_fs_program.h" />
+    <ClInclude Include="include/app_framework/shader/solid_color_vs_program.h" />
+    <ClInclude Include="include/app_framework/application.h" />
+    <ClInclude Include="include/app_framework/cli_args_parser.h" />
+    <ClInclude Include="include/app_framework/common.h" />
+    <ClInclude Include="include/app_framework/component.h" />
+    <ClInclude Include="include/app_framework/convert.h" />
+    <ClInclude Include="include/app_framework/graphics_context.h" />
+    <ClInclude Include="include/app_framework/gui.h" />
+    <ClInclude Include="include/app_framework/ml_macros.h" />
+    <ClInclude Include="include/app_framework/node.h" />
+    <ClInclude Include="include/app_framework/preset_resource.h" />
+    <ClInclude Include="include/app_framework/registry.h" />
+    <ClInclude Include="include/app_framework/resource_pool.h" />
+    <ClInclude Include="include/app_framework/resource_pool.inl" />
+    <ClInclude Include="include/app_framework/runtime_type.h" />
+    <ClInclude Include="include/app_framework/toolset.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="external/assimp-v.5.0.0.rc1/contrib/zip/zip.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/doc/architecture/assimp-process.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/doc/architecture/exporter.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/doc/architecture/usecases.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/doc/AssimpCmdDoc_Html/dragonsplash.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/doc/AssimpDoc_Html/AnimationOverview.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/doc/AssimpDoc_Html/dragonsplash.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/port/PyAssimp/3d_viewer_screenshot.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/3DS/UVTransformTest/UVTransformTestImg.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/3DS/CWALL02.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/3DS/IMAGE1.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/3DS/IMAGE2.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/3DS/test.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/Collada/Collada_Sample.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/Collada/duck_sample.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/Collada/sphere_sample.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/Collada/teapots_reference.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/glTF/BoxTextured-glTF/CesiumLogoFlat.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/glTF/BoxTextured-glTF-MaterialsCommon/CesiumLogoFlat.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/glTF/CesiumMilkTruck/CesiumMilkTruck.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/glTF2/BoxTextured-glTF/CesiumLogoFlat.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/glTF2/BoxTextured-glTF-pbrSpecularGlossiness/CesiumLogoFlat.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/glTF2/BoxTextured-glTF-techniqueWebGL/CesiumLogoFlat.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/IRRMesh/1.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/IRRMesh/brownground_1-1.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/IRRMesh/crackedground_1-6.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/LWO/LWO2/MappingModes/earthCylindric.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/LWO/LWO2/MappingModes/earthSpherical.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/LWO/LWO2/boxuv.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/LWO/LWO2/uvtest.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/LWO/LWO2/white.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/MD2/faerie2.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/MD2/sydney.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/MS3D/jeep1.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/OBJ/drkwood2.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/OBJ/engineflare1.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/OBJ/SpiderTex.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/OBJ/wal67ar_small.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/OBJ/wal69ar_small.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/Ogre/TheThing/Wrinkles.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/ReferenceImages/MappingModes/cylindrical.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/ReferenceImages/MappingModes/spherical.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/ReferenceImages/UVTransform/UVTransform_Normal.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/ReferenceImages/UVTransform/UVTransform_OffsetUV0.5-clampUV.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/ReferenceImages/UVTransform/UVTransform_OffsetUV0.5-mirrorUV.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/ReferenceImages/UVTransform/UVTransform_OffsetUV0.5.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/ReferenceImages/UVTransform/UVTransform_ScaleUV1-2_OffsetUV0-0.9_Rotate-72.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/ReferenceImages/UVTransform/UVTransform_ScaleUV1-2_OffsetUV0-0.9_Rotate-72_mirrorU.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/ReferenceImages/UVTransform/UVTransform_ScaleUV10-2_OffsetUV10-mirrorUV.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/ReferenceImages/UVTransform/UVTransform_ScaleUV2x.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/ReferenceImages/UVTransform/UVTransform_ScaleUV2x_Rotate45.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/SIB/This%20Way%20Up.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/SIB/UV%20Mapping.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models/X/test.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/3DS/jeep1.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/3DS/mp5sil.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/3DS/m_rifl.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/AMF/screenshot_3_bananas.jpeg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/B3D/axe.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/B3D/dwarf2.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/B3D/turtle1.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/FBX/2013_ASCII/duck_sample.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/FBX/2013_ASCII/jeep1.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/FBX/2013_ASCII/mp5sil.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/FBX/2013_ASCII/m_rifl.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/IRR/skybox/default_skybox0.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/IRR/skybox/default_skybox1.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/IRR/skybox/default_skybox2.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/IRR/skybox/default_skybox3.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/IRR/skybox/default_skyboxdn.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/IRR/skybox/default_skyboxup.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/MD2/dolphin_f.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/MD5/guard1_body.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/MD5/guard1_face.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/MD5/guard1_helmet.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/MD5/iron_grill.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/MD5/round_grill.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/MDL/MDL7%20(3DGS%20A7)/barkD_texture.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/MDL/MDL7%20(3DGS%20A7)/branchD_texture.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/Ogre/OgreSDK/fish.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/Ogre/OgreSDK/ninja.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/Ogre/OgreSDK/razor.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/X/axe.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/X/dwarf.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/X3D/Chevy/textures/ChevyTahoeTexture.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/test/models-nonbsd/X3D/Chevy/textures/ChevyTahoeTires.jpg" />
+    <None Include="external/assimp-v.5.0.0.rc1/tools/assimp_view/banner.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/tools/assimp_view/banner_pure.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/tools/assimp_view/base_anim.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/tools/assimp_view/base_display.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/tools/assimp_view/base_inter.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/tools/assimp_view/base_rendering.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/tools/assimp_view/base_stats.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/tools/assimp_view/fx.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/tools/assimp_view/HUD.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/tools/assimp_view/HUDMask.png" />
+    <None Include="external/assimp-v.5.0.0.rc1/tools/assimp_view/n.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/tools/assimp_view/root.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/tools/assimp_view/tx.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/tools/assimp_view/txi.bmp" />
+    <None Include="external/assimp-v.5.0.0.rc1/tools/shared/assimp_tools_icon.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/search/close.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/search/mag_sel.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/search/search_l.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/search/search_m.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/search/search_r.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/bc_s.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/bdwn.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/closed.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/doc.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/doxygen.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/folderclosed.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/folderopen.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/logo-mini.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/nav_f.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/nav_g.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/nav_h.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/open.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/splitbar.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/sync_off.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/sync_on.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/tab_a.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/tab_b.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/tab_h.png" />
+    <None Include="external/glm-0.9.9.4/doc/api/tab_s.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/frontpage1.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/frontpage2.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/g-truc.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/logo-mini.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/noise-perlin1.jpg" />
+    <None Include="external/glm-0.9.9.4/doc/manual/noise-perlin2.jpg" />
+    <None Include="external/glm-0.9.9.4/doc/manual/noise-perlin3.jpg" />
+    <None Include="external/glm-0.9.9.4/doc/manual/noise-perlin4.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/noise-perlin5.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/noise-perlin6.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/noise-simplex1.jpg" />
+    <None Include="external/glm-0.9.9.4/doc/manual/noise-simplex2.jpg" />
+    <None Include="external/glm-0.9.9.4/doc/manual/noise-simplex3.jpg" />
+    <None Include="external/glm-0.9.9.4/doc/manual/random-ballrand.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/random-circularrand.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/random-diskrand.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/random-gaussrand.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/random-linearrand.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/random-sphericalrand.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/references-cinder.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/references-glsl4book.jpg" />
+    <None Include="external/glm-0.9.9.4/doc/manual/references-leosfortune.jpeg" />
+    <None Include="external/glm-0.9.9.4/doc/manual/references-leosfortune2.jpg" />
+    <None Include="external/glm-0.9.9.4/doc/manual/references-opencloth1.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/references-opencloth3.png" />
+    <None Include="external/glm-0.9.9.4/doc/manual/references-outerra1.jpg" />
+    <None Include="external/glm-0.9.9.4/doc/manual/references-outerra2.jpg" />
+    <None Include="external/glm-0.9.9.4/doc/manual/references-outerra3.jpg" />
+    <None Include="external/glm-0.9.9.4/doc/manual/references-outerra4.jpg" />
+    <None Include="external/glm-0.9.9.4/doc/theme/bc_s.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/bdwn.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/closed.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/doc.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/doxygen.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/folderclosed.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/folderopen.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/logo-mini.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/nav_f.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/nav_g.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/nav_h.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/open.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/splitbar.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/sync_off.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/sync_on.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/tab_a.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/tab_b.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/tab_h.png" />
+    <None Include="external/glm-0.9.9.4/doc/theme/tab_s.png" />
+    <None Include="external/imgui-1.68/examples/example_apple_metal/iOS/Default-568h@2x.png" />
+    <None Include="external/json-3.6.1/doc/images/binary.png" />
+    <None Include="external/json-3.6.1/doc/images/callback_events.png" />
+    <None Include="external/json-3.6.1/doc/usages/ios.png" />
+    <None Include="external/json-3.6.1/doc/usages/macos.png" />
+    <None Include="external/json-3.6.1/doc/avatars.png" />
+    <None Include="external/json-3.6.1/doc/json.gif" />
+    <None Include="external/json-3.6.1/test/reports/2016-08-29-fuzz/exec_speed.png" />
+    <None Include="external/json-3.6.1/test/reports/2016-08-29-fuzz/high_freq.png" />
+    <None Include="external/json-3.6.1/test/reports/2016-08-29-fuzz/low_freq.png" />
+    <None Include="external/json-3.6.1/test/reports/2016-09-09-nativejson_benchmark/conformance_overall_Result.png" />
+    <None Include="external/json-3.6.1/test/reports/2016-09-09-nativejson_benchmark/performance_Corei7-4980HQ@2.80GHz_mac64_clang7.0_1._Parse_Memory_(byte).png" />
+    <None Include="external/json-3.6.1/test/reports/2016-09-09-nativejson_benchmark/performance_Corei7-4980HQ@2.80GHz_mac64_clang7.0_1._Parse_Time_(ms).png" />
+    <None Include="external/json-3.6.1/test/reports/2016-09-09-nativejson_benchmark/performance_Corei7-4980HQ@2.80GHz_mac64_clang7.0_2._Stringify_Time_(ms).png" />
+    <None Include="external/json-3.6.1/test/reports/2016-09-09-nativejson_benchmark/performance_Corei7-4980HQ@2.80GHz_mac64_clang7.0_3._Prettify_Time_(ms).png" />
+    <None Include="external/json-3.6.1/test/reports/2016-09-09-nativejson_benchmark/performance_Corei7-4980HQ@2.80GHz_mac64_clang7.0_7._Code_size_FileSize_(byte).png" />
+    <None Include="external/json-3.6.1/test/reports/2016-10-02-fuzz/exec_speed.png" />
+    <None Include="external/json-3.6.1/test/reports/2016-10-02-fuzz/high_freq.png" />
+    <None Include="external/json-3.6.1/test/reports/2016-10-02-fuzz/low_freq.png" />
+    <None Include="external/libpng-1.6.36/contrib/gregbook/toucan.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/interlaced/ibasn0g01.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/interlaced/ibasn0g02.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/interlaced/ibasn0g04.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/interlaced/ibasn3p01.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/interlaced/ibasn3p02.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/interlaced/ibasn3p04.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/interlaced/iftbbn0g01.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/interlaced/iftbbn0g02.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/interlaced/iftbbn0g04.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/basn0g01.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/basn0g02.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/basn0g04.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/basn0g08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/basn0g16.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/basn2c08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/basn2c16.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/basn3p01.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/basn3p02.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/basn3p04.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/basn3p08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/basn4a08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/basn4a16.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/basn6a08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/basn6a16.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ftbbn0g01.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ftbbn0g02.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ftbbn0g04.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ftbbn2c16.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ftbbn3p08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ftbgn2c16.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ftbgn3p08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ftbrn2c08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ftbwn0g16.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ftbwn3p08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ftbyn3p08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ftp0n0g08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ftp0n2c08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ftp0n3p08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ftp1n3p08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ibasn0g08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ibasn0g16.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ibasn2c08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ibasn2c16.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ibasn3p08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ibasn4a08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ibasn4a16.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ibasn6a08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/ibasn6a16.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/iftbbn2c16.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/iftbbn3p08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/iftbgn2c16.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/iftbgn3p08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/iftbrn2c08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/iftbwn0g16.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/iftbwn3p08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/iftbyn3p08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/iftp0n0g08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/iftp0n2c08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/iftp0n3p08.png" />
+    <None Include="external/libpng-1.6.36/contrib/pngsuite/iftp1n3p08.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/badadler.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/badcrc.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/bad_iCCP.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/empty_ancillary_chunks.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_bKGD_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_cHRM_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_eXIf_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_gAMA_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_hIST_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_iCCP_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_IDAT.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_iTXt_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_juNk_safe_to_copy.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_juNK_unsafe_to_copy.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_pCAL_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_pHYs_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_sCAL_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_sPLT_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_sRGB_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_sTER_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_tEXt_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_tIME_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/crashers/huge_zTXt_chunk.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-1-1.8-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-1-1.8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-1-linear-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-1-linear.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-1-sRGB-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-1-sRGB.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-1-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-1.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-16-1.8-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-16-1.8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-16-linear-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-16-linear.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-16-sRGB-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-16-sRGB.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-16-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-16.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-2-1.8-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-2-1.8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-2-linear-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-2-linear.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-2-sRGB-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-2-sRGB.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-2-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-2.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-4-1.8-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-4-1.8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-4-linear-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-4-linear.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-4-sRGB-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-4-sRGB.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-4-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-4.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-8-1.8-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-8-1.8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-8-linear-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-8-linear.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-8-sRGB-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-8-sRGB.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-8-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-alpha-16-1.8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-alpha-16-linear.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-alpha-16-sRGB.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-alpha-16.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-alpha-8-1.8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-alpha-8-linear.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-alpha-8-sRGB.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/gray-alpha-8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-1-1.8-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-1-1.8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-1-linear-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-1-linear.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-1-sRGB-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-1-sRGB.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-1-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-1.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-2-1.8-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-2-1.8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-2-linear-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-2-linear.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-2-sRGB-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-2-sRGB.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-2-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-2.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-4-1.8-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-4-1.8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-4-linear-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-4-linear.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-4-sRGB-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-4-sRGB.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-4-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-4.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-8-1.8-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-8-1.8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-8-linear-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-8-linear.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-8-sRGB-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-8-sRGB.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-8-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/palette-8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-16-1.8-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-16-1.8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-16-linear-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-16-linear.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-16-sRGB-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-16-sRGB.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-16-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-16.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-8-1.8-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-8-1.8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-8-linear-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-8-linear.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-8-sRGB-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-8-sRGB.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-8-tRNS.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-alpha-16-1.8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-alpha-16-linear.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-alpha-16-sRGB.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-alpha-16.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-alpha-8-1.8.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-alpha-8-linear.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-alpha-8-sRGB.png" />
+    <None Include="external/libpng-1.6.36/contrib/testpngs/rgb-alpha-8.png" />
+    <None Include="external/libpng-1.6.36/contrib/visupng/VisualPng.png" />
+    <None Include="external/libpng-1.6.36/pngbar.jpg" />
+    <None Include="external/libpng-1.6.36/pngbar.png" />
+    <None Include="external/libpng-1.6.36/pngnow.png" />
+    <None Include="external/libpng-1.6.36/pngtest.png" />
+    <None Include="external/stb-master/data/herringbone/template_caves_limit_connectivity.png" />
+    <None Include="external/stb-master/data/herringbone/template_caves_tiny_corridors.png" />
+    <None Include="external/stb-master/data/herringbone/template_corner_caves.png" />
+    <None Include="external/stb-master/data/herringbone/template_horizontal_corridors_v1.png" />
+    <None Include="external/stb-master/data/herringbone/template_horizontal_corridors_v2.png" />
+    <None Include="external/stb-master/data/herringbone/template_horizontal_corridors_v3.png" />
+    <None Include="external/stb-master/data/herringbone/template_limited_connectivity.png" />
+    <None Include="external/stb-master/data/herringbone/template_limit_connectivity_fat.png" />
+    <None Include="external/stb-master/data/herringbone/template_maze_2_wide.png" />
+    <None Include="external/stb-master/data/herringbone/template_maze_plus_2_wide.png" />
+    <None Include="external/stb-master/data/herringbone/template_open_areas.png" />
+    <None Include="external/stb-master/data/herringbone/template_ref2_corner_caves.png" />
+    <None Include="external/stb-master/data/herringbone/template_rooms_and_corridors.png" />
+    <None Include="external/stb-master/data/herringbone/template_rooms_and_corridors_2_wide_diagonal_bias.png" />
+    <None Include="external/stb-master/data/herringbone/template_rooms_limit_connectivity.png" />
+    <None Include="external/stb-master/data/herringbone/template_round_rooms_diagonal_corridors.png" />
+    <None Include="external/stb-master/data/herringbone/template_sean_dungeon.png" />
+    <None Include="external/stb-master/data/herringbone/template_simple_caves_2_wide.png" />
+    <None Include="external/stb-master/data/herringbone/template_square_rooms_with_random_rects.png" />
+    <None Include="external/stb-master/data/atari_8bit_font_revised.png" />
+    <None Include="external/stb-master/data/easy_font_raw.png" />
+    <None Include="external/stb-master/data/map_01.png" />
+    <None Include="external/stb-master/data/map_02.png" />
+    <None Include="external/stb-master/data/map_03.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/basi0g16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/basi2c16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/basi4a16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/basi6a16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/basn0g16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/basn2c16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/basn4a16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/basn6a16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/bgai4a16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/bgan6a16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/bggn4a16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/bgyn6a16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/oi1n0g16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/oi1n2c16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/oi2n0g16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/oi2n2c16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/oi4n0g16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/oi4n2c16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/oi9n0g16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/oi9n2c16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/tbbn2c16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/tbgn2c16.png" />
+    <None Include="external/stb-master/tests/pngsuite/16bit/tbwn0g16.png" />
+    <None Include="external/stb-master/tests/pngsuite/corrupt/xc1n0g08.png" />
+    <None Include="external/stb-master/tests/pngsuite/corrupt/xc9n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/corrupt/xcrn0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/corrupt/xcsn0g01.png" />
+    <None Include="external/stb-master/tests/pngsuite/corrupt/xd0n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/corrupt/xd3n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/corrupt/xd9n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/corrupt/xdtn0g01.png" />
+    <None Include="external/stb-master/tests/pngsuite/corrupt/xhdn0g08.png" />
+    <None Include="external/stb-master/tests/pngsuite/corrupt/xlfn0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/corrupt/xs1n0g01.png" />
+    <None Include="external/stb-master/tests/pngsuite/corrupt/xs2n0g01.png" />
+    <None Include="external/stb-master/tests/pngsuite/corrupt/xs4n0g01.png" />
+    <None Include="external/stb-master/tests/pngsuite/corrupt/xs7n0g01.png" />
+    <None Include="external/stb-master/tests/pngsuite/iphone/iphone_basi0g01.png" />
+    <None Include="external/stb-master/tests/pngsuite/iphone/iphone_basi0g02.png" />
+    <None Include="external/stb-master/tests/pngsuite/iphone/iphone_basi3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/iphone/iphone_bgwn6a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/iphone/iphone_bgyn6a16.png" />
+    <None Include="external/stb-master/tests/pngsuite/iphone/iphone_tbyn3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/iphone/iphone_z06n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basi0g01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basi0g02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basi0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basi0g08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basi2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basi3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basi3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basi3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basi3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basi4a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basi6a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basn0g01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basn0g02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basn0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basn0g08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basn2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basn3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basn3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basn3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basn3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basn4a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/basn6a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/bgai4a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/bgan6a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/bgbn4a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/bgwn6a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s01i3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s01n3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s02i3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s02n3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s03i3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s03n3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s04i3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s04n3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s05i3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s05n3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s06i3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s06n3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s07i3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s07n3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s08i3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s08n3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s09i3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s09n3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s32i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s32n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s33i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s33n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s34i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s34n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s35i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s35n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s36i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s36n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s37i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s37n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s38i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s38n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s39i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s39n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s40i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/s40n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/tbbn0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/tbbn3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/tbgn3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/tbrn2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/tbwn3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/tbyn3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/tm3n3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/tp0n0g08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/tp0n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/tp0n3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/tp1n3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/z00n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/z03n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/z06n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary/z09n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basi0g01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basi0g02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basi0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basi0g08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basi2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basi3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basi3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basi3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basi3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basi4a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basi6a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basn0g01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basn0g02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basn0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basn0g08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basn2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basn3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basn3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basn3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basn3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basn4a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/basn6a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/bgai4a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/bgan6a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/bgbn4a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/bgwn6a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s01i3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s01n3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s02i3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s02n3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s03i3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s03n3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s04i3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s04n3p01.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s05i3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s05n3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s06i3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s06n3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s07i3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s07n3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s08i3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s08n3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s09i3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s09n3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s32i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s32n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s33i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s33n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s34i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s34n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s35i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s35n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s36i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s36n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s37i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s37n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s38i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s38n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s39i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s39n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s40i3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/s40n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/tbbn0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/tbbn3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/tbgn3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/tbrn2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/tbwn3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/tbyn3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/tm3n3p02.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/tp0n0g08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/tp0n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/tp0n3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/tp1n3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/z00n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/z03n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/z06n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/primary_check/z09n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/ccwn2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/ccwn3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/cdfn2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/cdhn2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/cdsn2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/cdun2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/ch1n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/ch2n3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/cm0n0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/cm7n0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/cm9n0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/cs3n2c16.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/cs3n3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/cs5n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/cs5n3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/cs8n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/cs8n3p08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/ct0n0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/ct1n0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/cten0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/ctfn0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/ctgn0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/cthn0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/ctjn0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/ctzn0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/f00n0g08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/f00n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/f01n0g08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/f01n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/f02n0g08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/f02n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/f03n0g08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/f03n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/f04n0g08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/f04n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/f99n0g04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g03n0g16.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g03n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g03n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g04n0g16.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g04n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g04n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g05n0g16.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g05n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g05n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g07n0g16.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g07n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g07n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g10n0g16.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g10n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g10n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g25n0g16.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g25n2c08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/g25n3p04.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/pp0n2c16.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/pp0n6a08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/ps1n0g08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/ps1n2c16.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/ps2n0g08.png" />
+    <None Include="external/stb-master/tests/pngsuite/unused/ps2n2c16.png" />
+    <None Include="external/stb-master/tests/sdf/sdf_test_arial_16.png" />
+    <None Include="external/stb-master/tests/sdf/sdf_test_times_16.png" />
+    <None Include="external/stb-master/tests/sdf/sdf_test_times_50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app_framework.mabu" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties MLProjectMabuSyncTime="133308880082623939 (6/10/2023 4:26:48 PM UTC)" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

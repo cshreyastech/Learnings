@@ -34,6 +34,7 @@ Node::Node(const glm::vec3 &translation_vector)
       name_("") {}
 
 bool Node::AddChild(std::shared_ptr<ml::app_framework::Node> new_child) {
+  ML_LOG(Info, "Node::AddChild");
   auto shared_this = shared_from_this();
 
   // make sure adding child does not create a cycle in the hierarchy
@@ -132,6 +133,7 @@ void Node::SetLocalScale(const glm::vec3 &scale_vector) {
 }
 
 void Node::AddComponent(std::shared_ptr<app_framework::Component> component) {
+  ML_LOG(Info, "Node::AddComponent");
   auto it = components_by_type_.find(component->GetRuntimeType());
   if (components_by_type_.end() != it) {
     components_.erase(std::find(components_.begin(), components_.end(), it->second));

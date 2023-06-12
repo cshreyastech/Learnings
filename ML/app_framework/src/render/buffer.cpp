@@ -25,6 +25,8 @@ Buffer::~Buffer() {
 }
 
 void Buffer::UpdateBuffer(const char *data, uint64_t size) {
+  ML_LOG(Info, "Buffer::UpdateBuffer");
+
   if (data != nullptr && size > 0) {
     size_ = size;
     glBindBuffer(gl_buffer_type_, buffer_);

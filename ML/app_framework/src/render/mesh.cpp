@@ -14,6 +14,7 @@ namespace ml {
 namespace app_framework {
 
 Mesh::Mesh(Buffer::Category buffer_category, GLenum index_buffer_element_type) {
+  ML_LOG(Info, "Mesh::");
   vert_buffer_ = std::make_shared<VertexBuffer>(buffer_category, GL_FLOAT, 3);
   normal_buffer_ = std::make_shared<VertexBuffer>(buffer_category, GL_FLOAT, 3);
   tex_coords_buffer_ =
@@ -47,6 +48,7 @@ Mesh::~Mesh() {
 }
 
 void Mesh::SetCustomBuffer(GLuint location, std::shared_ptr<VertexBuffer> buffer) {
+  ML_LOG(Info, "Mesh::SetCustomBuffer() - gl_vertex_array_");
   custom_buffers_.push_back(buffer);
   glBindVertexArray(gl_vertex_array_);
   glBindBuffer(GL_ARRAY_BUFFER, buffer->GetGLBuffer());
@@ -59,6 +61,7 @@ void Mesh::SetCustomBuffer(GLuint location, std::shared_ptr<VertexBuffer> buffer
 
 void Mesh::UpdateMesh(glm::vec3 const *vertices, glm::vec3 const *normals, size_t num_vertices, void const *indices,
                       size_t num_indices) {
+  ML_LOG(Info, "Mesh::UpdateMesh()- gl_vertex_array_");
   glBindVertexArray(gl_vertex_array_);
   if (vertices) {
     vert_buffer_->UpdateBuffer((char *)vertices, num_vertices * 3 * sizeof(float));
@@ -82,6 +85,7 @@ void Mesh::UpdateMesh(glm::vec3 const *vertices, glm::vec3 const *normals, size_
 }
 
 void Mesh::UpdateTexCoordsBuffer(glm::vec2 const *tex_coords) {
+  ML_LOG(Info, "Mesh::UpdateTexCoordsBuffer()- gl_vertex_array_");
   glBindVertexArray(gl_vertex_array_);
   if (tex_coords) {
     tex_coords_buffer_->UpdateBuffer((char *)tex_coords, num_vertices_ * 2 * sizeof(float));
