@@ -19,7 +19,6 @@
 
 #include <array>
 #include <cstdlib>
-#include <sstream>
 
 class GLEyeTrackingApp : public ml::app_framework::Application {
 public:
@@ -32,17 +31,11 @@ public:
   void OnUpdate(float) override;
 
 private:
-  struct ControllerVisual {
-    std::shared_ptr<ml::app_framework::Node> controller;
-    std::shared_ptr<ml::app_framework::Node> touch;
-    std::shared_ptr<ml::app_framework::Node> text;
-  };
-  std::array<ControllerVisual, MLInput_MaxControllers> input_nodes_;
-  MLHandle input_tracker_ = ML_INVALID_HANDLE;
-  MLHandle head_tracker_ = ML_INVALID_HANDLE;
-  MLHeadTrackingStaticData head_static_data_ = {};
+  std::shared_ptr<ml::app_framework::Node> fixation_node_;
+  std::shared_ptr<ml::app_framework::Node> left_gaze_node_;
 
-  void UpdateText(const MLInputControllerState &controller_state, ml::app_framework::TextComponent &text_comp);
+  std::shared_ptr<ml::app_framework::Node> quad_node_;
+  std::shared_ptr<ml::app_framework::Texture> texture_;
 };
 
 
