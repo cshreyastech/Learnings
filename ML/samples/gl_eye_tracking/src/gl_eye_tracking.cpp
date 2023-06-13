@@ -51,3 +51,10 @@ void GLEyeTrackingApp::OnUpdate(float)
       std::static_pointer_cast<ml::app_framework::FlatMaterial>(left_line_renderable->GetMaterial());
   left_line_material->SetColor(glm::vec4(.0f, .0f, 1.0f, 1.0f));
 }
+
+int main(int argc, char **argv) {
+  GLEyeTrackingApp app(argc, argv);
+  app.SetUseGfx(true);
+  app.RunApp();
+  return 0;
+}

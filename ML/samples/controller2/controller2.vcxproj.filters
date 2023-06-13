@@ -98,6 +98,9 @@
     <None Include="data/Controller.fbm/Controller.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="data/Controller.fbm/Controller_bp.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="controller2.mabu" />
   </ItemGroup>
 </Project>

@@ -4,8 +4,8 @@ INCS = \
     include \
 
 SRCS = \
-    src/main.cpp \
-    src/gl_eye_tracking.cpp \
+    # src/main.cpp \
+    src/gl_eye_tracking1.cpp \
 
 DEFS = \
     ML_DEFAULT_LOG_TAG="gl_eye_tracking" \
