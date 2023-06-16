@@ -1,8 +1,5 @@
 #include "gl_eye_tracking/gl_eye_tracking1.hpp"
 
-
-
-
 const glm::vec3 kCubeScale = glm::vec3(0.01f, 0.01f, 0.01f);
 
 void GLEyeTrackingApp::OnStart()

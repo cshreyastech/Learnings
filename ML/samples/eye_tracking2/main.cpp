@@ -119,6 +119,7 @@ public:
     }
 
     if (FLAGS_draw_gaze_left) {
+      ML_LOG(Info, "Inside FLAGS_draw_gaze_left");
       auto left_origin = ml::app_framework::to_glm(left_eye_center.position);
       auto left_direction = ml::app_framework::to_glm(left_eye_center.rotation) * glm::vec3(0, 0, -1);
       glm::vec3 left_gaze_line[] = {

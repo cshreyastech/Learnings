@@ -90,7 +90,10 @@
     <ClCompile Include="../../app_framework/external/stb_lib/stblib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\gl_eye_tracking1.cpp">
+    <ClCompile Include="src\core\shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gl_eye_tracking4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

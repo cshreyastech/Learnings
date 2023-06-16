@@ -1,4 +1,4 @@
-#include "learn_gl/shader.h"
+#include "gl_eye_tracking/core/shader.hpp"
 
 Shader::Shader(const char* vertexPath, const char* fragmentPath)
 {

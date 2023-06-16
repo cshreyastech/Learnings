@@ -232,7 +232,8 @@
     <ClCompile Include="../../app_framework/external/imgui-1.68/imgui_draw.cpp" />
     <ClCompile Include="../../app_framework/external/imgui-1.68/imgui_widgets.cpp" />
     <ClCompile Include="../../app_framework/external/stb_lib/stblib.cpp" />
-    <ClCompile Include="src\gl_eye_tracking1.cpp" />
+    <ClCompile Include="src\core\shader.cpp" />
+    <ClCompile Include="src\gl_eye_tracking4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include/gl_eye_tracking/gl_eye_tracking.hpp" />
@@ -247,7 +248,7 @@
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties MLProjectMabuSyncTime="133310674046431876 (6/12/2023 6:16:44 PM UTC)" />
+      <UserProperties MLProjectMabuSyncTime="133313275661567695 (6/15/2023 6:32:46 PM UTC)" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

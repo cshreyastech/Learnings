@@ -19,7 +19,7 @@
     // "controller/",
     // "controller2/",
     // "eye_tracking/",
-    // "eye_tracking2/",
+    "eye_tracking2/",
     // "hand_tracking/",
     // "head_tracking/",
     // "image_capture/",
@@ -34,7 +34,7 @@
     // "privileges/",
     // "raycast/",
     // "simple_gl_app/",
-    // "learn_gl/",
+    // "learn_gl/"
     // "learn_gl_tbd/",
     // "ros_ml/",
     "gl_eye_tracking/"

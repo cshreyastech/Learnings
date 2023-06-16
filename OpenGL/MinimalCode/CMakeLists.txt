@@ -319,3 +319,11 @@ ADD_EXECUTABLE(frame_receiver
 #Set Linker flags
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 TARGET_LINK_LIBRARIES(frame_receiver ${target_libraries})
+
+ADD_EXECUTABLE(gl_conversions
+  src/01-GettingStarted/tbd/gl_conversions.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(gl_conversions ${target_libraries})
