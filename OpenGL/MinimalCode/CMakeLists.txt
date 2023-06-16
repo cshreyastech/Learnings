@@ -282,6 +282,40 @@ ADD_EXECUTABLE(06_ex-3
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 TARGET_LINK_LIBRARIES(06_ex-3 ${target_libraries})
 
+
+ADD_EXECUTABLE(06_4-just_cube
+  src/vendor/stb_image/stb_image.cpp
+  src/vendor/glad/glad.c
+  src/core/Shader.cpp
+  src/01-GettingStarted/06-CoordinateSystems/06_4-just_cube.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(06_4-just_cube ${target_libraries})
+
+ADD_EXECUTABLE(06_5-just_cube_ebo
+  src/vendor/stb_image/stb_image.cpp
+  src/vendor/glad/glad.c
+  src/core/Shader.cpp
+  src/01-GettingStarted/06-CoordinateSystems/06_5-just_cube_ebo.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(06_5-just_cube_ebo ${target_libraries})
+
+ADD_EXECUTABLE(06_6-just_cubes_ebo
+  src/vendor/stb_image/stb_image.cpp
+  src/vendor/glad/glad.c
+  src/core/Shader.cpp
+  src/01-GettingStarted/06-CoordinateSystems/06_6-just_cubes_ebo.cpp
+  )
+
+#Set Linker flags
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+TARGET_LINK_LIBRARIES(06_6-just_cubes_ebo ${target_libraries})
+
 ADD_EXECUTABLE(10_1-framebuffer_tbd
   src/vendor/stb_image/stb_image.cpp
   src/vendor/glad/glad.c
