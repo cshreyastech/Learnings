@@ -7,6 +7,7 @@ SRCS = \
     # src/main.cpp \
     src/core/shader.cpp \
     src/gl_eye_tracking4.cpp \
+    # src/gl_eye_tracking6.cpp \
 
 DEFS = \
     ML_DEFAULT_LOG_TAG="gl_eye_tracking" \

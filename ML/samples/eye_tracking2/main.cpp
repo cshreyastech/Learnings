@@ -78,80 +78,105 @@ public:
     MLSnapshot *snapshot = nullptr;
     UNWRAP_MLRESULT(MLPerceptionGetSnapshot(&snapshot));
 
-    MLTransform fixation = {};
+    MLTransform T_W_R = {};
+    MLTransform T_P_fixation = {};
+    MLTransform T_W_fixation = {};
     MLTransform left_eye_center = {};
     MLTransform right_eye_center = {};
-    MLTransform head = {};
-    UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &head_static_data_.coord_frame_head, &head));
-    UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.fixation, &fixation));
+    MLTransform T_W_head = {};
+    UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &head_static_data_.coord_frame_head, &T_W_head));
+    UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.fixation, &T_P_fixation));
     UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.left_center, &left_eye_center));
     UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.right_center, &right_eye_center));
     UNWRAP_MLRESULT(MLPerceptionReleaseSnapshot(snapshot));
 
+    T_W_R.rotation = ml::app_framework::to_ml(GetRoot()->GetWorldRotation());
+    T_W_R.position = ml::app_framework::to_ml(GetRoot()->GetWorldTranslation());
+
+    ML_LOG(Info, "T_W_ROOT(%f, %f, %f, %f), (%f, %f, %f)", 
+        T_W_R.rotation.w, T_W_R.rotation.x, T_W_R.rotation.y, T_W_R.rotation.z, 
+        T_W_R.position.x, T_W_R.position.y, T_W_R.position.z);
+
+    ML_LOG(Info, "T_W_head(%f, %f, %f, %f), (%f, %f, %f)", 
+        T_W_head.rotation.w, T_W_head.rotation.x, T_W_head.rotation.y, T_W_head.rotation.z, 
+        T_W_head.position.x, T_W_head.position.y, T_W_head.position.z);
+
+    ML_LOG(Info, "T_P_fixation(%f, %f, %f, %f), (%f, %f, %f)", 
+        T_P_fixation.rotation.w, T_P_fixation.rotation.x, T_P_fixation.rotation.y, T_P_fixation.rotation.z, 
+        T_P_fixation.position.x, T_P_fixation.position.y, T_P_fixation.position.z);
+
     if (FLAGS_draw_fixation_point) {
-      fixation_node_->SetWorldRotation(ml::app_framework::to_glm(fixation.rotation));
-      fixation_node_->SetWorldTranslation(ml::app_framework::to_glm(fixation.position));
+      fixation_node_->SetWorldRotation(ml::app_framework::to_glm(T_P_fixation.rotation));
+      fixation_node_->SetWorldTranslation(ml::app_framework::to_glm(T_P_fixation.position));
     }
 
-    if (FLAGS_eye_centers_origin) {
-      //
-      // This case draws the eye centers relative to the
-      // origin. When running on device this would allow you to move
-      // back from the origin and see the eye centers versus them
-      // being within your head and not able to see them.
-      //
-      left_center_node_->SetWorldRotation(ml::app_framework::to_glm(left_eye_center.rotation));
-      left_center_node_->SetWorldTranslation(ml::app_framework::to_glm(left_eye_center.position) - ml::app_framework::to_glm(head.position));
-      right_center_node_->SetWorldRotation(ml::app_framework::to_glm(right_eye_center.rotation));
-      right_center_node_->SetWorldTranslation(ml::app_framework::to_glm(right_eye_center.position) - ml::app_framework::to_glm(head.position));
-    } else {
-      //
-      // This case is more useful on MLRemote where you could change
-      // the world space position of the eye centers independently
-      // of the headpose.  This would also be useful on device if
-      // you wanted to log these positions to make sure that the eye
-      // center values are correct.
-      //
-      left_center_node_->SetWorldRotation(ml::app_framework::to_glm(left_eye_center.rotation));
-      left_center_node_->SetWorldTranslation(ml::app_framework::to_glm(left_eye_center.position));
-      right_center_node_->SetWorldRotation(ml::app_framework::to_glm(right_eye_center.rotation));
-      right_center_node_->SetWorldTranslation(ml::app_framework::to_glm(right_eye_center.position));
-    }
+    T_W_fixation.rotation = ml::app_framework::to_ml(fixation_node_->GetWorldRotation());
+    T_W_fixation.position = ml::app_framework::to_ml(fixation_node_->GetWorldTranslation());
 
-    if (FLAGS_draw_gaze_left) {
-      ML_LOG(Info, "Inside FLAGS_draw_gaze_left");
-      auto left_origin = ml::app_framework::to_glm(left_eye_center.position);
-      auto left_direction = ml::app_framework::to_glm(left_eye_center.rotation) * glm::vec3(0, 0, -1);
-      glm::vec3 left_gaze_line[] = {
-        left_origin,
-        left_origin + left_direction
-      };
-      auto left_line_renderable = left_gaze_node_->GetComponent<ml::app_framework::RenderableComponent>();
-      left_line_renderable->GetMesh()->SetPrimitiveType(GL_LINES);
-      left_line_renderable->GetMesh()->UpdateMesh(left_gaze_line, nullptr, sizeof(left_gaze_line)/sizeof(glm::vec3), nullptr, 0);
-      auto left_line_material = std::static_pointer_cast<ml::app_framework::FlatMaterial>(left_line_renderable->GetMaterial());
-      left_line_material->SetColor(glm::vec4(.0f, .0f, 1.0f, 1.0f));
+    ML_LOG(Info, "T_W_fixation(%f, %f, %f, %f), (%f, %f, %f)", 
+      T_W_fixation.rotation.w, T_W_fixation.rotation.x, T_W_fixation.rotation.y, T_W_fixation.rotation.z, 
+      T_W_fixation.position.x, T_W_fixation.position.y, T_W_fixation.position.z);
 
-      left_gaze_point_node_->SetWorldTranslation(left_origin + left_direction);
-      left_gaze_point_node_->SetWorldRotation(ml::app_framework::to_glm(left_eye_center.rotation));
-    }
+    // if (FLAGS_eye_centers_origin) {
+    //   //
+    //   // This case draws the eye centers relative to the
+    //   // origin. When running on device this would allow you to move
+    //   // back from the origin and see the eye centers versus them
+    //   // being within your head and not able to see them.
+    //   //
+    //   left_center_node_->SetWorldRotation(ml::app_framework::to_glm(left_eye_center.rotation));
+    //   left_center_node_->SetWorldTranslation(ml::app_framework::to_glm(left_eye_center.position) - ml::app_framework::to_glm(head.position));
+    //   right_center_node_->SetWorldRotation(ml::app_framework::to_glm(right_eye_center.rotation));
+    //   right_center_node_->SetWorldTranslation(ml::app_framework::to_glm(right_eye_center.position) - ml::app_framework::to_glm(head.position));
+    // } else {
+    //   //
+    //   // This case is more useful on MLRemote where you could change
+    //   // the world space position of the eye centers independently
+    //   // of the headpose.  This would also be useful on device if
+    //   // you wanted to log these positions to make sure that the eye
+    //   // center values are correct.
+    //   //
+    //   left_center_node_->SetWorldRotation(ml::app_framework::to_glm(left_eye_center.rotation));
+    //   left_center_node_->SetWorldTranslation(ml::app_framework::to_glm(left_eye_center.position));
+    //   right_center_node_->SetWorldRotation(ml::app_framework::to_glm(right_eye_center.rotation));
+    //   right_center_node_->SetWorldTranslation(ml::app_framework::to_glm(right_eye_center.position));
+    // }
 
-    if (FLAGS_draw_gaze_right) {
-      auto right_origin = ml::app_framework::to_glm(right_eye_center.position);
-      auto right_direction = ml::app_framework::to_glm(right_eye_center.rotation) * glm::vec3(0, 0, -1);
-      glm::vec3 right_gaze_line[] = {
-        right_origin,
-        right_origin + right_direction
-      };
-      auto right_line_renderable = right_gaze_node_->GetComponent<ml::app_framework::RenderableComponent>();
-      right_line_renderable->GetMesh()->SetPrimitiveType(GL_LINES);
-      right_line_renderable->GetMesh()->UpdateMesh(right_gaze_line, nullptr, sizeof(right_gaze_line)/sizeof(glm::vec3), nullptr, 0);
-      auto right_line_material = std::static_pointer_cast<ml::app_framework::FlatMaterial>(right_line_renderable->GetMaterial());
-      right_line_material->SetColor(glm::vec4(.0f, .0f, 1.0f, 1.0f));
+    // if (FLAGS_draw_gaze_left) {
+    //   ML_LOG(Info, "Inside FLAGS_draw_gaze_left");
+    //   auto left_origin = ml::app_framework::to_glm(left_eye_center.position);
+    //   auto left_direction = ml::app_framework::to_glm(left_eye_center.rotation) * glm::vec3(0, 0, -1);
+    //   glm::vec3 left_gaze_line[] = {
+    //     left_origin,
+    //     left_origin + left_direction
+    //   };
+    //   auto left_line_renderable = left_gaze_node_->GetComponent<ml::app_framework::RenderableComponent>();
+    //   left_line_renderable->GetMesh()->SetPrimitiveType(GL_LINES);
+    //   left_line_renderable->GetMesh()->UpdateMesh(left_gaze_line, nullptr, sizeof(left_gaze_line)/sizeof(glm::vec3), nullptr, 0);
+    //   auto left_line_material = std::static_pointer_cast<ml::app_framework::FlatMaterial>(left_line_renderable->GetMaterial());
+    //   left_line_material->SetColor(glm::vec4(.0f, .0f, 1.0f, 1.0f));
 
-      right_gaze_point_node_->SetWorldTranslation(right_origin + right_direction);
-      right_gaze_point_node_->SetWorldRotation(ml::app_framework::to_glm(right_eye_center.rotation));
-    }
+    //   left_gaze_point_node_->SetWorldTranslation(left_origin + left_direction);
+    //   left_gaze_point_node_->SetWorldRotation(ml::app_framework::to_glm(left_eye_center.rotation));
+    // }
+
+    // if (FLAGS_draw_gaze_right) {
+    //   auto right_origin = ml::app_framework::to_glm(right_eye_center.position);
+    //   auto right_direction = ml::app_framework::to_glm(right_eye_center.rotation) * glm::vec3(0, 0, -1);
+    //   glm::vec3 right_gaze_line[] = {
+    //     right_origin,
+    //     right_origin + right_direction
+    //   };
+    //   auto right_line_renderable = right_gaze_node_->GetComponent<ml::app_framework::RenderableComponent>();
+    //   right_line_renderable->GetMesh()->SetPrimitiveType(GL_LINES);
+    //   right_line_renderable->GetMesh()->UpdateMesh(right_gaze_line, nullptr, sizeof(right_gaze_line)/sizeof(glm::vec3), nullptr, 0);
+    //   auto right_line_material = std::static_pointer_cast<ml::app_framework::FlatMaterial>(right_line_renderable->GetMaterial());
+    //   right_line_material->SetColor(glm::vec4(.0f, .0f, 1.0f, 1.0f));
+
+    //   right_gaze_point_node_->SetWorldTranslation(right_origin + right_direction);
+    //   right_gaze_point_node_->SetWorldRotation(ml::app_framework::to_glm(right_eye_center.rotation));
+    // }
+    ML_LOG(Info, "----------------------");
   }
 
 private:

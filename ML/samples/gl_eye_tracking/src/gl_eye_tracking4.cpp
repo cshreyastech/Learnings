@@ -9,30 +9,9 @@
 // %COPYRIGHT_END%
 // ---------------------------------------------------------------------
 // %BANNER_END%
-#include <app_framework/graphics_context.h>
-#include <app_framework/ml_macros.h>
-#include <stb_image.h>
-
-#include <ml_graphics.h>
-#include <ml_head_tracking.h>
-#include <ml_lifecycle.h>
-#include <ml_perception.h>
-
-#include <atomic>
-#include <chrono>
-#include <cstdlib>
-#include <cmath>
-#include <chrono>
-
-#include "gl_eye_tracking/core/shader.hpp"
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-
 #include <app_framework/application.h>
 #include <app_framework/convert.h>
+#include <app_framework/ml_macros.h>
 #include <app_framework/toolset.h>
 
 #include <gflags/gflags.h>
@@ -45,6 +24,12 @@
 #include <ml_eye_tracking.h>
 #include <ml_head_tracking.h>
 #include <ml_logging.h>
+#include <ml_perception.h>
+#include "gl_eye_tracking/core/shader.hpp"
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 DEFINE_bool(draw_fixation_point, true, "Draw the fixation point.");
 DEFINE_bool(draw_eye_centers, true, "Draw the eye centers.");
@@ -200,6 +185,24 @@ int main() {
   GLuint framebuffer_id = 0;
   glGenFramebuffers(1, &framebuffer_id);
 
+
+  MLTransform T_W_top_left = {};
+  MLTransform T_W_top_right = {};
+  MLTransform T_W_bottom_right = {};
+  MLTransform T_W_bottom_left = {};
+
+
+  T_W_top_left.rotation.w = 1.0f;
+  T_W_top_left.rotation.x = 0.0f;
+  T_W_top_left.rotation.y = 0.0f;
+  T_W_top_left.rotation.z = 0.0f;
+
+  float x = 0.0f, y = 0.0f, z = -0.5f;
+
+  T_W_bottom_left.position.x = x;
+  T_W_bottom_left.position.y = y;
+  T_W_bottom_left.position.z = z;
+
   auto start = std::chrono::high_resolution_clock::now();
   while (AppStatus::Stopped != status) {
     if (AppStatus::Paused == status) {
@@ -208,19 +211,61 @@ int main() {
     MLSnapshot *snapshot = nullptr;
     UNWRAP_MLRESULT(MLPerceptionGetSnapshot(&snapshot));
 
-    MLTransform fixation = {};
+
+    MLTransform T_P_fixation = {};
     MLTransform left_eye_center = {};
     MLTransform right_eye_center = {};
-    MLTransform head = {};
-    UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &head_static_data_.coord_frame_head, &head));
-    UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.fixation, &fixation));
+    MLTransform T_W_head = {};
+    UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &head_static_data_.coord_frame_head, &T_W_head));
+    UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.fixation, &T_P_fixation));
     UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.left_center, &left_eye_center));
     UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.right_center, &right_eye_center));
     UNWRAP_MLRESULT(MLPerceptionReleaseSnapshot(snapshot));
 
+    // ML_LOG(Info, "T_W_head(%f, %f, %f, %f), (%f, %f, %f)", 
+    //     T_W_head.rotation.w, T_W_head.rotation.x, T_W_head.rotation.y, T_W_head.rotation.z, 
+    //     T_W_head.position.x, T_W_head.position.y, T_W_head.position.z);
+
+    // ML_LOG(Info, "T_P_fixation(%f, %f, %f, %f), (%f, %f, %f)", 
+    //     T_P_fixation.rotation.w, T_P_fixation.rotation.x, T_P_fixation.rotation.y, T_P_fixation.rotation.z, 
+    //     T_P_fixation.position.x, T_P_fixation.position.y, T_P_fixation.position.z);
+    
+
+
+
+
+    // MLTransform T_W_FIX = {};
+    // T_W_FIX.rotation = ml::app_framework::to_ml(
+    //   ml::app_framework::to_glm(T_W_head.rotation) * ml::app_framework::to_glm(T_P_fixation.rotation)
+    // );
+
+    // T_W_FIX.position = ml::app_framework::to_ml(
+    //   ml::app_framework::to_glm(T_W_head.position) + 
+    //   ml::app_framework::to_glm(T_W_head.rotation) * ml::app_framework::to_glm(T_P_fixation.position)
+    // );
+
     // Render Fixation point
-    glm::quat Q_W_FIX = ml::app_framework::to_glm(fixation.rotation);
-    glm::quat P_W_FIX = ml::app_framework::to_glm(fixation.position);
+    glm::quat Q_W_FIX = ml::app_framework::to_glm(T_P_fixation.rotation);
+    glm::vec3 P_W_FIX = ml::app_framework::to_glm(T_P_fixation.position);
+    
+    // Quternion to Angle-axis conversion
+    Q_W_FIX = glm::normalize(Q_W_FIX);
+    glm::vec3 V_W_FIX;
+    float angle = 2 * acos(Q_W_FIX.w);
+    float s = sqrt(1.0 - Q_W_FIX.w * Q_W_FIX.w); 
+    if (s < 0.001) 
+    { 
+      V_W_FIX.x = Q_W_FIX.x;
+      V_W_FIX.y = Q_W_FIX.y;
+      V_W_FIX.z = Q_W_FIX.z;
+    } 
+    else 
+    {
+      V_W_FIX.x = Q_W_FIX.x / s;
+      V_W_FIX.y = Q_W_FIX.y / s;
+      V_W_FIX.z = Q_W_FIX.z / s;
+    }
+
 
     MLGraphicsFrameParamsEx frame_params;
     MLGraphicsFrameParamsExInit(&frame_params);
@@ -249,8 +294,8 @@ int main() {
       // 0, 0, 1280, 960
       glViewport((GLint)viewport.x, (GLint)viewport.y, (GLsizei)viewport.w, (GLsizei)viewport.h);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-      // glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-      glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+      glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+      // glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
       //---------Insert rendering code below---------//
       auto end = std::chrono::high_resolution_clock::now();
@@ -259,15 +304,24 @@ int main() {
 
       // activate shader
       ourShader.use();
-
+      // https://stackoverflow.com/questions/57687602/use-top-left-origin-in-opengl
       // create transformations
       glm::mat4 model         = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
       glm::mat4 view          = glm::mat4(1.0f);
       glm::mat4 projection    = glm::mat4(1.0f);
-      model = glm::rotate(model, f_secs.count(), glm::vec3(0.5f, 1.0f, 0.0f));
-      view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -0.5f));
+
+      // model = glm::rotate(model, f_secs.count(), glm::vec3(0.5f, 1.0f, 0.0f));
+      // view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -0.5f));
+
+      model = glm::rotate(model, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+      view  = glm::translate(view, glm::vec3(x, y, z));
+      // 0.057357, -0.110412, -0.581984
+      // model = glm::rotate(model, angle, V_W_FIX);
+      // view  = glm::translate(view, P_W_FIX);
+      // ML_LOG(Info, "angle: %f, P_W_FIX(%f, %f, %f)", angle, P_W_FIX.x, P_W_FIX.y, P_W_FIX.z);
+
       float aspect_ratio = (viewport.w / viewport.h);
-      projection = glm::perspective(glm::radians(5.0f), aspect_ratio, 0.1f, 100.0f);
+      projection = glm::perspective(glm::radians(15.0f), aspect_ratio, 0.1f, 100.0f);
       // retrieve the matrix uniform locations
       unsigned int modelLoc = glGetUniformLocation(ourShader.ID, "model");
       unsigned int viewLoc  = glGetUniformLocation(ourShader.ID, "view");
@@ -288,6 +342,7 @@ int main() {
     UNWRAP_MLRESULT(MLGraphicsEndFrame(graphics_client, frame_handle));
 
     graphics_context.SwapBuffers();
+    ML_LOG(Info, "----------------------");
   }
 
   ML_LOG(Info, "End loop.");

@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <!-- Project global & default -->
-    <ProjectGuid>{8C7E18F9-9365-43FA-83AC-7BB2C0E61BFF}</ProjectGuid>
+    <ProjectGuid>{F219B53D-307B-470C-A8A7-85A7F9D1A229}</ProjectGuid>
     <MLProjectFile>app_framework.mabu</MLProjectFile>
     <MLProjectKind>static_shared</MLProjectKind>
     <MLMfitExtraArgs>
@@ -968,7 +968,7 @@
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties MLProjectMabuSyncTime="133308880082623939 (6/10/2023 4:26:48 PM UTC)" />
+      <UserProperties MLProjectMabuSyncTime="133314711981976771 (6/17/2023 10:26:38 AM UTC)" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

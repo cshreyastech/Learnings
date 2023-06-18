@@ -36,6 +36,13 @@ private:
   std::shared_ptr<ml::app_framework::Node> left_gaze_point_node_;
   std::shared_ptr<ml::app_framework::Node> right_gaze_point_node_;
 
+
+  std::shared_ptr<ml::app_framework::Node> top_left_node_;
+  std::shared_ptr<ml::app_framework::Node> top_right_node_;
+  std::shared_ptr<ml::app_framework::Node> bottom_right_node_;
+  std::shared_ptr<ml::app_framework::Node> bottom_left_node_;
+
+
   MLHandle head_tracker_ = ML_INVALID_HANDLE;
   MLHeadTrackingStaticData head_static_data_ = {};
   MLHandle eye_tracker_ = ML_INVALID_HANDLE;

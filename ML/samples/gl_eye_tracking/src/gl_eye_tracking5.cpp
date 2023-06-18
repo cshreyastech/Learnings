@@ -1,70 +1,96 @@
 #include "gl_eye_tracking/gl_eye_tracking5.hpp"
 
-const glm::vec3 kCubeScale = glm::vec3(0.01f, 0.01f, 0.01f);
+DEFINE_bool(draw_fixation_point, true, "Draw the fixation point.");
+DEFINE_bool(draw_eye_centers, true, "Draw the eye centers.");
+DEFINE_bool(draw_gaze_left, false, "Draw left gaze vector.");
+DEFINE_bool(draw_gaze_right, false, "Draw right gaze vector.");
+DEFINE_bool(eye_centers_origin, true,
+            "If true, eye centers are drawn relative to the origin; otherwise, the world space position is used.");
 
+const glm::vec3 kCubeScale = glm::vec3(0.01f, 0.01f, 0.01f);
+const glm::vec3 kEyeCenterScale = glm::vec3(0.02f, 0.02f, 0.02f);
 void GLEyeTrackingApp::OnStart()
 {
-  ML_LOG(Info, "OnStart()");
+    UNWRAP_MLRESULT(MLHeadTrackingCreate(&head_tracker_));
+    UNWRAP_MLRESULT(MLHeadTrackingGetStaticData(head_tracker_, &head_static_data_));
 
-  cube_node1_  = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
-  cube_node2_  = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
-  cube_node3_  = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
-  cube_node4_  = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
-  cube_node5_  = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
-  cube_node6_  = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
-  cube_node7_  = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
-  cube_node8_  = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
+    UNWRAP_MLRESULT(MLEyeTrackingCreate(&eye_tracker_));
+    UNWRAP_MLRESULT_FATAL(MLEyeTrackingGetStaticData(eye_tracker_, &eye_static_data_));
 
-  GetRoot()->AddChild(cube_node1_);
-  GetRoot()->AddChild(cube_node2_);
-  GetRoot()->AddChild(cube_node3_);
-  GetRoot()->AddChild(cube_node4_);
-  GetRoot()->AddChild(cube_node5_);
-  GetRoot()->AddChild(cube_node6_);
-  GetRoot()->AddChild(cube_node7_);
-  GetRoot()->AddChild(cube_node8_);
+    fixation_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
+    left_center_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
+    right_center_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
+    left_gaze_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Line);
+    right_gaze_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Line);
+    left_gaze_point_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
+    right_gaze_point_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
 
-  cube_node1_->SetLocalScale(kCubeScale);
-  cube_node2_->SetLocalScale(kCubeScale);
-  cube_node3_->SetLocalScale(kCubeScale);
-  cube_node4_->SetLocalScale(kCubeScale);
-  cube_node5_->SetLocalScale(kCubeScale);
-  cube_node6_->SetLocalScale(kCubeScale);
-  cube_node7_->SetLocalScale(kCubeScale);
-  cube_node8_->SetLocalScale(kCubeScale);
+    GetRoot()->AddChild(fixation_node_);
+    GetRoot()->AddChild(left_center_node_);
+    GetRoot()->AddChild(right_center_node_);
+    GetRoot()->AddChild(left_gaze_node_);
+    GetRoot()->AddChild(right_gaze_node_);
+    GetRoot()->AddChild(left_gaze_point_node_);
+    GetRoot()->AddChild(right_gaze_point_node_);
+    fixation_node_->SetLocalScale(kCubeScale);
+    left_center_node_->SetLocalScale(kEyeCenterScale);
+    right_center_node_->SetLocalScale(kEyeCenterScale);
+    left_gaze_point_node_->SetLocalScale(kEyeCenterScale);
+    right_gaze_point_node_->SetLocalScale(kEyeCenterScale);
 }
 
 void GLEyeTrackingApp::OnStop()
 {
   ML_LOG(Info, "OnStop()");
+
+    UNWRAP_MLRESULT(MLHeadTrackingDestroy(head_tracker_));
+    UNWRAP_MLRESULT(MLEyeTrackingDestroy(eye_tracker_));
 }
 
 void GLEyeTrackingApp::OnUpdate(float)
 {
-  const glm::quat Q_W(-0.0, 0.0, -0.0, 1.0);
+    MLSnapshot *snapshot = nullptr;
+    UNWRAP_MLRESULT(MLPerceptionGetSnapshot(&snapshot));
 
-  cube_node1_->SetWorldRotation(Q_W);
-  cube_node2_->SetWorldRotation(Q_W);
-  cube_node3_->SetWorldRotation(Q_W);
-  cube_node4_->SetWorldRotation(Q_W);
-  cube_node5_->SetWorldRotation(Q_W);
-  cube_node6_->SetWorldRotation(Q_W);
-  cube_node7_->SetWorldRotation(Q_W);
-  cube_node8_->SetWorldRotation(Q_W);
+    MLTransform T_W_R = {};
+    MLTransform T_P_fixation = {};
+    MLTransform T_W_fixation = {};
+    MLTransform left_eye_center = {};
+    MLTransform right_eye_center = {};
+    MLTransform T_W_head = {};
+    UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &head_static_data_.coord_frame_head, &T_W_head));
+    UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.fixation, &T_P_fixation));
+    UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.left_center, &left_eye_center));
+    UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.right_center, &right_eye_center));
+    UNWRAP_MLRESULT(MLPerceptionReleaseSnapshot(snapshot));
 
-  float d = 1.0f;
-  cube_node1_->SetWorldTranslation(glm::vec3(-0.0, -0.0, -0.5));
-  
-  cube_node2_->SetWorldTranslation(glm::vec3(-0.0, -0.0, -d));
-  
-  cube_node3_->SetWorldTranslation(glm::vec3(-d, -0.0, -d));
-  cube_node4_->SetWorldTranslation(glm::vec3( d, -0.0, -d));
-  
-  cube_node5_->SetWorldTranslation(glm::vec3( 0.0, -d, -d));
-  cube_node6_->SetWorldTranslation(glm::vec3( 0.0,  d, -d));
+    T_W_R.rotation = ml::app_framework::to_ml(GetRoot()->GetWorldRotation());
+    T_W_R.position = ml::app_framework::to_ml(GetRoot()->GetWorldTranslation());
 
-  cube_node7_->SetWorldTranslation(glm::vec3( d,  d, -d));
-  cube_node8_->SetWorldTranslation(glm::vec3(-d, -d, -d));
+    ML_LOG(Info, "T_W_ROOT(%f, %f, %f, %f), (%f, %f, %f)", 
+        T_W_R.rotation.w, T_W_R.rotation.x, T_W_R.rotation.y, T_W_R.rotation.z, 
+        T_W_R.position.x, T_W_R.position.y, T_W_R.position.z);
+
+    ML_LOG(Info, "T_W_head(%f, %f, %f, %f), (%f, %f, %f)", 
+        T_W_head.rotation.w, T_W_head.rotation.x, T_W_head.rotation.y, T_W_head.rotation.z, 
+        T_W_head.position.x, T_W_head.position.y, T_W_head.position.z);
+
+    ML_LOG(Info, "T_P_fixation(%f, %f, %f, %f), (%f, %f, %f)", 
+        T_P_fixation.rotation.w, T_P_fixation.rotation.x, T_P_fixation.rotation.y, T_P_fixation.rotation.z, 
+        T_P_fixation.position.x, T_P_fixation.position.y, T_P_fixation.position.z);
+
+    if (FLAGS_draw_fixation_point) {
+      fixation_node_->SetWorldRotation(ml::app_framework::to_glm(T_P_fixation.rotation));
+      fixation_node_->SetWorldTranslation(ml::app_framework::to_glm(T_P_fixation.position));
+    }
+
+    T_W_fixation.rotation = ml::app_framework::to_ml(fixation_node_->GetWorldRotation());
+    T_W_fixation.position = ml::app_framework::to_ml(fixation_node_->GetWorldTranslation());
+
+    ML_LOG(Info, "T_W_fixation(%f, %f, %f, %f), (%f, %f, %f)", 
+      T_W_fixation.rotation.w, T_W_fixation.rotation.x, T_W_fixation.rotation.y, T_W_fixation.rotation.z, 
+      T_W_fixation.position.x, T_W_fixation.position.y, T_W_fixation.position.z);
+    ML_LOG(Info, "----------------------");
 }
 
 int main(int argc, char **argv) {

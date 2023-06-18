@@ -81,8 +81,8 @@ void Renderer::Render() {
     auto viewport = current_cam_->GetViewport();
     glViewport((int)viewport.x, (int)viewport.y, (int)viewport.z, (int)viewport.w);
 
-    glClearColor(0.0, 0.0, 0.0, 0.0);
-    // glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    // glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClearColor(1.f, 0.f, 0.f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Draw all opaque objects first.
@@ -233,7 +233,7 @@ void Renderer::UseMaterial(Material &material) {
 }
 
 void Renderer::RenderRenderable(const RenderableComponent &renderable) {
-  ML_LOG(Info, "Renderer::RenderRenderable()- gl_vertex_array_");
+  // ML_LOG(Info, "Renderer::RenderRenderable()- gl_vertex_array_");
   auto model_transform = renderable.GetNode()->GetWorldTransform();
   glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(model_transform), glm::value_ptr(model_transform));
 
