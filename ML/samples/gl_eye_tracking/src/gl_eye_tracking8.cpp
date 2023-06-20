@@ -46,6 +46,12 @@ void GLEyeTrackingApp::OnStart()
   stbi_image_free(data);
   off_screen_texture_ = std::make_shared<Texture>(GL_TEXTURE_2D, texture, width, height, true);
 
+  // glBindFramebuffer(GL_READ_FRAMEBUFFER, (GLuint)imgui_frame_buffer);
+  // glBindFramebuffer(GL_DRAW_FRAMEBUFFER, blit_target->GetGLFramebuffer());
+  // glBlitFramebuffer(0, 0, imgui_texture->GetWidth(), imgui_texture->GetHeight(), blit_target->GetWidth() / 2, 0,
+  // blit_target->GetWidth(), blit_target->GetHeight() / 2, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+
+
 
   // off_screen_texture_ = Registry::GetInstance()->GetResourcePool()->LoadTexture("data/res/texture/container.jpg", GL_RGB);
   std::shared_ptr<TexturedMaterial> gui_mat = std::make_shared<TexturedMaterial>(off_screen_texture_);
@@ -55,7 +61,7 @@ void GLEyeTrackingApp::OnStart()
   gui_node_->AddComponent(gui_renderable);
 
   GetRoot()->AddChild(gui_node_);
-  
+
 }
 
 void GLEyeTrackingApp::OnStop()
