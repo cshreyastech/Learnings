@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <!-- Project global & default -->
-    <ProjectGuid>{92D8DFA0-0524-475D-A168-0A9B70C1206A}</ProjectGuid>
+    <ProjectGuid>{45FE201C-752A-4725-B201-5D4ED4B075EF}</ProjectGuid>
     <MLProjectFile>image_tracking2.mabu</MLProjectFile>
     <MLProjectKind>program</MLProjectKind>
     <MLMfitExtraArgs>
@@ -176,6 +176,7 @@
     <LocalDebuggerEnvironment>PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\IntelliCode\CLI;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Team Tools\Performance Tools\x64;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\vs2019\x64;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\vs2019;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\devinit;C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64;C:\Program Files (x86)\Windows Kits\10\bin\x64;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin;C:\Windows\Microsoft.NET\Framework64\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools;$(MLSDK)\tools\mabu\tools\MinGW\bin;$(MLSDK)\tools\mabu\tools\MinGW\msys\1.0\bin;C:\Program Files (x86)\VMware\VMware Player\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\CMake\bin;C:\msys64\ucrt64\bin;C:\Program Files\Git\cmd;C:\ProgramData\chocolatey\bin;C:\Program Files\dotnet;C:\Program Files\Java\jdk1.8.0_211\bin;C:\Users\cshre\AppData\Local\Programs\Python\Python311\Scripts;C:\Users\cshre\AppData\Local\Programs\Python\Python311;C:\Users\cshre\AppData\Local\Microsoft\WindowsApps;C:\Users\cshre\.dotnet\tools;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Users\cshre\MagicLeap\tools\zi\v2.3.2.20210609\lib;C:\Users\cshre\MagicLeap\tools\zi\v2.3.2.20210609\bin;$(MLSDK)\lib\win64;C:\lcb\Learnings\ML\app_framework\external\package\debug_win_msvc-2019-16.11_x64\bin;C:\lcb\Learnings\ML\app_framework\external\package\debug_win_msvc-2019-16.11_x64\lib</LocalDebuggerEnvironment>
     <!-- set this for launching Lumin RT examples -->
     <LocalDebuggerWorkingDirectory>$(ProjectDir)\$ml_asset_folder$</LocalDebuggerWorkingDirectory>
+    <MLDeviceSerialNumber />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <MLSDK>C:\Users\cshre\MagicLeap\mlsdk\v0.26.0</MLSDK>
@@ -247,7 +248,7 @@
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties MLProjectMabuSyncTime="133308879711343961 (6/10/2023 4:26:11 PM UTC)" />
+      <UserProperties MLProjectMabuSyncTime="133316775067808223 (6/19/2023 7:45:06 PM UTC)" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

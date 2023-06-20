@@ -569,6 +569,8 @@ void Application::UpdateMLCamera(const MLGraphicsFrameInfo &frame_info) {
   using namespace ml::app_framework;
 
   for (uint32_t camera_index = 0; camera_index < frame_info.num_virtual_cameras; ++camera_index) {
+    // ML_LOG(Info, "camera_index: %d", camera_index);
+
     std::shared_ptr<CameraComponent> cam = camera_nodes_[camera_index]->GetComponent<CameraComponent>();
 
     const MLRectf &viewport = frame_info.viewport;

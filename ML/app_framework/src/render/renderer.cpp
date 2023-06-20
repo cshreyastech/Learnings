@@ -81,8 +81,8 @@ void Renderer::Render() {
     auto viewport = current_cam_->GetViewport();
     glViewport((int)viewport.x, (int)viewport.y, (int)viewport.z, (int)viewport.w);
 
-    // glClearColor(0.0, 0.0, 0.0, 0.0);
-    glClearColor(1.f, 0.f, 0.f, 1.0f);
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    //glClearColor(1.f, 0.f, 0.f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Draw all opaque objects first.
@@ -178,6 +178,24 @@ void Renderer::BindProgram(GLuint vert, GLuint geom, GLuint frag) {
 
 void Renderer::UseMaterial(Material &material) {
   auto view = glm::inverse(current_cam_->GetNode()->GetWorldTransform());
+
+  std::string name = current_cam_->GetNode()->GetName();
+  /*
+  ML_LOG(Info, "view - name: %s [%f, %f, %f, %f], [%f, %f, %f, %f], [%f, %f, %f, %f], [%f, %f, %f, %f]", 
+      name.c_str(),
+      view[0][0], view[0][1], view[0][2], view[0][3], 
+      view[1][0], view[1][1], view[1][2], view[1][3],
+      view[2][0], view[2][1], view[2][2], view[2][3], 
+      view[3][0], view[3][1], view[3][2], view[3][3]);
+ 
+
+  auto projection = current_cam_->GetProjectionMatrix();
+  ML_LOG(Info, "projection: [%f, %f, %f, %f], [%f, %f, %f, %f], [%f, %f, %f, %f], [%f, %f, %f, %f]", projection[0][0],
+      projection[0][1], projection[0][2], projection[0][3], projection[1][0], projection[1][1], projection[1][2],
+      projection[1][3], projection[2][0], projection[2][1], projection[2][2], projection[2][3], projection[3][0],
+      projection[3][1], projection[3][2], projection[3][3]);
+ */
+
   auto view_proj = current_cam_->GetProjectionMatrix() * view;
 
   // Get the camera data, mvp, update the uniform

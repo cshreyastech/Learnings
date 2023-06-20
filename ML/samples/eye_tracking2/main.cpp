@@ -48,25 +48,28 @@ public:
     UNWRAP_MLRESULT_FATAL(MLEyeTrackingGetStaticData(eye_tracker_, &eye_static_data_));
 
     fixation_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
-    left_center_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
-    right_center_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
-    left_gaze_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Line);
-    right_gaze_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Line);
-    left_gaze_point_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
-    right_gaze_point_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
+    // left_center_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
+    // right_center_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
+    // left_gaze_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Line);
+    // right_gaze_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Line);
+    // left_gaze_point_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
+    // right_gaze_point_node_ = ml::app_framework::CreatePresetNode(ml::app_framework::NodeType::Cube);
+
+    GetRoot()->SetName("RootNode");
+    fixation_node_->SetName("fixation_node");
 
     GetRoot()->AddChild(fixation_node_);
-    GetRoot()->AddChild(left_center_node_);
-    GetRoot()->AddChild(right_center_node_);
-    GetRoot()->AddChild(left_gaze_node_);
-    GetRoot()->AddChild(right_gaze_node_);
-    GetRoot()->AddChild(left_gaze_point_node_);
-    GetRoot()->AddChild(right_gaze_point_node_);
+    // GetRoot()->AddChild(left_center_node_);
+    // GetRoot()->AddChild(right_center_node_);
+    // GetRoot()->AddChild(left_gaze_node_);
+    // GetRoot()->AddChild(right_gaze_node_);
+    // GetRoot()->AddChild(left_gaze_point_node_);
+    // GetRoot()->AddChild(right_gaze_point_node_);
     fixation_node_->SetLocalScale(kCubeScale);
-    left_center_node_->SetLocalScale(kEyeCenterScale);
-    right_center_node_->SetLocalScale(kEyeCenterScale);
-    left_gaze_point_node_->SetLocalScale(kEyeCenterScale);
-    right_gaze_point_node_->SetLocalScale(kEyeCenterScale);
+    // left_center_node_->SetLocalScale(kEyeCenterScale);
+    // right_center_node_->SetLocalScale(kEyeCenterScale);
+    // left_gaze_point_node_->SetLocalScale(kEyeCenterScale);
+    // right_gaze_point_node_->SetLocalScale(kEyeCenterScale);
   }
 
   void OnStop() override {
@@ -86,16 +89,16 @@ public:
     MLTransform T_W_head = {};
     UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &head_static_data_.coord_frame_head, &T_W_head));
     UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.fixation, &T_P_fixation));
-    UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.left_center, &left_eye_center));
-    UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.right_center, &right_eye_center));
+    // UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.left_center, &left_eye_center));
+    // UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.right_center, &right_eye_center));
     UNWRAP_MLRESULT(MLPerceptionReleaseSnapshot(snapshot));
 
     T_W_R.rotation = ml::app_framework::to_ml(GetRoot()->GetWorldRotation());
     T_W_R.position = ml::app_framework::to_ml(GetRoot()->GetWorldTranslation());
 
-    ML_LOG(Info, "T_W_ROOT(%f, %f, %f, %f), (%f, %f, %f)", 
-        T_W_R.rotation.w, T_W_R.rotation.x, T_W_R.rotation.y, T_W_R.rotation.z, 
-        T_W_R.position.x, T_W_R.position.y, T_W_R.position.z);
+    // ML_LOG(Info, "T_W_ROOT(%f, %f, %f, %f), (%f, %f, %f)", 
+    //     T_W_R.rotation.w, T_W_R.rotation.x, T_W_R.rotation.y, T_W_R.rotation.z, 
+    //     T_W_R.position.x, T_W_R.position.y, T_W_R.position.z);
 
     ML_LOG(Info, "T_W_head(%f, %f, %f, %f), (%f, %f, %f)", 
         T_W_head.rotation.w, T_W_head.rotation.x, T_W_head.rotation.y, T_W_head.rotation.z, 
@@ -181,12 +184,12 @@ public:
 
 private:
   std::shared_ptr<ml::app_framework::Node> fixation_node_;
-  std::shared_ptr<ml::app_framework::Node> left_center_node_;
-  std::shared_ptr<ml::app_framework::Node> right_center_node_;
-  std::shared_ptr<ml::app_framework::Node> left_gaze_node_;
-  std::shared_ptr<ml::app_framework::Node> right_gaze_node_;
-  std::shared_ptr<ml::app_framework::Node> left_gaze_point_node_;
-  std::shared_ptr<ml::app_framework::Node> right_gaze_point_node_;
+  // std::shared_ptr<ml::app_framework::Node> left_center_node_;
+  // std::shared_ptr<ml::app_framework::Node> right_center_node_;
+  // std::shared_ptr<ml::app_framework::Node> left_gaze_node_;
+  // std::shared_ptr<ml::app_framework::Node> right_gaze_node_;
+  // std::shared_ptr<ml::app_framework::Node> left_gaze_point_node_;
+  // std::shared_ptr<ml::app_framework::Node> right_gaze_point_node_;
 
   MLHandle head_tracker_ = ML_INVALID_HANDLE;
   MLHeadTrackingStaticData head_static_data_ = {};

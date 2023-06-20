@@ -1,13 +1,10 @@
-KIND=static
+export INCS = stb-master/
+INCS = stb-master/
+KIND = static
+SRCS = stb_lib/stblib.cpp
+USES = \
+	../common \
+	stdc++
 
-USES=\
-    stdc++ \
-    ../common \
-
-INCS=stb-master/
-
-export INCS=stb-master/
-
-SRCS=stb_lib/stblib.cpp
-
-CXXFLAGS.clang=-Wno-parentheses-equality
+CXXFLAGS.debug_lumin_clang-3.8_aarch64 = -Wno-parentheses-equality
+CXXFLAGS.release_lumin_clang-3.8_aarch64 = -Wno-parentheses-equality

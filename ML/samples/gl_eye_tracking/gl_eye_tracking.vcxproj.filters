@@ -90,20 +90,50 @@
     <ClCompile Include="../../app_framework/external/stb_lib/stblib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gl_eye_tracking4.cpp">
+    <ClCompile Include="src\gl_eye_tracking1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include/gl_eye_tracking/core/shader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="include/gl_eye_tracking/gl_eye_tracking.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include/gl_eye_tracking/gl_eye_tracking1.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include/gl_eye_tracking/gl_eye_tracking5.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include/gl_eye_tracking/gl_eye_tracking6.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include/gl_eye_tracking/gl_eye_tracking7.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="data/Button.fbm/Controller.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data/Button.fbm/Controller_bp.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="data/Controller.fbm/Controller.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data/Controller.fbm/Controller_bp.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data/ControllerBody.fbm/Controller.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data/ControllerBody.fbm/Controller_bp.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="data/Empty.fbm/Empty.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="data/DeepSeaExploration.png">

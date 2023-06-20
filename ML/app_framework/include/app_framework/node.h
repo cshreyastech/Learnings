@@ -55,6 +55,10 @@ public:
 
   void UpdateWorldPosition();
   void SetName(std::string);
+  inline std::string GetName() const {
+    return name_;
+  }
+
   const bool IsDirty() const;
   void SetDirty();
 

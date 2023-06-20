@@ -88,6 +88,10 @@ const glm::mat4 Node::GetParentWorldTransform() const {
   } else {
     parentWorldTransform = glm::mat4(1);
   }
+  glm::mat3 parentWorldRotation = glm::mat3(parentWorldTransform);
+  glm::quat Q_W_P = glm::quat_cast(parentWorldRotation);
+  // ML_LOG(Info, "Q_W_P(%f, %f, %f, %f)", Q_W_P.w, Q_W_P.x, Q_W_P.y, Q_W_P.z);
+
   return parentWorldTransform;
 }
 

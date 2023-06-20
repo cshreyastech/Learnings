@@ -114,7 +114,7 @@ int main() {
   // set up vertex data (and buffer(s)) and configure vertex attributes
   // ------------------------------------------------------------------
   float a = 1.0f;
-  float multiplyer = 0.0002f;
+  float multiplyer = 0.02f;
 
   a *= multiplyer;
   float vertices[] = {
@@ -197,7 +197,7 @@ int main() {
   T_W_top_left.rotation.y = 0.0f;
   T_W_top_left.rotation.z = 0.0f;
 
-  float x = 0.0f, y = 0.0f, z = -0.5f;
+  float x = 0.5f, y = 0.0f, z = -0.5f;
 
   T_W_bottom_left.position.x = x;
   T_W_bottom_left.position.y = y;
@@ -222,13 +222,13 @@ int main() {
     UNWRAP_MLRESULT(MLSnapshotGetTransform(snapshot, &eye_static_data_.right_center, &right_eye_center));
     UNWRAP_MLRESULT(MLPerceptionReleaseSnapshot(snapshot));
 
-    // ML_LOG(Info, "T_W_head(%f, %f, %f, %f), (%f, %f, %f)", 
-    //     T_W_head.rotation.w, T_W_head.rotation.x, T_W_head.rotation.y, T_W_head.rotation.z, 
-    //     T_W_head.position.x, T_W_head.position.y, T_W_head.position.z);
+    ML_LOG(Info, "T_W_head(%f, %f, %f, %f), (%f, %f, %f)", 
+        T_W_head.rotation.w, T_W_head.rotation.x, T_W_head.rotation.y, T_W_head.rotation.z, 
+        T_W_head.position.x, T_W_head.position.y, T_W_head.position.z);
 
-    // ML_LOG(Info, "T_P_fixation(%f, %f, %f, %f), (%f, %f, %f)", 
-    //     T_P_fixation.rotation.w, T_P_fixation.rotation.x, T_P_fixation.rotation.y, T_P_fixation.rotation.z, 
-    //     T_P_fixation.position.x, T_P_fixation.position.y, T_P_fixation.position.z);
+    ML_LOG(Info, "T_P_fixation(%f, %f, %f, %f), (%f, %f, %f)", 
+        T_P_fixation.rotation.w, T_P_fixation.rotation.x, T_P_fixation.rotation.y, T_P_fixation.rotation.z, 
+        T_P_fixation.position.x, T_P_fixation.position.y, T_P_fixation.position.z);
     
 
 
@@ -294,7 +294,7 @@ int main() {
       // 0, 0, 1280, 960
       glViewport((GLint)viewport.x, (GLint)viewport.y, (GLsizei)viewport.w, (GLsizei)viewport.h);
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-      glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+      glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
       // glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
       //---------Insert rendering code below---------//
@@ -314,14 +314,15 @@ int main() {
       // view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -0.5f));
 
       model = glm::rotate(model, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-      view  = glm::translate(view, glm::vec3(x, y, z));
+      // view  = glm::translate(view, glm::vec3(x, y, z));
+      view  = glm::translate(view, P_W_FIX);
       // 0.057357, -0.110412, -0.581984
       // model = glm::rotate(model, angle, V_W_FIX);
       // view  = glm::translate(view, P_W_FIX);
       // ML_LOG(Info, "angle: %f, P_W_FIX(%f, %f, %f)", angle, P_W_FIX.x, P_W_FIX.y, P_W_FIX.z);
 
       float aspect_ratio = (viewport.w / viewport.h);
-      projection = glm::perspective(glm::radians(15.0f), aspect_ratio, 0.1f, 100.0f);
+      projection = glm::perspective(glm::radians(90.0f), aspect_ratio, 0.1f, 100.0f);
       // retrieve the matrix uniform locations
       unsigned int modelLoc = glGetUniformLocation(ourShader.ID, "model");
       unsigned int viewLoc  = glGetUniformLocation(ourShader.ID, "view");
