@@ -1,0 +1,26 @@
+Desktop
+
+DEFINE_bool(draw_fixation_point, true, "Draw the fixation point.");
+DEFINE_bool(draw_eye_centers, true, "Draw the eye centers.");
+DEFINE_bool(draw_gaze_left, true, "Draw left gaze vector.");
+DEFINE_bool(draw_gaze_right, true, "Draw right gaze vector.");
+DEFINE_bool(eye_centers_origin, true,
+            "If true, eye centers are drawn relative to the origin; otherwise, the world space position is used.");
+
+[eye_tracking2] T_W_head(1.000000, 0.000000, 0.000000, 0.000000), (0.000000, 2.000000, 0.000000)
+[eye_tracking2] T_W_fixation(1.000000, 0.000000, 0.000000, 0.000000), (0.000000, 2.000000, -1.500000)
+[eye_tracking2] T_W_left_eye_center(0.999940, 0.000000, -0.010920, 0.000000), (-0.032000, 2.000000, -0.035000)
+[eye_tracking2] T_W_right_eye_center(0.999940, 0.000000, 0.010920, 0.000000), (0.032000, 2.000000, -0.035000)
+----------------------
+DEFINE_bool(draw_fixation_point, true, "Draw the fixation point.");
+DEFINE_bool(draw_eye_centers, true, "Draw the eye centers.");
+DEFINE_bool(draw_gaze_left, true, "Draw left gaze vector.");
+DEFINE_bool(draw_gaze_right, true, "Draw right gaze vector.");
+DEFINE_bool(eye_centers_origin, false,
+            "If true, eye centers are drawn relative to the origin; otherwise, the world space position is used.");
+
+[eye_tracking2] T_W_head(1.000000, 0.000000, 0.000000, 0.000000), (0.000000, 2.000000, 0.000000)
+[eye_tracking2] T_W_fixation(1.000000, 0.000000, 0.000000, 0.000000), (0.000000, 2.000000, -1.500000)
+[eye_tracking2] T_W_left_eye_center(0.999940, 0.000000, -0.010920, 0.000000), (-0.032000, 2.000000, -0.035000)
+[eye_tracking2] T_W_right_eye_center(0.999940, 0.000000, 0.010920, 0.000000), (0.032000, 2.000000, -0.035000)
+----------------------

@@ -2,7 +2,7 @@
 
 python build.py
 
-mldb connect 192.168.86.237:5555
-mldb uninstall com.magicleap.capi.sample.gl_eye_tracking
-mldb install -u BUILD\com.magicleap.capi.sample.gl_eye_tracking.mpk
-mldb launch com.magicleap.capi.sample.gl_eye_tracking
+rem mldb connect 192.168.86.247:5555
+mldb uninstall com.magicleap.capi.sample.eye_tracking2
+mldb install -u BUILD\com.magicleap.capi.sample.eye_tracking2.mpk
+mldb launch com.magicleap.capi.sample.eye_tracking2

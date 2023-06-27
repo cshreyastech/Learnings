@@ -14,7 +14,7 @@ DATAS= \
   # BUILD/$(SPEC)/audio_output$(PROGRAM_EXT)             : native_samples/ \
   # BUILD/$(SPEC)/bluetooth$(PROGRAM_EXT)                : native_samples/ \
   # BUILD/$(SPEC)/controller$(PROGRAM_EXT)               : native_samples/ \
-  # BUILD/$(SPEC)/controller2$(PROGRAM_EXT)               : native_samples/ \
+  BUILD/$(SPEC)/controller2$(PROGRAM_EXT)               : native_samples/ \
   # BUILD/$(SPEC)/eye_tracking$(PROGRAM_EXT)             : native_samples/ \
   BUILD/$(SPEC)/eye_tracking2$(PROGRAM_EXT)             : native_samples/ \
   # BUILD/$(SPEC)/hand_tracking$(PROGRAM_EXT)            : native_samples/ \

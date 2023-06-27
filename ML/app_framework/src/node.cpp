@@ -16,6 +16,7 @@
 #include <glm/ext.hpp>
 #define GLM_ENABLE_EXPERIMENTAL 1
 #include <glm/gtx/transform.hpp>
+#include <ml_logging.h>
 
 namespace ml {
 namespace app_framework {
@@ -88,16 +89,21 @@ const glm::mat4 Node::GetParentWorldTransform() const {
   } else {
     parentWorldTransform = glm::mat4(1);
   }
-  glm::mat3 parentWorldRotation = glm::mat3(parentWorldTransform);
-  glm::quat Q_W_P = glm::quat_cast(parentWorldRotation);
-  // ML_LOG(Info, "Q_W_P(%f, %f, %f, %f)", Q_W_P.w, Q_W_P.x, Q_W_P.y, Q_W_P.z);
-
   return parentWorldTransform;
 }
 
 void Node::SetName(std::string name) {
   name_ = name;
 }
+
+/*
+std::string Node::GetParentNodeName()
+{
+  std::string parentName;
+
+  return parent_->GetName(); 
+}
+*/
 
 const bool Node::IsDirty() const {
   return local_dirty_ || world_dirty_;
@@ -118,6 +124,24 @@ void Node::SetLocalTranslation(const glm::vec3 &translation) {
 
 void Node::SetWorldTranslation(const glm::vec3 &translation) {
   SetDirty();
+
+  glm::mat4 T_W_P = GetParentWorldTransform();
+
+  /*
+  glm::mat3 R_W_P = glm::mat3(T_W_P);
+  glm::quat Q_W_P = glm::quat_cast(T_W_P);
+  glm::vec3 P_W_P;
+  P_W_P.x = T_W_P[0][3];
+  P_W_P.y = T_W_P[1][3];
+  P_W_P.z = T_W_P[2][3];
+  */
+  // ML_LOG(Info, "Node Name: %s", name_.c_str());
+  /*
+  ML_LOG(Info, "T_W_P(%f, %f, %f, %f), (%f, %f, %f)", 
+   Q_W_P.w, Q_W_P.x, Q_W_P.y, Q_W_P.z, 
+   P_W_P.x, P_W_P.y, P_W_P.z);
+  */
+
   local_translation_ = glm::vec3(glm::inverse(GetParentWorldTransform()) * glm::vec4(translation, 1));
 }
 

@@ -52,12 +52,15 @@ public:
   const glm::quat &GetLocalRotation() const;
   const glm::quat GetWorldRotation() const;
   const glm::vec3 &GetLocalScale() const;
-
+  const glm::mat4 GetParentWorldTransform() const;
+  
   void UpdateWorldPosition();
   void SetName(std::string);
   inline std::string GetName() const {
     return name_;
   }
+
+ // std::string GetParentNodeName();
 
   const bool IsDirty() const;
   void SetDirty();
@@ -88,7 +91,7 @@ private:
   mutable glm::mat4 local_transform_;
   mutable glm::mat4 world_transform_;
 
-  const glm::mat4 GetParentWorldTransform() const;
+  // const glm::mat4 GetParentWorldTransform() const;
 
   std::vector<std::shared_ptr<ml::app_framework::Node>> child_list_;
   std::string name_;

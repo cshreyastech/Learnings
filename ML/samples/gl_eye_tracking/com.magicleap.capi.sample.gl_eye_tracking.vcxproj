@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ML">
+      <Configuration>Debug</Configuration>
+      <Platform>ML</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ML">
+      <Configuration>Release</Configuration>
+      <Platform>ML</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <!-- Project global & default -->
+    <ProjectGuid>{06FC1BE8-A5C6-4A6E-86F1-CFD03EBCBACE}</ProjectGuid>
+    <MLProjectFile>com.magicleap.capi.sample.gl_eye_tracking.package</MLProjectFile>
+    <MLProjectKind>program</MLProjectKind>
+    <MLMfitExtraArgs>
+    </MLMfitExtraArgs>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectCapability Include="MLProject" />
+    <ProjectCapability Include="NoVCDefaultBuildUpToDateCheckProvider" />
+  </ItemGroup>
+  <PropertyGroup>
+    <PlatformTargetsFound>True</PlatformTargetsFound>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ML'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ML'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <UseDefaultDebuggersPropertyPageSchemas>false</UseDefaultDebuggersPropertyPageSchemas>
+    <UseDefaultPropertyPageSchemas>false</UseDefaultPropertyPageSchemas>
+  </PropertyGroup>
+  <ItemGroup>
+    <PropertyPageSchema Include="$(VCTargetsPath)$(LangID)\ProjectItemsSchema.xml" />
+    <PropertyPageSchema Include="$(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\general.xaml">
+      <Context>Project</Context>
+    </PropertyPageSchema>
+    <PropertyPageSchema Include="$(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\build.xaml" />
+    <PropertyPageSchema Include="$(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\intellisense.xaml" />
+    <!--Only show this page if the project is to create a package. -->
+    <PropertyPageSchema Condition="$([System.String]::copy($(MLProjectFile)).ToLower().EndsWith('.package'))" Include="$(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\package_signing.xaml" />
+    <PropertyPageSchema Include="$(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\build_events.xml" />
+    <PropertyPageSchema Condition="'$(MLProjectKind)' == 'program'" Include="&#xA;                        $(VCTargetsPath)$(LangID)\debugger_general.xml;&#xA;                        $(VCTargetsPath)$(LangID)\debugger_local_windows.xml;&#xA;                        $(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\debugger.xaml" />
+    <!-- Property sheet only rules -->
+    <PropertyPageSchema Include="$(VCTargetsPath)$(LangID)\general_makefile_ps.xml;$(VCTargetsPath)$(LangID)\usermacros.xml">
+      <Context>PropertySheet</Context>
+    </PropertyPageSchema>
+    <!-- File only rules -->
+    <PropertyPageSchema Include="$(VCTargetsPath)$(LangID)\general_file.xml">
+      <Context>File</Context>
+    </PropertyPageSchema>
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ML'">
+    <MLSDK>C:\Users\cshre\MagicLeap\mlsdk\v0.26.0</MLSDK>
+    <!--This is for internal use only. Will hold derived value.-->
+    <MLMabuSigningOption>-s "C:\localcodebase\ML\ml_cert\certforthesis.cert"</MLMabuSigningOption>
+    <MLCertificateFile>
+    </MLCertificateFile>
+    <!--This should appear before <NMakeBuildCommandLine> -->
+    <MLExtraBuildOption>
+    </MLExtraBuildOption>
+    <MabuTargetFullSpec>debug_lumin_clang-3.8_aarch64</MabuTargetFullSpec>
+    <ExecutablePath>$(MLSDK);$(PATH)</ExecutablePath>
+    <IncludePath />
+    <ReferencePath>
+    </ReferencePath>
+    <LibraryPath>
+    </LibraryPath>
+    <NMakeBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t device_debug -v -j8 --set-options=ide/visualstudio $(MLMabuSigningOption) $(MLExtraBuildOption)</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t device_debug -r -v -j8 --set-options=ide/visualstudio $(MLMabuSigningOption) $(MLExtraBuildOption)</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t device_debug -c -v -j8 --set-options=ide/visualstudio $(MLExtraBuildOption)</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>
+    </NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>
+    </NMakeIncludeSearchPath>
+    <NMakeForcedIncludes>$(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\ml_is.h</NMakeForcedIncludes>
+    <PackageFile>../BUILD/com.magicleap.capi.sample.gl_eye_tracking.mpk</PackageFile>
+    <IntDir>..\BUILD\debug_lumin_clang-3.8_aarch64</IntDir>
+    <OutDir>$(ProjectDir)\$(IntDir)</OutDir>
+    <NMakeOutput>$(IntDir)\gl_eye_tracking</NMakeOutput>
+    <ELFFile>$(NMakeOutput)</ELFFile>
+    <DebuggerFlavor>MLDebugger</DebuggerFlavor>
+    <!-- following are defaults for debugger options -->
+    <Attach>false</Attach>
+    <EnableAutoStop>true</EnableAutoStop>
+    <AutoStopAtFunction>main</AutoStopAtFunction>
+    <EnablePrettyPrinting>true</EnablePrettyPrinting>
+    <MLDownloadOnStart>true</MLDownloadOnStart>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ML'">
+    <MLSDK>C:\Users\cshre\MagicLeap\mlsdk\v0.26.0</MLSDK>
+    <!--This is for internal use only. Will hold derived value.-->
+    <MLMabuSigningOption>-s "C:\localcodebase\ML\ml_cert\certforthesis.cert"</MLMabuSigningOption>
+    <MLCertificateFile>
+    </MLCertificateFile>
+    <MLExtraBuildOption>
+    </MLExtraBuildOption>
+    <MabuTargetFullSpec>release_lumin_clang-3.8_aarch64</MabuTargetFullSpec>
+    <ExecutablePath>$(MLSDK);$(PATH)</ExecutablePath>
+    <IncludePath />
+    <ReferencePath>
+    </ReferencePath>
+    <LibraryPath>
+    </LibraryPath>
+    <NMakeBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t device_release -v -j8 --set-options=ide/visualstudio $(MLMabuSigningOption) $(MLExtraBuildOption)</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t device_release -r -v -j8 --set-options=ide/visualstudio $(MLMabuSigningOption) $(MLExtraBuildOption)</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t device_release -c -v -j8 --set-options=ide/visualstudio $(MLExtraBuildOption)</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>
+    </NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>
+    </NMakeIncludeSearchPath>
+    <NMakeForcedIncludes>$(LOCALAPPDATA)\Microsoft\VisualStudio\MagicLeap\ml_is.h</NMakeForcedIncludes>
+    <PackageFile>../BUILD/com.magicleap.capi.sample.gl_eye_tracking.mpk</PackageFile>
+    <IntDir>..\BUILD\release_lumin_clang-3.8_aarch64</IntDir>
+    <OutDir>$(ProjectDir)\$(IntDir)</OutDir>
+    <NMakeOutput>$(IntDir)\gl_eye_tracking</NMakeOutput>
+    <ELFFile>$(NMakeOutput)</ELFFile>
+    <DebuggerFlavor>MLDebugger</DebuggerFlavor>
+    <!-- following are defaults for debugger options -->
+    <Attach>false</Attach>
+    <EnableAutoStop>false</EnableAutoStop>
+    <AutoStopAtFunction>
+    </AutoStopAtFunction>
+    <EnablePrettyPrinting>true</EnablePrettyPrinting>
+    <MLDownloadOnStart>true</MLDownloadOnStart>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <MLSDK>C:\Users\cshre\MagicLeap\mlsdk\v0.26.0</MLSDK>
+    <MLCertificateFile>
+    </MLCertificateFile>
+    <MLExtraBuildOption>
+    </MLExtraBuildOption>
+    <MabuTargetFullSpec>debug_win_msvc-2019-16.11_x64</MabuTargetFullSpec>
+    <ExecutablePath>$(MLSDK);$(PATH)</ExecutablePath>
+    <NMakeBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t msvc-2019_debug -v -j8 $(MLExtraBuildOption)</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t msvc-2019_debug -r -v -j8 $(MLExtraBuildOption)</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t msvc-2019_debug -c -v -j8 $(MLExtraBuildOption)</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>
+    </NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>
+    </NMakeIncludeSearchPath>
+    <PackageFile>../BUILD/com.magicleap.capi.sample.gl_eye_tracking.mpk</PackageFile>
+    <IntDir>..\BUILD\debug_win_msvc-2019-16.11_x64</IntDir>
+    <OutDir>$(ProjectDir)\$(IntDir)</OutDir>
+    <NMakeOutput>$(IntDir)\gl_eye_tracking.exe</NMakeOutput>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <!-- following are defaults for debugger options -->
+    <Attach>false</Attach>
+    <!-- Environment for running with Simulator (ML Remote).This may also be changed at runtime -->
+    <LocalDebuggerEnvironment>PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\IntelliCode\CLI;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Team Tools\Performance Tools\x64;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\vs2019\x64;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\vs2019;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\devinit;C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64;C:\Program Files (x86)\Windows Kits\10\bin\x64;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin;C:\Windows\Microsoft.NET\Framework64\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools;$(MLSDK)\tools\mabu\tools\MinGW\bin;$(MLSDK)\tools\mabu\tools\MinGW\msys\1.0\bin;C:\Program Files (x86)\VMware\VMware Player\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\CMake\bin;C:\msys64\ucrt64\bin;C:\Program Files\Git\cmd;C:\ProgramData\chocolatey\bin;C:\Program Files\dotnet;C:\Program Files\Java\jdk1.8.0_211\bin;C:\Users\cshre\AppData\Local\Programs\Python\Python311\Scripts;C:\Users\cshre\AppData\Local\Programs\Python\Python311;C:\Users\cshre\AppData\Local\Microsoft\WindowsApps;C:\Users\cshre\.dotnet\tools;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Users\cshre\MagicLeap\tools\zi\v2.3.2.20210609\lib;C:\Users\cshre\MagicLeap\tools\zi\v2.3.2.20210609\bin;$(MLSDK)\lib\win64;C:\lcb\Learnings\ML\app_framework\external\package\debug_win_msvc-2019-16.11_x64\bin;C:\lcb\Learnings\ML\app_framework\external\package\debug_win_msvc-2019-16.11_x64\lib</LocalDebuggerEnvironment>
+    <!-- set this for launching Lumin RT examples -->
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)\..\BUILD</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <MLSDK>C:\Users\cshre\MagicLeap\mlsdk\v0.26.0</MLSDK>
+    <MLCertificateFile>
+    </MLCertificateFile>
+    <MLExtraBuildOption>
+    </MLExtraBuildOption>
+    <MabuTargetFullSpec>release_win_msvc-2019-16.11_x64</MabuTargetFullSpec>
+    <ExecutablePath>$(MLSDK);$(PATH)</ExecutablePath>
+    <NMakeBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t msvc-2019_release -v -j8 $(MLExtraBuildOption)</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t msvc-2019_release -r -v -j8 $(MLExtraBuildOption)</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>mabu $(MLProjectFile) MLSDK="$(MLSDK)" -t msvc-2019_release -c -v -j8 $(MLExtraBuildOption)</NMakeCleanCommandLine>
+    <NMakePreprocessorDefinitions>
+    </NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>
+    </NMakeIncludeSearchPath>
+    <PackageFile>../BUILD/com.magicleap.capi.sample.gl_eye_tracking.mpk</PackageFile>
+    <IntDir>..\BUILD\release_win_msvc-2019-16.11_x64</IntDir>
+    <OutDir>$(ProjectDir)\$(IntDir)</OutDir>
+    <NMakeOutput>$(IntDir)\gl_eye_tracking.exe</NMakeOutput>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <!-- following are defaults for debugger options -->
+    <Attach>false</Attach>
+    <!-- Environment for running with Simulator (ML Remote).This may also be changed at runtime -->
+    <LocalDebuggerEnvironment>PATH=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\IntelliCode\CLI;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Team Tools\Performance Tools\x64;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\vs2019\x64;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\vs2019;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\devinit;C:\Program Files (x86)\Windows Kits\10\bin\10.0.19041.0\x64;C:\Program Files (x86)\Windows Kits\10\bin\x64;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin;C:\Windows\Microsoft.NET\Framework64\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools;$(MLSDK)\tools\mabu\tools\MinGW\bin;$(MLSDK)\tools\mabu\tools\MinGW\msys\1.0\bin;C:\Program Files (x86)\VMware\VMware Player\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\CMake\bin;C:\msys64\ucrt64\bin;C:\Program Files\Git\cmd;C:\ProgramData\chocolatey\bin;C:\Program Files\dotnet;C:\Program Files\Java\jdk1.8.0_211\bin;C:\Users\cshre\AppData\Local\Programs\Python\Python311\Scripts;C:\Users\cshre\AppData\Local\Programs\Python\Python311;C:\Users\cshre\AppData\Local\Microsoft\WindowsApps;C:\Users\cshre\.dotnet\tools;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Users\cshre\MagicLeap\tools\zi\v2.3.2.20210609\lib;C:\Users\cshre\MagicLeap\tools\zi\v2.3.2.20210609\bin;$(MLSDK)\lib\win64;C:\lcb\Learnings\ML\app_framework\external\package\release_win_msvc-2019-16.11_x64\bin;C:\lcb\Learnings\ML\app_framework\external\package\release_win_msvc-2019-16.11_x64\lib</LocalDebuggerEnvironment>
+    <!-- set this for launching Lumin RT examples -->
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)\..\BUILD</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="src/core/shader.cpp" />
+    <ClCompile Include="src/gl_eye_tracking4.cpp" />
+    <ClCompile Include="../../app_framework/src/application.cpp" />
+    <ClCompile Include="../../app_framework/src/cli_args_parser.cpp" />
+    <ClCompile Include="../../app_framework/src/convert.cpp" />
+    <ClCompile Include="../../app_framework/src/gui.cpp" />
+    <ClCompile Include="../../app_framework/src/input/input_command_handler.cpp" />
+    <ClCompile Include="../../app_framework/src/input/ml_input_handler.cpp" />
+    <ClCompile Include="../../app_framework/src/node.cpp" />
+    <ClCompile Include="../../app_framework/src/registry.cpp" />
+    <ClCompile Include="../../app_framework/src/render/buffer.cpp" />
+    <ClCompile Include="../../app_framework/src/render/geometry_program.cpp" />
+    <ClCompile Include="../../app_framework/src/render/material.cpp" />
+    <ClCompile Include="../../app_framework/src/render/mesh.cpp" />
+    <ClCompile Include="../../app_framework/src/render/program.cpp" />
+    <ClCompile Include="../../app_framework/src/render/render_target.cpp" />
+    <ClCompile Include="../../app_framework/src/render/renderer.cpp" />
+    <ClCompile Include="../../app_framework/src/render/texture.cpp" />
+    <ClCompile Include="../../app_framework/src/render/variable.cpp" />
+    <ClCompile Include="../../app_framework/src/resource_pool.cpp" />
+    <ClCompile Include="../../app_framework/external/glad/src/glad.c" />
+    <ClCompile Include="../../app_framework/external/imgui-1.68/examples/imgui_impl_opengl3.cpp" />
+    <ClCompile Include="../../app_framework/external/imgui-1.68/imgui.cpp" />
+    <ClCompile Include="../../app_framework/external/imgui-1.68/imgui_demo.cpp" />
+    <ClCompile Include="../../app_framework/external/imgui-1.68/imgui_draw.cpp" />
+    <ClCompile Include="../../app_framework/external/imgui-1.68/imgui_widgets.cpp" />
+    <ClCompile Include="../../app_framework/external/stb_lib/stblib.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include/gl_eye_tracking/core/shader.hpp" />
+    <ClInclude Include="include/gl_eye_tracking/gl_eye_tracking.hpp" />
+    <ClInclude Include="include/gl_eye_tracking/gl_eye_tracking1.hpp" />
+    <ClInclude Include="include/gl_eye_tracking/gl_eye_tracking5.hpp" />
+    <ClInclude Include="include/gl_eye_tracking/gl_eye_tracking6.hpp" />
+    <ClInclude Include="include/gl_eye_tracking/gl_eye_tracking7.hpp" />
+    <ClInclude Include="include/gl_eye_tracking/gl_eye_tracking8.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data/Button.fbm/Controller.png" />
+    <None Include="data/Button.fbm/Controller_bp.png" />
+    <None Include="data/Controller.fbm/Controller.png" />
+    <None Include="data/Controller.fbm/Controller_bp.png" />
+    <None Include="data/ControllerBody.fbm/Controller.png" />
+    <None Include="data/ControllerBody.fbm/Controller_bp.png" />
+    <None Include="data/Empty.fbm/Empty.png" />
+    <None Include="data/res/texture/dynamic_textures/container0.jpg" />
+    <None Include="data/res/texture/dynamic_textures/container1.jpg" />
+    <None Include="data/res/texture/dynamic_textures/container2.jpg" />
+    <None Include="data/res/texture/dynamic_textures/container3.jpg" />
+    <None Include="data/res/texture/dynamic_textures/container4.jpg" />
+    <None Include="data/res/texture/dynamic_textures/container5.jpg" />
+    <None Include="data/res/texture/dynamic_textures/container6.jpg" />
+    <None Include="data/res/texture/dynamic_textures/container7.jpg" />
+    <None Include="data/res/texture/dynamic_textures/container8.jpg" />
+    <None Include="data/res/texture/dynamic_textures/container9.jpg" />
+    <None Include="data/res/texture/container.jpg" />
+    <None Include="data/DeepSeaExploration.png" />
+    <None Include="data/DeepSpaceExploration.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="manifest.xml" />
+    <None Include="gl_eye_tracking.mabu" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="com.magicleap.capi.sample.gl_eye_tracking.package" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties MLProjectMabuSyncTime="133321141992111491 (6/24/2023 9:03:19 PM UTC)" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

@@ -61,7 +61,7 @@ void Mesh::SetCustomBuffer(GLuint location, std::shared_ptr<VertexBuffer> buffer
 
 void Mesh::UpdateMesh(glm::vec3 const *vertices, glm::vec3 const *normals, size_t num_vertices, void const *indices,
                       size_t num_indices) {
-  ML_LOG(Info, "Mesh::UpdateMesh()- gl_vertex_array_");
+  // ML_LOG(Info, "Mesh::UpdateMesh()- gl_vertex_array_");
   glBindVertexArray(gl_vertex_array_);
   if (vertices) {
     vert_buffer_->UpdateBuffer((char *)vertices, num_vertices * 3 * sizeof(float));

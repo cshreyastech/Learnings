@@ -17,7 +17,7 @@
     // "bluetooth/",
     // "connections/",
     // "controller/",
-    // "controller2/",
+    "controller2/",
     // "eye_tracking/",
     "eye_tracking2/",
     // "hand_tracking/",
@@ -36,7 +36,7 @@
     // "simple_gl_app/",
     // "learn_gl/"
     // "learn_gl_tbd/",
-    // "ros_ml/",
+    // "ros_ml/", 
     "gl_eye_tracking/"
   ]
 }

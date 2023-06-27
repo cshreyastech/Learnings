@@ -3,9 +3,10 @@ INCS = \
     include/ \
 
 SRCS = \
-    src/core/shader.cpp \
+    # src/core/shader.cpp \
     # src/server/socket_server.cpp \
     # learn_gl.cpp \
+    src/00-commandline.cpp \
     # src/01-hello_window.cpp \
     # src/02-hello_triangle.cpp \
     # src/02_1-hello_triangles.cpp \
@@ -21,7 +22,7 @@ SRCS = \
     # src/05_ex-2.cpp \
     # src/06_1-mvp1.cpp \
     # src/06_2-3d.cpp \
-    src/06_3-more_cubes.cpp \
+    # src/06_3-more_cubes.cpp \
     
 DEFS = \
     ML_DEFAULT_LOG_TAG="learn_gl" \

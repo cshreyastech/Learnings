@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33529.622
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "com.magicleap.capi.sample.gl_eye_tracking", "com.magicleap.capi.sample.gl_eye_tracking.vcxproj", "{06FC1BE8-A5C6-4A6E-86F1-CFD03EBCBACE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "app_framework", "..\..\app_framework\app_framework.vcxproj", "{B991940C-A6F7-4D9F-B4E7-18386E343960}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "eye_tracking2", "..\eye_tracking2\eye_tracking2.vcxproj", "{A96DCCCB-32F1-42A9-A5E6-114773F81F20}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ML = Debug|ML
+		Debug|x64 = Debug|x64
+		Release|ML = Release|ML
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{06FC1BE8-A5C6-4A6E-86F1-CFD03EBCBACE}.Debug|ML.ActiveCfg = Debug|ML
+		{06FC1BE8-A5C6-4A6E-86F1-CFD03EBCBACE}.Debug|ML.Build.0 = Debug|ML
+		{06FC1BE8-A5C6-4A6E-86F1-CFD03EBCBACE}.Debug|x64.ActiveCfg = Debug|x64
+		{06FC1BE8-A5C6-4A6E-86F1-CFD03EBCBACE}.Debug|x64.Build.0 = Debug|x64
+		{06FC1BE8-A5C6-4A6E-86F1-CFD03EBCBACE}.Release|ML.ActiveCfg = Release|ML
+		{06FC1BE8-A5C6-4A6E-86F1-CFD03EBCBACE}.Release|ML.Build.0 = Release|ML
+		{06FC1BE8-A5C6-4A6E-86F1-CFD03EBCBACE}.Release|x64.ActiveCfg = Release|x64
+		{06FC1BE8-A5C6-4A6E-86F1-CFD03EBCBACE}.Release|x64.Build.0 = Release|x64
+		{B991940C-A6F7-4D9F-B4E7-18386E343960}.Debug|ML.ActiveCfg = Debug|ML
+		{B991940C-A6F7-4D9F-B4E7-18386E343960}.Debug|ML.Build.0 = Debug|ML
+		{B991940C-A6F7-4D9F-B4E7-18386E343960}.Debug|x64.ActiveCfg = Debug|x64
+		{B991940C-A6F7-4D9F-B4E7-18386E343960}.Debug|x64.Build.0 = Debug|x64
+		{B991940C-A6F7-4D9F-B4E7-18386E343960}.Release|ML.ActiveCfg = Release|ML
+		{B991940C-A6F7-4D9F-B4E7-18386E343960}.Release|ML.Build.0 = Release|ML
+		{B991940C-A6F7-4D9F-B4E7-18386E343960}.Release|x64.ActiveCfg = Release|x64
+		{B991940C-A6F7-4D9F-B4E7-18386E343960}.Release|x64.Build.0 = Release|x64
+		{A96DCCCB-32F1-42A9-A5E6-114773F81F20}.Debug|ML.ActiveCfg = Debug|ML
+		{A96DCCCB-32F1-42A9-A5E6-114773F81F20}.Debug|ML.Build.0 = Debug|ML
+		{A96DCCCB-32F1-42A9-A5E6-114773F81F20}.Debug|x64.ActiveCfg = Debug|x64
+		{A96DCCCB-32F1-42A9-A5E6-114773F81F20}.Debug|x64.Build.0 = Debug|x64
+		{A96DCCCB-32F1-42A9-A5E6-114773F81F20}.Release|ML.ActiveCfg = Release|ML
+		{A96DCCCB-32F1-42A9-A5E6-114773F81F20}.Release|ML.Build.0 = Release|ML
+		{A96DCCCB-32F1-42A9-A5E6-114773F81F20}.Release|x64.ActiveCfg = Release|x64
+		{A96DCCCB-32F1-42A9-A5E6-114773F81F20}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6B102D29-49FC-4A9D-8C2A-79B1589CA71E}
+	EndGlobalSection
+EndGlobal

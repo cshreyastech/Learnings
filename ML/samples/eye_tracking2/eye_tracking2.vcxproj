@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <!-- Project global & default -->
-    <ProjectGuid>{7C794772-7A10-4819-BF10-2C299B573A22}</ProjectGuid>
+    <ProjectGuid>{A96DCCCB-32F1-42A9-A5E6-114773F81F20}</ProjectGuid>
     <MLProjectFile>eye_tracking2.mabu</MLProjectFile>
     <MLProjectKind>program</MLProjectKind>
     <MLMfitExtraArgs>
@@ -238,7 +238,7 @@
   </ItemGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties MLProjectMabuSyncTime="133314711218546541 (6/17/2023 10:25:21 AM UTC)" />
+      <UserProperties MLProjectMabuSyncTime="133321150657159952 (6/24/2023 9:17:45 PM UTC)" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -25,7 +25,7 @@ Buffer::~Buffer() {
 }
 
 void Buffer::UpdateBuffer(const char *data, uint64_t size) {
-  ML_LOG(Info, "Buffer::UpdateBuffer");
+  // ML_LOG(Info, "Buffer::UpdateBuffer");
 
   if (data != nullptr && size > 0) {
     size_ = size;
