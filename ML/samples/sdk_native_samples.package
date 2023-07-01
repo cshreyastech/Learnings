@@ -14,9 +14,9 @@ DATAS= \
   # BUILD/$(SPEC)/audio_output$(PROGRAM_EXT)             : native_samples/ \
   # BUILD/$(SPEC)/bluetooth$(PROGRAM_EXT)                : native_samples/ \
   # BUILD/$(SPEC)/controller$(PROGRAM_EXT)               : native_samples/ \
-  BUILD/$(SPEC)/controller2$(PROGRAM_EXT)               : native_samples/ \
+  # BUILD/$(SPEC)/controller2$(PROGRAM_EXT)               : native_samples/ \
   # BUILD/$(SPEC)/eye_tracking$(PROGRAM_EXT)             : native_samples/ \
-  BUILD/$(SPEC)/eye_tracking2$(PROGRAM_EXT)             : native_samples/ \
+  # BUILD/$(SPEC)/eye_tracking2$(PROGRAM_EXT)             : native_samples/ \
   # BUILD/$(SPEC)/hand_tracking$(PROGRAM_EXT)            : native_samples/ \
   # BUILD/$(SPEC)/head_tracking$(PROGRAM_EXT)            : native_samples/ \
   # BUILD/$(SPEC)/image_capture$(PROGRAM_EXT)            : native_samples/ \
@@ -26,6 +26,7 @@ DATAS= \
   # BUILD/$(SPEC)/locale$(PROGRAM_EXT)                   : native_samples/ \
   # BUILD/$(SPEC)/location$(PROGRAM_EXT)                 : native_samples/ \
   # BUILD/$(SPEC)/meshing$(PROGRAM_EXT)                  : native_samples/ \
+  BUILD/$(SPEC)/meshing2$(PROGRAM_EXT)                  : native_samples/ \
   # BUILD/$(SPEC)/pcf$(PROGRAM_EXT)                      : native_samples/ \
   # BUILD/$(SPEC)/planes$(PROGRAM_EXT)                   : native_samples/ \
   # BUILD/$(SPEC)/privileges$(PROGRAM_EXT)               : native_samples/ \
@@ -34,7 +35,8 @@ DATAS= \
   # BUILD/$(SPEC)/learn_gl$(PROGRAM_EXT)                 : native_samples/ \
   # BUILD/$(SPEC)/learn_gl_tbd$(PROGRAM_EXT)             : native_samples/ \
   # BUILD/$(SPEC)/ros_ml$(PROGRAM_EXT)                   : native_samples/ \
-  BUILD/$(SPEC)/gl_eye_tracking$(PROGRAM_EXT)            : native_samples/ \
+  # BUILD/$(SPEC)/gl_eye_tracking$(PROGRAM_EXT)            : native_samples/ \
+  # BUILD/$(SPEC)/gl_eye_tracking2$(PROGRAM_EXT)            : native_samples/ \
   # native test dependencies \
   BUILD/$(SPEC)/$(SHARED_PREFIX)*$(SHARED_EXT)*        : native_samples/ \
   # BUILD/data/                                          : native_samples/data/ \

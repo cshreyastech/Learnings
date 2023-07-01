@@ -17,9 +17,9 @@
     // "bluetooth/",
     // "connections/",
     // "controller/",
-    "controller2/",
+    // "controller2/",
     // "eye_tracking/",
-    "eye_tracking2/",
+    // "eye_tracking2/",
     // "hand_tracking/",
     // "head_tracking/",
     // "image_capture/",
@@ -29,6 +29,7 @@
     // "locale/",
     // "location/",
     // "meshing/",
+    "meshing2/"
     // "pcf/",
     // "planes/",
     // "privileges/",
@@ -37,6 +38,7 @@
     // "learn_gl/"
     // "learn_gl_tbd/",
     // "ros_ml/", 
-    "gl_eye_tracking/"
+    // "gl_eye_tracking/"
+    // "gl_eye_tracking2/"
   ]
 }
