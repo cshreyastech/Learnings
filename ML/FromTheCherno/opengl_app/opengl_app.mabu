@@ -1,7 +1,7 @@
 KIND = program
 
 INCS = \
-    Dependenies/ \
+    Dependencies/ \
     src/
 
 SRCS = src/application.cpp \
