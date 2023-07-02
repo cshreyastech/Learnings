@@ -1,0 +1,18 @@
+KIND = program
+
+INCS = \
+    Dependenies/ \
+    src/
+
+SRCS = src/application.cpp \
+
+DEFS = \
+    ML_DEFAULT_LOG_TAG="opengl_app" \
+
+DEFS.device = ML_DEVICE
+
+USES = \
+    Dependencies/glm \
+    ml_sdk OpenGL stdc++
+    
+OPTIONS = standard-c++/17 exceptions/on warn/on
