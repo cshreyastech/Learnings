@@ -358,6 +358,12 @@ int main() {
   unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
   GLCall(glUseProgram(shader));
 
+  // Uniform has to be set only of binding a shader
+  GLCall(int location = glGetUniformLocation(shader, "u_Color"));
+  ASSERT(location != -1);
+
+  float r = 0.0f;
+  float increment = 0.05f;
   // The main/game loop
   ML_LOG_TAG(Debug, APP_TAG, "Enter main loop");
   while (true) {      
@@ -398,7 +404,15 @@ int main() {
         glm::mat4 projectionMatrix = rb_projection_matrix(current_camera) * rb_camera_matrix(current_camera);
 
         // Part 2: Render the object
+        GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
+
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+        if (r > 1.0f)
+          increment = -0.05f;
+        else if (r < 0.0f)
+          increment = 0.05f;
+
+        r += increment;
 
         // Bind the frame buffer
         GLCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));
