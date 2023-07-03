@@ -4,7 +4,11 @@ INCS = \
     Dependencies/ \
     src/
 
-SRCS = src/application.cpp \
+SRCS = \
+    src/IndexBuffer.cpp \
+    src/VertexBuffer.cpp \
+    src/Renderer.cpp \
+    src/application.cpp \
 
 DEFS = \
     ML_DEFAULT_LOG_TAG="opengl_app" \

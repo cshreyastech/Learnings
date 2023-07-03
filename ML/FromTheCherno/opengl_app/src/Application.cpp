@@ -1,21 +1,23 @@
 #define MLSDK20
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <chrono>
-#include <cmath>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <chrono>
+// #include <cmath>
 
-#include <ml_logging.h>
-#include <ml_graphics.h>
-#include <ml_lifecycle.h>
-#include <ml_perception.h>
-#include <ml_head_tracking.h>
-#include <ml_input.h>
-#include <fstream>
-#include <string>
-#include <sstream>
+// #include <ml_logging.h>
+// #include <ml_graphics.h>
+// #include <ml_lifecycle.h>
+// #include <ml_perception.h>
+// #include <ml_head_tracking.h>
+// #include <ml_input.h>
+// #include <fstream>
+// #include <string>
+// #include <sstream>
 
-#include "platform_include.h"
+#include "Renderer.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 // -----------------------------------------------------------------------------
 // Part 2: Define a color
@@ -64,7 +66,7 @@ glm::mat4 rb_camera_matrix(MLGraphicsVirtualCameraInfo &camera) {
 // -----------------------------------------------------------------------------
 // 1. Types and definitions
 
-const char APP_TAG[] = "MAIN";
+// const char APP_TAG[] = "MAIN";
 
 struct graphics_context_t {
   EGLDisplay egl_display;
@@ -147,28 +149,28 @@ static void on_resume(void* user_data) {
 //   ASSERT(GLLogCall(#x, __FILE__, __LINE__))
 
 
-#define ASSERT(x) if(!(x)) raise(SIGTRAP);
-#define GLCall(x) GLClearError();\
-  x;\
-  ASSERT(GLLogCall(#x, __FILE__, __LINE__))
+// #define ASSERT(x) if(!(x)) raise(SIGTRAP);
+// #define GLCall(x) GLClearError();\
+//   x;\
+//   ASSERT(GLLogCall(#x, __FILE__, __LINE__))
 
-static void GLClearError()
-{
-  while (glGetError() != GL_NO_ERROR);
-}
+// static void GLClearError()
+// {
+//   while (glGetError() != GL_NO_ERROR);
+// }
 
-static bool GLLogCall(const char* function, const char* file, int line)
-{
-  while (GLenum error = glGetError())
-  {
-    // std::cout << "[OpenGL_Error] (" << error << ")" << function <<
-    //   " " << file << ":" << line << std::endl;
-    ML_LOG_TAG(Error, APP_TAG, "[OpenGL_Error] ( %d ) %s %s:%d", 
-      error, function, file, line);
-    return false;
-  }
-  return true;
-}
+// static bool GLLogCall(const char* function, const char* file, int line)
+// {
+//   while (GLenum error = glGetError())
+//   {
+//     // std::cout << "[OpenGL_Error] (" << error << ")" << function <<
+//     //   " " << file << ":" << line << std::endl;
+//     ML_LOG_TAG(Error, APP_TAG, "[OpenGL_Error] ( %d ) %s %s:%d", 
+//       error, function, file, line);
+//     return false;
+//   }
+//   return true;
+// }
 
 struct ShaderProgramSource
 {
@@ -343,19 +345,20 @@ int main() {
   GLCall(glGenVertexArrays(1, &vao));
   GLCall(glBindVertexArray(vao));
 
-  unsigned int buffer;
-  GLCall(glGenBuffers(1, &buffer));
-  GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
-  GLCall(glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
+  // unsigned int buffer;
+  // GLCall(glGenBuffers(1, &buffer));
+  // GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
+  // GLCall(glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
+   VertexBuffer vb(positions, 4 * 2 * sizeof(float));
 
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
   
-
-  unsigned int ibo;
-  GLCall(glGenBuffers(1, &ibo));
-  GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
-  GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW));
+  IndexBuffer ib(indices, 6);
+  // unsigned int ibo;
+  // GLCall(glGenBuffers(1, &ibo));
+  // GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
+  // GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW));
 
   ShaderProgramSource source = ParseShader("res/shaders/Basic.shader");
   
@@ -417,10 +420,11 @@ int main() {
         GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
 
         GLCall(glBindVertexArray(vao));
-        GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
+        // GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
+        ib.Bind();
 
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
-        
+
         if (r > 1.0f)
           increment = -0.05f;
         else if (r < 0.0f)

@@ -17,3 +17,20 @@
 #ifndef EGL_EGLEXT_PROTOTYPES
 	#define EGL_EGLEXT_PROTOTYPES
 #endif
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <chrono>
+#include <cmath>
+
+#include <ml_logging.h>
+#include <ml_graphics.h>
+#include <ml_lifecycle.h>
+#include <ml_perception.h>
+#include <ml_head_tracking.h>
+#include <ml_input.h>
+#include <fstream>
+#include <string>
+#include <sstream>
+
+const char APP_TAG[] = "MAIN";
