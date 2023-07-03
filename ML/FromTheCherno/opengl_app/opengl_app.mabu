@@ -5,8 +5,10 @@ INCS = \
     src/
 
 SRCS = \
+    src/VertexArray.cpp \
     src/IndexBuffer.cpp \
     src/VertexBuffer.cpp \
+    src/VertexBufferLayout.cpp \
     src/Renderer.cpp \
     src/application.cpp \
 

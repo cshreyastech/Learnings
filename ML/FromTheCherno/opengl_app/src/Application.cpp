@@ -18,6 +18,7 @@
 #include "Renderer.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "VertexArray.h"
 
 // -----------------------------------------------------------------------------
 // Part 2: Define a color
@@ -143,35 +144,6 @@ static void on_resume(void* user_data) {
 }
 // -----------------------------------------------------------------------------
 
-// #define ASSERT(x) if (!(x)) __debugbreak();
-// #define GLCall(x) GLClearError();\
-//   x;\
-//   ASSERT(GLLogCall(#x, __FILE__, __LINE__))
-
-
-// #define ASSERT(x) if(!(x)) raise(SIGTRAP);
-// #define GLCall(x) GLClearError();\
-//   x;\
-//   ASSERT(GLLogCall(#x, __FILE__, __LINE__))
-
-// static void GLClearError()
-// {
-//   while (glGetError() != GL_NO_ERROR);
-// }
-
-// static bool GLLogCall(const char* function, const char* file, int line)
-// {
-//   while (GLenum error = glGetError())
-//   {
-//     // std::cout << "[OpenGL_Error] (" << error << ")" << function <<
-//     //   " " << file << ":" << line << std::endl;
-//     ML_LOG_TAG(Error, APP_TAG, "[OpenGL_Error] ( %d ) %s %s:%d", 
-//       error, function, file, line);
-//     return false;
-//   }
-//   return true;
-// }
-
 struct ShaderProgramSource
 {
   std::string VertexSource;
@@ -223,11 +195,6 @@ static unsigned int CompileShader(unsigned int type, const std::string& source)
     // Stack side allocation of dynamic memory
     char* message = (char*)alloca(length * sizeof(char));
     GLCall(glGetShaderInfoLog(id, length, &length, message));
-    // std::cout << "Failed to compile " <<
-    //   (type == GL_VERTEX_SHADER ? "vertex" : "fragment") << " shader!" <<
-    //   std::endl;
-    // std::cout << message << std::endl;
-
     ML_LOG_TAG(Error, "Failed to compile %s shader!", 
       (type == GL_VERTEX_SHADER ? "vertex" : "fragment"));
 
@@ -341,24 +308,13 @@ int main() {
     2, 3, 0
   };
 
-  unsigned int vao;
-  GLCall(glGenVertexArrays(1, &vao));
-  GLCall(glBindVertexArray(vao));
+  VertexArray va;
+  VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+  VertexBufferLayout layout;
+  layout.Push<float>(2);
+  va.AddBuffer(vb, layout);
 
-  // unsigned int buffer;
-  // GLCall(glGenBuffers(1, &buffer));
-  // GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
-  // GLCall(glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
-   VertexBuffer vb(positions, 4 * 2 * sizeof(float));
-
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
-  
   IndexBuffer ib(indices, 6);
-  // unsigned int ibo;
-  // GLCall(glGenBuffers(1, &ibo));
-  // GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
-  // GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW));
 
   ShaderProgramSource source = ParseShader("res/shaders/Basic.shader");
   
@@ -369,7 +325,7 @@ int main() {
   GLCall(int location = glGetUniformLocation(shader, "u_Color"));
   ASSERT(location != -1);
 
-  GLCall(glBindVertexArray(0));
+  va.Unbind();
   GLCall(glUseProgram(0));
   GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
   GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
@@ -419,8 +375,7 @@ int main() {
         GLCall(glUseProgram(shader));
         GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
 
-        GLCall(glBindVertexArray(vao));
-        // GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
+        va.Bind();
         ib.Bind();
 
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
