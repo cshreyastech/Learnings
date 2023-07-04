@@ -54,3 +54,4 @@ ML/FromMLSamples/samples/BUILD/*
 ML/FromMLSamples/samples/dist/*
 
 ML/FromTheCherno/opengl_app/.out/*
+ML/FromTheCherno/opengl_app/Dependencies/.out/
