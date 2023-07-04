@@ -1,25 +1,29 @@
 KIND = program
 
 INCS = \
-    Dependencies/ \
-    src/
+  Dependencies/ \
+  src/
 
 SRCS = \
-    src/Shader.cpp \
-    src/VertexArray.cpp \
-    src/IndexBuffer.cpp \
-    src/VertexBuffer.cpp \
-    src/VertexBufferLayout.cpp \
-    src/Renderer.cpp \
-    src/application.cpp \
+  src/Texture.cpp \
+  src/Shader.cpp \
+  src/VertexArray.cpp \
+  src/IndexBuffer.cpp \
+  src/VertexBuffer.cpp \
+  src/VertexBufferLayout.cpp \
+  src/Renderer.cpp \
+  src/application.cpp \
 
 DEFS = \
-    ML_DEFAULT_LOG_TAG="opengl_app" \
+  ML_DEFAULT_LOG_TAG="opengl_app" \
 
 DEFS.device = ML_DEVICE
 
+REFS = \
+Dependencies/stb_image
+
 USES = \
-    Dependencies/glm \
-    ml_sdk OpenGL stdc++
+  Dependencies/glm \
+  ml_sdk OpenGL stdc++
     
 OPTIONS = standard-c++/17 exceptions/on warn/on

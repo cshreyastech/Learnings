@@ -1,0 +1,10 @@
+export INCS = stb_image/
+INCS = stb_image/
+KIND = static
+SRCS = stb_image/stb_image/stb_image.cpp
+USES = \
+	# ../common \
+	stdc++
+
+# CXXFLAGS.debug_lumin_clang-3.8_aarch64 = -Wno-parentheses-equality
+# CXXFLAGS.release_lumin_clang-3.8_aarch64 = -Wno-parentheses-equality

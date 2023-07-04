@@ -6,7 +6,7 @@
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "Shader.h"
-
+#include "Texture.h"
 
 // -----------------------------------------------------------------------------
 // Part 2: Define a color
@@ -29,13 +29,13 @@
 // Part 2: glm helper functions
 
 glm::mat4 rb_convert_ml_to_glm(const MLTransform &ml) {
-    glm::quat q;
-    q.w = ml.rotation.w;
-    q.x = ml.rotation.x;
-    q.y = ml.rotation.y;
-    q.z = ml.rotation.z;
+  glm::quat q;
+  q.w = ml.rotation.w;
+  q.x = ml.rotation.x;
+  q.y = ml.rotation.y;
+  q.z = ml.rotation.z;
 
-    return glm::translate(glm::mat4(), glm::vec3(ml.position.x, ml.position.y, ml.position.z)) * glm::toMat4(q);
+  return glm::translate(glm::mat4(), glm::vec3(ml.position.x, ml.position.y, ml.position.z)) * glm::toMat4(q);
 }
 
 glm::mat4 rb_projection_matrix(MLGraphicsVirtualCameraInfo &camera) {
@@ -206,10 +206,10 @@ int main() {
   // Opengl Code
   ML_LOG_TAG(Info, APP_TAG, "GL Version %s", glGetString(GL_VERSION));
   float positions[] = {
-    -0.5f, -0.5f,
-     0.5f, -0.5f,
-     0.5f,  0.5f,
-    -0.5f,  0.5f
+    -0.5f, -0.5f, 0.0f, 0.0f,
+     0.5f, -0.5f, 1.0f, 0.0f,
+     0.5f,  0.5f, 1.0f, 1.0f,
+    -0.5f,  0.5f, 0.0f, 1.0f
   };
 
   unsigned int indices[] = {
@@ -217,10 +217,13 @@ int main() {
     2, 3, 0
   };
 
+  GLCall(glEnable(GL_BLEND));
+  GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
   VertexArray va;
-  VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+  VertexBuffer vb(positions, 4 * 4 * sizeof(float));
 
   VertexBufferLayout layout;
+  layout.Push<float>(2);
   layout.Push<float>(2);
   va.AddBuffer(vb, layout);
 
@@ -229,6 +232,10 @@ int main() {
   Shader shader("res/shaders/Basic.shader");
   shader.Bind();
   shader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
+
+  Texture texture("res/textures/ChernoLogo.png");
+  texture.Bind();
+  shader.SetUniform1i("u_Texture", 0);
 
   va.Unbind();
   vb.Unbind();
