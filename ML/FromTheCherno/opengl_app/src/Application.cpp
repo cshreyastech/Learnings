@@ -2,9 +2,11 @@
 
 #include "Renderer.h"
 #include "VertexBuffer.h"
+#include "VertexBufferLayout.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 #include "Shader.h"
+
 
 // -----------------------------------------------------------------------------
 // Part 2: Define a color
@@ -217,6 +219,7 @@ int main() {
 
   VertexArray va;
   VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+
   VertexBufferLayout layout;
   layout.Push<float>(2);
   va.AddBuffer(vb, layout);
@@ -231,6 +234,8 @@ int main() {
   vb.Unbind();
   ib.Unbind();
   shader.Unbind();
+
+  Renderer renderer;
 
   float r = 0.0f;
   float increment = 0.05f;
@@ -266,8 +271,9 @@ int main() {
         const MLRectf& viewport = virtual_camera_array.viewport;
         GLCall(glViewport((GLint)viewport.x, (GLint)viewport.y, (GLsizei)viewport.w, (GLsizei)viewport.h));
 
-        GLCall(glClearColor(0.0, 0.0, 0.0, 0.0));
-        GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+        // GLCall(glClearColor(0.0, 0.0, 0.0, 0.0));
+        // GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+        renderer.Clear();
 
         // Part 2: Get the projection matrix
         MLGraphicsVirtualCameraInfo &current_camera = virtual_camera_array.virtual_cameras[camera];
@@ -277,10 +283,7 @@ int main() {
         shader.Bind();
         shader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
 
-        va.Bind();
-        ib.Bind();
-
-        GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+        renderer.Draw(va, ib, shader);
 
         if (r > 1.0f)
           increment = -0.05f;

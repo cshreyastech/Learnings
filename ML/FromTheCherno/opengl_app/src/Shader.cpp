@@ -62,8 +62,6 @@ unsigned int Shader::CompileShader(unsigned int type, const std::string& source)
     // Stack side allocation of dynamic memory
     char* message = (char*)alloca(length * sizeof(char));
     GLCall(glGetShaderInfoLog(id, length, &length, message));
-    // ML_LOG_TAG(Error, "Failed to compile %s shader!", 
-    //   (type == GL_VERTEX_SHADER ? "vertex" : "fragment"));
     ML_LOG_TAG(Error, APP_TAG, "Failed to compile %s shader!", 
       (type == GL_VERTEX_SHADER ? "vertex" : "fragment"));
 
