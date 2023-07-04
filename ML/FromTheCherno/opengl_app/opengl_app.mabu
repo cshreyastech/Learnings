@@ -5,6 +5,7 @@ INCS = \
     src/
 
 SRCS = \
+    src/Shader.cpp \
     src/VertexArray.cpp \
     src/IndexBuffer.cpp \
     src/VertexBuffer.cpp \
