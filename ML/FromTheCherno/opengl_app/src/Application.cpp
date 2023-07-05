@@ -228,6 +228,8 @@ int main() {
   va.AddBuffer(vb, layout);
 
   IndexBuffer ib(indices, 6);
+
+  // Bounds
   glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
 
   Shader shader("res/shaders/Basic.shader");
@@ -238,7 +240,7 @@ int main() {
   texture.Bind();
   shader.SetUniform1i("u_Texture", 0);
   shader.SetUniformMat4f("u_MVP", proj);
-  
+
   va.Unbind();
   vb.Unbind();
   ib.Unbind();
