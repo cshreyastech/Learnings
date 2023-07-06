@@ -103,26 +103,21 @@ void Shader::Unbind() const
 
 void Shader::SetUniform1i(const std::string& name, int value)
 {
-  ML_LOG_TAG(Info, APP_TAG, "SetUniform1i: %s", name.c_str());
-
   GLCall(glUniform1i(GetUniformLocation(name), value));
 }
 
 void Shader::SetUniform1f(const std::string& name, float value)
 {
-  // ML_LOG_TAG(Info, APP_TAG, "SetUniform1f: %s", name.c_str());
   GLCall(glUniform1f(GetUniformLocation(name), value));
 }
 
 void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
 {
-  // ML_LOG_TAG(Info, APP_TAG, "SetUniform4f: %s", name.c_str());
   GLCall(glUniform4f(GetUniformLocation(name), v0, v1, v2, v3));
 }
 
 void Shader::SetUniformMat4f(const std::string& name, const glm::mat4& matrix)
 {
-  // ML_LOG_TAG(Info, APP_TAG, "SetUniformMat4f: %s", name.c_str());
   GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
 }
 
