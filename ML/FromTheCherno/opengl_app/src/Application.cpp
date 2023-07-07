@@ -8,6 +8,10 @@
 #include "Shader.h"
 #include "Texture.h"
 
+#include "imgui/imgui.h"
+// #include "imgui/imgui_impl_glfw_gl3.h"
+#include "imgui/examples/imgui_impl_opengl3.h"
+
 // -----------------------------------------------------------------------------
 // Part 2: Define a color
 
@@ -258,6 +262,12 @@ int main() {
   shader.Unbind();
 
   Renderer renderer;
+  // ImGui::CreateContext();
+  // ImGui_ImplGlfwGL3_Init(window, true);
+  // ImGui_ImplOpenGL3_Init("#version 410 core");
+  // ImGui::StyleColorsDark();
+
+
 
   float r = 0.0f;
   float increment = 0.05f;
@@ -313,7 +323,9 @@ int main() {
           increment = 0.05f;
 
         r += increment;
-
+        // {
+        //   ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        // }
         // Bind the frame buffer
         GLCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));
         MLGraphicsSignalSyncObjectGL(graphics_client, virtual_camera_array.virtual_cameras[camera].sync_object);
@@ -331,7 +343,9 @@ int main() {
       ML_LOG_TAG(Error, APP_TAG, "MLGraphicsBeginFrame() error: %d", frame_result);
     }
   }
-
+  // ImGui_ImplOpenGL3_Shutdown();
+  // ImGui::DestroyContext();
+  
   // End of game loop, clean app and exit
   ML_LOG_TAG(Debug, APP_TAG, "End application loop");
 

@@ -2,6 +2,8 @@
 
 HOST=win64
 SPEC=debug_lumin_clang-3.8_aarch64
+imgui_BASE=C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies
+imgui_OUTPUT=$(imgui_BASE)/.out/$(SPEC)
 opengl_app_BASE=C:/lcb/Learnings/ML/FromTheCherno/opengl_app
 opengl_app_OUTPUT=$(opengl_app_BASE)/.out/$(SPEC)
 stb_image_BASE=C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies
@@ -45,9 +47,7 @@ prebuild ::
 
 postbuild :: 
 
-clean :: stb_image-clean opengl_app-clean
-
-$(MLSDK)/tools/mabu/data/components/stdc++.comp : 
+clean :: imgui-clean stb_image-clean opengl_app-clean
 
 $(MLSDK)/tools/mabu/data/configs/debug.config : 
 
@@ -62,6 +62,8 @@ $(MLSDK)/tools/mabu/data/options/package/debuggable/on.option :
 $(MLSDK)/tools/mabu/data/options/runtime/shared.option : 
 
 $(MLSDK)/tools/mabu/data/options/warn/on.option : 
+
+$(MLSDK)/tools/mabu/data/components/stdc++.comp : 
 
 $(MLSDK)/.metadata/components/ml_sdk.comp : 
 
@@ -86,7 +88,7 @@ STATIC_EXT=.a
 COMPILER_PREFIX=
 LINKER_PREFIX=
 
--make-directories : C:/lcb/Learnings/ML/FromTheCherno/opengl_app/.out/debug_lumin_clang-3.8_aarch64 C:/lcb/Learnings/ML/FromTheCherno/opengl_app/.out/debug_lumin_clang-3.8_aarch64/bin C:/lcb/Learnings/ML/FromTheCherno/opengl_app/.out/debug_lumin_clang-3.8_aarch64/obj.opengl_app/src C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64 C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64/bin C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64/obj.stb_image/stb_image/stb_image
+-make-directories : C:/lcb/Learnings/ML/FromTheCherno/opengl_app/.out/debug_lumin_clang-3.8_aarch64 C:/lcb/Learnings/ML/FromTheCherno/opengl_app/.out/debug_lumin_clang-3.8_aarch64/bin C:/lcb/Learnings/ML/FromTheCherno/opengl_app/.out/debug_lumin_clang-3.8_aarch64/obj.opengl_app/src C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64 C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64/bin C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64/obj.imgui/imgui/imgui C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64/obj.imgui/imgui/imgui/examples C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64/obj.stb_image/stb_image/stb_image
 
 C:/lcb/Learnings/ML/FromTheCherno/opengl_app/.out/debug_lumin_clang-3.8_aarch64 : 
 	$(ECHO) @mkdir -p C:/lcb/Learnings/ML/FromTheCherno/opengl_app/.out/debug_lumin_clang-3.8_aarch64
@@ -103,10 +105,17 @@ C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang
 C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64/bin : 
 	$(ECHO) @mkdir -p C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64/bin
 
+C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64/obj.imgui/imgui/imgui : 
+	$(ECHO) @mkdir -p C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64/obj.imgui/imgui/imgui
+
+C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64/obj.imgui/imgui/imgui/examples : 
+	$(ECHO) @mkdir -p C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64/obj.imgui/imgui/imgui/examples
+
 C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64/obj.stb_image/stb_image/stb_image : 
 	$(ECHO) @mkdir -p C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/.out/debug_lumin_clang-3.8_aarch64/obj.stb_image/stb_image/stb_image
 
+include $(imgui_OUTPUT)/imgui.mk
 include $(stb_image_OUTPUT)/stb_image.mk
 include $(opengl_app_OUTPUT)/opengl_app.mk
-build :  | stb_image-all opengl_app-all
+build :  | imgui-all stb_image-all opengl_app-all
 

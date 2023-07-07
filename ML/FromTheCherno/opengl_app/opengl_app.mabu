@@ -20,7 +20,8 @@ DEFS = \
 DEFS.device = ML_DEVICE
 
 REFS = \
-Dependencies/stb_image
+Dependencies/stb_image \
+Dependencies/imgui
 
 USES = \
   Dependencies/glm \
