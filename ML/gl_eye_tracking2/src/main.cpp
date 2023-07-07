@@ -221,9 +221,6 @@ int main() {
 	// Shader shader_square = Shader();
 	// shader_square.Load("data/res/shaders/standard3D.vert", "data/res/shaders/standard.frag");
 
-	Shader shaderTex = Shader();
-	shaderTex.Load("data/res/shaders/texture.vert", "data/res/shaders/texture.frag");
-
 	// Part 2: Instantiate the objec(s) here 
 	// Cylinder cylinder = Cylinder(16);
 	// cylinder.ApplyShader(shader3D);
@@ -250,10 +247,6 @@ int main() {
 	// right_eye.SetColor(COLOR_BLUE);
 	// // glm::vec3 pos = left_eye.GetPosition();
 	// right_eye.SetPosition(0.1f, 0.0f, 0.0f);
-
-	Texture texture = Texture();
-	texture.ApplyShader(shaderTex);
-	// texture.SetPosition(0.0f, 0.0f, 0.0f);
 
 
 	// The main/game loop
@@ -319,7 +312,6 @@ int main() {
 				// left_eye.Render(projectionMatrix);
 				fixation.Render(projectionMatrix);
 				// right_eye.Render(projectionMatrix);
-				texture.Render(projectionMatrix);
 
 
 				// Bind the frame buffer
