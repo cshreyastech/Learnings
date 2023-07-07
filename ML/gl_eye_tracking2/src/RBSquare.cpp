@@ -12,26 +12,6 @@ const char APP_TAG[] = "C-ENGINE-CYL";
 #define BOTTOM_RADIUS 0.5
 #define TOP_RADIUS 0.5
 
-// static void MakeSquare(GLfloat *vertices, int numSteps) {
-// 	float step = 2 * M_PI / static_cast<float>(numSteps);
-// 	float a = 0;
-// 	int idx = 0;
-
-// 	for (int i = 0; i < numSteps + 1; i++) {
-// 		float x = cosf(a);
-// 		float z = sinf(a);
-
-// 		vertices[idx++] = x * BOTTOM_RADIUS;
-// 		vertices[idx++] = 0;
-// 		vertices[idx++] = z * BOTTOM_RADIUS;
-// 		vertices[idx++] = x * TOP_RADIUS;
-// 		vertices[idx++] = 1.0;
-// 		vertices[idx++] = z * TOP_RADIUS;
-
-// 		a += step;
-// 	}
-// }
-
 Square::Square(int steps) {
 	// _steps = steps;
 	// _verts = (_steps + 1) * 2; 
@@ -52,17 +32,6 @@ void Square::ApplyShader(Shader& shader) {
 	_projId = glGetUniformLocation(_progId, "projFrom3D");
 	GLuint location = glGetAttribLocation(_progId, "coord3D");
 
-
-
-	// GLfloat SquareVertexData[_verts * 3];
-	// MakeSquare(SquareVertexData, _steps);
-
-	// GLuint vbo;
-	// glGenBuffers(1, &vbo);
-	// glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	// glEnableVertexAttribArray(location);
-	// glVertexAttribPointer(location, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(0));
-	// glBufferData(GL_ARRAY_BUFFER, sizeof(SquareVertexData), SquareVertexData, GL_STATIC_DRAW);
 
   float vertices[] = {
      0.5f,  0.5f, 0.0f,  // top right
@@ -106,12 +75,6 @@ void Square::ApplyShader(Shader& shader) {
   // layout (location = 0)
   glVertexAttribPointer(0, dimention, GL_FLOAT, GL_FALSE, stride, (void*)0);
   glEnableVertexAttribArray(0);
-
-  // // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-  // glBindBuffer(GL_ARRAY_BUFFER, 0); 
-
-	// glBindVertexArray(0);
-	// glUseProgram(0);
 
 	glBindVertexArray(0);
 	glUseProgram(0);

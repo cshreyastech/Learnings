@@ -7,6 +7,7 @@ SRCS =  src/main.cpp \
         src/RBCylinder.cpp \
         src/RBSquare.cpp \
         src/RBCube.cpp \
+        src/RBPoint.cpp \
         src/RBTexture.cpp
 
 DEFS = \
@@ -20,6 +21,7 @@ USES = \
 
 REFS = \
     stb \
+    glad \
 
 DATAS = data/ : data/
 

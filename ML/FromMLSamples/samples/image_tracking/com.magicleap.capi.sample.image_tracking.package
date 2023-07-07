@@ -1,3 +1,0 @@
-REFS = image_tracking
-
-DATAS = data/ : data/

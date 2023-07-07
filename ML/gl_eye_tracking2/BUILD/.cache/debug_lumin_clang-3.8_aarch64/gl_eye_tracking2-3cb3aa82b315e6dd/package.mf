@@ -22,9 +22,9 @@
   },
   {
    "compression": 8,
-   "hash": "fe777a3b2695045b88ae8ef7e6e5c36c3a0b5c56",
+   "hash": "bed874ca13d861d9d6c0641b5882ad06ae7cb31a",
    "pkgpath": "bin/gl_eye_tracking2",
-   "size": 192272,
+   "size": 84144,
    "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/gl_eye_tracking2",
    "xfrm_flags": {
     "signed": {
@@ -36,23 +36,9 @@
      "version": 3
     }
    },
-   "xfrm_hash": "eafd2c9c2583946e8af1c32fec4b4767af70675b",
+   "xfrm_hash": "7cb11a0cffe3fba18b262c11a46140e2f56b40cb",
    "xfrm_path": "C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/.cache/debug_lumin_clang-3.8_aarch64/gl_eye_tracking2-3cb3aa82b315e6dd\\gl_eye_tracking2-ebe90187609e6add",
-   "xfrm_size": 193030
-  },
-  {
-   "compression": 8,
-   "hash": "f7fb616915ea14de9d63e72e6d3672e69c8dfa2c",
-   "pkgpath": "data/DeepSeaExploration.png",
-   "size": 7528815,
-   "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/data/DeepSeaExploration.png"
-  },
-  {
-   "compression": 8,
-   "hash": "84c0f368cdf7ea3377f23c4f87d467ce002c2399",
-   "pkgpath": "data/DeepSpaceExploration.png",
-   "size": 7772511,
-   "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/data/DeepSpaceExploration.png"
+   "xfrm_size": 84902
   },
   {
    "compression": 8,
@@ -88,76 +74,6 @@
    "pkgpath": "data/res/texture/container.jpg",
    "size": 184939,
    "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/data/res/texture/container.jpg"
-  },
-  {
-   "compression": 8,
-   "hash": "003a7b9266d5ead545167d2511bcd8dc13492a3a",
-   "pkgpath": "data/res/texture/dynamic_textures/container0.jpg",
-   "size": 161146,
-   "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/data/res/texture/dynamic_textures/container0.jpg"
-  },
-  {
-   "compression": 8,
-   "hash": "f41de373f2d2afb907f482fef907326b5517dc47",
-   "pkgpath": "data/res/texture/dynamic_textures/container1.jpg",
-   "size": 162868,
-   "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/data/res/texture/dynamic_textures/container1.jpg"
-  },
-  {
-   "compression": 8,
-   "hash": "642bff33d747e3de8da1e08bea13db0b1cfd42b7",
-   "pkgpath": "data/res/texture/dynamic_textures/container2.jpg",
-   "size": 160058,
-   "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/data/res/texture/dynamic_textures/container2.jpg"
-  },
-  {
-   "compression": 8,
-   "hash": "4123cf24c700b087ca72b959ae0d87e70fbaeae6",
-   "pkgpath": "data/res/texture/dynamic_textures/container3.jpg",
-   "size": 158508,
-   "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/data/res/texture/dynamic_textures/container3.jpg"
-  },
-  {
-   "compression": 8,
-   "hash": "7397698baf3c798ce6dd66c24d11b1773dcaa644",
-   "pkgpath": "data/res/texture/dynamic_textures/container4.jpg",
-   "size": 161517,
-   "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/data/res/texture/dynamic_textures/container4.jpg"
-  },
-  {
-   "compression": 8,
-   "hash": "1b80109d292ed6bb1cd720ac179e9b54e194d79e",
-   "pkgpath": "data/res/texture/dynamic_textures/container5.jpg",
-   "size": 161932,
-   "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/data/res/texture/dynamic_textures/container5.jpg"
-  },
-  {
-   "compression": 8,
-   "hash": "b1ab5bd8eb7a412aca972f4431fcc422a023a5be",
-   "pkgpath": "data/res/texture/dynamic_textures/container6.jpg",
-   "size": 162459,
-   "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/data/res/texture/dynamic_textures/container6.jpg"
-  },
-  {
-   "compression": 8,
-   "hash": "4d7cf5091a7057d44b5300a54da30d67dc0c335b",
-   "pkgpath": "data/res/texture/dynamic_textures/container7.jpg",
-   "size": 162103,
-   "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/data/res/texture/dynamic_textures/container7.jpg"
-  },
-  {
-   "compression": 8,
-   "hash": "9fdb7700254b6ffbde1cc07e7b02892b6f28baa3",
-   "pkgpath": "data/res/texture/dynamic_textures/container8.jpg",
-   "size": 157782,
-   "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/data/res/texture/dynamic_textures/container8.jpg"
-  },
-  {
-   "compression": 8,
-   "hash": "79f7738d8482b37f22c3d7acce43804c90114d45",
-   "pkgpath": "data/res/texture/dynamic_textures/container9.jpg",
-   "size": 161002,
-   "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/data/res/texture/dynamic_textures/container9.jpg"
   },
   {
    "compression": 8,

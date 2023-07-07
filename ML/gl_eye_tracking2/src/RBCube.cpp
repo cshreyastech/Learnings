@@ -12,26 +12,6 @@ const char APP_TAG[] = "C-ENGINE-CYL";
 #define BOTTOM_RADIUS 0.5
 #define TOP_RADIUS 0.5
 
-// static void MakeCube(GLfloat *vertices, int numSteps) {
-// 	float step = 2 * M_PI / static_cast<float>(numSteps);
-// 	float a = 0;
-// 	int idx = 0;
-
-// 	for (int i = 0; i < numSteps + 1; i++) {
-// 		float x = cosf(a);
-// 		float z = sinf(a);
-
-// 		vertices[idx++] = x * BOTTOM_RADIUS;
-// 		vertices[idx++] = 0;
-// 		vertices[idx++] = z * BOTTOM_RADIUS;
-// 		vertices[idx++] = x * TOP_RADIUS;
-// 		vertices[idx++] = 1.0;
-// 		vertices[idx++] = z * TOP_RADIUS;
-
-// 		a += step;
-// 	}
-// }
-
 Cube::Cube() {
 	// _steps = steps;
 	// _verts = (_steps + 1) * 2; 

@@ -17,6 +17,7 @@
 #include "RBSquare.h"
 #include "RBCube.h"
 #include "RBTexture.h"
+#include "RBPoint.h"
 
 // -----------------------------------------------------------------------------
 // Part 2: Define a color
@@ -236,11 +237,16 @@ int main() {
 	// // glm::vec3 pos = left_eye.GetPosition();
 	// left_eye.SetPosition(-0.1f, 0.0f, 0.0f);
 
-	Cube fixation = Cube();
-	fixation.ApplyShader(shader3D);
-	fixation.SetColor(COLOR_GREEN);
-	// glm::vec3 pos = fixation.GetPosition();
-	fixation.SetPosition(0.0f, 0.0f, 0.0f);
+	// Cube fixation = Cube();
+	// fixation.ApplyShader(shader3D);
+	// fixation.SetColor(COLOR_GREEN);
+	// // glm::vec3 pos = fixation.GetPosition();
+	// fixation.SetPosition(0.0f, 0.0f, 0.0f);
+
+	Point point = Point(16);
+	point.ApplyShader(shader3D);
+	point.SetColor(COLOR_GREEN);
+	point.SetPosition(0.0f, 0.0f, 0.0f);
 
 	// Cube right_eye = Cube();
 	// right_eye.ApplyShader(shader3D);
@@ -310,9 +316,9 @@ int main() {
 				// square.Render(projectionMatrix);
 				
 				// left_eye.Render(projectionMatrix);
-				fixation.Render(projectionMatrix);
+				// fixation.Render(projectionMatrix);
 				// right_eye.Render(projectionMatrix);
-
+				point.Render(projectionMatrix);
 
 				// Bind the frame buffer
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
