@@ -7,8 +7,7 @@ SRCS =  src/main.cpp \
         src/RBCylinder.cpp \
         src/RBSquare.cpp \
         src/RBCube.cpp \
-        src/RBPoint.cpp \
-        src/RBTexture.cpp
+        src/RBPoint.cpp
 
 DEFS = \
     ML_DEFAULT_LOG_TAG="gl_eye_tracking2" \
@@ -19,10 +18,10 @@ USES = \
     ml_sdk OpenGL stdc++ \
     samples_common \
 
-REFS = \
-    glad \
+# REFS = \
+    # glad \
     # glew \
-    stb \
+    # stb \
 
 
 DATAS = data/ : data/

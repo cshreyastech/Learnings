@@ -76,7 +76,7 @@ C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/obj.gl_
   C:/lcb/Learnings/ML/gl_eye_tracking2/src/platform_includes.h \
   C:/Users/cshre/MagicLeap/mlsdk/v0.26.0/lumin/usr/include\EGL/egl.h \
   C:/Users/cshre/MagicLeap/mlsdk/v0.26.0/lumin/usr/include\EGL/eglplatform.h \
-  C:/lcb/Learnings/ML/gl_eye_tracking2/glad/include\KHR/khrplatform.h \
+  C:/Users/cshre/MagicLeap/mlsdk/v0.26.0/lumin/usr/include\KHR/khrplatform.h \
   C:/Users/cshre/MagicLeap/mlsdk/v0.26.0/lumin/usr/include\EGL/eglext.h \
   C:/Users/cshre/MagicLeap/mlsdk/v0.26.0/lumin/usr/include\GLES3/gl3.h \
   C:/Users/cshre/MagicLeap/mlsdk/v0.26.0/lumin/usr/include\GLES3/gl3platform.h \
@@ -340,11 +340,9 @@ C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/obj.gl_
   C:/lcb/Learnings/ML/gl_eye_tracking2/src/../glm/gtx/wrap.inl \
   C:/lcb/Learnings/ML/gl_eye_tracking2/src/../glm/gtx/.././gtx/scalar_multiplication.hpp \
   C:/lcb/Learnings/ML/gl_eye_tracking2/src/../glm/gtx/.././gtx/range.hpp \
-  C:/lcb/Learnings/ML/gl_eye_tracking2/stb-master\stb_image.h \
   C:/lcb/Learnings/ML/gl_eye_tracking2/src/RBCylinder.h \
   C:/lcb/Learnings/ML/gl_eye_tracking2/src/RBSquare.h \
   C:/lcb/Learnings/ML/gl_eye_tracking2/src/RBCube.h \
-  C:/lcb/Learnings/ML/gl_eye_tracking2/src/RBTexture.h \
   C:/lcb/Learnings/ML/gl_eye_tracking2/src/RBPoint.h
 
 C:/Users/cshre/MagicLeap/mlsdk/v0.26.0/lumin/stl/libc++/include\stdio.h:
@@ -499,7 +497,7 @@ C:/Users/cshre/MagicLeap/mlsdk/v0.26.0/lumin/usr/include\EGL/egl.h:
 
 C:/Users/cshre/MagicLeap/mlsdk/v0.26.0/lumin/usr/include\EGL/eglplatform.h:
 
-C:/lcb/Learnings/ML/gl_eye_tracking2/glad/include\KHR/khrplatform.h:
+C:/Users/cshre/MagicLeap/mlsdk/v0.26.0/lumin/usr/include\KHR/khrplatform.h:
 
 C:/Users/cshre/MagicLeap/mlsdk/v0.26.0/lumin/usr/include\EGL/eglext.h:
 
@@ -1027,15 +1025,11 @@ C:/lcb/Learnings/ML/gl_eye_tracking2/src/../glm/gtx/.././gtx/scalar_multiplicati
 
 C:/lcb/Learnings/ML/gl_eye_tracking2/src/../glm/gtx/.././gtx/range.hpp:
 
-C:/lcb/Learnings/ML/gl_eye_tracking2/stb-master\stb_image.h:
-
 C:/lcb/Learnings/ML/gl_eye_tracking2/src/RBCylinder.h:
 
 C:/lcb/Learnings/ML/gl_eye_tracking2/src/RBSquare.h:
 
 C:/lcb/Learnings/ML/gl_eye_tracking2/src/RBCube.h:
-
-C:/lcb/Learnings/ML/gl_eye_tracking2/src/RBTexture.h:
 
 C:/lcb/Learnings/ML/gl_eye_tracking2/src/RBPoint.h:
 C:/lcb/Learnings/ML/gl_eye_tracking2/src/main.cpp :
