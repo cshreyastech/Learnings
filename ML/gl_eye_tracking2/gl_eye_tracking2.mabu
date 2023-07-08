@@ -20,8 +20,10 @@ USES = \
     samples_common \
 
 REFS = \
-    stb \
     glad \
+    # glew \
+    stb \
+
 
 DATAS = data/ : data/
 

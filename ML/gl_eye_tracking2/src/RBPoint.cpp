@@ -11,29 +11,9 @@ const char APP_TAG[] = "C-ENGINE-CYL";
 #define BOTTOM_RADIUS 0.5
 #define TOP_RADIUS 0.5
 
-static void MakePoint(GLfloat *vertices, int numSteps) {
-	float step = 2 * M_PI / static_cast<float>(numSteps);
-	float a = 0;
-	int idx = 0;
-
-	for (int i = 0; i < numSteps + 1; i++) {
-		float x = cosf(a);
-		float z = sinf(a);
-
-		vertices[idx++] = x * BOTTOM_RADIUS;
-		vertices[idx++] = 0;
-		vertices[idx++] = z * BOTTOM_RADIUS;
-		vertices[idx++] = x * TOP_RADIUS;
-		vertices[idx++] = 1.0;
-		vertices[idx++] = z * TOP_RADIUS;
-
-		a += step;
-	}
-}
-
-Point::Point(int steps) {
-	_steps = steps;
-	_verts = (_steps + 1) * 2; 
+Point::Point() {
+	// _steps = steps;
+	// _verts = (_steps + 1) * 2; 
 
 	_position = glm::vec3(0);
 	_rotation = glm::vec3(0);
@@ -47,22 +27,41 @@ void Point::ApplyShader(Shader& shader) {
 	_progId = shader.GetProgramID();
 	glUseProgram(_progId);
 
-	_colorId = glGetUniformLocation(_progId, "color");
+	// _colorId = glGetUniformLocation(_progId, "color");
 	_projId = glGetUniformLocation(_progId, "projFrom3D");
 	GLuint location = glGetAttribLocation(_progId, "coord3D");
 
-	glGenVertexArrays(1, &_vaoId);
-	glBindVertexArray(_vaoId);
+	
 
-	GLfloat pointVertexData[_verts * 3];
-	MakePoint(pointVertexData, _steps);
+	// GLfloat pointVertexData[_verts * 3];
+	// MakePoint(pointVertexData, _steps);
+
+	_verts = 3;
+  float pointVertexData[] = {
+    // positions         // colors
+     0.5f, -0.5f, -0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
+    -0.5f, -0.5f, -0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
+     0.0f,  0.5f, -0.0f,  0.0f, 0.0f, 1.0f    // top 
+  };
 
 	GLuint vbo;
+	glGenVertexArrays(1, &_vaoId);
 	glGenBuffers(1, &vbo);
+	
+	glBindVertexArray(_vaoId);
+
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glEnableVertexAttribArray(location);
-	glVertexAttribPointer(location, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(0));
 	glBufferData(GL_ARRAY_BUFFER, sizeof(pointVertexData), pointVertexData, GL_STATIC_DRAW);
+
+  // position
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), reinterpret_cast<void*>(0));
+  glEnableVertexAttribArray(location);
+
+  // The color attribute starts after the position data so the offset is 3 * sizeof(float) 
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+  glEnableVertexAttribArray(1);
+
+  glBindVertexArray(_vaoId);
 
 	glBindVertexArray(0);
 	glUseProgram(0);
@@ -79,9 +78,11 @@ void Point::Render(glm::mat4 projectionMatrix) {
 
 	glBindVertexArray(_vaoId);
 	glUniformMatrix4fv(_projId, 1, GL_FALSE, &transform[0][0]);
-	glUniform3f(_colorId, _color[0], _color[1], _color[2]);
+	// glUniform3f(_colorId, _color[0], _color[1], _color[2]);
 	// GLfloat size = 5.0f;
-	// glPointSize(size); 
+	// glPointSize(5); 
+	
+	// glDrawArrays(GL_POINTS, 0, _verts);
 	glDrawArrays(GL_POINTS, 0, _verts);
 	glBindVertexArray(0);
 

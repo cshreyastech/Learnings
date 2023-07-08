@@ -6,7 +6,7 @@ class Shader;
 
 class Point {
 public:
-	Point(int steps);
+	Point();
 	~Point();
 
 public:

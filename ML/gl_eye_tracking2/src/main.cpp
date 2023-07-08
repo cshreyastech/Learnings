@@ -219,6 +219,9 @@ int main() {
 	Shader shader3D = Shader();
 	shader3D.Load("data/res/shaders/standard3D.vert", "data/res/shaders/standard.frag");
 
+	Shader pointShader3D = Shader();
+	pointShader3D.Load("data/res/shaders/basic3D.vert", "data/res/shaders/basic.frag");
+	
 	// Shader shader_square = Shader();
 	// shader_square.Load("data/res/shaders/standard3D.vert", "data/res/shaders/standard.frag");
 
@@ -243,10 +246,10 @@ int main() {
 	// // glm::vec3 pos = fixation.GetPosition();
 	// fixation.SetPosition(0.0f, 0.0f, 0.0f);
 
-	Point point = Point(16);
-	point.ApplyShader(shader3D);
-	point.SetColor(COLOR_GREEN);
-	point.SetPosition(0.0f, 0.0f, 0.0f);
+	// Point point = Point(16);
+	// point.ApplyShader(shader3D);
+	// point.SetColor(COLOR_GREEN);
+	// point.SetPosition(0.0f, 0.0f, 0.0f);
 
 	// Cube right_eye = Cube();
 	// right_eye.ApplyShader(shader3D);
@@ -254,6 +257,8 @@ int main() {
 	// // glm::vec3 pos = left_eye.GetPosition();
 	// right_eye.SetPosition(0.1f, 0.0f, 0.0f);
 
+	Point cloud = Point();
+	cloud.ApplyShader(pointShader3D);
 
 	// The main/game loop
 	ML_LOG_TAG(Debug, APP_TAG, "Enter main loop");
@@ -304,7 +309,7 @@ int main() {
 				const MLRectf& viewport = virtual_camera_array.viewport;
 				glViewport((GLint)viewport.x, (GLint)viewport.y, (GLsizei)viewport.w, (GLsizei)viewport.h);
 
-				glClearColor(0.0, 0.0, 0.0, 0.0);
+				glClearColor(0.001, 0.001, 0.001, 0.0);
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 				// Part 2: Get the projection matrix
@@ -318,8 +323,8 @@ int main() {
 				// left_eye.Render(projectionMatrix);
 				// fixation.Render(projectionMatrix);
 				// right_eye.Render(projectionMatrix);
-				point.Render(projectionMatrix);
-
+				// point.Render(projectionMatrix);
+				cloud.Render(projectionMatrix);
 				// Bind the frame buffer
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 				MLGraphicsSignalSyncObjectGL(graphics_client, virtual_camera_array.virtual_cameras[camera].sync_object);

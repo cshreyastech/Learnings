@@ -47,7 +47,7 @@ prebuild ::
 
 postbuild :: 
 
-clean :: glad-clean stb-clean gl_eye_tracking2-clean
+clean :: stb-clean glad-clean gl_eye_tracking2-clean
 
 $(MLSDK)/tools/mabu/data/components/stdc++.comp : 
 
@@ -63,11 +63,11 @@ $(MLSDK)/tools/mabu/data/options/package/debuggable/on.option :
 
 $(MLSDK)/tools/mabu/data/options/runtime/shared.option : 
 
-$(MLSDK)/tools/mabu/data/options/standard-c++/17.option : 
-
 $(MLSDK)/tools/mabu/data/options/warn/on.option : 
 
 C:/lcb/Learnings/ML/gl_eye_tracking2/common.comp : 
+
+$(MLSDK)/tools/mabu/data/options/standard-c++/17.option : 
 
 $(MLSDK)/.metadata/components/ml_sdk.comp : 
 
@@ -119,8 +119,8 @@ C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/data/re
 C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/obj.gl_eye_tracking2/src : 
 	$(ECHO) @mkdir -p C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/obj.gl_eye_tracking2/src
 
-include $(glad_OUTPUT)/glad.mk
 include $(stb_OUTPUT)/stb.mk
+include $(glad_OUTPUT)/glad.mk
 include $(gl_eye_tracking2_OUTPUT)/gl_eye_tracking2.mk
-build :  | glad-all stb-all gl_eye_tracking2-all
+build :  | stb-all glad-all gl_eye_tracking2-all
 
