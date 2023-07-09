@@ -12,8 +12,6 @@ const char APP_TAG[] = "C-ENGINE-CYL";
 #define TOP_RADIUS 0.5
 
 Point::Point() {
-	// _steps = steps;
-	// _verts = (_steps + 1) * 2; 
 
 	_position = glm::vec3(0);
 	_rotation = glm::vec3(0);
@@ -27,7 +25,6 @@ void Point::ApplyShader(Shader& shader) {
 	_progId = shader.GetProgramID();
 	glUseProgram(_progId);
 
-	// _colorId = glGetUniformLocation(_progId, "color");
 	_projId = glGetUniformLocation(_progId, "projFrom3D");
 	GLuint location = glGetAttribLocation(_progId, "coord3D");
 
@@ -36,13 +33,22 @@ void Point::ApplyShader(Shader& shader) {
 	// GLfloat pointVertexData[_verts * 3];
 	// MakePoint(pointVertexData, _steps);
 
-	_verts = 3;
+	// _verts = 3;
+  // float pointVertexData[] = {
+  //   // positions         // colors
+  //    0.5f, -0.5f, -0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
+  //   -0.5f, -0.5f, -0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
+  //    0.0f,  0.5f, -0.0f,  0.0f, 0.0f, 1.0f    // top 
+  // };
+
+	// _verts = 307200;
+	_verts = 307200;
   float pointVertexData[] = {
     // positions         // colors
-     0.5f, -0.5f, -0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
-    -0.5f, -0.5f, -0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
-     0.0f,  0.5f, -0.0f,  0.0f, 0.0f, 1.0f    // top 
+ 
   };
+
+
 
 	GLuint vbo;
 	glGenVertexArrays(1, &_vaoId);

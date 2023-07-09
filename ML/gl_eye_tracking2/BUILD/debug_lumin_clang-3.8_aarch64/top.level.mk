@@ -84,13 +84,16 @@ STATIC_EXT=.a
 COMPILER_PREFIX=
 LINKER_PREFIX=
 
--make-directories : C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64 C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/bin C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/data/res/shaders C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/data/res/texture C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/obj.gl_eye_tracking2/src
+-make-directories : C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64 C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/bin C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/data/res/cloud C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/data/res/shaders C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/data/res/texture C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/obj.gl_eye_tracking2/src
 
 C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64 : 
 	$(ECHO) @mkdir -p C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64
 
 C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/bin : 
 	$(ECHO) @mkdir -p C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/bin
+
+C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/data/res/cloud : 
+	$(ECHO) @mkdir -p C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/data/res/cloud
 
 C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/data/res/shaders : 
 	$(ECHO) @mkdir -p C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/data/res/shaders
