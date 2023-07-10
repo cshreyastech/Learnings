@@ -22,9 +22,9 @@
   },
   {
    "compression": 8,
-   "hash": "a77616df1fdfb075dfdf0b8e56f6633a3536a7f6",
+   "hash": "33e85b45ff06cdf684b4b06c6ae817af69f06160",
    "pkgpath": "bin/gl_eye_tracking2",
-   "size": 7456944,
+   "size": 198864,
    "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/debug_lumin_clang-3.8_aarch64/gl_eye_tracking2",
    "xfrm_flags": {
     "signed": {
@@ -36,16 +36,9 @@
      "version": 3
     }
    },
-   "xfrm_hash": "b9e52c446c60eb824fad6a1a45e298aad98f28a9",
+   "xfrm_hash": "0c8c8768b0b246a76dbca872a36bc412f91d4454",
    "xfrm_path": "C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/.cache/debug_lumin_clang-3.8_aarch64/gl_eye_tracking2-3cb3aa82b315e6dd\\gl_eye_tracking2-ebe90187609e6add",
-   "xfrm_size": 7457702
-  },
-  {
-   "compression": 8,
-   "hash": "ade854091ffc210f5ddc488500de82457fde2ed9",
-   "pkgpath": "data/res/cloud/depth_data.txt",
-   "size": 21196800,
-   "src": "C:/lcb/Learnings/ML/gl_eye_tracking2/data/res/cloud/depth_data.txt"
+   "xfrm_size": 199622
   },
   {
    "compression": 8,
@@ -98,9 +91,9 @@
   },
   {
    "compression": 8,
-   "hash": "121ccacbd8148b0057eda8de3629350ccfbabdcc",
+   "hash": "43081401c3f7ef250a4cdb500f3c6bdeb87b4af8",
    "pkgpath": "manifest.xml",
-   "size": 647,
+   "size": 735,
    "src": "C:/lcb/Learnings/ML/gl_eye_tracking2\\manifest.xml",
    "xfrm_flags": {
     "manifest": {
@@ -108,9 +101,9 @@
      "developer_id": "635ecc90-b945-4707-8907-1b956a82ea85"
     }
    },
-   "xfrm_hash": "0a22d4b62840d259fb7ea354ea4bae48519883d0",
+   "xfrm_hash": "bd93e16f8c5e126d55d3d83bb92acd6d3c95702a",
    "xfrm_path": "C:/lcb/Learnings/ML/gl_eye_tracking2/BUILD/.cache/debug_lumin_clang-3.8_aarch64/gl_eye_tracking2-3cb3aa82b315e6dd\\manifest.xml-3cb3aa82b315e6dd",
-   "xfrm_size": 672
+   "xfrm_size": 762
   }
  ],
  "pkgflags": {

@@ -1,9 +1,0 @@
-export INCS = GLEW/include
-INCS = GLEW/include
-KIND = static
-OPTIONS = standard-c++/17
-# SRCS = glad/src/glad.c
-USES = \
-	common \
-	stdc++
-

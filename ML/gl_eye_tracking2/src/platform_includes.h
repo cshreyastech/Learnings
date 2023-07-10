@@ -18,4 +18,9 @@
 	#define EGL_EGLEXT_PROTOTYPES
 #endif
 
-// #include <stb_image.h>
+#include <asio.hpp>
+#include <asio/ts/buffer.hpp>
+#include <asio/ts/internet.hpp>
+#define ASIO_STANDLONE
+
+#include <vector>

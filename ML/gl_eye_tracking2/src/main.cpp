@@ -257,8 +257,8 @@ int main() {
 	// // glm::vec3 pos = left_eye.GetPosition();
 	// right_eye.SetPosition(0.1f, 0.0f, 0.0f);
 
-	Point cloud = Point();
-	cloud.ApplyShader(pointShader3D);
+	// Point cloud = Point();
+	// cloud.ApplyShader(pointShader3D);
 
 	// The main/game loop
 	ML_LOG_TAG(Debug, APP_TAG, "Enter main loop");
@@ -324,7 +324,7 @@ int main() {
 				// fixation.Render(projectionMatrix);
 				// right_eye.Render(projectionMatrix);
 				// point.Render(projectionMatrix);
-				cloud.Render(projectionMatrix);
+				// cloud.Render(projectionMatrix);
 				// Bind the frame buffer
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 				MLGraphicsSignalSyncObjectGL(graphics_client, virtual_camera_array.virtual_cameras[camera].sync_object);
