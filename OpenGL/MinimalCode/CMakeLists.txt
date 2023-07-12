@@ -316,48 +316,30 @@ ADD_EXECUTABLE(06_6-just_cubes_ebo
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 TARGET_LINK_LIBRARIES(06_6-just_cubes_ebo ${target_libraries})
 
-ADD_EXECUTABLE(10_1-framebuffer_tbd
-  src/vendor/stb_image/stb_image.cpp
+
+ADD_EXECUTABLE(point_cloud_server
   src/vendor/glad/glad.c
-
-  src/01-GettingStarted/tbd/10_1-framebuffer_V2.cpp
+  src/core/Shader.cpp
+  src/01-GettingStarted/networking/server/src/socket_server.cpp
+  src/01-GettingStarted/networking/server/src/point_cloud_server.cpp
   )
+
+target_include_directories(point_cloud_server
+  PRIVATE src/01-GettingStarted/networking/server/include)
 
 #Set Linker flags
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-TARGET_LINK_LIBRARIES(10_1-framebuffer_tbd ${target_libraries})
+TARGET_LINK_LIBRARIES(point_cloud_server ${target_libraries})
 
 
-ADD_EXECUTABLE(frame_publisher
-  src/vendor/stb_image/stb_image.cpp
-  src/vendor/glad/glad.c
-
-  src/01-GettingStarted/tbd/client_server/client/frame_publisher.cpp
-  src/01-GettingStarted/tbd/client_server/client/socket_client.cpp
-  
+ADD_EXECUTABLE(point_cloud_client
+  src/01-GettingStarted/networking/client/src/socket_client.cpp
+  src/01-GettingStarted/networking/client/src/point_cloud_client.cpp
   )
+
+target_include_directories(point_cloud_client
+  PRIVATE src/01-GettingStarted/networking/client/include)
 
 #Set Linker flags
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-TARGET_LINK_LIBRARIES(frame_publisher ${target_libraries})
-
-ADD_EXECUTABLE(frame_receiver
-  src/vendor/stb_image/stb_image.cpp
-  src/vendor/glad/glad.c
-
-  src/01-GettingStarted/tbd/client_server/server/frame_receiver2.cpp
-  src/01-GettingStarted/tbd/client_server/server/socket_server.cpp
-  
-  )
-
-#Set Linker flags
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-TARGET_LINK_LIBRARIES(frame_receiver ${target_libraries})
-
-ADD_EXECUTABLE(gl_conversions
-  src/01-GettingStarted/tbd/gl_conversions.cpp
-  )
-
-#Set Linker flags
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-TARGET_LINK_LIBRARIES(gl_conversions ${target_libraries})
+TARGET_LINK_LIBRARIES(point_cloud_client ${target_libraries})

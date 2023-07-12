@@ -1,4 +1,4 @@
-#include "client_server/server/socket_server.hpp"
+#include "server/socket_server.hpp"
 
 #include <unistd.h> // close
 #include <sys/types.h>
@@ -63,71 +63,35 @@ void SocketServer::ConnectToNetwork() {
   }
 }
 
-void SocketServer::ReceiveImageDims() {
-
-  ssize_t bytes_sent = 0;
-  size_t dims_size = 0;
-
-  size_t sizeof_dims = sizeof(image_height_);
-
-  if (bytes_sent = recv(sock_fdesc_conn_, (char*)&image_width_, sizeof_dims, 0) == -1) {
-    printf("ERROR!: recv failed\n"
-           "sock_fdesc: %d\n"
-           "image_size: %zu\n"
-           "bytes_sent: %zu\n", sock_fdesc_conn_, dims_size, bytes_sent);
-    exit(1);
-  }
-  else {
-      printf("Image dimensions: [%d]\n", image_width_);
-    }
-
-  if (bytes_sent = recv(sock_fdesc_conn_, (char*)&image_height_, sizeof_dims, 0) == -1) {
-    printf("ERROR!: recv failed\n"
-           "sock_fdesc: %d\n"
-           "image_size: %zu\n"
-           "bytes_sent: %zu\n", sock_fdesc_conn_, dims_size, bytes_sent);
-    exit(1);
-  }
-  printf("Image dimensions: [%dx%d]\n", image_height_, image_width_);
-
-  if (bytes_sent = recv(sock_fdesc_conn_, (char*)&image_channels_, sizeof_dims, 0) == -1) {
-    printf("ERROR!: recv failed\n"
-           "sock_fdesc: %d\n"
-           "image_size: %zu\n"
-           "bytes_sent: %zu\n", sock_fdesc_conn_, dims_size, bytes_sent);
-    exit(1);
-  }
-  printf("Image dimensions: [%dx%dx%d]\n", image_height_, image_width_, image_channels_);
+void SocketServer::DeserializeInt(int *value, unsigned char *data_arr)
+{
+  int *q = (int*)data_arr;
+  *value = *q; q++;
 }
 
-void SocketServer::ReceiveTextureData(unsigned char** data)
+const int SocketServer::ReceiveInt()
 {
-
   int num_bytes = 0;
   int total_num_bytes = 0;
-  int image_size = image_width_ * image_height_ * image_channels_;
-
-  // int image_size = 512 * 512 * 3;
+  int data_size = sizeof(const int);
 
   // Allocate space for image buffer
-  unsigned char sock_data[image_size];
+  unsigned char data_arr[data_size];
 
-  // Save image data to buffer
-  for (int i = 0; i < image_size; i += num_bytes) {
-    num_bytes = recv(sock_fdesc_conn_, sock_data + i, image_size - i, 0);
-    total_num_bytes += num_bytes;
+  num_bytes = recv(sock_fdesc_conn_, data_arr, data_size, 0);
 
-    if (num_bytes == -1) {
-      printf("ERROR!: recv failed\n"
-             "i: %d\n"
-             "sock_fdesc: %d\n"
-             "image_size: %d\n"
-             "num_bytes: %d\n", i, sock_fdesc_conn_, image_size, num_bytes);
-      exit(1);
-    }
-  }
 
-  printf("image_size: %d, total_num_bytes: %d\n", image_size, total_num_bytes);
+  printf("Received data_size: %d\n", data_size);
+  int value;
+  DeserializeInt(&value, data_arr);
+  return value;
+}
 
-  *data = sock_data;
+
+
+
+SocketServer::~SocketServer()
+{
+  close(sock_fdesc_conn_);
+  printf("Closed socket at port %d\n", port_);    
 }
