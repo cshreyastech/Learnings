@@ -99,7 +99,8 @@ void SocketClient::SendCloud(float values[], const int vertices_size)
 {
   const int packet_size = sizeof(float) * vertices_size;
 
-  unsigned char data_arr[sizeof(float) * vertices_size];
+  unsigned char data_arr[packet_size];
+  // printf("vertices_size: %d, packet_size: %d\n", vertices_size, packet_size);
 
   // const float value = -0.524111f;
   // printf("value: %f\n", value);
@@ -109,7 +110,7 @@ void SocketClient::SendCloud(float values[], const int vertices_size)
 
 
   // SerializeFloatArray(values, data_arr);
-  SerializeFloatArray(values, vertices_size, data_arr);
+  // SerializeFloatArray(values, vertices_size, data_arr);
 
   int data_size = send(sock_fdesc_conn_, data_arr, packet_size, 0);
   printf("Sent data_size: %d\n", data_size);

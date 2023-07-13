@@ -118,10 +118,24 @@ void SocketServer::ReceiveCloud(float vertices[], const int vertices_size)
   int packet_size = sizeof(const float) * vertices_size;
 
   // Allocate space for image buffer
-  unsigned char data_arr[packet_size * vertices_size];
+  unsigned char data_arr[packet_size];
 
-  num_bytes = recv(sock_fdesc_conn_, data_arr, packet_size, 0);
+  // num_bytes = recv(sock_fdesc_conn_, data_arr, packet_size, 0);
 
+  // Save image data to buffer
+  for (int i = 0; i < packet_size; i += num_bytes) {
+    num_bytes = recv(sock_fdesc_conn_, data_arr + i, packet_size - i, 0);
+    total_num_bytes += num_bytes;
+
+    if (num_bytes == -1) {
+      printf("ERROR!: recv failed\n"
+             "i: %d\n"
+             "sock_fdesc: %d\n"
+             "packet_size: %d\n"
+             "num_bytes: %d\n", i, sock_fdesc_conn_, packet_size, num_bytes);
+      exit(1);
+    }
+  }
 
   printf("Received packet_size: %d\n", packet_size);
   // // float value;
