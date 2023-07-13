@@ -43,9 +43,10 @@ void Point::ApplyShader(Shader& shader) {
 
 	// _verts = 307200;
 	_verts = 307200;
+ 
   float pointVertexData[] = {
     // positions         // colors
- 
+
   };
 
 

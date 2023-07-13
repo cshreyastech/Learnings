@@ -3,13 +3,13 @@ KIND = program
 INCS =  src/
 
 SRCS = \
-    src/main_asio.cpp
-    # src/main.cpp \
-    # src/RBShader.cpp \
-    # src/RBCylinder.cpp \
-    # src/RBSquare.cpp \
-    # src/RBCube.cpp \
-    # src/RBPoint.cpp
+    # src/main_asio.cpp \
+    src/main.cpp \
+    src/RBShader.cpp \
+    src/RBCylinder.cpp \
+    src/RBSquare.cpp \
+    src/RBCube.cpp \
+    src/RBPoint.cpp
 
 DEFS = \
     ML_DEFAULT_LOG_TAG="gl_eye_tracking2" \
@@ -20,8 +20,8 @@ USES = \
     ml_sdk OpenGL stdc++ \
     samples_common \
 
-REFS = \
-    asio
+# REFS = \
+    # asio
     # glad \
     # glew \
     # stb \

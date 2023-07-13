@@ -234,31 +234,43 @@ int main() {
 	// square.ApplyShader(shader_square);
 	// square.SetColor(COLOR_RED);
 
-	// Cube left_eye = Cube();
-	// left_eye.ApplyShader(shader3D);
-	// left_eye.SetColor(COLOR_RED);
-	// // glm::vec3 pos = left_eye.GetPosition();
-	// left_eye.SetPosition(-0.1f, 0.0f, 0.0f);
+	Cube left_eye = Cube();
+	left_eye.ApplyShader(shader3D);
+	left_eye.SetColor(COLOR_RED);
+	// glm::vec3 pos = left_eye.GetPosition();
+	left_eye.SetPosition(-0.1f, 0.0f, 0.0f);
 
-	// Cube fixation = Cube();
-	// fixation.ApplyShader(shader3D);
-	// fixation.SetColor(COLOR_GREEN);
-	// // glm::vec3 pos = fixation.GetPosition();
-	// fixation.SetPosition(0.0f, 0.0f, 0.0f);
+	Cube fixation = Cube();
+	fixation.ApplyShader(shader3D);
+	fixation.SetColor(COLOR_GREEN);
+	// glm::vec3 pos = fixation.GetPosition();
+	fixation.SetPosition(0.0f, 0.0f, 0.0f);
 
 	// Point point = Point(16);
 	// point.ApplyShader(shader3D);
 	// point.SetColor(COLOR_GREEN);
 	// point.SetPosition(0.0f, 0.0f, 0.0f);
 
-	// Cube right_eye = Cube();
-	// right_eye.ApplyShader(shader3D);
-	// right_eye.SetColor(COLOR_BLUE);
-	// // glm::vec3 pos = left_eye.GetPosition();
-	// right_eye.SetPosition(0.1f, 0.0f, 0.0f);
+	Cube right_eye = Cube();
+	right_eye.ApplyShader(shader3D);
+	right_eye.SetColor(COLOR_BLUE);
+	// glm::vec3 pos = left_eye.GetPosition();
+	right_eye.SetPosition(0.1f, 0.0f, 0.0f);
 
-	// Point cloud = Point();
-	// cloud.ApplyShader(pointShader3D);
+	Point cloud = Point();
+	cloud.ApplyShader(pointShader3D);
+
+
+  MLHandle ml_head_tracker_ = ML_INVALID_HANDLE;
+  MLHeadTrackingStaticData ml_head_static_data_ = {};
+  MLHandle ml_eye_tracker_ = ML_INVALID_HANDLE;
+  MLEyeTrackingStaticData ml_eye_static_data_ = {};
+
+  MLHeadTrackingCreate(&ml_head_tracker_);
+  MLHeadTrackingGetStaticData(ml_head_tracker_, &ml_head_static_data_);
+
+  MLEyeTrackingCreate(&ml_eye_tracker_);
+  MLEyeTrackingGetStaticData(ml_eye_tracker_, &ml_eye_static_data_);
 
 	// The main/game loop
 	ML_LOG_TAG(Debug, APP_TAG, "Enter main loop");
@@ -267,19 +279,27 @@ int main() {
 		MLInputControllerState input_states[MLInput_MaxControllers];
       CHECK(MLInputGetControllerState(input, input_states));
 
-      // for (int k = 0; k < MLInput_MaxControllers; ++k) {
-      //   if (input_states[k].is_connected) {
-      //     if (input_states[k].button_state[MLInputControllerButton_Bumper]) {
-			// 			glm::vec3 pos = cylinder.GetPosition();
-			// 			cylinder.SetPosition(pos.x, pos.y+0.001, pos.z);	
-			// 			cylinder.SetColor(COLOR_GREEN);
+    MLSnapshot *snapshot = nullptr;
+    MLPerceptionGetSnapshot(&snapshot);
 
-			// 			ML_LOG_TAG(Debug, APP_TAG, "Bumper pressed");
-			// 			cylinder.Dump();
-      //     }
-      //   }
-      // }
-			
+    MLTransform ml_fixation = {};
+    MLTransform ml_left_eye_center = {};
+    MLTransform ml_right_eye_center = {};
+    MLTransform ml_head = {};
+    MLSnapshotGetTransform(snapshot, &ml_head_static_data_.coord_frame_head, &ml_head);
+    MLSnapshotGetTransform(snapshot, &ml_eye_static_data_.fixation, &ml_fixation);
+    // MLSnapshotGetTransform(snapshot, &ml_eye_static_data_.left_center, &ml_left_eye_center);
+    // MLSnapshotGetTransform(snapshot, &eye_static_data_.right_center, &right_eye_center);
+    // MLPerceptionReleaseSnapshot(snapshot);
+		fixation.SetPosition(ml_fixation.position.x, ml_fixation.position.y, ml_fixation.position.z);
+		// ML_LOG_TAG(Info, APP_TAG, "ml_head(%f, %f, %f)", 
+		// 	ml_head.position.x, ml_head.position.y, ml_head.position.z);
+		// ML_LOG_TAG(Info, APP_TAG, "ml_left_eye_center(%f, %f, %f)", 
+		// 	ml_left_eye_center.position.x, ml_left_eye_center.position.y, ml_left_eye_center.position.z);
+
+
+
+
 		// Initialize a frame
 		MLGraphicsFrameParams frame_params;
 		result = MLGraphicsInitFrameParams(&frame_params);
@@ -309,22 +329,32 @@ int main() {
 				const MLRectf& viewport = virtual_camera_array.viewport;
 				glViewport((GLint)viewport.x, (GLint)viewport.y, (GLsizei)viewport.w, (GLsizei)viewport.h);
 
-				glClearColor(0.001, 0.001, 0.001, 0.0);
+				glClearColor(0.0, 0.0, 0.0, 0.0);
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 				// Part 2: Get the projection matrix
 				MLGraphicsVirtualCameraInfo &current_camera = virtual_camera_array.virtual_cameras[camera];
 				glm::mat4 projectionMatrix = rb_projection_matrix(current_camera) * rb_camera_matrix(current_camera);
 
+				// glm::vec4 left_eye_center(ml_left_eye_center.position.x, 
+				// ml_left_eye_center.position.y,
+				// ml_left_eye_center.position.z, 1.0);
+				// left_eye_center = rb_camera_matrix(current_camera) * left_eye_center;
+
+				// left_eye.SetPosition(ml_left_eye_center.position.x, 
+				// 	ml_left_eye_center.position.y,
+				// 	ml_left_eye_center.position.z);
+
+
 				// Part 2: Render the object
 				// cylinder.Render(projectionMatrix);
 				// square.Render(projectionMatrix);
 				
 				// left_eye.Render(projectionMatrix);
-				// fixation.Render(projectionMatrix);
+				fixation.Render(projectionMatrix);
 				// right_eye.Render(projectionMatrix);
 				// point.Render(projectionMatrix);
-				// cloud.Render(projectionMatrix);
+				cloud.Render(projectionMatrix);
 				// Bind the frame buffer
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 				MLGraphicsSignalSyncObjectGL(graphics_client, virtual_camera_array.virtual_cameras[camera].sync_object);
@@ -353,9 +383,9 @@ int main() {
 	ML_LOG_TAG(Debug, APP_TAG, "System cleanup done");
 
 
-  // // clean up system
-  // UNWRAP_MLRESULT(MLHeadTrackingDestroy(head_tracker_));
-  // UNWRAP_MLRESULT(MLEyeTrackingDestroy(eye_tracker_));
+  // clean up system
+  MLHeadTrackingDestroy(ml_head_tracker_);
+  MLEyeTrackingDestroy(ml_eye_tracker_);
   
   // UNWRAP_MLRESULT(MLGraphicsDestroyClient(&graphics_client));
   // UNWRAP_MLRESULT(MLPerceptionShutdown());
