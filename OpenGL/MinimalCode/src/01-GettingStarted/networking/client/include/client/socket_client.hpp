@@ -9,9 +9,11 @@ class SocketClient {
   ~SocketClient();
   void ConnectToServer();
   void SendInt(const int value);
-
+  void SendCloud(float vertices[], const int vertices_size);
  private:
   void SerializeInt(const int *value, unsigned char *data_arr);
+  void SerializeFloat(const float *value, unsigned char *data_arr);
+  void SerializeFloatArray(float values[], const int values_size, unsigned char *data_arr);
 
   const char* hostname_;
   int port_;

@@ -1,4 +1,3 @@
-
 #include "vendor/glad/glad.h"
 #include <GLFW/glfw3.h>
 
@@ -59,12 +58,21 @@ int main()
   std::unique_ptr<SocketServer> server_ptr(new SocketServer(8080));
   server_ptr->ConnectToNetwork();
 
-  const int n_vertices = server_ptr->ReceiveInt();
-  // std::cout << "n_vertices: " << n_vertices << std::endl;
+  // const int n_vertices = server_ptr->ReceiveInt();
 
-  // int n_eye_tracking = 1;
-  // printf("n_eye_tracking: %d\n", n_eye_tracking);
-  // server_ptr->SendNumberOfEyeTracking(n_eye_tracking);
+  const int n_vertices = 10;
+  const int vertices_size = n_vertices * 6;
+
+  float vertices[1 * vertices_size];
+  server_ptr->ReceiveCloud(vertices, vertices_size);
+
+  for(int i = 0; i < vertices_size; i++)
+  {
+    printf("vertices[%d]:%f\n", i, vertices[i]);
+  }
+
+
+
 
 //   const int n_vertices = 5;
 //   // set up vertex data (and buffer(s)) and configure vertex attributes
@@ -82,59 +90,59 @@ int main()
 // -0.517565f, -0.392890f, -0.931213f, 0.635294f, 0.635294f, 0.635294f, 
 //   };
 
-//   unsigned int VBO, VAO;
-//   glGenVertexArrays(1, &VAO);
-//   glGenBuffers(1, &VBO);
-//   // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-//   glBindVertexArray(VAO);
+  unsigned int VBO, VAO;
+  glGenVertexArrays(1, &VAO);
+  glGenBuffers(1, &VBO);
+  // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+  glBindVertexArray(VAO);
 
-//   glBindBuffer(GL_ARRAY_BUFFER, VBO);
-//   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-//   // position
-//   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-//   glEnableVertexAttribArray(0);
+  // position
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+  glEnableVertexAttribArray(0);
 
-//   // The color attribute starts after the position data so the offset is 3 * sizeof(float) 
-//   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
-//   glEnableVertexAttribArray(1);
+  // The color attribute starts after the position data so the offset is 3 * sizeof(float) 
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+  glEnableVertexAttribArray(1);
 
-//   glBindVertexArray(VAO);
+  glBindVertexArray(VAO);
 
 
-//   // float offset = 0.5f; //Exercise 3.2
+  // float offset = 0.5f; //Exercise 3.2
   
-//   // render loop
-//   // -----------
-//   while (!glfwWindowShouldClose(window))
-//   {
-//     // input
-//     // -----
-//     processInput(window);
+  // render loop
+  // -----------
+  while (!glfwWindowShouldClose(window))
+  {
+    // input
+    // -----
+    processInput(window);
 
-//     // render
-//     // ------
-//     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-//     glClear(GL_COLOR_BUFFER_BIT);
+    // render
+    // ------
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 
-//     // render the triangle
-//     // ourShader.setFloat("xOffset", offset); //Exercise 3.2
-//     ourShader.use();
-//     glBindVertexArray(VAO);
-//     glPointSize(5);
-//     glDrawArrays(GL_POINTS, 0, n_vertices);
+    // render the triangle
+    // ourShader.setFloat("xOffset", offset); //Exercise 3.2
+    ourShader.use();
+    glBindVertexArray(VAO);
+    glPointSize(5);
+    glDrawArrays(GL_POINTS, 0, n_vertices);
 
-//     // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-//     // -------------------------------------------------------------------------------
-//     glfwSwapBuffers(window);
-//     glfwPollEvents();
-//   }
+    // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+    // -------------------------------------------------------------------------------
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+  }
 
   // optional: de-allocate all resources once they've outlived their purpose:
   // ------------------------------------------------------------------------
-  // glDeleteVertexArrays(1, &VAO);
-  // glDeleteBuffers(1, &VBO);
-  // glDeleteProgram(shaderProgram);
+  glDeleteVertexArrays(1, &VAO);
+  glDeleteBuffers(1, &VBO);
+  // glDeleteProgram(ourShader);
 
   // glfw: terminate, clearing all previously allocated GLFW resources.
   // ------------------------------------------------------------------

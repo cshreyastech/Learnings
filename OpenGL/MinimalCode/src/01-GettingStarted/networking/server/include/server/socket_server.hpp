@@ -16,9 +16,14 @@ class SocketServer {
   ~SocketServer();
   void ConnectToNetwork();
   const int ReceiveInt();  
+  void ReceiveCloud(float vertices[], const int vertices_size);
 
  private:
   void DeserializeInt(int *value, unsigned char *data_arr);
+  void DeserializeFloat(float *value, unsigned char *data_arr);
+  // void DeserializeFloatArray(float values[], unsigned char *data_arr);
+  void DeserializeFloatArray(float values[], const int values_size, unsigned char *data_arr);
+
   int eye_track_dims_{0};
   struct sockaddr_in server_addr_;
   struct sockaddr_in client_addr_;

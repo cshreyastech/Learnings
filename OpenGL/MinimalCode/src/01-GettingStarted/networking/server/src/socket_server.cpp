@@ -69,24 +69,70 @@ void SocketServer::DeserializeInt(int *value, unsigned char *data_arr)
   *value = *q; q++;
 }
 
+void SocketServer::DeserializeFloat(float *value, unsigned char *data_arr)
+{
+  float *q = (float*)data_arr;
+  *value = *q; q++;
+}
+
+void SocketServer::DeserializeFloatArray(float values[], const int values_size, unsigned char *data_arr)
+{
+  float *q = (float*)data_arr;
+
+  // float* value = &values[0];
+  // *value = *q; q++;
+
+  // value = &values[1];
+  // *value = *q; q++;
+
+  for(int i = 0; i < values_size; i++)
+  {
+    float* value = &values[i];
+    *value = *q; q++;
+  }
+}
+
 const int SocketServer::ReceiveInt()
 {
   int num_bytes = 0;
   int total_num_bytes = 0;
-  int data_size = sizeof(const int);
+  int packet_size = sizeof(const int);
 
   // Allocate space for image buffer
-  unsigned char data_arr[data_size];
+  unsigned char data_arr[packet_size];
 
-  num_bytes = recv(sock_fdesc_conn_, data_arr, data_size, 0);
+  num_bytes = recv(sock_fdesc_conn_, data_arr, packet_size, 0);
 
 
-  printf("Received data_size: %d\n", data_size);
+  printf("Received packet_size: %d\n", packet_size);
   int value;
   DeserializeInt(&value, data_arr);
   return value;
 }
 
+
+void SocketServer::ReceiveCloud(float vertices[], const int vertices_size)
+{
+  int num_bytes = 0;
+  int total_num_bytes = 0;
+  int packet_size = sizeof(const float) * vertices_size;
+
+  // Allocate space for image buffer
+  unsigned char data_arr[packet_size * vertices_size];
+
+  num_bytes = recv(sock_fdesc_conn_, data_arr, packet_size, 0);
+
+
+  printf("Received packet_size: %d\n", packet_size);
+  // // float value;
+  // // DeserializeFloat(&value, data_arr);
+  // // printf("value: %f\n", value);
+
+  // DeserializeFloatArray(vertices, data_arr);
+  DeserializeFloatArray(vertices, vertices_size, data_arr);
+  
+
+}
 
 
 
