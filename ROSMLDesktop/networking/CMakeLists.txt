@@ -21,6 +21,7 @@ set(target_common_libraries
   PRIVATE GLEW
   PRIVATE z
   PRIVATE ZLIB::ZLIB
+  PRIVATE decoco_lib
   )
 
 set(SERVER_HEADER_DIR
@@ -37,26 +38,27 @@ set(SERVER_SRC_FILES
   server/src/socket_server.cpp
 )
 
-set(server_project server_app)
+#######################
+# set(server_project server_app)
 
 
-ADD_EXECUTABLE(${server_project}
-${SERVER_SRC_FILES}
-)
+# ADD_EXECUTABLE(${server_project}
+# ${SERVER_SRC_FILES}
+# )
 
 
-# target_precompile_headers(${project_app} PRIVATE ${CMAKE_SOURCE_DIR}/PCH/include/PCH/pch.h)
+# # target_precompile_headers(${project_app} PRIVATE ${CMAKE_SOURCE_DIR}/PCH/include/PCH/pch.h)
 
-target_include_directories(${server_project}
-  # PRIVATE ${CMAKE_SOURCE_DIR}/PCH/include
-  PRIVATE ${SERVER_HEADER_DIR}
-)
-target_link_libraries(${server_project} ${target_common_libraries} )
+# target_include_directories(${server_project}
+#   # PRIVATE ${CMAKE_SOURCE_DIR}/PCH/include
+#   PRIVATE ${SERVER_HEADER_DIR}
+# )
+# target_link_libraries(${server_project} ${target_common_libraries} )
 
-set_target_properties(${server_project} PROPERTIES 
-  CXX_STANDARD 20
-  CXX_STANDARD_REQUIRED YES
-)
+# set_target_properties(${server_project} PROPERTIES 
+#   CXX_STANDARD 20
+#   CXX_STANDARD_REQUIRED YES
+# )
 
 #######################
 

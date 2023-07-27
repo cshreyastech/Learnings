@@ -60,3 +60,4 @@ Networking/ASIO/Networking/x64/*
 Networking/ASIO/Networking/.vs/*
 
 ROSMLDesktop/build/*
+ROSMLDesktop/out/*
