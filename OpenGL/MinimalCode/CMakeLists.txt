@@ -10,7 +10,6 @@ PROJECT(OpenGLApp)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
-
 # INCLUDE OPENCV DIRECTORIES
 include_directories( 
 #  include
@@ -32,6 +31,7 @@ set(target_libraries
   PRIVATE dl
   pthread
   PRIVATE GLEW
+  PRIVATE z
   )
 
 ADD_EXECUTABLE(01_hello_window
@@ -316,6 +316,7 @@ ADD_EXECUTABLE(06_6-just_cubes_ebo
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 TARGET_LINK_LIBRARIES(06_6-just_cubes_ebo ${target_libraries})
 
+find_package(ZLIB)
 
 ADD_EXECUTABLE(point_cloud_server
   src/vendor/glad/glad.c
@@ -329,10 +330,11 @@ target_include_directories(point_cloud_server
 
 #Set Linker flags
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-TARGET_LINK_LIBRARIES(point_cloud_server ${target_libraries})
+TARGET_LINK_LIBRARIES(point_cloud_server ${target_libraries} ZLIB::ZLIB)
 
 
 ADD_EXECUTABLE(point_cloud_client
+  src/01-GettingStarted/networking/client/src/myzlib.cpp
   src/01-GettingStarted/networking/client/src/socket_client.cpp
   src/01-GettingStarted/networking/client/src/point_cloud_client.cpp
   )
@@ -342,4 +344,4 @@ target_include_directories(point_cloud_client
 
 #Set Linker flags
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-TARGET_LINK_LIBRARIES(point_cloud_client ${target_libraries})
+TARGET_LINK_LIBRARIES(point_cloud_client ${target_libraries} ZLIB::ZLIB)

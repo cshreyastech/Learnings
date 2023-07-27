@@ -60,15 +60,15 @@ int main()
 
   // const int n_vertices = server_ptr->ReceiveInt();
 
-  const int n_vertices = 200000;
+  const int n_vertices = 1;
   const int vertices_size = n_vertices * 6;
 
   float vertices[vertices_size];
   server_ptr->ReceiveCloud(vertices, vertices_size);
 
-  printf("vertices[%d]:%f\n", vertices_size - 1, vertices[vertices_size - 1]);
-  printf("vertices[%d]:%f\n", vertices_size - 23, vertices[vertices_size - 23]);
-  printf("vertices[%d]:%f\n", vertices_size - 1239, vertices[vertices_size - 1239]);
+  // printf("vertices[%d]:%f\n", vertices_size - 1, vertices[vertices_size - 1]);
+  // printf("vertices[%d]:%f\n", vertices_size - 23, vertices[vertices_size - 23]);
+  // printf("vertices[%d]:%f\n", vertices_size - 1239, vertices[vertices_size - 1239]);
   // for(int i = 0; i < vertices_size; i++)
   // {
   //   printf("vertices[%d]:%f\n", i, vertices[i]);
