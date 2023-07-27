@@ -58,3 +58,5 @@ ML/FromTheCherno/opengl_app/Dependencies/.out/
 
 Networking/ASIO/Networking/x64/*
 Networking/ASIO/Networking/.vs/*
+
+ROSMLDesktop/build/*
