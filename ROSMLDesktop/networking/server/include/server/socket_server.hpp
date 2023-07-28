@@ -27,7 +27,6 @@ class SocketServer {
   int eye_track_dims_{0};
   struct sockaddr_in server_addr_;
   struct sockaddr_in client_addr_;
-  // const std::string pic_filename_{""};
   socklen_t client_len_{0};
   const size_t server_addr_size_{0};
   const int port_{0};
