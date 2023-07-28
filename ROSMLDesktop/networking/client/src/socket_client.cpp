@@ -116,15 +116,21 @@ void SocketClient::SendCloud(float values[], const int vertices_size)
   printf("Sent data_size: %d\n", data_size);
 }
 
-void SocketClient::SendCloud(const std::vector<uint8_t> &zlibData)
+// void SocketClient::SendCloud(const std::vector<uint8_t> &zlibData)
+void SocketClient::SendCloud(const uint8_t zlibData_array[], const int array_size)
 {
-  printf("zlibData.size() -SocketClient: %ld\n", zlibData.size());
+  printf("array_size -SocketClient: %d\n", array_size);
 
-  uint8_t zlibData_unsigned_char[zlibData.size()];
-  std::copy(zlibData.begin(), zlibData.end(), zlibData_unsigned_char);
+  // uint8_t zlibData_array[zlibData.size()];
+  // uint8_t* zlibData_array = new uint8_t(zlibData.size());
+  // uint8_t* zlibData_array = (uint8_t*)malloc(zlibData.size());
 
-  int data_size = send(sock_fdesc_conn_, zlibData_unsigned_char, zlibData.size(), 0);
+  // std::copy(zlibData.begin(), zlibData.end(), zlibData_array);
+
+  // int data_size = send(sock_fdesc_conn_, zlibData_array, zlibData.size(), 0);
+  int data_size = send(sock_fdesc_conn_, zlibData_array, array_size, 0);
   printf("Sent data_size: %d\n", data_size); 
+  // delete[] zlibData_array;
 }
 
 SocketClient::~SocketClient()

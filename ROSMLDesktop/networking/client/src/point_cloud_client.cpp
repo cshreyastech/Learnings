@@ -47,8 +47,8 @@ int main()
 
   client_ptr->ConnectToServer();
 
-  std::ifstream file_handler("/home/cs20/Downloads/cloud_data_tbd/induvidual_rows/depth_data_300K1-307200.txt");
-  const int n_points = 7200;
+  std::ifstream file_handler("/home/cs20/Downloads/cloud_data_tbd/induvidual_rows/depth_data.txt");
+  const int n_points = 307200;
   client_ptr->SendInt(n_points);
 
 
@@ -91,8 +91,18 @@ int main()
   auto end = compressor->flush();
   zlibData.insert(zlibData.end(), end.begin(), end.end());
 
+
   client_ptr->SendInt(zlibData.size());
-  client_ptr->SendCloud(zlibData);
+
+  uint8_t* zlibData_array = (uint8_t*)malloc(zlibData.size());
+  
+  // uint8_t zlibData_array[zlibData.size()];
+  
+  std::copy(zlibData.begin(), zlibData.end(), zlibData_array);
+  // client_ptr->SendCloud(zlibData);
+  client_ptr->SendCloud(zlibData_array, zlibData.size());
+
+  delete[] zlibData_array;
 
   // zlibData == helloZlib;
   // auto decompressor = Decoco::ZlibDecompressor();

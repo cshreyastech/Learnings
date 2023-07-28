@@ -11,7 +11,8 @@ class SocketClient {
   void ConnectToServer();
   void SendInt(const int value);
   void SendCloud(float vertices[], const int vertices_size);
-  void SendCloud(const std::vector<uint8_t> &zlibData);
+  // void SendCloud(const std::vector<uint8_t> &zlibData);
+  void SendCloud(const uint8_t zlibData_array[], const int array_size);
 
   
  private:

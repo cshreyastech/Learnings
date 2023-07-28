@@ -92,7 +92,7 @@ int main()
   // }
 
 
-  std::ifstream file_handler("/home/cs20/Downloads/cloud_data_tbd/induvidual_rows/depth_data_300K1-307200.txt");
+  std::ifstream file_handler("/home/cs20/Downloads/cloud_data_tbd/induvidual_rows/depth_data.txt");
   float vertices_check[vertices_length];
 
   std::string each_value_str;
