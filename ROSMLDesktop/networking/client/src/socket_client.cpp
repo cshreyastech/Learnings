@@ -116,6 +116,16 @@ void SocketClient::SendCloud(float values[], const int vertices_size)
   printf("Sent data_size: %d\n", data_size);
 }
 
+void SocketClient::SendCloud(const std::vector<uint8_t> &zlibData)
+{
+  printf("zlibData.size() -SocketClient: %ld\n", zlibData.size());
+
+  uint8_t zlibData_unsigned_char[zlibData.size()];
+  std::copy(zlibData.begin(), zlibData.end(), zlibData_unsigned_char);
+
+  int data_size = send(sock_fdesc_conn_, zlibData_unsigned_char, zlibData.size(), 0);
+  printf("Sent data_size: %d\n", data_size); 
+}
 
 SocketClient::~SocketClient()
 {

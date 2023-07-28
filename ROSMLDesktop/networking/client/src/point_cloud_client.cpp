@@ -39,10 +39,22 @@ void print_array(float vertices[], int array_size)
 
 int main()
 {
+  const std::string hostname_ = "127.0.0.1";
+  const int port_ = 8080;
+  std::unique_ptr<SocketClient> client_ptr;
 
-  std::ifstream file_handler("/home/cs20/Downloads/cloud_data_tbd/induvidual_rows/depth_data.txt");
-  const int n_points = 307200;
+  client_ptr = std::unique_ptr<SocketClient>(new SocketClient(hostname_.c_str(), port_));
+
+  client_ptr->ConnectToServer();
+
+  std::ifstream file_handler("/home/cs20/Downloads/cloud_data_tbd/induvidual_rows/depth_data_test.txt");
+  const int n_points = 2;
+  client_ptr->SendInt(n_points);
+
+
   const int vertices_length = n_points * 6;
+
+
   const int vertices_size = vertices_length * sizeof(float);
 
   std::cout << "n_points: " << n_points << std::endl;
@@ -78,34 +90,38 @@ int main()
   std::vector<uint8_t> zlibData = compressor->compress(hello);
   auto end = compressor->flush();
   zlibData.insert(zlibData.end(), end.begin(), end.end());
+
+  client_ptr->SendInt(zlibData.size());
+  client_ptr->SendCloud(zlibData);
+
   // zlibData == helloZlib;
-  auto decompressor = Decoco::ZlibDecompressor();
-  std::vector<uint8_t> plainData = decompressor->decompress(zlibData);
-  std::cout << (plainData == hello) << std::endl;
+  // auto decompressor = Decoco::ZlibDecompressor();
+  // std::vector<uint8_t> plainData = decompressor->decompress(zlibData);
+  // std::cout << (plainData == hello) << std::endl;
 
 
   // float vertices_check[vertices_length];
 
   // float* vertices_check = new float(vertices_length);
 
-  float* vertices_check = (float*)malloc(vertices_size);
-  deserialize(plainData, vertices_check, vertices_length); 
-  // print_array(vertices_check, vertices_length);
+  // float* vertices_check = (float*)malloc(vertices_size);
+  // deserialize(plainData, vertices_check, vertices_length); 
+  // // print_array(vertices_check, vertices_length);
 
-  for(int i = 0; i < vertices_length; i++)
-    assert(vertices[i] == vertices_check[i]);
+  // for(int i = 0; i < vertices_length; i++)
+  //   assert(vertices[i] == vertices_check[i]);
 
-  const float compress_percent = 
-    (((float)vertices_size - zlibData.size()) / (float)vertices_size) *100;
-  std::cout << "compress_percent:    " << compress_percent << std::endl;
+  // const float compress_percent = 
+  //   (((float)vertices_size - zlibData.size()) / (float)vertices_size) *100;
+  // std::cout << "compress_percent:    " << compress_percent << std::endl;
   
-  std::cout << "vertices_size: " << vertices_size << std::endl;
-  std::cout << "zlibData.size(): " << zlibData.size() << std::endl;
-  std::cout << "plainData.size(): " << plainData.size() << std::endl;
-  // std::cout << "vertices_check: " << vertices_check << std::endl;
+  // std::cout << "vertices_size: " << vertices_size << std::endl;
+  // std::cout << "zlibData.size(): " << zlibData.size() << std::endl;
+  // std::cout << "plainData.size(): " << plainData.size() << std::endl;
+  // // std::cout << "vertices_check: " << vertices_check << std::endl;
 
 
-  delete[] vertices_check;
+  // delete[] vertices_check;
 
 
 

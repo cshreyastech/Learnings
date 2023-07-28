@@ -8,6 +8,8 @@
 #include <cctype> // isdigit
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <vector>
+
 #include "server/struct_declarations.hpp"
 
 class SocketServer {
@@ -17,12 +19,13 @@ class SocketServer {
   void ConnectToNetwork();
   const int ReceiveInt();  
   void ReceiveCloud(float vertices[], const int vertices_size);
+  void ReceiveCloud(const int zlibData_size, std::vector<uint8_t>& zlibData);
 
  private:
   void DeserializeInt(int *value, unsigned char *data_arr);
   void DeserializeFloat(float *value, unsigned char *data_arr);
   // void DeserializeFloatArray(float values[], unsigned char *data_arr);
-  void DeserializeFloatArray(float values[], const int values_size, unsigned char *data_arr);
+  void DeserializeFloatArray(float values[], const int values_length, unsigned char *data_arr);
 
   int eye_track_dims_{0};
   struct sockaddr_in server_addr_;
