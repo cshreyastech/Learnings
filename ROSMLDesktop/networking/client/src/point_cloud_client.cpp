@@ -7,7 +7,6 @@
 
 #include "client/socket_client.hpp"
 #include "client/struct_declarations.hpp"
-// #include "client/myzlib.hpp"
 #include <decoco/decoco.hpp>
 
 
@@ -17,10 +16,6 @@ void deserialize(std::vector<uint8_t>& data, float vertices[], const int vertice
 
   float *q = (float*)&(*it);
 
-  // std::cout << "OOM: " << 51619 * sizeof(float) << std::endl;
-
-  // vertices[51620] = *q; q++;
-  // vertices[vertices_length - 1] = 0.0012f;
   for(int i = 0; i < vertices_length; i++)
   {
     vertices[i] = *q; q++; 
@@ -80,9 +75,7 @@ int main()
   // print_array(vertices, vertices_length);
 
   uint8_t const* p_vertices = reinterpret_cast<uint8_t const*>(vertices);
-  
-  
- 
+   
   std::vector<uint8_t> hello(p_vertices, p_vertices + vertices_size);
 
 
@@ -91,134 +84,14 @@ int main()
   auto end = compressor->flush();
   zlibData.insert(zlibData.end(), end.begin(), end.end());
 
-
   client_ptr->SendInt(zlibData.size());
 
   uint8_t* zlibData_array = (uint8_t*)malloc(zlibData.size());
   
-  // uint8_t zlibData_array[zlibData.size()];
-  
   std::copy(zlibData.begin(), zlibData.end(), zlibData_array);
-  // client_ptr->SendCloud(zlibData);
   client_ptr->SendCloud(zlibData_array, zlibData.size());
 
   delete[] zlibData_array;
 
-  // zlibData == helloZlib;
-  // auto decompressor = Decoco::ZlibDecompressor();
-  // std::vector<uint8_t> plainData = decompressor->decompress(zlibData);
-  // std::cout << (plainData == hello) << std::endl;
-
-
-  // float vertices_check[vertices_length];
-
-  // float* vertices_check = new float(vertices_length);
-
-  // float* vertices_check = (float*)malloc(vertices_size);
-  // deserialize(plainData, vertices_check, vertices_length); 
-  // // print_array(vertices_check, vertices_length);
-
-  // for(int i = 0; i < vertices_length; i++)
-  //   assert(vertices[i] == vertices_check[i]);
-
-  // const float compress_percent = 
-  //   (((float)vertices_size - zlibData.size()) / (float)vertices_size) *100;
-  // std::cout << "compress_percent:    " << compress_percent << std::endl;
-  
-  // std::cout << "vertices_size: " << vertices_size << std::endl;
-  // std::cout << "zlibData.size(): " << zlibData.size() << std::endl;
-  // std::cout << "plainData.size(): " << plainData.size() << std::endl;
-  // // std::cout << "vertices_check: " << vertices_check << std::endl;
-
-
-  // delete[] vertices_check;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // const std::string hostname_ = "127.0.0.1";
-  // const int port_ = 8080;
-  // std::unique_ptr<SocketClient> client_ptr;
-
-  // client_ptr = std::unique_ptr<SocketClient>(new SocketClient(hostname_.c_str(), port_));
-
-  // client_ptr->ConnectToServer();
-
-
-  // const int n_points = 1;
-  // // std::cout << "n_points: " << n_points << std::endl;
-  // // client_ptr->SendInt(n_points);
-
-  // // TODO: change it to actual eye tracking values
-  // // client_ptr->ReceiveNumberOfEyeTracking();
-
-  // // set up vertex data (and buffer(s)) and configure vertex attributes
-  // // ------------------------------------------------------------------
-  // int vertices_size = n_points * 6;
-
-  // float vertices[vertices_size] = {
-  //   -0.524111f, -0.392878f, -0.931184f, 0.635294f, 0.635294f, 0.635294f,
-  // };
-
-  // for(int i = 0; i < vertices_size; i++)
-  // {
-  //   std::cout << i << ": " << vertices[i] << ", ";
-  // }
-  // std::cout << std::endl;
-
-
-  // // std::string vertices_str(reinterpret_cast<char const *>(std::begin(vertices)),
-  // //   reinterpret_cast<char const *>(std::end(vertices)));
-
-  // unsigned char const* p = reinterpret_cast<unsigned char const*>(vertices);
-  // std::string vertices_str(p, p + sizeof(vertices));
-
-  // // std::cout << "vertices_str: " << vertices_str << std::endl;
-
-  // // const float* vertices_back = reinterpret_cast<const float*>(vertices_str.c_str());
-  // // int len = vertices_str.size() / sizeof(float);
-
-  // // for(int i = 0; i < len; i++)
-  // // {
-  // //   std::cout << i << ": " << vertices_back[i] << ", ";
-  // // }
-  // // std::cout << std::endl;
-
-
-
-  // // for(int i = 0; i < vertices_size; i++)
-  // // {
-  // //   printf("vertices[%d]:%f\n", i, vertices[i]);
-  // // }
-
-  // // printf("vertices[%d]:%f\n", vertices_size - 1, vertices[vertices_size - 1]);
-  // // printf("vertices[%d]:%f\n", vertices_size - 23, vertices[vertices_size - 23]);
-  // // printf("vertices[%d]:%f\n", vertices_size - 1239, vertices[vertices_size - 1239]);
-
-  // client_ptr->SendCloud(vertices, vertices_size);
   return 0;
 }

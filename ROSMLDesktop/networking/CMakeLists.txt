@@ -37,7 +37,6 @@ set(SERVER_HEADER_DIR
 set(SERVER_SRC_FILES
   server/vendor/glad/glad.c
   server/core/Shader.cpp
-  # server/src/myzlib.cpp
   server/src/point_cloud_server.cpp
   server/src/socket_server.cpp
 )
@@ -67,7 +66,6 @@ set(CLIENT_HEADER_DIR
 )
 
 set(CLIENT_SRC_FILES
-  # client/src/myzlib.cpp
   client/src/point_cloud_client.cpp
   client/src/socket_client.cpp
 )

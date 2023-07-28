@@ -64,24 +64,6 @@ void SocketClient::SerializeFloat(const float *value, unsigned char *data_arr)
   *q = *value; q++;
 }
 
-void SocketClient::SerializeFloatArray(float values[], const int values_size, unsigned char *data_arr)
-{
-
-  float *q = (float*)data_arr;
-
-  // float* value = &values[0];
-  // *q = *value; q++;
-
-  // value = &values[1];
-  // *q = *value; q++;
-
-  for(int i = 0; i < values_size; i++)
-  {
-    float* value = &values[i];
-    *q = *value; q++;
-  }
-}
-
 void SocketClient::SendInt(const int value)
 {
   const int packet_size = sizeof(value);
@@ -94,43 +76,11 @@ void SocketClient::SendInt(const int value)
   printf("Sent data_size: %d\n", data_size);
 }
 
-
-void SocketClient::SendCloud(float values[], const int vertices_size)
-{
-  const int packet_size = sizeof(float) * vertices_size;
-
-  unsigned char data_arr[packet_size];
-  // printf("vertices_size: %d, packet_size: %d\n", vertices_size, packet_size);
-
-  // const float value = -0.524111f;
-  // printf("value: %f\n", value);
-
-  // SerializeFloat(&value, data_arr);
-
-
-
-  // SerializeFloatArray(values, data_arr);
-  // SerializeFloatArray(values, vertices_size, data_arr);
-
-  int data_size = send(sock_fdesc_conn_, data_arr, packet_size, 0);
-  printf("Sent data_size: %d\n", data_size);
-}
-
-// void SocketClient::SendCloud(const std::vector<uint8_t> &zlibData)
 void SocketClient::SendCloud(const uint8_t zlibData_array[], const int array_size)
 {
   printf("array_size -SocketClient: %d\n", array_size);
-
-  // uint8_t zlibData_array[zlibData.size()];
-  // uint8_t* zlibData_array = new uint8_t(zlibData.size());
-  // uint8_t* zlibData_array = (uint8_t*)malloc(zlibData.size());
-
-  // std::copy(zlibData.begin(), zlibData.end(), zlibData_array);
-
-  // int data_size = send(sock_fdesc_conn_, zlibData_array, zlibData.size(), 0);
   int data_size = send(sock_fdesc_conn_, zlibData_array, array_size, 0);
   printf("Sent data_size: %d\n", data_size); 
-  // delete[] zlibData_array;
 }
 
 SocketClient::~SocketClient()

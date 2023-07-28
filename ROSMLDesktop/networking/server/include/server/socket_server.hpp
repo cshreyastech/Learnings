@@ -14,18 +14,15 @@
 
 class SocketServer {
  public:
-  SocketServer(const int port);
+  SocketServer(const int);
   ~SocketServer();
   void ConnectToNetwork();
   const int ReceiveInt();  
-  void ReceiveCloud(float vertices[], const int vertices_size);
-  void ReceiveCloud(const int zlibData_size, std::vector<uint8_t>& zlibData);
+  void ReceiveCloud(const int, std::vector<uint8_t>& );
 
  private:
-  void DeserializeInt(int *value, unsigned char *data_arr);
-  void DeserializeFloat(float *value, unsigned char *data_arr);
-  // void DeserializeFloatArray(float values[], unsigned char *data_arr);
-  void DeserializeFloatArray(float values[], const int values_length, unsigned char *data_arr);
+  void DeserializeInt(int*, unsigned char*);
+  void DeserializeFloat(float*, unsigned char*);
 
   int eye_track_dims_{0};
   struct sockaddr_in server_addr_;

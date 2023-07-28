@@ -6,19 +6,15 @@
 
 class SocketClient {
  public:
-  SocketClient(const char* hostname, int port);
+  SocketClient(const char*, int);
   ~SocketClient();
   void ConnectToServer();
-  void SendInt(const int value);
-  void SendCloud(float vertices[], const int vertices_size);
-  // void SendCloud(const std::vector<uint8_t> &zlibData);
-  void SendCloud(const uint8_t zlibData_array[], const int array_size);
-
+  void SendInt(const int);
+  void SendCloud(const uint8_t[], const int);
   
  private:
-  void SerializeInt(const int *value, unsigned char *data_arr);
-  void SerializeFloat(const float *value, unsigned char *data_arr);
-  void SerializeFloatArray(float values[], const int values_size, unsigned char *data_arr);
+  void SerializeInt(const int*, unsigned char*);
+  void SerializeFloat(const float*, unsigned char*);
 
   const char* hostname_;
   int port_;

@@ -75,24 +75,6 @@ void SocketServer::DeserializeFloat(float *value, unsigned char *data_arr)
   *value = *q; q++;
 }
 
-void SocketServer::DeserializeFloatArray(float values[], 
-  const int values_length, unsigned char *data_arr)
-{
-  float *q = (float*)data_arr;
-
-  // float* value = &values[0];
-  // *value = *q; q++;
-
-  // value = &values[1];
-  // *value = *q; q++;
-
-  for(int i = 0; i < values_length; i++)
-  {
-    float* value = &values[i];
-    *value = *q; q++;
-  }
-}
-
 const int SocketServer::ReceiveInt()
 {
   int num_bytes = 0;
@@ -104,51 +86,11 @@ const int SocketServer::ReceiveInt()
 
   num_bytes = recv(sock_fdesc_conn_, data_arr, packet_size, 0);
 
-
   printf("Received packet_size: %d\n", packet_size);
   int value;
   DeserializeInt(&value, data_arr);
   return value;
 }
-
-
-void SocketServer::ReceiveCloud(float vertices[], const int vertices_size)
-{
-  int num_bytes = 0;
-  int total_num_bytes = 0;
-  int packet_size = sizeof(const float) * vertices_size;
-
-  // Allocate space for image buffer
-  unsigned char data_arr[packet_size];
-
-  // num_bytes = recv(sock_fdesc_conn_, data_arr, packet_size, 0);
-
-  // Save image data to buffer
-  for (int i = 0; i < packet_size; i += num_bytes) {
-    num_bytes = recv(sock_fdesc_conn_, data_arr + i, packet_size - i, 0);
-    total_num_bytes += num_bytes;
-
-    if (num_bytes == -1) {
-      printf("ERROR!: recv failed\n"
-             "i: %d\n"
-             "sock_fdesc: %d\n"
-             "packet_size: %d\n"
-             "num_bytes: %d\n", i, sock_fdesc_conn_, packet_size, num_bytes);
-      exit(1);
-    }
-  }
-
-  printf("Received packet_size: %d\n", packet_size);
-  // // float value;
-  // // DeserializeFloat(&value, data_arr);
-  // // printf("value: %f\n", value);
-
-  // DeserializeFloatArray(vertices, data_arr);
-  DeserializeFloatArray(vertices, vertices_size, data_arr);
-  
-
-}
-
 
 void SocketServer::ReceiveCloud(const int zlibData_size, std::vector<uint8_t>& zlibData)
 {
@@ -182,7 +124,6 @@ void SocketServer::ReceiveCloud(const int zlibData_size, std::vector<uint8_t>& z
   {
     zlibData.emplace_back(data_arr[i]);    
   }
-  // DeserializeFloatArray(vertices, vertices_length, data_arr);
 }
 
 SocketServer::~SocketServer()
