@@ -47,8 +47,8 @@ int main()
 
   client_ptr->ConnectToServer();
 
-  std::ifstream file_handler("/home/cs20/Downloads/cloud_data_tbd/induvidual_rows/depth_data_test.txt");
-  const int n_points = 2;
+  std::ifstream file_handler("/home/cs20/Downloads/cloud_data_tbd/induvidual_rows/depth_data_300K1-307200.txt");
+  const int n_points = 7200;
   client_ptr->SendInt(n_points);
 
 

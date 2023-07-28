@@ -11,6 +11,13 @@
 
 #include <decoco/decoco.hpp>
 #include <vector>
+
+#include <cassert>
+#include <fstream>
+#include <string>
+
+
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 void deserialize(std::vector<uint8_t>& data, float vertices[], const int vertices_length);
@@ -60,8 +67,7 @@ int main()
   std::unique_ptr<SocketServer> server_ptr(new SocketServer(8080));
   server_ptr->ConnectToNetwork();
 
-  const int n_points = 2;
-  server_ptr->ReceiveInt();
+  const int n_points = server_ptr->ReceiveInt();
   const int vertices_length = n_points * 6;
   const int vertices_size = vertices_length * sizeof(float);
 
@@ -80,13 +86,50 @@ int main()
   // DeserializeFloatArray(vertices, vertices_length, plainData);
   deserialize(plainData, vertices, vertices_length);
 
+  // for(int i = 0; i < vertices_length; i++)
+  // {
+  //   printf("vertices[%d]:%f\n", i, vertices[i]);
+  // }
+
+
+  std::ifstream file_handler("/home/cs20/Downloads/cloud_data_tbd/induvidual_rows/depth_data_300K1-307200.txt");
+  float vertices_check[vertices_length];
+
+  std::string each_value_str;
+  int n_values_read_from_file  = 0;
+  while(file_handler >> each_value_str)
+  {
+    std::string each_value_clean_str = 
+      each_value_str.substr(0, each_value_str.find("f", 0));
+
+    float value_float = std::stof(each_value_clean_str);
+
+    vertices_check[n_values_read_from_file] = value_float;
+    n_values_read_from_file++;
+  }
+  assert(n_points == (n_values_read_from_file)/6);
+
   for(int i = 0; i < vertices_length; i++)
   {
-    printf("vertices[%d]:%f\n", i, vertices[i]);
+    // printf("vertices_check[%d]:%f\n", i, vertices_check[i]);
+    assert(vertices[i] == vertices_check[i]);
   }
+
+
+
+
+
+
+
+
+
+
+
+
 
   
   delete[] vertices;
+  file_handler.close();
   // const std::vector<uint8_t> zlibData = 
   //   server_ptr->ReceiveCloud(zlibData_size);
 
