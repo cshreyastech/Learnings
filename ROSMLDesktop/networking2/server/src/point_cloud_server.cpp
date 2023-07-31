@@ -29,41 +29,41 @@ const unsigned int SCR_HEIGHT = 600;
 
 int main()
 {
-//   // glfw: initialize and configure
-//   // ------------------------------
-//   glfwInit();
-//   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-//   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-//   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  // glfw: initialize and configure
+  // ------------------------------
+  glfwInit();
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-// #ifdef __APPLE__
-//   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-// #endif
+#ifdef __APPLE__
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
 
-//   // glfw window creation
-//   // --------------------
-//   GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-//   if (window == NULL)
-//   {
-//     std::cout << "Failed to create GLFW window" << std::endl;
-//     glfwTerminate();
-//     return -1;
-//   }
-//   glfwMakeContextCurrent(window);
-//   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+  // glfw window creation
+  // --------------------
+  GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+  if (window == NULL)
+  {
+    std::cout << "Failed to create GLFW window" << std::endl;
+    glfwTerminate();
+    return -1;
+  }
+  glfwMakeContextCurrent(window);
+  glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-//   // glad: load all OpenGL function pointers
-//   // ---------------------------------------
-//   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-//   {
-//     std::cout << "Failed to initialize GLAD" << std::endl;
-//     return -1;
-//   }
+  // glad: load all OpenGL function pointers
+  // ---------------------------------------
+  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+  {
+    std::cout << "Failed to initialize GLAD" << std::endl;
+    return -1;
+  }
 
-//   // build and compile our shader program
-//   // ------------------------------------
-//   Shader ourShader("../../networking/server/res/shaders/pointcloud.shader.vs", 
-//                    "../../networking/server/res/shaders/pointcloud.shader.fs");
+  // build and compile our shader program
+  // ------------------------------------
+  Shader ourShader("../../networking/server/res/shaders/pointcloud.shader.vs", 
+                   "../../networking/server/res/shaders/pointcloud.shader.fs");
 
   std::unique_ptr<SocketServer> server_ptr(new SocketServer(8080));
   server_ptr->ConnectToNetwork();
@@ -87,29 +87,6 @@ int main()
   // convert it to float array
   float* vertices = (float*)malloc(vertices_size);
   deserialize(plainData, vertices, vertices_length);
-
-  // for(int i = 0; i < vertices_length; i++)
-  //   assert(vertices_client[i] == vertices_server[i]);
-
-  
-
-  // server_ptr->ReceiveCloud(zlibData_size);
-
-  // uint8_t* zlibData;
-  // uint8_t* zlibData = (uint8_t*)malloc(2969600 + 100000000);
-  // uint8_t* zlibData = new uint8_t[5969600];
-
-  // server_ptr->ReceiveCloud(&zlibData, zlibData_size);
-  // delete[] zlibData;
-  // ZlibCompression zlib;
-  // std::vector<uint8_t> data_server = zlib.decompress(zlibData_array, zlibData_client.size());
-  // std::vector<uint8_t> plainData = decompressor->decompress(zlibData);
-
-
-  // float* vertices = (float*)malloc(vertices_size);
-  // // DeserializeFloatArray(vertices, vertices_length, plainData);
-  // deserialize(plainData, vertices, vertices_length);
-
 
 
   // Validation beginning
@@ -137,67 +114,68 @@ int main()
   }
   file_handler.close();
   delete[] vertices_check;
-  delete[] vertices;
+  
   // Validation end
 
 
   // set up vertex data (and buffer(s)) and configure vertex attributes
   // ------------------------------------------------------------------
 
-  // unsigned int VBO, VAO;
-  // glGenVertexArrays(1, &VAO);
-  // glGenBuffers(1, &VBO);
-  // // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-  // glBindVertexArray(VAO);
+  unsigned int VBO, VAO;
+  glGenVertexArrays(1, &VAO);
+  glGenBuffers(1, &VBO);
+  // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+  glBindVertexArray(VAO);
 
-  // glBindBuffer(GL_ARRAY_BUFFER, VBO);
-  // glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-  // // position
-  // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-  // glEnableVertexAttribArray(0);
+  // position
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+  glEnableVertexAttribArray(0);
 
-  // // The color attribute starts after the position data so the offset is 3 * sizeof(float) 
-  // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
-  // glEnableVertexAttribArray(1);
+  // The color attribute starts after the position data so the offset is 3 * sizeof(float) 
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+  glEnableVertexAttribArray(1);
 
-  // glBindVertexArray(VAO);
+  glBindVertexArray(VAO);
   
-  // // render loop
-  // // -----------
-  // while (!glfwWindowShouldClose(window))
-  // {
-  //   // input
-  //   // -----
-  //   processInput(window);
+  // render loop
+  // -----------
+  while (!glfwWindowShouldClose(window))
+  {
+    // input
+    // -----
+    processInput(window);
 
-  //   // render
-  //   // ------
-  //   glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-  //   glClear(GL_COLOR_BUFFER_BIT);
+    // render
+    // ------
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 
-  //   // render the triangle
-  //   ourShader.use();
-  //   glBindVertexArray(VAO);
-  //   glPointSize(5);
-  //   glDrawArrays(GL_POINTS, 0, n_points);
+    // render the triangle
+    ourShader.use();
+    glBindVertexArray(VAO);
+    glPointSize(5);
+    glDrawArrays(GL_POINTS, 0, n_points);
 
-  //   // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-  //   // -------------------------------------------------------------------------------
-  //   glfwSwapBuffers(window);
-  //   glfwPollEvents();
-  // }
+    // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+    // -------------------------------------------------------------------------------
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+  }
 
   // optional: de-allocate all resources once they've outlived their purpose:
   // ------------------------------------------------------------------------
-  // delete[] vertices;
+  delete[] vertices;
 
-  // glDeleteVertexArrays(1, &VAO);
-  // glDeleteBuffers(1, &VBO);
+  glDeleteVertexArrays(1, &VAO);
+  glDeleteBuffers(1, &VBO);
 
-  // // glfw: terminate, clearing all previously allocated GLFW resources.
-  // // ------------------------------------------------------------------
-  // glfwTerminate();
+  // glfw: terminate, clearing all previously allocated GLFW resources.
+  // ------------------------------------------------------------------
+  glfwTerminate();
+
   return 0;
 }
 
