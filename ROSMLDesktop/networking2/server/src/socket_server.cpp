@@ -92,7 +92,7 @@ const int SocketServer::ReceiveInt()
   return value;
 }
 
-void SocketServer::ReceiveCloud(const int zlibData_size, std::vector<uint8_t>& zlibData)
+void SocketServer::ReceiveCloud(std::vector<uint8_t>& zlibData, const int zlibData_size)
 {
   int num_bytes = 0;
   int total_num_bytes = 0;
@@ -100,8 +100,6 @@ void SocketServer::ReceiveCloud(const int zlibData_size, std::vector<uint8_t>& z
 
   // Allocate space for image buffer
   uint8_t data_arr[packet_size];
-
-  // num_bytes = recv(sock_fdesc_conn_, data_arr, packet_size, 0);
 
   // Save image data to buffer
   for (int i = 0; i < packet_size; i += num_bytes) {
@@ -124,68 +122,6 @@ void SocketServer::ReceiveCloud(const int zlibData_size, std::vector<uint8_t>& z
   {
     zlibData.emplace_back(data_arr[i]);    
   }
-}
-
-
-void SocketServer::ReceiveCloud(const int zlibData_size)
-{
-  int num_bytes = 0;
-  int total_num_bytes = 0;
-  int packet_size = zlibData_size;
-
-  // Allocate space for image buffer
-  uint8_t data_arr[packet_size];
-
-  // num_bytes = recv(sock_fdesc_conn_, data_arr, packet_size, 0);
-
-  // Save image data to buffer
-  for (int i = 0; i < packet_size; i += num_bytes) {
-    num_bytes = recv(sock_fdesc_conn_, data_arr + i, packet_size - i, 0);
-    total_num_bytes += num_bytes;
-
-    if (num_bytes == -1) {
-      printf("ERROR!: recv failed\n"
-             "i: %d\n"
-             "sock_fdesc: %d\n"
-             "packet_size: %d\n"
-             "num_bytes: %d\n", i, sock_fdesc_conn_, packet_size, num_bytes);
-      exit(1);
-    }
-  }
-
-  printf("Received packet_size: %d\n", packet_size);
-}
-
-
-void SocketServer::ReceiveCloud(uint8_t** zlibData, const int zlibData_size)
-{
-  int num_bytes = 0;
-  int total_num_bytes = 0;
-  int packet_size = zlibData_size;
-
-  // Allocate space for image buffer
-  uint8_t data_arr[packet_size + 1];
-
-  // num_bytes = recv(sock_fdesc_conn_, data_arr, packet_size, 0);
-
-  // Save image data to buffer
-  for (int i = 0; i < packet_size; i += num_bytes) {
-    num_bytes = recv(sock_fdesc_conn_, data_arr + i, packet_size - i, 0);
-    total_num_bytes += num_bytes;
-
-    if (num_bytes == -1) {
-      printf("ERROR!: recv failed\n"
-             "i: %d\n"
-             "sock_fdesc: %d\n"
-             "packet_size: %d\n"
-             "num_bytes: %d\n", i, sock_fdesc_conn_, packet_size, num_bytes);
-      exit(1);
-    }
-  }
-
-  printf("Received packet_size: %d\n", packet_size);
-  data_arr[packet_size] = '\0';
-  *zlibData = data_arr;
 }
 
 SocketServer::~SocketServer()

@@ -77,7 +77,7 @@ int main()
   std::cout << "zlibData_size: " << zlibData_size << std::endl;
 
   std::vector<uint8_t> zlibData_vec;
-  server_ptr->ReceiveCloud(zlibData_size, zlibData_vec);
+  server_ptr->ReceiveCloud(zlibData_vec, zlibData_size);
   uint8_t* zlibData_array = (uint8_t*)malloc(zlibData_vec.size());
   std::copy(zlibData_vec.begin(), zlibData_vec.end(), zlibData_array);
 

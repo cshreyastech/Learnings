@@ -18,10 +18,7 @@ class SocketServer {
   ~SocketServer();
   void ConnectToNetwork();
   const int ReceiveInt();  
-  void ReceiveCloud(const int, std::vector<uint8_t>& );
-  void ReceiveCloud(const int);
-
-  void ReceiveCloud(uint8_t** zlibData, const int);
+  void ReceiveCloud(std::vector<uint8_t>&, const int );
 
  private:
   void DeserializeInt(int*, unsigned char*);

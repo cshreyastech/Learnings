@@ -15,13 +15,6 @@ public:
   ~ZlibCompression();
   std::vector<uint8_t> Compress(uint8_t const*, const size_t);
   std::vector<uint8_t> Decompress(uint8_t const*, const size_t);
-
-  void Deserialize(uint8_t const*, float[], const int);
-  void Validate_deserialize_uint8_t_arr(uint8_t const*, float[], const int);
-  void Deserialize(std::vector<uint8_t>&, float[], const int);
-
-  // void Validate_deserialize_uint8_t_arr(uint8_t const*, 
-  //   float[], const int);
 };
 
 #endif

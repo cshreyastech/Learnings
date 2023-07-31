@@ -97,37 +97,3 @@ std::vector<uint8_t> ZlibCompression::Decompress(uint8_t const* in_data, const s
 
   return out_data;
 }
-
-void ZlibCompression::Deserialize(uint8_t const* data, 
-  float vertices[], const int vertices_length)
-{
-  float *q = (float*)data;
-  for(int i = 0; i < vertices_length; i++)
-  {
-    vertices[i] = *q; q++;
-  }
-}
-
-// void ZlibCompression::Validate_deserialize_uint8_t_arr(uint8_t const* data, 
-//   float vertices_client[], const int vertices_length)
-// {
-//   float vertices_check[vertices_length];
-//   deserialize(data, vertices_check, vertices_length);
-//   for(int i = 0; i < vertices_length; i++)
-//   {
-//     assert(vertices_client[i] == vertices_check[i]);
-//   }
-// }
-
-void ZlibCompression::Deserialize(std::vector<uint8_t>& data, 
-  float vertices[], const int vertices_length)
-{
-  std::vector<uint8_t>::iterator it = data.begin();
-
-  float *q = (float*)&(*it);
-
-  for(int i = 0; i < vertices_length; i++)
-  {
-    vertices[i] = *q; q++; 
-  }
-}
