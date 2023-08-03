@@ -16,8 +16,9 @@
 #include "RBCylinder.h"
 #include "RBSquare.h"
 #include "RBCube.h"
-// #include "RBTexture.h"
 #include "RBPoint.h"
+#include <fstream>
+#include <cassert>
 
 // -----------------------------------------------------------------------------
 // Part 2: Define a color
@@ -234,11 +235,14 @@ int main() {
 	// square.ApplyShader(shader_square);
 	// square.SetColor(COLOR_RED);
 
+
+
 	Cube left_eye = Cube();
 	left_eye.ApplyShader(shader3D);
 	left_eye.SetColor(COLOR_RED);
 	// glm::vec3 pos = left_eye.GetPosition();
 	left_eye.SetPosition(-0.1f, 0.0f, 0.0f);
+
 
 	Cube fixation = Cube();
 	fixation.ApplyShader(shader3D);
@@ -257,9 +261,31 @@ int main() {
 	// glm::vec3 pos = left_eye.GetPosition();
 	right_eye.SetPosition(0.1f, 0.0f, 0.0f);
 
-	Point cloud = Point();
-	cloud.ApplyShader(pointShader3D);
 
+  std::ifstream file_handler("data/res/depth_data.txt");
+  const int n_points = 307200;
+  const int vertices_length = n_points * 6;
+  const int vertices_size = vertices_length * sizeof(float);
+
+  float* vertices = (float*)malloc(vertices_length);
+
+  std::string each_value_str;
+  int n_values_read_from_file  = 0;
+  while(file_handler >> each_value_str)
+  {
+    std::string each_value_clean_str = 
+      each_value_str.substr(0, each_value_str.find("f", 0));
+
+    float value_float = std::stof(each_value_clean_str);
+
+    vertices[n_values_read_from_file] = value_float;
+    n_values_read_from_file++;
+  }
+  assert(n_points == (n_values_read_from_file)/6);
+
+	Point cloud = Point();
+	cloud.ApplyShader(pointShader3D, vertices, n_points, vertices_size);
+  delete[] vertices;
 
   MLHandle ml_head_tracker_ = ML_INVALID_HANDLE;
   MLHeadTrackingStaticData ml_head_static_data_ = {};
