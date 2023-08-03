@@ -21,7 +21,7 @@ Point::Point() {
 Point::~Point() {
 }
 
-void Point::ApplyShader(Shader& shader, float vertex[], const int n_points, const int vertex_size) {
+void Point::ApplyShader(Shader& shader, float vertices[], const int n_points, const int vertices_size) {
 	_progId = shader.GetProgramID();
 	glUseProgram(_progId);
 
@@ -59,7 +59,7 @@ void Point::ApplyShader(Shader& shader, float vertex[], const int n_points, cons
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	// glBufferData(GL_ARRAY_BUFFER, sizeof(pointVertexData), pointVertexData, GL_STATIC_DRAW);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_size), vertex, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, vertices_size, vertices, GL_STATIC_DRAW);
 
   // position
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), reinterpret_cast<void*>(0));

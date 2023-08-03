@@ -67,8 +67,8 @@ gl_eye_tracking2-clean ::
 	$(ECHO) $(RM) -rf $(gl_eye_tracking2_OUTPUT)/gl_eye_tracking2 $(gl_eye_tracking2_OUTPUT)/gl_eye_tracking2.sym $(gl_eye_tracking2_OUTPUT)/obj.gl_eye_tracking2/src/main.cpp.o $(gl_eye_tracking2_OUTPUT)/obj.gl_eye_tracking2/src/main.cpp.d $(gl_eye_tracking2_OUTPUT)/obj.gl_eye_tracking2/src/RBShader.cpp.o
 	$(ECHO) $(RM) -rf $(gl_eye_tracking2_OUTPUT)/obj.gl_eye_tracking2/src/RBShader.cpp.d $(gl_eye_tracking2_OUTPUT)/obj.gl_eye_tracking2/src/RBCylinder.cpp.o $(gl_eye_tracking2_OUTPUT)/obj.gl_eye_tracking2/src/RBCylinder.cpp.d $(gl_eye_tracking2_OUTPUT)/obj.gl_eye_tracking2/src/RBSquare.cpp.o $(gl_eye_tracking2_OUTPUT)/obj.gl_eye_tracking2/src/RBSquare.cpp.d
 	$(ECHO) $(RM) -rf $(gl_eye_tracking2_OUTPUT)/obj.gl_eye_tracking2/src/RBCube.cpp.o $(gl_eye_tracking2_OUTPUT)/obj.gl_eye_tracking2/src/RBCube.cpp.d $(gl_eye_tracking2_OUTPUT)/obj.gl_eye_tracking2/src/RBPoint.cpp.o $(gl_eye_tracking2_OUTPUT)/obj.gl_eye_tracking2/src/RBPoint.cpp.d $(gl_eye_tracking2_OUTPUT)/bin/libc++_shared.so
-	$(ECHO) $(RM) -rf $(gl_eye_tracking2_OUTPUT)/data/res/cloud/depth_data.txt $(gl_eye_tracking2_OUTPUT)/data/res/shaders/basic.frag $(gl_eye_tracking2_OUTPUT)/data/res/shaders/basic3D.vert $(gl_eye_tracking2_OUTPUT)/data/res/shaders/standard.frag $(gl_eye_tracking2_OUTPUT)/data/res/shaders/standard3D.vert
-	$(ECHO) $(RM) -rf $(gl_eye_tracking2_OUTPUT)/data/res/shaders/texture.frag $(gl_eye_tracking2_OUTPUT)/data/res/shaders/texture.vert $(gl_eye_tracking2_OUTPUT)/data/res/texture/container.jpg
+	$(ECHO) $(RM) -rf $(gl_eye_tracking2_OUTPUT)/data/res/cloud/depth_data.txt $(gl_eye_tracking2_OUTPUT)/data/res/cloud/depth_data.zip $(gl_eye_tracking2_OUTPUT)/data/res/shaders/basic.frag $(gl_eye_tracking2_OUTPUT)/data/res/shaders/basic3D.vert $(gl_eye_tracking2_OUTPUT)/data/res/shaders/standard.frag
+	$(ECHO) $(RM) -rf $(gl_eye_tracking2_OUTPUT)/data/res/shaders/standard3D.vert $(gl_eye_tracking2_OUTPUT)/data/res/shaders/texture.frag $(gl_eye_tracking2_OUTPUT)/data/res/shaders/texture.vert $(gl_eye_tracking2_OUTPUT)/data/res/texture/container.jpg
 
 gl_eye_tracking2-all :: -make-directories $(gl_eye_tracking2_OUTPUT)/gl_eye_tracking2
 

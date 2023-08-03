@@ -262,12 +262,12 @@ int main() {
 	right_eye.SetPosition(0.1f, 0.0f, 0.0f);
 
 
-  std::ifstream file_handler("data/res/depth_data.txt");
+  std::ifstream file_handler("data/res/cloud/depth_data.txt");
   const int n_points = 307200;
   const int vertices_length = n_points * 6;
   const int vertices_size = vertices_length * sizeof(float);
 
-  float* vertices = (float*)malloc(vertices_length);
+  float* vertices = (float*)malloc(vertices_size);
 
   std::string each_value_str;
   int n_values_read_from_file  = 0;
