@@ -11,22 +11,29 @@ const char APP_TAG[] = "C-ENGINE-CYL";
 #define BOTTOM_RADIUS 0.5
 #define TOP_RADIUS 0.5
 
-Point::Point() {
+Point::Point(Shader& shader) {
 
 	_position = glm::vec3(0);
 	_rotation = glm::vec3(0);
 	_scale = glm::vec3(0.25);
+
+  _progId = shader.GetProgramID();
+  glUseProgram(_progId);
+
+  _projId = glGetUniformLocation(_progId, "projFrom3D");
+  GLuint _location = glGetAttribLocation(_progId, "coord3D");
 }
 
 Point::~Point() {
 }
 
-void Point::ApplyShader(Shader& shader, float vertices[], const int n_points, const int vertices_size) {
-	_progId = shader.GetProgramID();
-	glUseProgram(_progId);
+// void Point::ApplyShader(Shader& shader, float vertices[], const int n_points, const int vertices_size) {
+void Point::ApplyShader(float vertices[], const int n_points, const int vertices_size) {
+	// _progId = shader.GetProgramID();
+	// glUseProgram(_progId);
 
-	_projId = glGetUniformLocation(_progId, "projFrom3D");
-	GLuint location = glGetAttribLocation(_progId, "coord3D");
+	// _projId = glGetUniformLocation(_progId, "projFrom3D");
+	// GLuint location = glGetAttribLocation(_progId, "coord3D");
 
 	
 
@@ -63,7 +70,7 @@ void Point::ApplyShader(Shader& shader, float vertices[], const int n_points, co
 
   // position
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), reinterpret_cast<void*>(0));
-  glEnableVertexAttribArray(location);
+  glEnableVertexAttribArray(_location);
 
   // The color attribute starts after the position data so the offset is 3 * sizeof(float) 
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
@@ -74,7 +81,7 @@ void Point::ApplyShader(Shader& shader, float vertices[], const int n_points, co
 	glBindVertexArray(0);
 	glUseProgram(0);
 
-	ML_LOG_TAG(Debug, APP_TAG, "Uniform location (%d, %d, %d), program %d", _colorId, _projId, location, _progId);
+	ML_LOG_TAG(Debug, APP_TAG, "Uniform location (%d, %d, %d), program %d", _colorId, _projId, _location, _progId);
 }
 
 void Point::Render(glm::mat4 projectionMatrix) {

@@ -6,7 +6,7 @@ class Shader;
 
 class Point {
 public:
-	Point();
+	Point(Shader&);
 	~Point();
 
 public:
@@ -20,7 +20,8 @@ public:
 	glm::vec3 GetColor() { return _color; }
 
 
-  void ApplyShader(Shader&, float[], const int, const int);
+  // void ApplyShader(Shader&, float[], const int, const int);
+  void ApplyShader(float[], const int, const int);
 	void Render(glm::mat4 projectionMatrix);
 
 	void Dump();
@@ -36,6 +37,7 @@ private:
 	glm::vec3 _position;
 	glm::vec3 _rotation;
 	glm::vec3 _scale;
+  GLuint _location;
 
 	// Part 3: Added to support laserpointer
 	glm::mat4 _transform;

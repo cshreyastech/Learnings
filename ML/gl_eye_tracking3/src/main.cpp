@@ -283,9 +283,9 @@ int main() {
   }
   assert(n_points == (n_values_read_from_file)/6);
 
-	Point cloud = Point();
-	cloud.ApplyShader(pointShader3D, vertices, n_points, vertices_size);
-  delete[] vertices;
+	// Point cloud = Point();
+	// cloud.ApplyShader(pointShader3D, vertices, n_points, vertices_size);
+  
 
   MLHandle ml_head_tracker_ = ML_INVALID_HANDLE;
   MLHeadTrackingStaticData ml_head_static_data_ = {};
@@ -298,9 +298,13 @@ int main() {
   MLEyeTrackingCreate(&ml_eye_tracker_);
   MLEyeTrackingGetStaticData(ml_eye_tracker_, &ml_eye_static_data_);
 
+  Point cloud = Point(pointShader3D);
+  cloud.ApplyShader(vertices, n_points, vertices_size);
 	// The main/game loop
 	ML_LOG_TAG(Debug, APP_TAG, "Enter main loop");
-	while (true) {
+	while (true) {  
+    
+
 		// Part 2: Get state of the Controller
 		MLInputControllerState input_states[MLInput_MaxControllers];
       CHECK(MLInputGetControllerState(input, input_states));
@@ -408,14 +412,12 @@ int main() {
 	MLPerceptionShutdown();
 	ML_LOG_TAG(Debug, APP_TAG, "System cleanup done");
 
+  delete[] vertices;
 
   // clean up system
   MLHeadTrackingDestroy(ml_head_tracker_);
   MLEyeTrackingDestroy(ml_eye_tracker_);
   
-  // UNWRAP_MLRESULT(MLGraphicsDestroyClient(&graphics_client));
-  // UNWRAP_MLRESULT(MLPerceptionShutdown());
-
 
 
 	return 0;
