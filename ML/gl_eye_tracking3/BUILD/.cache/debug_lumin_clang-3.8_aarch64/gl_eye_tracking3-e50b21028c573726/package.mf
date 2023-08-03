@@ -1,0 +1,134 @@
+{
+ "entries": [
+  {
+   "compression": 8,
+   "hash": "5925de9f4d7b83c65d1fd7b25ced5f0bf8c27e73",
+   "pkgpath": "bin/libc++_shared.so",
+   "size": 976832,
+   "src": "C:/Users/cshre/MagicLeap/mlsdk/v0.26.0/lumin/stl/libc++/lib/libc++_shared.so",
+   "xfrm_flags": {
+    "signed": {
+     "cert": "C:\\ml_cert\\certforthesis.cert"
+    },
+    "taildata": {
+     "debuggable": true,
+     "sbox": "USER",
+     "version": 3
+    }
+   },
+   "xfrm_hash": "916a60f2827c0c0d540d6e90a9e7e3a49db6a4cb",
+   "xfrm_path": "C:/lcb/Learnings/ML/gl_eye_tracking3/BUILD/.cache/debug_lumin_clang-3.8_aarch64/gl_eye_tracking3-e50b21028c573726\\libc++_shared.so-50050573144b2a0d",
+   "xfrm_size": 977590
+  },
+  {
+   "compression": 8,
+   "hash": "9a9163f18892c37e5892496d68d9b5488477e6ec",
+   "pkgpath": "bin/gl_eye_tracking3",
+   "size": 96432,
+   "src": "C:/lcb/Learnings/ML/gl_eye_tracking3/BUILD/debug_lumin_clang-3.8_aarch64/gl_eye_tracking3",
+   "xfrm_flags": {
+    "signed": {
+     "cert": "C:\\ml_cert\\certforthesis.cert"
+    },
+    "taildata": {
+     "debuggable": true,
+     "sbox": "USER",
+     "version": 3
+    }
+   },
+   "xfrm_hash": "6f6febcbd3b18c61dda6c28d579ea0b134b5e76c",
+   "xfrm_path": "C:/lcb/Learnings/ML/gl_eye_tracking3/BUILD/.cache/debug_lumin_clang-3.8_aarch64/gl_eye_tracking3-e50b21028c573726\\gl_eye_tracking3-971d749099e2c1be",
+   "xfrm_size": 97190
+  },
+  {
+   "compression": 8,
+   "hash": "ade854091ffc210f5ddc488500de82457fde2ed9",
+   "pkgpath": "data/res/cloud/depth_data.txt",
+   "size": 21196800,
+   "src": "C:/lcb/Learnings/ML/gl_eye_tracking3/data/res/cloud/depth_data.txt"
+  },
+  {
+   "compression": 8,
+   "hash": "28bc5ee5f1ccb4efc5cccf36eb9573158e1a88f9",
+   "pkgpath": "data/res/cloud/depth_data.zip",
+   "size": 3280698,
+   "src": "C:/lcb/Learnings/ML/gl_eye_tracking3/data/res/cloud/depth_data.zip"
+  },
+  {
+   "compression": 8,
+   "hash": "1037bb2e54119d27641b4a22d309478d29cd6ab8",
+   "pkgpath": "data/res/shaders/basic.frag",
+   "size": 120,
+   "src": "C:/lcb/Learnings/ML/gl_eye_tracking3/data/res/shaders/basic.frag"
+  },
+  {
+   "compression": 8,
+   "hash": "22ee4aecf06bbb8aff86fac41b4551be8deddb73",
+   "pkgpath": "data/res/shaders/basic3D.vert",
+   "size": 259,
+   "src": "C:/lcb/Learnings/ML/gl_eye_tracking3/data/res/shaders/basic3D.vert"
+  },
+  {
+   "compression": 8,
+   "hash": "1cd3de647a754d7ae2d0cdaef98a237d7e08d669",
+   "pkgpath": "data/res/shaders/standard.frag",
+   "size": 117,
+   "src": "C:/lcb/Learnings/ML/gl_eye_tracking3/data/res/shaders/standard.frag"
+  },
+  {
+   "compression": 8,
+   "hash": "32cc4b690969c3ace1754a82a408b8364d8444a9",
+   "pkgpath": "data/res/shaders/standard3D.vert",
+   "size": 138,
+   "src": "C:/lcb/Learnings/ML/gl_eye_tracking3/data/res/shaders/standard3D.vert"
+  },
+  {
+   "compression": 8,
+   "hash": "c768d72e23441c0ce1aed6dc0333791bf70af49c",
+   "pkgpath": "data/res/shaders/texture.frag",
+   "size": 259,
+   "src": "C:/lcb/Learnings/ML/gl_eye_tracking3/data/res/shaders/texture.frag"
+  },
+  {
+   "compression": 8,
+   "hash": "d616e61f0ab35b644040e5e60f97dc893c025ab3",
+   "pkgpath": "data/res/shaders/texture.vert",
+   "size": 203,
+   "src": "C:/lcb/Learnings/ML/gl_eye_tracking3/data/res/shaders/texture.vert"
+  },
+  {
+   "compression": 8,
+   "hash": "6fd42e1e837b01b2360378ffc03dcb17dad0009b",
+   "pkgpath": "data/res/texture/container.jpg",
+   "size": 184939,
+   "src": "C:/lcb/Learnings/ML/gl_eye_tracking3/data/res/texture/container.jpg"
+  },
+  {
+   "compression": 8,
+   "hash": "a3613af6f90b12bc6be175fa1c5c6699ba6de696",
+   "pkgpath": "manifest.xml",
+   "size": 742,
+   "src": "C:/lcb/Learnings/ML/gl_eye_tracking3\\manifest.xml",
+   "xfrm_flags": {
+    "manifest": {
+     "cert_hash": "f86b19fbf4a3c7acbdb8e1864a310fb27ee540ee",
+     "developer_id": "635ecc90-b945-4707-8907-1b956a82ea85"
+    }
+   },
+   "xfrm_hash": "cbeb0bae30ee1c5db76f184ba65a6da6c1725549",
+   "xfrm_path": "C:/lcb/Learnings/ML/gl_eye_tracking3/BUILD/.cache/debug_lumin_clang-3.8_aarch64/gl_eye_tracking3-e50b21028c573726\\manifest.xml-e50b21028c573726",
+   "xfrm_size": 676
+  }
+ ],
+ "pkgflags": {
+  "signed": {
+   "cert": "C:\\ml_cert\\certforthesis.cert"
+  },
+  "taildata": {
+   "debuggable": true,
+   "devcert": "C:\\ml_cert\\certforthesis.cert",
+   "sbox": "USER",
+   "version": 3
+  }
+ }
+}

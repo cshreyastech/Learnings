@@ -1,0 +1,4 @@
+export INCS = asio-1.28.0/include
+INCS = asio-1.28.0/include
+KIND = static
+OPTIONS = standard-c++/17
