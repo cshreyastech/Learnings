@@ -56,10 +56,12 @@ ML/FromMLSamples/samples/dist/*
 ML/FromTheCherno/opengl_app/.out/*
 ML/FromTheCherno/opengl_app/Dependencies/.out/
 
+ML/gl_eye_tracking2/BUILD/*
+ML/gl_eye_tracking2/.out/*
+
 Networking/ASIO/Networking/x64/*
 Networking/ASIO/Networking/.vs/*
 
 ROSMLDesktop/build/*
 ROSMLDesktop/out/*
 
-ML/gl_eye_tracking2/BUILD/*
