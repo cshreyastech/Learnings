@@ -22,7 +22,7 @@
   },
   {
    "compression": 8,
-   "hash": "573ccf5654b2ecda44478a98adb43650a86e093c",
+   "hash": "daa9922447576e37de0c1246da06212e91653b89",
    "pkgpath": "bin/gl_eye_tracking3",
    "size": 96432,
    "src": "C:/lcb/Learnings/ML/gl_eye_tracking3/BUILD/debug_lumin_clang-3.8_aarch64/gl_eye_tracking3",
@@ -36,7 +36,7 @@
      "version": 3
     }
    },
-   "xfrm_hash": "167c0131ab704d0d5f5aa06aeca487474dddca2e",
+   "xfrm_hash": "19a80f7d2f46168154fb066d385b0775a04d86af",
    "xfrm_path": "C:/lcb/Learnings/ML/gl_eye_tracking3/BUILD/.cache/debug_lumin_clang-3.8_aarch64/gl_eye_tracking3-e50b21028c573726\\gl_eye_tracking3-971d749099e2c1be",
    "xfrm_size": 97190
   },
@@ -53,13 +53,6 @@
    "pkgpath": "data/res/cloud/depth_data.zip",
    "size": 3280698,
    "src": "C:/lcb/Learnings/ML/gl_eye_tracking3/data/res/cloud/depth_data.zip"
-  },
-  {
-   "compression": 8,
-   "hash": "2a51784bd754d45d69ec2bd8a621e9efa6cace06",
-   "pkgpath": "data/res/cloud/depth_data_test.txt",
-   "size": 699,
-   "src": "C:/lcb/Learnings/ML/gl_eye_tracking3/data/res/cloud/depth_data_test.txt"
   },
   {
    "compression": 8,

@@ -12,17 +12,6 @@ const char APP_TAG[] = "C-ENGINE-CYL";
 #define TOP_RADIUS 0.5
 
 
-struct Vec3
-{
-  float x, y, z;
-};
-
-struct Vertex
-{
-  Vec3 Position;
-  Vec3 Color;
-};
-
 Point::Point(Shader& shader, const int n_points, const int vertices_size)
   : _verts(n_points)
 {
@@ -37,23 +26,19 @@ Point::Point(Shader& shader, const int n_points, const int vertices_size)
   _projId = glGetUniformLocation(_progId, "projFrom3D");
   GLuint _location = glGetAttribLocation(_progId, "coord3D");
 
-  
   glGenVertexArrays(1, &_vaoId);
   glGenBuffers(1, &_vbo);
   
   glBindVertexArray(_vaoId);
-
-
-
   glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * n_points, nullptr, GL_DYNAMIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, vertices_size, nullptr, GL_DYNAMIC_DRAW);
 
   // position
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(0));
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), reinterpret_cast<void*>(0));
   glEnableVertexAttribArray(_location);
 
-  // // The color attribute starts after the position data so the offset is 3 * sizeof(float) 
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3* sizeof(float)));
+  // The color attribute starts after the position data so the offset is 3 * sizeof(float) 
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
   glEnableVertexAttribArray(1);
 
   glBindVertexArray(_vaoId);
@@ -67,14 +52,10 @@ Point::Point(Shader& shader, const int n_points, const int vertices_size)
 Point::~Point() {
 }
 
-// void Point::ApplyShader(Shader& shader, float vertices[], const int n_points, const int vertices_size) {
-void Point::ApplyShader(float vertices[], const int n_points, const int vertices_size) {
-  // Set Dynamic Vertex Buffer
+void Point::Render(glm::mat4 projectionMatrix, float vertices[], const int vertices_size) {
   glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-  glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * n_points, vertices);
-}
+  glBufferSubData(GL_ARRAY_BUFFER, 0, vertices_size, vertices);
 
-void Point::Render(glm::mat4 projectionMatrix) {
 	glUseProgram(_progId);
 
 	glm::mat4 translate = glm::translate(glm::mat4(1.0f), _position);

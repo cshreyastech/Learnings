@@ -283,11 +283,6 @@ int main() {
   }
   assert(n_points == (n_values_read_from_file)/6);
 
-
-	// Point cloud = Point(pointShader3D, n_points, vertices_size);
-	// cloud.ApplyShader(pointShader3D, vertices, n_points, vertices_size);
-  
-
   MLHandle ml_head_tracker_ = ML_INVALID_HANDLE;
   MLHeadTrackingStaticData ml_head_static_data_ = {};
   MLHandle ml_eye_tracker_ = ML_INVALID_HANDLE;
@@ -381,9 +376,8 @@ int main() {
 				// left_eye.Render(projectionMatrix);
 				fixation.Render(projectionMatrix);
 				// right_eye.Render(projectionMatrix);
-				// point.Render(projectionMatrix);
-        cloud.ApplyShader(vertices, n_points, vertices_size);
-				cloud.Render(projectionMatrix);
+
+				cloud.Render(projectionMatrix, vertices, vertices_size);
 				// Bind the frame buffer
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 				MLGraphicsSignalSyncObjectGL(graphics_client, virtual_camera_array.virtual_cameras[camera].sync_object);
