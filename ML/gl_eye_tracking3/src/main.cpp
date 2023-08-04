@@ -144,6 +144,8 @@ static void on_resume(void* user_data) {
 	ML_LOG_TAG(Info, APP_TAG, "Lifecycle call on_resume()");
 }
 
+
+void ParseCloudFromFile(const std::string file_path, float vertices[], const int n_points);
 // -----------------------------------------------------------------------------
 // 4. Main
 
@@ -262,26 +264,22 @@ int main() {
 	right_eye.SetPosition(0.1f, 0.0f, 0.0f);
 
 
-  std::ifstream file_handler("data/res/cloud/depth_data.txt");
+  // std::ifstream file_handler("data/res/cloud/depth_data.txt");
   const int n_points = 307200;
   const int vertices_length = n_points * 6;
   const int vertices_size = vertices_length * sizeof(float);
 
-  float* vertices = (float*)malloc(vertices_size);
+  float* vertices_0 = (float*)malloc(vertices_size);
+  float* vertices_1 = (float*)malloc(vertices_size);
+  float* vertices_2 = (float*)malloc(vertices_size);
+  float* vertices_3 = (float*)malloc(vertices_size);
+  float* vertices_4 = (float*)malloc(vertices_size);
 
-  std::string each_value_str;
-  int n_values_read_from_file  = 0;
-  while(file_handler >> each_value_str)
-  {
-    std::string each_value_clean_str = 
-      each_value_str.substr(0, each_value_str.find("f", 0));
-
-    float value_float = std::stof(each_value_clean_str);
-
-    vertices[n_values_read_from_file] = value_float;
-    n_values_read_from_file++;
-  }
-  assert(n_points == (n_values_read_from_file)/6);
+  ParseCloudFromFile("data/res/cloud/depth_data_0.txt", vertices_0, n_points);
+  ParseCloudFromFile("data/res/cloud/depth_data_1.txt", vertices_1, n_points);
+  ParseCloudFromFile("data/res/cloud/depth_data_2.txt", vertices_2, n_points);
+  ParseCloudFromFile("data/res/cloud/depth_data_3.txt", vertices_3, n_points);
+  ParseCloudFromFile("data/res/cloud/depth_data_4.txt", vertices_4, n_points);
 
   MLHandle ml_head_tracker_ = ML_INVALID_HANDLE;
   MLHeadTrackingStaticData ml_head_static_data_ = {};
@@ -296,7 +294,7 @@ int main() {
 
   Point cloud = Point(pointShader3D, n_points, vertices_size);
   
-  
+  int vertices_id = 0;
 	// The main/game loop
 	ML_LOG_TAG(Debug, APP_TAG, "Enter main loop");
 	while (true) {  
@@ -321,7 +319,6 @@ int main() {
 		// 	ml_head.position.x, ml_head.position.y, ml_head.position.z);
 		// ML_LOG_TAG(Info, APP_TAG, "ml_left_eye_center(%f, %f, %f)", 
 		// 	ml_left_eye_center.position.x, ml_left_eye_center.position.y, ml_left_eye_center.position.z);
-
 
 		// Initialize a frame
 		MLGraphicsFrameParams frame_params;
@@ -377,7 +374,36 @@ int main() {
 				fixation.Render(projectionMatrix);
 				// right_eye.Render(projectionMatrix);
 
-				cloud.Render(projectionMatrix, vertices, vertices_size);
+        int vertices_idx = vertices_id % 4;
+        ML_LOG_TAG(Debug, APP_TAG, "vertices_idx: %d", vertices_idx);
+        switch(vertices_idx)
+        {
+          case 0:
+            cloud.Render(projectionMatrix, vertices_0, vertices_size);
+            ML_LOG_TAG(Debug, APP_TAG, "vertices_0");
+            break;
+          case 1:
+            cloud.Render(projectionMatrix, vertices_1, vertices_size);
+            ML_LOG_TAG(Debug, APP_TAG, "vertices_1");
+            break;
+          case 2:
+            cloud.Render(projectionMatrix, vertices_2, vertices_size);
+            ML_LOG_TAG(Debug, APP_TAG, "vertices_2");
+            break;
+          case 3:
+            cloud.Render(projectionMatrix, vertices_3, vertices_size);
+            ML_LOG_TAG(Debug, APP_TAG, "vertices_3");
+            break;
+          case 4:
+            cloud.Render(projectionMatrix, vertices_4, vertices_size);
+            ML_LOG_TAG(Debug, APP_TAG, "vertices_4");
+            break;
+          default:
+            // cloud.Render(projectionMatrix, vertices_0, vertices_size);
+            ML_LOG_TAG(Debug, APP_TAG, "default");
+            break;
+        }
+
 				// Bind the frame buffer
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 				MLGraphicsSignalSyncObjectGL(graphics_client, virtual_camera_array.virtual_cameras[camera].sync_object);
@@ -394,6 +420,9 @@ int main() {
 			// Sometimes it fails with timeout when device is busy
 			ML_LOG_TAG(Error, APP_TAG, "MLGraphicsBeginFrame() error: %d", frame_result);
 		}
+
+    vertices_id++;
+    if(vertices_id > 4) vertices_id = 0;
 	}
 
 	// End of game loop, clean app and exit
@@ -405,13 +434,38 @@ int main() {
 	MLPerceptionShutdown();
 	ML_LOG_TAG(Debug, APP_TAG, "System cleanup done");
 
-  delete[] vertices;
+  delete[] vertices_0;
+  delete[] vertices_1;
+  delete[] vertices_2;
+  delete[] vertices_3;
+  delete[] vertices_4;
 
   // clean up system
   MLHeadTrackingDestroy(ml_head_tracker_);
   MLEyeTrackingDestroy(ml_eye_tracker_);
   
-
-
 	return 0;
+}
+
+void ParseCloudFromFile(const std::string file_path, float vertices[], const int n_points)
+{
+  std::ifstream file_handler(file_path);
+  ML_LOG_TAG(Debug, APP_TAG, "file_path: %s", file_path.c_str());
+
+  std::string each_value_str;
+
+  int n_values_read_from_file  = 0;
+  while(file_handler >> each_value_str)
+  {
+    std::string each_value_clean_str = 
+      each_value_str.substr(0, each_value_str.find("f", 0));
+
+    float value_float = std::stof(each_value_clean_str);
+
+    vertices[n_values_read_from_file] = value_float;
+    n_values_read_from_file++;
+  }
+
+  file_handler.close();
+  assert(n_points == (n_values_read_from_file / 6));
 }
