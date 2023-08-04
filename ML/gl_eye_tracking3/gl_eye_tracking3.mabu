@@ -9,10 +9,10 @@ SRCS = \
     src/RBCylinder.cpp \
     src/RBSquare.cpp \
     src/RBCube.cpp \
-    src/RBPoint.cpp
+    src/RBPointDynamic.cpp
 
 DEFS = \
-    ML_DEFAULT_LOG_TAG="gl_eye_tracking2" \
+    ML_DEFAULT_LOG_TAG="gl_eye_tracking3" \
 
 DEFS.device = ML_DEVICE
 

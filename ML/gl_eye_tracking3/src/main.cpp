@@ -16,7 +16,7 @@
 #include "RBCylinder.h"
 #include "RBSquare.h"
 #include "RBCube.h"
-#include "RBPoint.h"
+#include "RBPointDynamic.h"
 #include <fstream>
 #include <cassert>
 
@@ -283,7 +283,8 @@ int main() {
   }
   assert(n_points == (n_values_read_from_file)/6);
 
-	// Point cloud = Point();
+
+	// Point cloud = Point(pointShader3D, n_points, vertices_size);
 	// cloud.ApplyShader(pointShader3D, vertices, n_points, vertices_size);
   
 
@@ -298,13 +299,12 @@ int main() {
   MLEyeTrackingCreate(&ml_eye_tracker_);
   MLEyeTrackingGetStaticData(ml_eye_tracker_, &ml_eye_static_data_);
 
-  Point cloud = Point(pointShader3D);
-  cloud.ApplyShader(vertices, n_points, vertices_size);
+  Point cloud = Point(pointShader3D, n_points, vertices_size);
+  
+  
 	// The main/game loop
 	ML_LOG_TAG(Debug, APP_TAG, "Enter main loop");
 	while (true) {  
-    
-
 		// Part 2: Get state of the Controller
 		MLInputControllerState input_states[MLInput_MaxControllers];
       CHECK(MLInputGetControllerState(input, input_states));
@@ -326,8 +326,6 @@ int main() {
 		// 	ml_head.position.x, ml_head.position.y, ml_head.position.z);
 		// ML_LOG_TAG(Info, APP_TAG, "ml_left_eye_center(%f, %f, %f)", 
 		// 	ml_left_eye_center.position.x, ml_left_eye_center.position.y, ml_left_eye_center.position.z);
-
-
 
 
 		// Initialize a frame
@@ -384,6 +382,7 @@ int main() {
 				fixation.Render(projectionMatrix);
 				// right_eye.Render(projectionMatrix);
 				// point.Render(projectionMatrix);
+        cloud.ApplyShader(vertices, n_points, vertices_size);
 				cloud.Render(projectionMatrix);
 				// Bind the frame buffer
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
