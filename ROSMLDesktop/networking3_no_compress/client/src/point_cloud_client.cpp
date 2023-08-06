@@ -22,7 +22,7 @@ int main()
 
   client_ptr->ConnectToServer();
 
-  std::ifstream file_handler("/home/cs20/Downloads/cloud_data/induvidual_rows/depth_data_0.txt");
+  std::ifstream file_handler("/home/cs20/Downloads/cloud_data/induvidual_rows/depth_data_1.txt");
   const int n_points = 307200;
   client_ptr->SendInt(n_points);
 

@@ -80,7 +80,7 @@ int main()
 
 
   // Validation beginning
-  std::ifstream file_handler("/home/cs20/Downloads/cloud_data/induvidual_rows/depth_data_0.txt");
+  std::ifstream file_handler("/home/cs20/Downloads/cloud_data/induvidual_rows/depth_data_1.txt");
   float vertices_check[vertices_length];
   // float* vertices_check = new float[vertices_length];
   std::string each_value_str;
