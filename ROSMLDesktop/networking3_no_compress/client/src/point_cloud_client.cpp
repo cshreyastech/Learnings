@@ -7,12 +7,14 @@
 
 #include "client/socket_client.hpp"
 #include "client/struct_declarations.hpp"
-#include "client/zlib_compression.hpp"
+
+void serialize(uint8_t const* data, float vertices[], const int vertices_length);
+void deserialize(uint8_t const* data, float vertices[], const int vertices_length);
 
 int main()
 {
-  // const std::string hostname_ = "127.0.0.1";
-  const std::string hostname_ = "192.168.86.33";
+  const std::string hostname_ = "127.0.0.1";
+  // const std::string hostname_ = "192.168.86.33";
   const int port_ = 8080;
   std::unique_ptr<SocketClient> client_ptr;
 
@@ -20,9 +22,8 @@ int main()
 
   client_ptr->ConnectToServer();
 
-  std::ifstream file_handler("/home/cs20/Downloads/cloud_data_tbd/induvidual_rows/depth_data.txt");
+  std::ifstream file_handler("/home/cs20/Downloads/cloud_data/induvidual_rows/depth_data_1.txt");
   const int n_points = 307200;
-  // const int n_points = 7200;
   client_ptr->SendInt(n_points);
 
   const int vertices_length = n_points * 6;
@@ -49,17 +50,31 @@ int main()
   assert(n_points == (n_values_read_from_file)/6);
   // print_array(vertices, vertices_length);
 
-  uint8_t const* p_vertices = reinterpret_cast<uint8_t const*>(vertices);
+  // https://stackoverflow.com/questions/332030/when-should-static-cast-dynamic-cast-const-cast-and-reinterpret-cast-be-used  
+  // uint8_t const* p_vertices = static_cast<uint8_t const*>(vertices);
+  uint8_t const* p_vertices = (uint8_t const*)malloc(vertices_size);
+  serialize(p_vertices, vertices, vertices_length);
 
-  ZlibCompression zlib;
-  std::vector<uint8_t> zlibData = zlib.Compress(p_vertices, vertices_size);
-  
-  client_ptr->SendInt(zlibData.size());
-  std::cout << "zlibData.size(): " << zlibData.size() << std::endl;  
-  uint8_t* zlibData_array = (uint8_t*)malloc(zlibData.size());
-  std::copy(zlibData.begin(), zlibData.end(), zlibData_array);
-  client_ptr->SendCloud(zlibData_array, zlibData.size());
-  delete[] zlibData_array;
+  client_ptr->SendCloud(p_vertices, vertices_size);
+  delete[] p_vertices;
 
   return 0;
+}
+
+void serialize(uint8_t const* data, float vertices[], const int vertices_length)
+{
+  float *q = (float*)data;
+  for(int i = 0; i < vertices_length; i++)
+  {
+    *q = vertices[i]; q++;
+  }
+}
+
+void deserialize(uint8_t const* data, float vertices[], const int vertices_length)
+{
+  float *q = (float*)data;
+  for(int i = 0; i < vertices_length; i++)
+  {
+    vertices[i] = *q; q++;
+  }
 }

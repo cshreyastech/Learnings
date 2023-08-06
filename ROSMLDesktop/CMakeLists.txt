@@ -3,5 +3,6 @@ project(ROSMLDesktop)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/out/bin)
 
-add_subdirectory(decoco)
-add_subdirectory(networking2)
+# add_subdirectory(decoco)
+# add_subdirectory(networking2)
+add_subdirectory(networking3_no_compress)
