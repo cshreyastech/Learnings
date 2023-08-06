@@ -5,7 +5,7 @@ INCS = \
 
 KIND = static_shared
 REFS = \
-	ext/glad \
+	# ext/glad \
 	# ext/imgui \
 	# ext/stb \
 
@@ -13,10 +13,10 @@ SRCS = \
   # src/graphics_context.cpp \
 
 USES = \
-	OpenGL \
+	# OpenGL \
 	common \
-	ext/assimp \
-	ext/gflags \
+	# ext/assimp \
+	# ext/gflags \
 	ext/glm \
 	ml_sdk \
 	stdc++
