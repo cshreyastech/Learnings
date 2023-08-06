@@ -1,0 +1,11 @@
+glm,ext/repos/glm-0.9.9.4.zip,https://github.com/g-truc/glm/archive/0.9.9.4.zip,ext/repos
+glslang,ext/repos/glslang-7.12.3352.tar.gz,https://github.com/KhronosGroup/glslang/archive/7.12.3352.tar.gz,ext/repos
+gflags,ext/repos/gflags-2.2.2.zip,https://github.com/gflags/gflags/archive/v2.2.2.zip,ext/repos
+glfw,ext/repos/glfw-3.2.1.zip,https://github.com/glfw/glfw/archive/3.2.1.zip,ext/repos
+gtest,ext/repos/gtest-1.7.0.zip,https://github.com/google/googletest/archive/release-1.7.0.zip,ext/repos
+stb,ext/repos/stb.zip,https://github.com/nothings/stb/archive/master.zip,ext/repos
+assimp,ext/repos/assimp-v.5.0.0.rc1.zip,https://github.com/assimp/assimp/archive/v.5.0.0.rc1.zip,ext/repos
+imgui,ext/repos/imgui-1.6.8.zip,https://github.com/ocornut/imgui/archive/v1.68.zip,ext/repos
+json,ext/repos/json-3.6.1.zip,https://github.com/nlohmann/json/archive/v3.6.1.zip,ext/repos
+png,ext/repos/libpng-1.6.36.tar.gz,https://sourceforge.net/projects/libpng/files/libpng16/1.6.36/libpng-1.6.36.tar.gz,ext/repos
+zlib,ext/repos/zlib-1.2.13.tar.gz,https://www.zlib.net/zlib-1.2.13.tar.gz,ext/repos

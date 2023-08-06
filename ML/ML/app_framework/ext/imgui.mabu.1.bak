@@ -1,0 +1,17 @@
+KIND = static_shared
+
+INCS = repos/imgui-1.68
+
+export INCS = repos/imgui-1.68
+
+SRCS = \
+    repos/imgui-1.68/imgui.cpp \
+    repos/imgui-1.68/imgui_demo.cpp \
+    repos/imgui-1.68/imgui_draw.cpp \
+    repos/imgui-1.68/imgui_widgets.cpp \
+    repos/imgui-1.68/examples/imgui_impl_opengl3.cpp \
+
+REFS = \
+    glad \
+
+DEFS = IMGUI_IMPL_OPENGL_LOADER_GLAD

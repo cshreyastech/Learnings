@@ -1,0 +1,9 @@
+export INCS = glad/include
+INCS = glad/include
+KIND = static
+OPTIONS = standard-c++/11
+SRCS = glad/src/glad.c
+USES = \
+	../common \
+	stdc++
+

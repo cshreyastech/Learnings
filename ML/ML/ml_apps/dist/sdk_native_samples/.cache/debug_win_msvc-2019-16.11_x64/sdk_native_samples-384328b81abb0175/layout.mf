@@ -1,0 +1,10 @@
+[
+ {
+  "dest": "device_samples/com.magicleap.capi.sample.ros_ml.mpk",
+  "src": "C:/localcodebase/ML/samples/c_api2/samples/BUILD/com.magicleap.capi.sample.ros_ml.mpk"
+ },
+ {
+  "dest": "native_samples/ros_ml.exe",
+  "src": "C:/localcodebase/ML/samples/c_api2/samples/BUILD/debug_win_msvc-2019-16.11_x64/ros_ml.exe"
+ }
+]

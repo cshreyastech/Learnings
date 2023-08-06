@@ -1,0 +1,11 @@
+prefix=C:/lcb/AutoECMControl/ML/app_framework/ext/package/debug_win_msvc-2019-16.11_x64
+exec_prefix=C:/lcb/AutoECMControl/ML/app_framework/ext/package/debug_win_msvc-2019-16.11_x64/
+libdir=C:/lcb/AutoECMControl/ML/app_framework/ext/package/debug_win_msvc-2019-16.11_x64/lib
+includedir=C:/lcb/AutoECMControl/ML/app_framework/ext/package/debug_win_msvc-2019-16.11_x64/../include/include
+
+Name: ext
+Description: Import various well-known 3D model formats in an uniform manner.
+Version: 4.1.0
+Libs: -L${libdir} -lassimp
+Libs.private:  
+Cflags: -I${includedir}

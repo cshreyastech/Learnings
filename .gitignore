@@ -62,6 +62,9 @@ ML/gl_eye_tracking2/.out/*
 ML/gl_eye_tracking3/BUILD/*
 ML/gl_eye_tracking3/.out/*
 
+ML/ML/app_framework/.out/*
+ML/ML/ml_apps/BUILD/*
+
 Networking/ASIO/Networking/x64/*
 Networking/ASIO/Networking/.vs/*
 

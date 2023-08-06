@@ -1,0 +1,20 @@
+#
+# This package defines the distribution layout content for SDK Native Samples
+#
+
+OUT = dist/sdk_native_samples
+
+OPTIONS = package/useHardLinks/off
+
+DATAS= \
+  \
+  common binaries \
+  \
+  BUILD/$(SPEC)/ros_ml_server$(PROGRAM_EXT)                   : native_samples/ \
+  # native test dependencies \
+  BUILD/$(SPEC)/$(SHARED_PREFIX)*$(SHARED_EXT)*        : native_samples/ \
+  BUILD/data/                                          : native_samples/data/ \
+  # \
+  # device mpks \
+  # \
+  BUILD/com.magicleap.capi.sample.*.mpk                : device_samples/ \

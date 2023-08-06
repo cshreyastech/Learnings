@@ -1,0 +1,27 @@
+KIND = program
+
+SRCS = \
+  src/core/RBShader.cpp \
+  src/render/RBCube.cpp \
+  src/render/RBPoint.cpp \
+  src/ros_ml_server/socket_server.cpp \
+  src/ros_ml_server/zlib_compression.cpp \
+  src/ros_ml_server/ros_ml_server.cpp \
+
+INCS = \
+  include/ \
+
+DEFS = \
+  ML_DEFAULT_LOG_TAG="ros_ml_server" \
+
+USES = \
+  ../samples_common \
+
+SHLIBS =\
+  ml_privileges \
+  ml_connections
+
+REFS = \
+  ../../app_framework/app_framework \
+
+DATAS = data/ : data/

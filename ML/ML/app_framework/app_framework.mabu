@@ -1,0 +1,30 @@
+DEFS = ML_DEFAULT_LOG_TAG="app_framework"
+export INCS = include
+INCS = \
+	include \
+
+KIND = static_shared
+REFS = \
+	ext/glad \
+	# ext/imgui \
+	# ext/stb \
+
+SRCS = \
+  # src/graphics_context.cpp \
+
+USES = \
+	OpenGL \
+	common \
+	ext/assimp \
+	ext/gflags \
+	ext/glm \
+	ml_sdk \
+	stdc++
+
+# SRCS.lumin = src/device/graphics_context.cpp
+DEFS.win = \
+	GLFW_INCLUDE_NONE=1 \
+	ML_USE_HIGH_PERFORMANCE_GPU=1
+
+# SRCS.win = src/host/graphics_context.cpp
+USES.win = ext/glfw
