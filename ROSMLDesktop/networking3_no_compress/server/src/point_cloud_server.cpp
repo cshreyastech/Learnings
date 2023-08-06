@@ -9,7 +9,6 @@
 #include "server/socket_server.hpp"
 #include "server/struct_declarations.hpp"
 
-#include "server/zlib_compression.hpp"
 #include <vector>
 
 #include <cassert>
@@ -72,25 +71,16 @@ int main()
   const int vertices_length = n_points * 6;
   const int vertices_size = vertices_length * sizeof(float);
 
-  
-  const int zlibData_size = server_ptr->ReceiveInt();
-  std::cout << "zlibData_size: " << zlibData_size << std::endl;
-
-  std::vector<uint8_t> zlibData_vec;
-  server_ptr->ReceiveCloud(zlibData_vec, zlibData_size);
-  uint8_t* zlibData_array = (uint8_t*)malloc(zlibData_vec.size());
-  std::copy(zlibData_vec.begin(), zlibData_vec.end(), zlibData_array);
-
-  ZlibCompression zlib;
-  std::vector<uint8_t> plainData = zlib.Decompress(zlibData_array, zlibData_vec.size());
+  std::vector<uint8_t> p_vertices_vec;
+  server_ptr->ReceiveCloud(p_vertices_vec, vertices_size);
 
   // convert it to float array
   float* vertices = (float*)malloc(vertices_size);
-  deserialize(plainData, vertices, vertices_length);
+  deserialize(p_vertices_vec, vertices, vertices_length);
 
 
   // Validation beginning
-  std::ifstream file_handler("/home/cs20/Downloads/cloud_data_tbd/induvidual_rows/depth_data_test.txt");
+  std::ifstream file_handler("/home/cs20/Downloads/cloud_data/induvidual_rows/depth_data_0.txt");
   float vertices_check[vertices_length];
   // float* vertices_check = new float[vertices_length];
   std::string each_value_str;
@@ -109,14 +99,12 @@ int main()
 
   for(int i = 0; i < vertices_length; i++)
   {
-    // printf("vertices_check[%d]:%f\n", i, vertices_check[i]);
+    // printf("vertices[%d]:%f, vertices_check[%d]:%f\n", i, vertices[i], i, vertices_check[i]);
     assert(vertices[i] == vertices_check[i]);
   }
   file_handler.close();
-  // delete[] vertices_check;
-  
+  // delete[] vertices;
   // Validation end
-
 
   // set up vertex data (and buffer(s)) and configure vertex attributes
   // ------------------------------------------------------------------
