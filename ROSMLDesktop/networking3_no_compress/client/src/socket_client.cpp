@@ -78,9 +78,9 @@ void SocketClient::SendInt(const int value)
 
 void SocketClient::SendCloud(const uint8_t zlibData_array[], const int array_size)
 {
-  printf("array_size -SocketClient: %d\n", array_size);
+  // printf("array_size -SocketClient: %d\n", array_size);
   int data_size = send(sock_fdesc_conn_, zlibData_array, array_size, 0);
-  printf("Sent data_size: %d\n", data_size); 
+  // printf("Sent data_size: %d\n", data_size); 
 }
 
 SocketClient::~SocketClient()

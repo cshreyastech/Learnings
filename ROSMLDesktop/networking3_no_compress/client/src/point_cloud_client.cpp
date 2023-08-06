@@ -4,6 +4,7 @@
 #include <cassert>
 #include <fstream>
 #include <string>
+#include <chrono>
 
 #include "client/socket_client.hpp"
 #include "client/struct_declarations.hpp"
@@ -13,8 +14,8 @@ void deserialize(uint8_t const* data, float vertices[], const int vertices_lengt
 
 int main()
 {
-  const std::string hostname_ = "127.0.0.1";
-  // const std::string hostname_ = "192.168.86.33";
+  // const std::string hostname_ = "127.0.0.1";
+  const std::string hostname_ = "192.168.86.32";
   const int port_ = 8080;
   std::unique_ptr<SocketClient> client_ptr;
 
@@ -22,7 +23,7 @@ int main()
 
   client_ptr->ConnectToServer();
 
-  std::ifstream file_handler("/home/cs20/Downloads/cloud_data/induvidual_rows/depth_data_1.txt");
+  std::ifstream file_handler("/home/cs20/Downloads/cloud_data/induvidual_rows/depth_data_0.txt");
   const int n_points = 307200;
   client_ptr->SendInt(n_points);
 
@@ -55,7 +56,17 @@ int main()
   uint8_t const* p_vertices = (uint8_t const*)malloc(vertices_size);
   serialize(p_vertices, vertices, vertices_length);
 
-  client_ptr->SendCloud(p_vertices, vertices_size);
+  for(int i = 0; i < 10; i++)
+  {
+    auto timeStart = std::chrono::high_resolution_clock::now();
+    
+    client_ptr->SendCloud(p_vertices, vertices_size);
+
+    auto timeEnd = std::chrono::high_resolution_clock::now();
+    long long duration = std::chrono::duration_cast<std::chrono::microseconds>(timeEnd - timeStart).count();
+    printf("E2E no compression - client - reads cloud from file - microseconds: %lld\n", duration);
+  }
+
   delete[] p_vertices;
 
   return 0;
