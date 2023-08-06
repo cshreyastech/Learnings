@@ -19,7 +19,8 @@ public:
 	void SetColor(glm::vec3 color) { _color = color; }
 	glm::vec3 GetColor() { return _color; }
 
-	void ApplyShader(Shader& shader);
+
+  void ApplyShader(Shader&, float[], const int, const int);
 	void Render(glm::mat4 projectionMatrix);
 
 	void Dump();
