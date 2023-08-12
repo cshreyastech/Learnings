@@ -1,2 +1,0 @@
-/usr/bin/ar qc libdeflate.o.a  CMakeFiles/deflate.o.dir/zopfli/src/zopfli/deflate.c.o
-/usr/bin/ranlib libdeflate.o.a

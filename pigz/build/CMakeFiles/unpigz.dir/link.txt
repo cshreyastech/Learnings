@@ -1,1 +1,0 @@
-/usr/lib/ccache/cc  -O3 -Wall -Wextra -Wno-unknown-pragmas -Wcast-qual  -rdynamic CMakeFiles/unpigz.dir/pigz.c.o  -o unpigz  libyarn.o.a libtry.o.a libdeflate.o.a libblocksplitter.o.a libtree.o.a liblz77.o.a libcache.o.a libhash.o.a libutil.o.a libsqueeze.o.a libkatajainen.o.a libsymbols.o.a -lpthread -lz -lm 

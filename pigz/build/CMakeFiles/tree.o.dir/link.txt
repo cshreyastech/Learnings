@@ -1,2 +1,0 @@
-/usr/bin/ar qc libtree.o.a  CMakeFiles/tree.o.dir/zopfli/src/zopfli/tree.c.o
-/usr/bin/ranlib libtree.o.a

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libkatajainen.o.a  CMakeFiles/katajainen.o.dir/zopfli/src/zopfli/katajainen.c.o
-/usr/bin/ranlib libkatajainen.o.a

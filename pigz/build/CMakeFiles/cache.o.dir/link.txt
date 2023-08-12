@@ -1,2 +1,0 @@
-/usr/bin/ar qc libcache.o.a  CMakeFiles/cache.o.dir/zopfli/src/zopfli/cache.c.o
-/usr/bin/ranlib libcache.o.a

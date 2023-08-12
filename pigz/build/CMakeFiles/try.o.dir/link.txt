@@ -1,2 +1,0 @@
-/usr/bin/ar qc libtry.o.a  CMakeFiles/try.o.dir/try.c.o
-/usr/bin/ranlib libtry.o.a

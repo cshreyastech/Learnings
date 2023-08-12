@@ -1,2 +1,0 @@
-/usr/bin/ar qc libutil.o.a  CMakeFiles/util.o.dir/zopfli/src/zopfli/util.c.o
-/usr/bin/ranlib libutil.o.a
