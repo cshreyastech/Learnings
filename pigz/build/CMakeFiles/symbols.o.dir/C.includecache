@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/hd/disk2/localcodebase/Learnings/pigz/zopfli/src/zopfli/symbols.c
+symbols.h
+/mnt/hd/disk2/localcodebase/Learnings/pigz/zopfli/src/zopfli/symbols.h
+
+/mnt/hd/disk2/localcodebase/Learnings/pigz/zopfli/src/zopfli/symbols.h
+

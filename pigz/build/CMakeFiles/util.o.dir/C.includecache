@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/hd/disk2/localcodebase/Learnings/pigz/zopfli/src/zopfli/util.c
+util.h
+/mnt/hd/disk2/localcodebase/Learnings/pigz/zopfli/src/zopfli/util.h
+zopfli.h
+/mnt/hd/disk2/localcodebase/Learnings/pigz/zopfli/src/zopfli/zopfli.h
+assert.h
+-
+stdio.h
+-
+stdlib.h
+-
+
+/mnt/hd/disk2/localcodebase/Learnings/pigz/zopfli/src/zopfli/util.h
+string.h
+-
+stdlib.h
+-
+
+/mnt/hd/disk2/localcodebase/Learnings/pigz/zopfli/src/zopfli/zopfli.h
+stddef.h
+-
+stdlib.h
+-
+

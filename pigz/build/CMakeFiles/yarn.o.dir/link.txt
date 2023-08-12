@@ -1,0 +1,2 @@
+/usr/bin/ar qc libyarn.o.a  CMakeFiles/yarn.o.dir/yarn.c.o
+/usr/bin/ranlib libyarn.o.a

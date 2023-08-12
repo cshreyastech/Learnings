@@ -1,0 +1,2 @@
+/usr/bin/ar qc liblz77.o.a  CMakeFiles/lz77.o.dir/zopfli/src/zopfli/lz77.c.o
+/usr/bin/ranlib liblz77.o.a

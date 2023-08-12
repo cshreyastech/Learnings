@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsymbols.o.a  CMakeFiles/symbols.o.dir/zopfli/src/zopfli/symbols.c.o
+/usr/bin/ranlib libsymbols.o.a

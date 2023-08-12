@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/hd/disk2/localcodebase/Learnings/pigz/try.c
+try.h
+/mnt/hd/disk2/localcodebase/Learnings/pigz/try.h
+stdio.h
+-
+string.h
+-
+stdarg.h
+-
+
+/mnt/hd/disk2/localcodebase/Learnings/pigz/try.h
+stdlib.h
+-
+string.h
+-
+assert.h
+-
+setjmp.h
+-
+pthread.h
+-
+

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libhash.o.a  CMakeFiles/hash.o.dir/zopfli/src/zopfli/hash.c.o
+/usr/bin/ranlib libhash.o.a

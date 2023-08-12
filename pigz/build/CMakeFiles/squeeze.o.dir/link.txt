@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsqueeze.o.a  CMakeFiles/squeeze.o.dir/zopfli/src/zopfli/squeeze.c.o
+/usr/bin/ranlib libsqueeze.o.a
