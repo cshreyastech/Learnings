@@ -9,22 +9,6 @@ set(ZOPFLI
   )
 
 #######################
-# set(pigz_lib pigz.o)
-
-# add_library(${pigz_lib}
-#   pigz.c
-# )
-
-# target_include_directories(${pigz_lib}
-#   PRIVATE ${CMAKE_SOURCE_DIR}
-# )
-
-# set_target_properties(${pigz_lib} PROPERTIES 
-#   CXX_STANDARD 17
-#   CXX_STANDARD_REQUIRED YES
-# )
-
-#######################
 set(yarn_lib yarn.o)
 
 add_library(${yarn_lib}
