@@ -208,59 +208,78 @@ set(ZOP
   )
 
 #######################
-set(pigz_app pigz)
+# set(pigz_app pigz)
 
-add_executable(${pigz_app}
-  pigz.c
-)
+# add_executable(${pigz_app}
+#   pigz.c
+# )
 
-target_include_directories(${pigz_app}
-  PRIVATE ${ZOPFLI}/
-)
+# target_include_directories(${pigz_app}
+#   PRIVATE ${ZOPFLI}/
+# )
 
-target_link_libraries(${pigz_app}
-  PRIVATE ${ZOP}
-)
+# target_link_libraries(${pigz_app}
+#   PRIVATE ${ZOP}
+# )
 
-set_target_properties(${pigz_app} PROPERTIES 
-  CXX_STANDARD 17
-  CXX_STANDARD_REQUIRED YES
-)
+# set_target_properties(${pigz_app} PROPERTIES 
+#   CXX_STANDARD 17
+#   CXX_STANDARD_REQUIRED YES
+# )
+# #######################
+# set(unpigz_app unpigz)
+
+# add_executable(${unpigz_app}
+#   pigz.c
+# )
+
+# target_include_directories(${unpigz_app}
+#   PRIVATE ${ZOPFLI}/
+# )
+
+# target_link_libraries(${unpigz_app}
+#   PRIVATE ${ZOP}
+# )
+
+# set_target_properties(${unpigz_app} PROPERTIES 
+#   CXX_STANDARD 17
+#   CXX_STANDARD_REQUIRED YES
+# )
+# #######################
+# set(pigz_array_app pigz_array)
+
+# add_executable(${pigz_array_app}
+#   pigz_array.c
+# )
+
+# target_include_directories(${pigz_array_app}
+#   PRIVATE ${ZOPFLI}/
+# )
+
+# target_link_libraries(${pigz_array_app}
+#   PRIVATE ${ZOP}
+# )
+
+# set_target_properties(${pigz_array_app} PROPERTIES 
+#   CXX_STANDARD 17
+#   CXX_STANDARD_REQUIRED YES
+# )
 #######################
-set(unpigz_app unpigz)
+set(unpigz_array_app unpigz)
 
-add_executable(${unpigz_app}
-  pigz.c
+add_executable(${unpigz_array_app}
+  unpigz_array.c
 )
 
-target_include_directories(${unpigz_app}
+target_include_directories(${unpigz_array_app}
   PRIVATE ${ZOPFLI}/
 )
 
-target_link_libraries(${unpigz_app}
+target_link_libraries(${unpigz_array_app}
   PRIVATE ${ZOP}
 )
 
-set_target_properties(${unpigz_app} PROPERTIES 
-  CXX_STANDARD 17
-  CXX_STANDARD_REQUIRED YES
-)
-#######################
-set(pigz_array_app pigz_array)
-
-add_executable(${pigz_array_app}
-  pigz_array.c
-)
-
-target_include_directories(${pigz_array_app}
-  PRIVATE ${ZOPFLI}/
-)
-
-target_link_libraries(${pigz_array_app}
-  PRIVATE ${ZOP}
-)
-
-set_target_properties(${pigz_array_app} PROPERTIES 
+set_target_properties(${unpigz_array_app} PROPERTIES 
   CXX_STANDARD 17
   CXX_STANDARD_REQUIRED YES
 )

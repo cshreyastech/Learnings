@@ -591,12 +591,6 @@ local struct {
 #endif
 } g;
 
-const size_t n_points = 7200;
-const size_t vertices_length = n_points * 6;
-const size_t vertices_size = vertices_length * sizeof(float);
-float vertices[7200 * 6];
-unsigned char* p_vertices;
-
 local void message(char *fmt, va_list ap) {
     if (g.verbosity > 0) {
         fprintf(stderr, "%s: ", g.prog);
@@ -1000,53 +994,39 @@ local inline size_t vstrcpy(char **str, size_t *size, size_t off, void *cpy) {
     return vmemcpy(str, size, off, cpy, strlen(cpy) + 1);
 }
 
-local size_t readnarray(size_t vertices_buffered, unsigned char *buf, size_t len) {
-	size_t vertices_to_be_buffered =  vertices_size - vertices_buffered;
-	size_t got = vertices_to_be_buffered < len ? vertices_to_be_buffered : len;
-
-	printf("readnarray() - vertices_buffered: %ld, vertices_to_be_buffered: %ld, got: %ld\n", 
-		vertices_buffered, vertices_to_be_buffered, got);
-
-	memmove(buf, p_vertices, len);
-	return got;
-}
-
 // Read up to len bytes into buf, repeating read() calls as needed.
 local size_t readn(int desc, unsigned char *buf, size_t len) {
-	ssize_t ret;
-	size_t got;
+    ssize_t ret;
+    size_t got;
 
-	got = 0;
-	while (len) {
-		ret = read(desc, buf, len);
-		printf("readn() - ret: %ld\n", ret);
-		if (ret < 0)
-			throw(errno, "read error on %s (%s)", g.inf, strerror(errno));
-		if (ret == 0)
-			break;
-		buf += ret;
-		len -= (size_t)ret;
-		got += (size_t)ret;
-	}
-	printf("readn() - got: %ld\n", got);
-	printf("---\n");
-	return got;
+    got = 0;
+    while (len) {
+        ret = read(desc, buf, len);
+        if (ret < 0)
+            throw(errno, "read error on %s (%s)", g.inf, strerror(errno));
+        if (ret == 0)
+            break;
+        buf += ret;
+        len -= (size_t)ret;
+        got += (size_t)ret;
+    }
+    return got;
 }
 
 // Write len bytes, repeating write() calls as needed. Return len.
 local size_t writen(int desc, void const *buf, size_t len) {
-	char const *next = buf;
-	size_t left = len;
+    char const *next = buf;
+    size_t left = len;
 
-	while (left) {
-		size_t const max = SSIZE_MAX;
-		ssize_t ret = write(desc, next, left > max ? max : left);
-		if (ret < 1)
-			throw(errno, "write error on %s (%s)", g.outf, strerror(errno));
-		next += ret;
-		left -= (size_t)ret;
-	}
-	return len;
+    while (left) {
+        size_t const max = SSIZE_MAX;
+        ssize_t ret = write(desc, next, left > max ? max : left);
+        if (ret < 1)
+            throw(errno, "write error on %s (%s)", g.outf, strerror(errno));
+        next += ret;
+        left -= (size_t)ret;
+    }
+    return len;
 }
 
 // Convert Unix time to MS-DOS date and time, assuming the current timezone.
@@ -2091,212 +2071,178 @@ local void append_len(struct job *job, size_t len) {
 // threads will be launched and left running (waiting actually) to support
 // subsequent calls of parallel_compress().
 local void parallel_compress(void) {
-	long seq;                       // sequence number
-	struct space *curr;             // input data to compress
-	struct space *next;             // input data that follows curr
-	struct space *hold;             // input data that follows next
-	struct space *dict;             // dictionary for next compression
-	struct job *job;                // job for compress, then write
-	int more;                       // true if more input to read
-	unsigned hash;                  // hash for rsyncable
-	unsigned char *scan;            // next byte to compute hash on
-	unsigned char *end;             // after end of data to compute hash on
-	unsigned char *last;            // position after last hit
-	size_t left;                    // last hit in curr to end of curr
-	size_t len;                     // for various length computations
+    long seq;                       // sequence number
+    struct space *curr;             // input data to compress
+    struct space *next;             // input data that follows curr
+    struct space *hold;             // input data that follows next
+    struct space *dict;             // dictionary for next compression
+    struct job *job;                // job for compress, then write
+    int more;                       // true if more input to read
+    unsigned hash;                  // hash for rsyncable
+    unsigned char *scan;            // next byte to compute hash on
+    unsigned char *end;             // after end of data to compute hash on
+    unsigned char *last;            // position after last hit
+    size_t left;                    // last hit in curr to end of curr
+    size_t len;                     // for various length computations
 
-	// if first time or after an option change, setup the job lists
-	setup_jobs();
+    // if first time or after an option change, setup the job lists
+    setup_jobs();
 
-	// start write thread
-	writeth = launch(write_thread, NULL);
+    // start write thread
+    writeth = launch(write_thread, NULL);
 
-	// read from input and start compress threads (write thread will pick up
-	// the output of the compress threads)
-	seq = 0;
-	next = get_space(&in_pool);
-	
-	// next->len = readn(g.ind, next->buf, next->size);
+    // read from input and start compress threads (write thread will pick up
+    // the output of the compress threads)
+    seq = 0;
+    next = get_space(&in_pool);
+    next->len = readn(g.ind, next->buf, next->size);
+    hold = NULL;
+    dict = NULL;
+    scan = next->buf;
+    hash = RSYNCHIT;
+    left = 0;
+    do {
+        // create a new job
+        job = alloc(NULL, sizeof(struct job));
+        job->calc = new_lock(0);
 
-	size_t vertices_buffered = 0;
-	size_t vertices_to_be_buffered = vertices_size; 
+        // update input spaces
+        curr = next;
+        next = hold;
+        hold = NULL;
 
-	printf("vertices_size: %ld, vertices_buffered: %ld, vertices_to_be_buffered: %ld\n", 
-		vertices_size, vertices_buffered, vertices_to_be_buffered);
+        // get more input if we don't already have some
+        if (next == NULL) {
+            next = get_space(&in_pool);
+            next->len = readn(g.ind, next->buf, next->size);
+        }
 
-	size_t got_array = readnarray(vertices_buffered, next->buf, next->size);
-	next->len = got_array;
-	got_array = 0;
+        // if rsyncable, generate block lengths and prepare curr for job to
+        // likely have less than size bytes (up to the last hash hit)
+        job->lens = NULL;
+        if (g.rsync && curr->len) {
+            // compute the hash function starting where we last left off to
+            // cover either size bytes or to EOF, whichever is less, through
+            // the data in curr (and in the next loop, through next) -- save
+            // the block lengths resulting from the hash hits in the job->lens
+            // list
+            if (left == 0) {
+                // scan is in curr
+                last = curr->buf;
+                end = curr->buf + curr->len;
+                while (scan < end) {
+                    hash = ((hash << 1) ^ *scan++) & RSYNCMASK;
+                    if (hash == RSYNCHIT) {
+                        len = (size_t)(scan - last);
+                        append_len(job, len);
+                        last = scan;
+                    }
+                }
 
-	// size_t got = readn(g.ind, next->buf, next->size);
-	// next->len = got;
+                // continue scan in next
+                left = (size_t)(scan - last);
+                scan = next->buf;
+            }
 
-	hold = NULL;
-	dict = NULL;
-	scan = next->buf;
-	hash = RSYNCHIT;
-	left = 0;
-	do {
-		// create a new job
-		job = alloc(NULL, sizeof(struct job));
-		job->calc = new_lock(0);
+            // scan in next for enough bytes to fill curr, or what is available
+            // in next, whichever is less (if next isn't full, then we're at
+            // the end of the file) -- the bytes in curr since the last hit,
+            // stored in left, counts towards the size of the first block
+            last = next->buf;
+            len = curr->size - curr->len;
+            if (len > next->len)
+                len = next->len;
+            end = next->buf + len;
+            while (scan < end) {
+                hash = ((hash << 1) ^ *scan++) & RSYNCMASK;
+                if (hash == RSYNCHIT) {
+                    len = (size_t)(scan - last) + left;
+                    left = 0;
+                    append_len(job, len);
+                    last = scan;
+                }
+            }
+            append_len(job, 0);
 
-		// update input spaces
-		curr = next;
-		next = hold;
-		hold = NULL;
+            // create input in curr for job up to last hit or entire buffer if
+            // no hits at all -- save remainder in next and possibly hold
+            len = (size_t)((job->lens->len == 1 ? scan : last) - next->buf);
+            if (len) {
+                // got hits in next, or no hits in either -- copy to curr
+                memcpy(curr->buf + curr->len, next->buf, len);
+                curr->len += len;
+                memmove(next->buf, next->buf + len, next->len - len);
+                next->len -= len;
+                scan -= len;
+                left = 0;
+            }
+            else if (job->lens->len != 1 && left && next->len) {
+                // had hits in curr, but none in next, and last hit in curr
+                // wasn't right at the end, so we have input there to save --
+                // use curr up to the last hit, save the rest, moving next to
+                // hold
+                hold = next;
+                next = get_space(&in_pool);
+                memcpy(next->buf, curr->buf + (curr->len - left), left);
+                next->len = left;
+                curr->len -= left;
+            }
+            else {
+                // else, last match happened to be right at the end of curr, or
+                // we're at the end of the input compressing the rest
+                left = 0;
+            }
+        }
 
-		// get more input if we don't already have some
-		
-		if (next == NULL) {
-			next = get_space(&in_pool);
+        // compress curr->buf to curr->len -- compress thread will drop curr
+        job->in = curr;
 
-			printf("vertices_size: %ld, vertices_buffered: %ld, vertices_to_be_buffered: %ld\n", 
-				vertices_size, vertices_buffered, vertices_to_be_buffered);
+        // set job->more if there is more to compress after curr
+        more = next->len != 0;
+        job->more = more;
 
-			got_array = readnarray(vertices_buffered, next->buf, next->size);
-			next->len = got_array;
-			vertices_buffered += got_array;
+        // provide dictionary for this job, prepare dictionary for next job
+        job->out = dict;
+        if (more && g.setdict) {
+            if (curr->len >= DICT || job->out == NULL) {
+                dict = curr;
+                use_space(dict);
+            }
+            else {
+                dict = get_space(&dict_pool);
+                len = DICT - curr->len;
+                memcpy(dict->buf, job->out->buf + (job->out->len - len), len);
+                memcpy(dict->buf + len, curr->buf, curr->len);
+                dict->len = DICT;
+            }
+        }
 
-			printf("got_array: %ld, vertices_buffered: %ld\n", got_array, vertices_buffered);
+        // preparation of job is complete
+        job->seq = seq;
+        Trace(("-- read #%ld%s", seq, more ? "" : " (last)"));
+        if (++seq < 1)
+            throw(ERANGE, "overflow");
 
-			
-			// next->len = readn(g.ind, next->buf, next->size);
+        // start another compress thread if needed
+        if (cthreads < seq && cthreads < g.procs) {
+            (void)launch(compress_thread, NULL);
+            cthreads++;
+        }
 
-		}
-		// printf("g.ind: %d, next->size: %ld\n", g.ind, next->size);
-		printf("next->len: %ld\n", next->len);
+        // put job at end of compress list, let all the compressors know
+        possess(compress_have);
+        job->next = NULL;
+        *compress_tail = job;
+        compress_tail = &(job->next);
+        twist(compress_have, BY, +1);
+    } while (more);
+    drop_space(next);
 
-		// if rsyncable, generate block lengths and prepare curr for job to
-		// likely have less than size bytes (up to the last hash hit)
-		job->lens = NULL;
-		// if (g.rsync && curr->len) {
-		// 	// compute the hash function starting where we last left off to
-		// 	// cover either size bytes or to EOF, whichever is less, through
-		// 	// the data in curr (and in the next loop, through next) -- save
-		// 	// the block lengths resulting from the hash hits in the job->lens
-		// 	// list
-		// 	if (left == 0) {
-		// 		// scan is in curr
-		// 		last = curr->buf;
-		// 		end = curr->buf + curr->len;
-		// 		while (scan < end) {
-		// 			hash = ((hash << 1) ^ *scan++) & RSYNCMASK;
-		// 			if (hash == RSYNCHIT) {
-		// 				len = (size_t)(scan - last);
-		// 				append_len(job, len);
-		// 				last = scan;
-		// 			}
-		// 		}
-
-		// 		// continue scan in next
-		// 		left = (size_t)(scan - last);
-		// 		scan = next->buf;
-		// 	}
-
-		// 	// scan in next for enough bytes to fill curr, or what is available
-		// 	// in next, whichever is less (if next isn't full, then we're at
-		// 	// the end of the file) -- the bytes in curr since the last hit,
-		// 	// stored in left, counts towards the size of the first block
-		// 	last = next->buf;
-		// 	len = curr->size - curr->len;
-		// 	if (len > next->len)
-		// 		len = next->len;
-		// 	end = next->buf + len;
-		// 	while (scan < end) {
-		// 		hash = ((hash << 1) ^ *scan++) & RSYNCMASK;
-		// 		if (hash == RSYNCHIT) {
-		// 			len = (size_t)(scan - last) + left;
-		// 			left = 0;
-		// 			append_len(job, len);
-		// 			last = scan;
-		// 		}
-		// 	}
-		// 	append_len(job, 0);
-
-		// 	// create input in curr for job up to last hit or entire buffer if
-		// 	// no hits at all -- save remainder in next and possibly hold
-		// 	len = (size_t)((job->lens->len == 1 ? scan : last) - next->buf);
-		// 	if (len) {
-		// 		// got hits in next, or no hits in either -- copy to curr
-		// 		memcpy(curr->buf + curr->len, next->buf, len);
-		// 		curr->len += len;
-		// 		memmove(next->buf, next->buf + len, next->len - len);
-		// 		next->len -= len;
-		// 		scan -= len;
-		// 		left = 0;
-		// 	}
-		// 	else if (job->lens->len != 1 && left && next->len) {
-		// 		// had hits in curr, but none in next, and last hit in curr
-		// 		// wasn't right at the end, so we have input there to save --
-		// 		// use curr up to the last hit, save the rest, moving next to
-		// 		// hold
-		// 		hold = next;
-		// 		next = get_space(&in_pool);
-		// 		memcpy(next->buf, curr->buf + (curr->len - left), left);
-		// 		next->len = left;
-		// 		curr->len -= left;
-		// 	}
-		// 	else {
-		// 		// else, last match happened to be right at the end of curr, or
-		// 		// we're at the end of the input compressing the rest
-		// 		left = 0;
-		// 	}
-		// }
-
-		// compress curr->buf to curr->len -- compress thread will drop curr
-		job->in = curr;
-
-		// set job->more if there is more to compress after curr
-		more = next->len != 0;
-		job->more = more;
-
-		// provide dictionary for this job, prepare dictionary for next job
-		job->out = dict;
-		if (more && g.setdict) {
-			if (curr->len >= DICT || job->out == NULL) {
-				dict = curr;
-				use_space(dict);
-			}
-			// else {
-			// 	dict = get_space(&dict_pool);
-			// 	len = DICT - curr->len;
-			// 	memcpy(dict->buf, job->out->buf + (job->out->len - len), len);
-			// 	memcpy(dict->buf + len, curr->buf, curr->len);
-			// 	dict->len = DICT;
-			// }
-		}
-
-		// preparation of job is complete
-		job->seq = seq;
-		Trace(("-- read #%ld%s", seq, more ? "" : " (last)"));
-		if (++seq < 1)
-			throw(ERANGE, "overflow");
-
-		// start another compress thread if needed
-		if (cthreads < seq && cthreads < g.procs) {
-			(void)launch(compress_thread, NULL);
-			cthreads++;
-		}
-
-		// put job at end of compress list, let all the compressors know
-		possess(compress_have);
-		job->next = NULL;
-		*compress_tail = job;
-		compress_tail = &(job->next);
-		twist(compress_have, BY, +1);
-
-		printf("cthreads: %d, more: %d\n", cthreads, more);
-		printf("----------------\n");
-	} while (more);
-	printf("cthreads: %d, \n", cthreads);
-	drop_space(next);
-
-	// wait for the write thread to complete (we leave the compress threads out
-	// there and waiting in case there is another stream to compress)
-	join(writeth);
-	writeth = NULL;
-	Trace(("-- write thread joined"));
+    // wait for the write thread to complete (we leave the compress threads out
+    // there and waiting in case there is another stream to compress)
+    join(writeth);
+    writeth = NULL;
+    Trace(("-- write thread joined"));
 }
 
 #endif
@@ -4646,192 +4592,149 @@ local void cut_yarn(int err) {
 }
 #endif
 
-void serialize(unsigned char* data, float vertices[], const int vertices_length);
 // Process command line arguments.
 int main(int argc, char **argv) {
-	int n;                          // general index
-	int nop;                        // index before which "-" means stdin
-	int done;                       // number of named files processed
-	size_t k;                       // program name length
-	char *opts, *p;                 // environment default options, marker
-	ball_t err;                     // error information from throw()
-	////////////////
+    int n;                          // general index
+    int nop;                        // index before which "-" means stdin
+    int done;                       // number of named files processed
+    size_t k;                       // program name length
+    char *opts, *p;                 // environment default options, marker
+    ball_t err;                     // error information from throw()
 
-	// Read cloud data from file add it array.
-	FILE* ptr 
-		= fopen("/home/shreyas/Downloads/cloud_data/induvidual_rows/depth_data_300K1-307200_bp1.txt", "r");
-
-	if (NULL == ptr) {
-		printf("file can't be opened \n");
-		return 0;
-	}
-
-	char buf[100];
-	// while(fscanf(ptr, "%*s %*s %*s %*s %*s %s ", buf) == 1)
-	int n_floats = 0;
-	
-	while(fscanf(ptr, "%s ", buf) == 1)
-	{
-		// printf("%s\n", buf);
-		// printf("%f\n", atof(buf));
-		vertices[n_floats] = atof(buf);
-		n_floats++;
-	}
-	// Closing the file
-	fclose(ptr);
-	assert(n_floats == vertices_length);
-
-	p_vertices = (unsigned char*)malloc(vertices_size);
-  serialize(p_vertices, vertices, vertices_length);
-	
-	
-	////////////////
-
-
-	g.ret = 0;
-	try {
-			// initialize globals
-			g.inf = NULL;
-			g.inz = 0;
+    g.ret = 0;
+    try {
+        // initialize globals
+        g.inf = NULL;
+        g.inz = 0;
 #ifndef NOTHREAD
-			g.in_which = -1;
+        g.in_which = -1;
 #endif
-			g.alias = "-";
-			g.outf = NULL;
-			g.first = 1;
-			g.hname = NULL;
-			g.hcomm = NULL;
+        g.alias = "-";
+        g.outf = NULL;
+        g.first = 1;
+        g.hname = NULL;
+        g.hcomm = NULL;
 
-			// save pointer to program name for error messages
-			p = strrchr(argv[0], '/');
-			p = p == NULL ? argv[0] : p + 1;
-			g.prog = *p ? p : "pigz_array";
+        // save pointer to program name for error messages
+        p = strrchr(argv[0], '/');
+        p = p == NULL ? argv[0] : p + 1;
+        g.prog = *p ? p : "pigz";
 
-			// prepare for interrupts and logging
-			signal(SIGINT, cut_short);
+        // prepare for interrupts and logging
+        signal(SIGINT, cut_short);
 #ifndef NOTHREAD
-			yarn_prefix = g.prog;           // prefix for yarn error messages
-			yarn_abort = cut_yarn;          // call on thread error
+        yarn_prefix = g.prog;           // prefix for yarn error messages
+        yarn_abort = cut_yarn;          // call on thread error
 #endif
 #ifdef PIGZ_DEBUG
-			gettimeofday(&start, NULL);     // starting time for log entries
-			log_init();                     // initialize logging
+        gettimeofday(&start, NULL);     // starting time for log entries
+        log_init();                     // initialize logging
 #endif
 
-			// set all options to defaults
-			defaults();
+        // set all options to defaults
+        defaults();
 
-			// check zlib version
-			if (zlib_vernum() < 0x1230)
-					throw(EINVAL, "zlib version less than 1.2.3");
+        // check zlib version
+        if (zlib_vernum() < 0x1230)
+           throw(EINVAL, "zlib version less than 1.2.3");
 
-			// create CRC table, in case zlib compiled with dynamic tables
-			get_crc_table();
+        // create CRC table, in case zlib compiled with dynamic tables
+        get_crc_table();
 
-			// process user environment variable defaults in GZIP
-			opts = getenv("GZIP");
-			if (opts != NULL) {
-					while (*opts) {
-							while (*opts == ' ' || *opts == '\t')
-									opts++;
-							p = opts;
-							while (*p && *p != ' ' && *p != '\t')
-									p++;
-							n = *p;
-							*p = 0;
-							if (!option(opts))
-									throw(EINVAL, "cannot provide files in "
-																"GZIP environment variable");
-							opts = p + (n ? 1 : 0);
-					}
-					option(NULL);           // check for missing parameter
-			}
+        // process user environment variable defaults in GZIP
+        opts = getenv("GZIP");
+        if (opts != NULL) {
+            while (*opts) {
+                while (*opts == ' ' || *opts == '\t')
+                    opts++;
+                p = opts;
+                while (*p && *p != ' ' && *p != '\t')
+                    p++;
+                n = *p;
+                *p = 0;
+                if (!option(opts))
+                    throw(EINVAL, "cannot provide files in "
+                                  "GZIP environment variable");
+                opts = p + (n ? 1 : 0);
+            }
+            option(NULL);           // check for missing parameter
+        }
 
-			// process user environment variable defaults in PIGZ as well
-			opts = getenv("PIGZ");
-			if (opts != NULL) {
-					while (*opts) {
-							while (*opts == ' ' || *opts == '\t')
-									opts++;
-							p = opts;
-							while (*p && *p != ' ' && *p != '\t')
-									p++;
-							n = *p;
-							*p = 0;
-							if (!option(opts))
-									throw(EINVAL, "cannot provide files in "
-																"PIGZ environment variable");
-							opts = p + (n ? 1 : 0);
-					}
-					option(NULL);           // check for missing parameter
-			}
+        // process user environment variable defaults in PIGZ as well
+        opts = getenv("PIGZ");
+        if (opts != NULL) {
+            while (*opts) {
+                while (*opts == ' ' || *opts == '\t')
+                    opts++;
+                p = opts;
+                while (*p && *p != ' ' && *p != '\t')
+                    p++;
+                n = *p;
+                *p = 0;
+                if (!option(opts))
+                    throw(EINVAL, "cannot provide files in "
+                                  "PIGZ environment variable");
+                opts = p + (n ? 1 : 0);
+            }
+            option(NULL);           // check for missing parameter
+        }
 
-			// decompress if named "unpigz" or "gunzip", to stdout if "*cat"
-			if (strcmp(g.prog, "unpigz") == 0 || strcmp(g.prog, "gunzip") == 0) {
-					if (!g.decode)
-							g.headis >>= 2;
-					g.decode = 1;
-			}
-			if ((k = strlen(g.prog)) > 2 && strcmp(g.prog + k - 3, "cat") == 0) {
-					if (!g.decode)
-							g.headis >>= 2;
-					g.decode = 1;
-					g.pipeout = 1;
-			}
+        // decompress if named "unpigz" or "gunzip", to stdout if "*cat"
+        if (strcmp(g.prog, "unpigz") == 0 || strcmp(g.prog, "gunzip") == 0) {
+            if (!g.decode)
+                g.headis >>= 2;
+            g.decode = 1;
+        }
+        if ((k = strlen(g.prog)) > 2 && strcmp(g.prog + k - 3, "cat") == 0) {
+            if (!g.decode)
+                g.headis >>= 2;
+            g.decode = 1;
+            g.pipeout = 1;
+        }
 
-			// if no arguments and compressed data to/from terminal, show help
-			if (argc < 2 && isatty(g.decode ? 0 : 1))
-					help();
+        // if no arguments and compressed data to/from terminal, show help
+        if (argc < 2 && isatty(g.decode ? 0 : 1))
+            help();
 
-			// process all command-line options first
-			nop = argc;
-			for (n = 1; n < argc; n++)
-					if (strcmp(argv[n], "--") == 0) {
-							nop = n;                // after this, "-" is the name "-"
-							argv[n] = NULL;         // remove option
-							break;                  // ignore options after "--"
-					}
-					else if (option(argv[n]))   // process argument
-							argv[n] = NULL;         // remove if option
-			option(NULL);                   // check for missing parameter
+        // process all command-line options first
+        nop = argc;
+        for (n = 1; n < argc; n++)
+            if (strcmp(argv[n], "--") == 0) {
+                nop = n;                // after this, "-" is the name "-"
+                argv[n] = NULL;         // remove option
+                break;                  // ignore options after "--"
+            }
+            else if (option(argv[n]))   // process argument
+                argv[n] = NULL;         // remove if option
+        option(NULL);                   // check for missing parameter
 
-			// process command-line filenames
-			done = 0;
-			for (n = 1; n < argc; n++)
-					if (argv[n] != NULL) {
-							if (done == 1 && g.pipeout && !g.decode && !g.list &&
-									g.form > 1)
-									complain("warning: output will be concatenated zip files"
-														" -- %s will not be able to extract", g.prog);
-							process(n < nop && strcmp(argv[n], "-") == 0 ? NULL : argv[n]);
-							done++;
-					}
+        // process command-line filenames
+        done = 0;
+        for (n = 1; n < argc; n++)
+            if (argv[n] != NULL) {
+                if (done == 1 && g.pipeout && !g.decode && !g.list &&
+                    g.form > 1)
+                    complain("warning: output will be concatenated zip files"
+                             " -- %s will not be able to extract", g.prog);
+                process(n < nop && strcmp(argv[n], "-") == 0 ? NULL : argv[n]);
+                done++;
+            }
 
-			// list stdin or compress stdin to stdout if no file names provided
-			if (done == 0)
-					process(NULL);
-	}
-	always {
-			// release resources
-			RELEASE(g.inf);
-			g.inz = 0;
-			new_opts();
-	}
-	catch (err) {
-			THREADABORT(err);
-	}
+        // list stdin or compress stdin to stdout if no file names provided
+        if (done == 0)
+            process(NULL);
+    }
+    always {
+        // release resources
+        RELEASE(g.inf);
+        g.inz = 0;
+        new_opts();
+    }
+    catch (err) {
+        THREADABORT(err);
+    }
 
-	// show log (if any)
-	free(p_vertices);
-	log_dump();
-	return g.ret;
-}
-
-void serialize(unsigned char* data, float vertices[], const int vertices_length)
-{
-  float *q = (float*)data;
-  for(int i = 0; i < vertices_length; i++)
-  {
-    *q = vertices[i]; q++;
-  }
+    // show log (if any)
+    log_dump();
+    return g.ret;
 }
