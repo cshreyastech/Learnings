@@ -4,39 +4,72 @@
 {
 "version": "0.2.0",
 "configurations": [
-	{
-		"name": "pzip",
-		"type": "cppdbg",
-		"request": "launch",
-		// Resolved by CMake Tools:
-		// "program": "${command:cmake.launchTargetPath}",
-		"program": "build/pigz",
-		"args": ["~/Downloads/cloud_data/induvidual_rows/depth_data_0.txt"],
-		"stopAtEntry": false,
-		"cwd": "${workspaceFolder}",
-		"environment": [
-				{
-					// add the directory where our target was built to the PATHs
-					// it gets resolved by CMake Tools:
-					"name": "PATH",
-					"value": "${env:PATH}:${command:cmake.getLaunchTargetDirectory}"
-				},
-				{
-					"name": "OTHER_VALUE",
-					"value": "Something something"
-				}
-		],
-		// "console": "externalTerminal",
-		"MIMode": "gdb",
-		"setupCommands": [
-			{
-				"description": "Enable pretty-printing for gdb",
-				"text": "-enable-pretty-printing",
-				"ignoreFailures": true
-			}
-		]
-	}
-	,
+	// {
+	// 	"name": "pzip",
+	// 	"type": "cppdbg",
+	// 	"request": "launch",
+	// 	// Resolved by CMake Tools:
+	// 	// "program": "${command:cmake.launchTargetPath}",
+	// 	"program": "build/pigz",
+	// 	"args": ["~/Downloads/cloud_data/induvidual_rows/depth_data_0.txt"],
+	// 	"stopAtEntry": false,
+	// 	"cwd": "${workspaceFolder}",
+	// 	"environment": [
+	// 			{
+	// 				// add the directory where our target was built to the PATHs
+	// 				// it gets resolved by CMake Tools:
+	// 				"name": "PATH",
+	// 				"value": "${env:PATH}:${command:cmake.getLaunchTargetDirectory}"
+	// 			},
+	// 			{
+	// 				"name": "OTHER_VALUE",
+	// 				"value": "Something something"
+	// 			}
+	// 	],
+	// 	// "console": "externalTerminal",
+	// 	"MIMode": "gdb",
+	// 	"setupCommands": [
+	// 		{
+	// 			"description": "Enable pretty-printing for gdb",
+	// 			"text": "-enable-pretty-printing",
+	// 			"ignoreFailures": true
+	// 		}
+	// 	]
+	// },
+
+
+	// {
+	// 	"name": "pigz_array",
+	// 	"type": "cppdbg",
+	// 	"request": "launch",
+	// 	// Resolved by CMake Tools:
+	// 	// "program": "${command:cmake.launchTargetPath}",
+	// 	"program": "build/pigz_array",
+	// 	"args": ["/home/shreyas/Downloads/cloud_data/induvidual_rows/depth_data_300K1-307200_bp1.txt"],
+	// 	"stopAtEntry": false,
+	// 	"cwd": "${workspaceFolder}",
+	// 	"environment": [
+	// 			{
+	// 				// add the directory where our target was built to the PATHs
+	// 				// it gets resolved by CMake Tools:
+	// 				"name": "PATH",
+	// 				"value": "${env:PATH}:${command:cmake.getLaunchTargetDirectory}"
+	// 			},
+	// 			{
+	// 				"name": "OTHER_VALUE",
+	// 				"value": "Something something"
+	// 			}
+	// 	],
+	// 	// "console": "externalTerminal",
+	// 	"MIMode": "gdb",
+	// 	"setupCommands": [
+	// 		{
+	// 			"description": "Enable pretty-printing for gdb",
+	// 			"text": "-enable-pretty-printing",
+	// 			"ignoreFailures": true
+	// 		}
+	// 	]
+	// },
 	{
 		"name": "unpzip",
 		"type": "cppdbg",
@@ -44,7 +77,7 @@
 		// Resolved by CMake Tools:
 		// "program": "${command:cmake.launchTargetPath}",
 		"program": "build/unpigz",
-		"args": ["~/Downloads/cloud_data/induvidual_rows/depth_data_0.txt.gz"],
+		"args": ["/home/shreyas/Downloads/cloud_data/induvidual_rows/depth_data_300K1-307200_bp1.txt.gz"],
 		"stopAtEntry": false,
 		"cwd": "${workspaceFolder}",
 		"environment": [

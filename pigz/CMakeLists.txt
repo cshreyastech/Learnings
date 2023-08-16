@@ -245,3 +245,22 @@ set_target_properties(${unpigz_app} PROPERTIES
   CXX_STANDARD 17
   CXX_STANDARD_REQUIRED YES
 )
+#######################
+set(pigz_array_app pigz_array)
+
+add_executable(${pigz_array_app}
+  pigz_array.c
+)
+
+target_include_directories(${pigz_array_app}
+  PRIVATE ${ZOPFLI}/
+)
+
+target_link_libraries(${pigz_array_app}
+  PRIVATE ${ZOP}
+)
+
+set_target_properties(${pigz_array_app} PROPERTIES 
+  CXX_STANDARD 17
+  CXX_STANDARD_REQUIRED YES
+)
