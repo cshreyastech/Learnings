@@ -591,11 +591,11 @@ local struct {
 #endif
 } g;
 
-const size_t n_points = 7200;
+const size_t n_points = 2;
 const size_t vertices_length = n_points * 6;
 const size_t vertices_size = vertices_length * sizeof(float);
-float vertices[7200 * 6];
-unsigned char* p_vertices;
+float vertices[2 * 6];
+unsigned char p_vertices[2 * 6 * 4];
 
 local void message(char *fmt, va_list ap) {
     if (g.verbosity > 0) {
@@ -1000,14 +1000,25 @@ local inline size_t vstrcpy(char **str, size_t *size, size_t off, void *cpy) {
     return vmemcpy(str, size, off, cpy, strlen(cpy) + 1);
 }
 
-local size_t readnarray(size_t vertices_buffered, unsigned char *buf, size_t len) {
-	size_t vertices_to_be_buffered =  vertices_size - vertices_buffered;
-	size_t got = vertices_to_be_buffered < len ? vertices_to_be_buffered : len;
+local size_t readnarray(size_t p_vertices_to_be_buffered, unsigned char *buf, size_t len) {
+	size_t got = p_vertices_to_be_buffered < len ? p_vertices_to_be_buffered : len;
+    size_t p_vertices_buffered =  vertices_size - p_vertices_to_be_buffered;
+    ball_t err;                     // error information from throw()
 
-	printf("readnarray() - vertices_buffered: %ld, vertices_to_be_buffered: %ld, got: %ld\n", 
-		vertices_buffered, vertices_to_be_buffered, got);
+	printf("readnarray() - vertices_buffered: %ld, got: %ld\n", 
+	    p_vertices_buffered, got);
 
-	memmove(buf, p_vertices, len);
+    // Start index needs to be adjsted
+	// memmove(buf, (p_vertices + vertices_buffered), len);
+    try
+    {
+        memcpy(buf, (p_vertices + p_vertices_buffered), len);
+    }
+    catch (err)
+    {
+        THREADABORT(err);
+    } 
+    printf("---\n");
 	return got;
 }
 
@@ -2118,13 +2129,12 @@ local void parallel_compress(void) {
 	
 	// next->len = readn(g.ind, next->buf, next->size);
 
-	size_t vertices_buffered = 0;
-	size_t vertices_to_be_buffered = vertices_size; 
+	size_t p_vertices_to_be_buffered = vertices_size; 
 
-	printf("vertices_size: %ld, vertices_buffered: %ld, vertices_to_be_buffered: %ld\n", 
-		vertices_size, vertices_buffered, vertices_to_be_buffered);
+	printf("vertices_size: %ld, vertices_to_be_buffered: %ld\n", 
+		vertices_size, p_vertices_to_be_buffered);
 
-	size_t got_array = readnarray(vertices_buffered, next->buf, next->size);
+	size_t got_array = readnarray(p_vertices_to_be_buffered, next->buf, next->size);
 	next->len = got_array;
 	got_array = 0;
 
@@ -2151,18 +2161,14 @@ local void parallel_compress(void) {
 		if (next == NULL) {
 			next = get_space(&in_pool);
 
-			printf("vertices_size: %ld, vertices_buffered: %ld, vertices_to_be_buffered: %ld\n", 
-				vertices_size, vertices_buffered, vertices_to_be_buffered);
+			printf("vertices_size: %ld, p_vertices_to_be_buffered: %ld\n", 
+				vertices_size, p_vertices_to_be_buffered);
 
-			got_array = readnarray(vertices_buffered, next->buf, next->size);
+			got_array = readnarray(p_vertices_to_be_buffered, next->buf, next->size);
 			next->len = got_array;
-			vertices_buffered += got_array;
-
-			printf("got_array: %ld, vertices_buffered: %ld\n", got_array, vertices_buffered);
-
+            p_vertices_to_be_buffered -= got_array;
 			
 			// next->len = readn(g.ind, next->buf, next->size);
-
 		}
 		// printf("g.ind: %d, next->size: %ld\n", g.ind, next->size);
 		printf("next->len: %ld\n", next->len);
@@ -4659,7 +4665,7 @@ int main(int argc, char **argv) {
 
 	// Read cloud data from file add it array.
 	FILE* ptr 
-		= fopen("/home/shreyas/Downloads/cloud_data/induvidual_rows/depth_data_300K1-307200_bp1.txt", "r");
+		= fopen("/home/shreyas/Downloads/cloud_data/induvidual_rows/tbd/test/depth_data_test.txt", "r");
 
 	if (NULL == ptr) {
 		printf("file can't be opened \n");
@@ -4681,9 +4687,11 @@ int main(int argc, char **argv) {
 	fclose(ptr);
 	assert(n_floats == vertices_length);
 
-	p_vertices = (unsigned char*)malloc(vertices_size);
-  serialize(p_vertices, vertices, vertices_length);
-	
+	// p_vertices = (unsigned char*)malloc(vertices_size);
+    // job = alloc(NULL, sizeof(struct job));
+    // p_vertices = alloc(NULL, vertices_size);
+    serialize(p_vertices, vertices, vertices_length);
+
 	
 	////////////////
 
@@ -4822,10 +4830,19 @@ int main(int argc, char **argv) {
 	}
 
 	// show log (if any)
-	free(p_vertices);
+	// free(p_vertices);
 	log_dump();
 	return g.ret;
 }
+
+// void serialize(unsigned char* data, float vertices[], const int vertices_length)
+// {
+//   float *q = (float*)data;
+//   for(int i = 0; i < vertices_length; i++)
+//   {
+//     *q = vertices[i]; q++;
+//   }
+// }
 
 void serialize(unsigned char* data, float vertices[], const int vertices_length)
 {

@@ -246,24 +246,24 @@ set(ZOP
 #   CXX_STANDARD_REQUIRED YES
 # )
 # #######################
-# set(pigz_array_app pigz_array)
+set(pigz_array_app pigz_array)
 
-# add_executable(${pigz_array_app}
-#   pigz_array.c
-# )
+add_executable(${pigz_array_app}
+  pigz_array.c
+)
 
-# target_include_directories(${pigz_array_app}
-#   PRIVATE ${ZOPFLI}/
-# )
+target_include_directories(${pigz_array_app}
+  PRIVATE ${ZOPFLI}/
+)
 
-# target_link_libraries(${pigz_array_app}
-#   PRIVATE ${ZOP}
-# )
+target_link_libraries(${pigz_array_app}
+  PRIVATE ${ZOP}
+)
 
-# set_target_properties(${pigz_array_app} PROPERTIES 
-#   CXX_STANDARD 17
-#   CXX_STANDARD_REQUIRED YES
-# )
+set_target_properties(${pigz_array_app} PROPERTIES 
+  CXX_STANDARD 17
+  CXX_STANDARD_REQUIRED YES
+)
 #######################
 set(unpigz_array_app unpigz)
 
@@ -280,6 +280,17 @@ target_link_libraries(${unpigz_array_app}
 )
 
 set_target_properties(${unpigz_array_app} PROPERTIES 
+  CXX_STANDARD 17
+  CXX_STANDARD_REQUIRED YES
+)
+#######################
+set(deserialize_p_vertices_app deserialize_p_vertices)
+
+add_executable(${deserialize_p_vertices_app}
+deserialize_p_vertices.c
+)
+
+set_target_properties(${deserialize_p_vertices_app} PROPERTIES 
   CXX_STANDARD 17
   CXX_STANDARD_REQUIRED YES
 )
