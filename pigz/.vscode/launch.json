@@ -85,7 +85,9 @@
 		// Resolved by CMake Tools:
 		// "program": "${command:cmake.launchTargetPath}",
 		"program": "build/pigz_array",
-		"args": ["/home/shreyas/Downloads/cloud_data/induvidual_rows/tbd/test/depth_data_test.txt"],
+		"args": [
+			"/home/shreyas/Downloads/cloud_data/induvidual_rows/tbd/test/depth_data_test.txt"
+				],
 		"stopAtEntry": false,
 		"cwd": "${workspaceFolder}",
 		"environment": [
@@ -95,10 +97,10 @@
 					"name": "PATH",
 					"value": "${env:PATH}:${command:cmake.getLaunchTargetDirectory}"
 				},
-				{
-					"name": "OTHER_VALUE",
-					"value": "Something something"
-				}
+				// {
+				// 	"name": "OTHER_VALUE",
+				// 	"value": "Something something"
+				// }
 		],
 		// "console": "externalTerminal",
 		"MIMode": "gdb",

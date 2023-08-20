@@ -591,11 +591,11 @@ local struct {
 #endif
 } g;
 
-const size_t n_points = 2;
+const size_t n_points = 307200;
 const size_t vertices_length = n_points * 6;
 const size_t vertices_size = vertices_length * sizeof(float);
-float vertices[2 * 6];
-unsigned char p_vertices[2 * 6 * 4];
+float vertices[307200 * 6];
+unsigned char p_vertices[307200 * 6 * 4];
 
 local void message(char *fmt, va_list ap) {
     if (g.verbosity > 0) {
@@ -1005,7 +1005,7 @@ local size_t readnarray(size_t p_vertices_to_be_buffered, unsigned char *buf, si
     size_t p_vertices_buffered =  vertices_size - p_vertices_to_be_buffered;
     ball_t err;                     // error information from throw()
 
-	printf("readnarray() - vertices_buffered: %ld, got: %ld\n", 
+	printf("readnarray() - p_vertices_buffered: %ld, got: %ld\n", 
 	    p_vertices_buffered, got);
 
     // Start index needs to be adjsted
@@ -2136,7 +2136,8 @@ local void parallel_compress(void) {
 
 	size_t got_array = readnarray(p_vertices_to_be_buffered, next->buf, next->size);
 	next->len = got_array;
-	got_array = 0;
+    p_vertices_to_be_buffered -= got_array;
+	// got_array = 0;
 
 	// size_t got = readn(g.ind, next->buf, next->size);
 	// next->len = got;

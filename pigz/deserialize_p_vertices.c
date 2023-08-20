@@ -6,16 +6,18 @@
 #include <dirent.h>     // opendir(), readdir(), closedir(), DIR,
                         // struct dirent
 #include <string.h>
+#include <stdlib.h>
 
 void deserialize(unsigned char data[], float vertices[], const int vertices_length);
 int main()
 {
-
-	const int n_points = 2;
+	const int n_points = 307200;
 	const int vertices_length = n_points * 6;
 	// const size_t vertices_size = vertices_length * sizeof(float);
+	// unsigned char p_vertices[307200 * 6 * 4]; 
+	unsigned char* p_vertices = (unsigned char*)malloc(307200 * 6 * 4);
 
-	float vertices[2 * 6];
+	float vertices[307200 * 6];
 
 	// int len = 1024 * 100;
 	int len = 1024;
@@ -23,21 +25,21 @@ int main()
 	
 	char *inf = "/home/shreyas/Downloads/cloud_data/induvidual_rows/tbd/test/depth_data_test_p_vertices.txt";
 	// open input file
-	int desc = open(inf, O_RDONLY, 0);
+	int desc = open(inf, 'r', 0);
 	if (desc < 0)
 	{
 		printf("read error on %s", inf);
 		return 0;
 	}
 		
-	unsigned char p_vertices[135];
+	
 	int ret = 0;
 
 	int start_index = 0;
 	while (ret > -1) {
 		ret = read(desc, buf, len);
 
-		printf("ret: %d\n", ret);
+		// printf("ret: %d\n", ret);
 
 		if (ret < 0)
 		{
@@ -55,10 +57,56 @@ int main()
 	close(desc);
 
 	deserialize(p_vertices, vertices, vertices_length);
+	// for(int i = 0; i < vertices_length; i++)
+	// {
+	// 	printf("%d: , %ff, %ff, %ff, %ff, %ff, %ff, \n", 
+	// 		i / 6 + 1,
+	// 		vertices[i + 0], vertices[i + 1], vertices[i + 2], 
+	// 		vertices[i + 3], vertices[i + 4], vertices[i + 5]
+	// 		);
+	// 	i+=5;
+	// }
+
+
+
+
+	// https://www.learnc.net/c-tutorial/c-write-text-file/
+	char *filename = "/home/shreyas/Downloads/cloud_data/induvidual_rows/tbd/test/depth_data_test_verify.txt";
+
+	// open the file for writing
+	FILE *fp = fopen(filename, "w");
+	if (fp == NULL)
+	{
+		printf("Error opening the file %s", filename);
+		return -1;
+	}
+	// write to the text file
+	// for (int i = 0; i < 10; i++)
+	// 	fprintf(fp, "This is the line #%d\n", i + 1);
+
 
 	for(int i = 0; i < vertices_length; i++)
-		printf("vertices[%d]: %f\n", i, vertices[i]);
-	
+	{
+		// fprintf(fp, "%d: , %ff, %ff, %ff, %ff, %ff, %ff, \n", 
+		// 	i / 6 + 1,
+		// 	vertices[i + 0], vertices[i + 1], vertices[i + 2], 
+		// 	vertices[i + 3], vertices[i + 4], vertices[i + 5]
+		// 	);
+
+		fprintf(fp, "%ff, %ff, %ff, %ff, %ff, %ff, \n", 
+			vertices[i + 0], vertices[i + 1], vertices[i + 2], 
+			vertices[i + 3], vertices[i + 4], vertices[i + 5]
+		);
+
+		i+=5;
+	}
+
+
+
+
+	// close the file
+	fclose(fp);
+	free(p_vertices);	
   return 0;
 }
 
