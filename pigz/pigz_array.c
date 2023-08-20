@@ -1005,11 +1005,9 @@ local size_t readnarray(size_t p_vertices_to_be_buffered, unsigned char *buf, si
     size_t p_vertices_buffered =  vertices_size - p_vertices_to_be_buffered;
     ball_t err;                     // error information from throw()
 
-	printf("readnarray() - p_vertices_buffered: %ld, got: %ld\n", 
-	    p_vertices_buffered, got);
+	// printf("readnarray() - p_vertices_buffered: %ld, got: %ld\n", 
+	//     p_vertices_buffered, got);
 
-    // Start index needs to be adjsted
-	// memmove(buf, (p_vertices + vertices_buffered), len);
     try
     {
         memcpy(buf, (p_vertices + p_vertices_buffered), len);
@@ -1018,7 +1016,7 @@ local size_t readnarray(size_t p_vertices_to_be_buffered, unsigned char *buf, si
     {
         THREADABORT(err);
     } 
-    printf("---\n");
+    // printf("---\n");
 	return got;
 }
 
@@ -2131,8 +2129,8 @@ local void parallel_compress(void) {
 
 	size_t p_vertices_to_be_buffered = vertices_size; 
 
-	printf("vertices_size: %ld, vertices_to_be_buffered: %ld\n", 
-		vertices_size, p_vertices_to_be_buffered);
+	// printf("vertices_size: %ld, vertices_to_be_buffered: %ld\n", 
+	// 	vertices_size, p_vertices_to_be_buffered);
 
 	size_t got_array = readnarray(p_vertices_to_be_buffered, next->buf, next->size);
 	next->len = got_array;
@@ -2162,8 +2160,8 @@ local void parallel_compress(void) {
 		if (next == NULL) {
 			next = get_space(&in_pool);
 
-			printf("vertices_size: %ld, p_vertices_to_be_buffered: %ld\n", 
-				vertices_size, p_vertices_to_be_buffered);
+			// printf("vertices_size: %ld, p_vertices_to_be_buffered: %ld\n", 
+			// 	vertices_size, p_vertices_to_be_buffered);
 
 			got_array = readnarray(p_vertices_to_be_buffered, next->buf, next->size);
 			next->len = got_array;
@@ -2172,84 +2170,84 @@ local void parallel_compress(void) {
 			// next->len = readn(g.ind, next->buf, next->size);
 		}
 		// printf("g.ind: %d, next->size: %ld\n", g.ind, next->size);
-		printf("next->len: %ld\n", next->len);
+		// printf("next->len: %ld\n", next->len);
 
 		// if rsyncable, generate block lengths and prepare curr for job to
 		// likely have less than size bytes (up to the last hash hit)
 		job->lens = NULL;
-		// if (g.rsync && curr->len) {
-		// 	// compute the hash function starting where we last left off to
-		// 	// cover either size bytes or to EOF, whichever is less, through
-		// 	// the data in curr (and in the next loop, through next) -- save
-		// 	// the block lengths resulting from the hash hits in the job->lens
-		// 	// list
-		// 	if (left == 0) {
-		// 		// scan is in curr
-		// 		last = curr->buf;
-		// 		end = curr->buf + curr->len;
-		// 		while (scan < end) {
-		// 			hash = ((hash << 1) ^ *scan++) & RSYNCMASK;
-		// 			if (hash == RSYNCHIT) {
-		// 				len = (size_t)(scan - last);
-		// 				append_len(job, len);
-		// 				last = scan;
-		// 			}
-		// 		}
+		if (g.rsync && curr->len) {
+			// compute the hash function starting where we last left off to
+			// cover either size bytes or to EOF, whichever is less, through
+			// the data in curr (and in the next loop, through next) -- save
+			// the block lengths resulting from the hash hits in the job->lens
+			// list
+			if (left == 0) {
+				// scan is in curr
+				last = curr->buf;
+				end = curr->buf + curr->len;
+				while (scan < end) {
+					hash = ((hash << 1) ^ *scan++) & RSYNCMASK;
+					if (hash == RSYNCHIT) {
+						len = (size_t)(scan - last);
+						append_len(job, len);
+						last = scan;
+					}
+				}
 
-		// 		// continue scan in next
-		// 		left = (size_t)(scan - last);
-		// 		scan = next->buf;
-		// 	}
+				// continue scan in next
+				left = (size_t)(scan - last);
+				scan = next->buf;
+			}
 
-		// 	// scan in next for enough bytes to fill curr, or what is available
-		// 	// in next, whichever is less (if next isn't full, then we're at
-		// 	// the end of the file) -- the bytes in curr since the last hit,
-		// 	// stored in left, counts towards the size of the first block
-		// 	last = next->buf;
-		// 	len = curr->size - curr->len;
-		// 	if (len > next->len)
-		// 		len = next->len;
-		// 	end = next->buf + len;
-		// 	while (scan < end) {
-		// 		hash = ((hash << 1) ^ *scan++) & RSYNCMASK;
-		// 		if (hash == RSYNCHIT) {
-		// 			len = (size_t)(scan - last) + left;
-		// 			left = 0;
-		// 			append_len(job, len);
-		// 			last = scan;
-		// 		}
-		// 	}
-		// 	append_len(job, 0);
+			// scan in next for enough bytes to fill curr, or what is available
+			// in next, whichever is less (if next isn't full, then we're at
+			// the end of the file) -- the bytes in curr since the last hit,
+			// stored in left, counts towards the size of the first block
+			last = next->buf;
+			len = curr->size - curr->len;
+			if (len > next->len)
+				len = next->len;
+			end = next->buf + len;
+			while (scan < end) {
+				hash = ((hash << 1) ^ *scan++) & RSYNCMASK;
+				if (hash == RSYNCHIT) {
+					len = (size_t)(scan - last) + left;
+					left = 0;
+					append_len(job, len);
+					last = scan;
+				}
+			}
+			append_len(job, 0);
 
-		// 	// create input in curr for job up to last hit or entire buffer if
-		// 	// no hits at all -- save remainder in next and possibly hold
-		// 	len = (size_t)((job->lens->len == 1 ? scan : last) - next->buf);
-		// 	if (len) {
-		// 		// got hits in next, or no hits in either -- copy to curr
-		// 		memcpy(curr->buf + curr->len, next->buf, len);
-		// 		curr->len += len;
-		// 		memmove(next->buf, next->buf + len, next->len - len);
-		// 		next->len -= len;
-		// 		scan -= len;
-		// 		left = 0;
-		// 	}
-		// 	else if (job->lens->len != 1 && left && next->len) {
-		// 		// had hits in curr, but none in next, and last hit in curr
-		// 		// wasn't right at the end, so we have input there to save --
-		// 		// use curr up to the last hit, save the rest, moving next to
-		// 		// hold
-		// 		hold = next;
-		// 		next = get_space(&in_pool);
-		// 		memcpy(next->buf, curr->buf + (curr->len - left), left);
-		// 		next->len = left;
-		// 		curr->len -= left;
-		// 	}
-		// 	else {
-		// 		// else, last match happened to be right at the end of curr, or
-		// 		// we're at the end of the input compressing the rest
-		// 		left = 0;
-		// 	}
-		// }
+			// create input in curr for job up to last hit or entire buffer if
+			// no hits at all -- save remainder in next and possibly hold
+			len = (size_t)((job->lens->len == 1 ? scan : last) - next->buf);
+			if (len) {
+				// got hits in next, or no hits in either -- copy to curr
+				memcpy(curr->buf + curr->len, next->buf, len);
+				curr->len += len;
+				memmove(next->buf, next->buf + len, next->len - len);
+				next->len -= len;
+				scan -= len;
+				left = 0;
+			}
+			else if (job->lens->len != 1 && left && next->len) {
+				// had hits in curr, but none in next, and last hit in curr
+				// wasn't right at the end, so we have input there to save --
+				// use curr up to the last hit, save the rest, moving next to
+				// hold
+				hold = next;
+				next = get_space(&in_pool);
+				memcpy(next->buf, curr->buf + (curr->len - left), left);
+				next->len = left;
+				curr->len -= left;
+			}
+			else {
+				// else, last match happened to be right at the end of curr, or
+				// we're at the end of the input compressing the rest
+				left = 0;
+			}
+		}
 
 		// compress curr->buf to curr->len -- compress thread will drop curr
 		job->in = curr;
@@ -2293,10 +2291,10 @@ local void parallel_compress(void) {
 		compress_tail = &(job->next);
 		twist(compress_have, BY, +1);
 
-		printf("cthreads: %d, more: %d\n", cthreads, more);
-		printf("----------------\n");
+		// printf("cthreads: %d, more: %d\n", cthreads, more);
+		// printf("----------------\n");
 	} while (more);
-	printf("cthreads: %d, \n", cthreads);
+	// printf("cthreads: %d, \n", cthreads);
 	drop_space(next);
 
 	// wait for the write thread to complete (we leave the compress threads out
@@ -4835,15 +4833,6 @@ int main(int argc, char **argv) {
 	log_dump();
 	return g.ret;
 }
-
-// void serialize(unsigned char* data, float vertices[], const int vertices_length)
-// {
-//   float *q = (float*)data;
-//   for(int i = 0; i < vertices_length; i++)
-//   {
-//     *q = vertices[i]; q++;
-//   }
-// }
 
 void serialize(unsigned char* data, float vertices[], const int vertices_length)
 {
