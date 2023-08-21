@@ -591,6 +591,12 @@ local struct {
 #endif
 } g;
 
+const size_t n_points = 307200;
+const size_t vertices_length = n_points * 6;
+const size_t vertices_size = vertices_length * sizeof(float);
+float vertices[307200 * 6];
+unsigned char p_vertices[307200 * 6 * 4];
+
 local void message(char *fmt, va_list ap) {
     if (g.verbosity > 0) {
         fprintf(stderr, "%s: ", g.prog);
@@ -3414,6 +3420,18 @@ local int outb(void *desc, unsigned char *buf, unsigned len) {
         possess(outb_write_more);
         wait_for(outb_write_more, TO_BE, 0);
 
+
+		// copy unzipped p_vectices to float array
+		ball_t err;                     // error information from throw()
+		try
+		{
+			memcpy((p_vertices + g.out_tot), buf, len);
+		}
+		catch (err)
+		{
+			THREADABORT(err);
+		} 
+
         // copy the output and alert the worker bees
         out_len = len;
         g.out_tot += len;
@@ -3430,7 +3448,7 @@ local int outb(void *desc, unsigned char *buf, unsigned len) {
             free_lock(outb_write_more);
             outb_write_more = NULL;
         }
-
+		// printf("outb(): len: %d g.out_tot: %ld\n", len, g.out_tot);
         // return for more decompression while last buffer is being written and
         // having its check value calculated -- we wait for those to finish the
         // next time this function is called
@@ -4592,6 +4610,7 @@ local void cut_yarn(int err) {
 }
 #endif
 
+void deserialize(unsigned char data[], float vertices[], const int vertices_length);
 // Process command line arguments.
 int main(int argc, char **argv) {
     int n;                          // general index
@@ -4734,7 +4753,56 @@ int main(int argc, char **argv) {
         THREADABORT(err);
     }
 
+	// Deserilize vertices
+	deserialize(p_vertices, vertices, vertices_length);
+
+
+	// Write vertices to file for checking
+	char *filename = "/home/shreyas/Downloads/cloud_data/induvidual_rows/tbd/test/depth_data_test_verify.txt";
+
+	// open the file for writing
+	FILE *fp = fopen(filename, "w");
+	if (fp == NULL)
+	{
+		printf("Error opening the file %s", filename);
+		return -1;
+	}
+	// write to the text file
+	// for (int i = 0; i < 10; i++)
+	// 	fprintf(fp, "This is the line #%d\n", i + 1);
+
+
+	for(int i = 0; i < (int)vertices_length; i++)
+	{
+		// fprintf(fp, "%d: , %ff, %ff, %ff, %ff, %ff, %ff, \n", 
+		// 	i / 6 + 1,
+		// 	vertices[i + 0], vertices[i + 1], vertices[i + 2], 
+		// 	vertices[i + 3], vertices[i + 4], vertices[i + 5]
+		// 	);
+
+		fprintf(fp, "%ff, %ff, %ff, %ff, %ff, %ff, \n", 
+			vertices[i + 0], vertices[i + 1], vertices[i + 2], 
+			vertices[i + 3], vertices[i + 4], vertices[i + 5]
+		);
+
+		i+=5;
+	}
+
+
+
+
+	// close the file
+	fclose(fp);
+
     // show log (if any)
     log_dump();
     return g.ret;
+}
+void deserialize(unsigned char data[], float vertices[], const int vertices_length)
+{
+  float *q = (float*)data;
+  for(int i = 0; i < vertices_length; i++)
+  {
+    vertices[i] = *q; q++;
+  }
 }
