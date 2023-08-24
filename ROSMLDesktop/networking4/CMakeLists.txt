@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.0)
 
 # SPECIFY YOUR PROJECT NAME
 PROJECT(networking4)
-
+###############################
 add_executable(snappy_poc1 "")
 
 target_include_directories(snappy_poc1
@@ -14,8 +14,21 @@ target_sources(snappy_poc1
   PRIVATE
     "poc/snappy_poc1.cpp"
 )
-
 target_link_libraries(snappy_poc1 snappy)
+###############################
+add_executable(snappy_float1 "")
+
+target_include_directories(snappy_float1
+  # PRIVATE ${CMAKE_SOURCE_DIR}/PCH/include
+  PRIVATE ${CMAKE_SOURCE_DIR}/ext/snappy/
+)
+
+target_sources(snappy_float1
+  PRIVATE "poc/snappy_float1.cpp"
+)
+target_link_libraries(snappy_float1 snappy)
+###############################
+
 
 # set(target_common_libraries
 #   PRIVATE glfw 
