@@ -597,6 +597,12 @@ const size_t vertices_size = vertices_length * sizeof(float);
 float vertices[307200 * 6];
 unsigned char p_vertices[307200 * 6 * 4];
 
+unsigned char p_vertices_gz[2869734];
+const size_t p_vertices_gz_size = 2869734;
+size_t p_vertices_gz_size_read = 0;
+size_t p_vertices_gz_size_to_be_read = p_vertices_gz_size;
+
+
 local void message(char *fmt, va_list ap) {
     if (g.verbosity > 0) {
         fprintf(stderr, "%s: ", g.prog);
@@ -3321,14 +3327,36 @@ local void cat(void) {
 // --- decompress deflate input ---
 
 // Call-back input function for inflateBack().
+local unsigned inb_arr(void *desc, unsigned char **buf) {
+    (void)desc;
+    // if (g.in_left == 0)
+    //     load();
+    // *buf = g.in_next;
+    // unsigned len = g.in_left > UINT_MAX ? UINT_MAX : (unsigned)g.in_left;
+    // g.in_next += len;
+    // g.in_left -= len;
+    
+    *buf = p_vertices_gz;
+    unsigned len = g.in_left > UINT_MAX ? UINT_MAX : (unsigned)g.in_left;
+    printf("g.in_left: %ld, len: %d\n", g.in_left, len);
+
+    g.in_next += len;
+    g.in_left -= len;
+    return len;
+}
+
+// Call-back input function for inflateBack().
 local unsigned inb(void *desc, unsigned char **buf) {
     (void)desc;
     if (g.in_left == 0)
         load();
     *buf = g.in_next;
     unsigned len = g.in_left > UINT_MAX ? UINT_MAX : (unsigned)g.in_left;
+    printf("inb - g.in_left: %ld, len: %d\n", g.in_left, len);
+
     g.in_next += len;
     g.in_left -= len;
+
     return len;
 }
 
@@ -3395,6 +3423,7 @@ local void outb_check(void *dummy) {
 }
 #endif
 
+
 // Call-back output function for inflateBack(). Wait for the last write and
 // check calculation to complete, copy the write buffer, and then alert the
 // write and check threads and return for more decompression while that's going
@@ -3420,6 +3449,8 @@ local int outb(void *desc, unsigned char *buf, unsigned len) {
         possess(outb_write_more);
         wait_for(outb_write_more, TO_BE, 0);
 
+        printf("outb - len: %d\n", len);
+        printf("----\n");
 
 		// copy unzipped p_vectices to float array
 		ball_t err;                     // error information from throw()
@@ -3448,7 +3479,6 @@ local int outb(void *desc, unsigned char *buf, unsigned len) {
             free_lock(outb_write_more);
             outb_write_more = NULL;
         }
-		// printf("outb(): len: %d g.out_tot: %ld\n", len, g.out_tot);
         // return for more decompression while last buffer is being written and
         // having its check value calculated -- we wait for those to finish the
         // next time this function is called
@@ -3486,6 +3516,7 @@ local void infchk(void) {
     ctot = utot = 0;
     ktot = CHECK(0L, Z_NULL, 0);
     cont = more = 0;
+
     do {
         // header already read -- set up for decompression
         g.in_tot = g.in_left;       // track compressed data length
@@ -3503,7 +3534,9 @@ local void infchk(void) {
         // decompress, compute lengths and check value
         strm.avail_in = 0;
         strm.next_in = Z_NULL;
+        // ret = inflateBack(&strm, inb, NULL, outb, NULL);
         ret = inflateBack(&strm, inb, NULL, outb, NULL);
+
         inflateBackEnd(&strm);
         if (ret == Z_DATA_ERROR)
             throw(EDOM, "%s: corrupted -- invalid deflate data (%s)",
@@ -3512,8 +3545,10 @@ local void infchk(void) {
             throw(EDOM, "%s: corrupted -- incomplete deflate data", g.inf);
         if (ret != Z_STREAM_END)
             throw(EINVAL, "internal error");
+		
         g.in_left += strm.avail_in;
         g.in_next = strm.next_in;
+
         outb(NULL, NULL, 0);        // finish off final write and check
 
         // compute compressed data length
@@ -4620,6 +4655,44 @@ int main(int argc, char **argv) {
     char *opts, *p;                 // environment default options, marker
     ball_t err;                     // error information from throw()
 
+    int len = 1024;
+    unsigned char buf[len];
+
+    // Read p_vertices_gz from file
+    char *inf = "/home/shreyas/Downloads/cloud_data/induvidual_rows/tbd/test/depth_data_test_p_vertices.txt.gz";
+    // open input file
+    int desc = open(inf, 'r', 0);
+    if (desc < 0)
+    {
+        printf("read error on %s", inf);
+        return 0;
+    }
+
+    int p_vertices_gz_ret = 0;
+
+    int p_vertices_gz_bytes_read = 0;
+    while (p_vertices_gz_ret > -1) {
+        p_vertices_gz_ret = read(desc, buf, len);
+
+        // printf("ret: %d\n", ret);
+
+        if (p_vertices_gz_ret < 0)
+        {
+            printf("read error on %s", inf);
+            return 0;
+        }
+
+        if (p_vertices_gz_ret == 0)
+        break;
+
+        memmove((p_vertices_gz + p_vertices_gz_bytes_read), buf, p_vertices_gz_ret);
+        p_vertices_gz_bytes_read += p_vertices_gz_ret;
+    }
+    // Closing the file
+    close(desc);
+    printf("p_vertices_gz_bytes_read: %d\n", p_vertices_gz_bytes_read);
+
+
     g.ret = 0;
     try {
         // initialize globals
@@ -4767,19 +4840,9 @@ int main(int argc, char **argv) {
 		printf("Error opening the file %s", filename);
 		return -1;
 	}
-	// write to the text file
-	// for (int i = 0; i < 10; i++)
-	// 	fprintf(fp, "This is the line #%d\n", i + 1);
-
-
+	
 	for(int i = 0; i < (int)vertices_length; i++)
 	{
-		// fprintf(fp, "%d: , %ff, %ff, %ff, %ff, %ff, %ff, \n", 
-		// 	i / 6 + 1,
-		// 	vertices[i + 0], vertices[i + 1], vertices[i + 2], 
-		// 	vertices[i + 3], vertices[i + 4], vertices[i + 5]
-		// 	);
-
 		fprintf(fp, "%ff, %ff, %ff, %ff, %ff, %ff, \n", 
 			vertices[i + 0], vertices[i + 1], vertices[i + 2], 
 			vertices[i + 3], vertices[i + 4], vertices[i + 5]
@@ -4787,9 +4850,6 @@ int main(int argc, char **argv) {
 
 		i+=5;
 	}
-
-
-
 
 	// close the file
 	fclose(fp);

@@ -87,12 +87,6 @@ int main()
 
 	for(int i = 0; i < vertices_length; i++)
 	{
-		// fprintf(fp, "%d: , %ff, %ff, %ff, %ff, %ff, %ff, \n", 
-		// 	i / 6 + 1,
-		// 	vertices[i + 0], vertices[i + 1], vertices[i + 2], 
-		// 	vertices[i + 3], vertices[i + 4], vertices[i + 5]
-		// 	);
-
 		fprintf(fp, "%ff, %ff, %ff, %ff, %ff, %ff, \n", 
 			vertices[i + 0], vertices[i + 1], vertices[i + 2], 
 			vertices[i + 3], vertices[i + 4], vertices[i + 5]

@@ -78,40 +78,75 @@
 
 
 	//////////////////////////////////////////////
-	{
-		"name": "pigz_array",
-		"type": "cppdbg",
-		"request": "launch",
-		// Resolved by CMake Tools:
-		// "program": "${command:cmake.launchTargetPath}",
-		"program": "build/pigz_array",
-		"args": [
-			"/home/shreyas/Downloads/cloud_data/induvidual_rows/tbd/test/depth_data_test.txt"
-				],
-		"stopAtEntry": false,
-		"cwd": "${workspaceFolder}",
-		"environment": [
-				{
-					// add the directory where our target was built to the PATHs
-					// it gets resolved by CMake Tools:
-					"name": "PATH",
-					"value": "${env:PATH}:${command:cmake.getLaunchTargetDirectory}"
-				},
-				// {
-				// 	"name": "OTHER_VALUE",
-				// 	"value": "Something something"
-				// }
-		],
-		// "console": "externalTerminal",
-		"MIMode": "gdb",
-		"setupCommands": [
-			{
-				"description": "Enable pretty-printing for gdb",
-				"text": "-enable-pretty-printing",
-				"ignoreFailures": true
-			}
-		]
-	},
+	// {
+	// 	"name": "pigz_array",
+	// 	"type": "cppdbg",
+	// 	"request": "launch",
+	// 	// Resolved by CMake Tools:
+	// 	// "program": "${command:cmake.launchTargetPath}",
+	// 	"program": "build/pigz_array",
+	// 	"args": [
+	// 		"/home/shreyas/Downloads/cloud_data/induvidual_rows/tbd/test/depth_data_test.txt"
+	// 			],
+	// 	"stopAtEntry": false,
+	// 	"cwd": "${workspaceFolder}",
+	// 	"environment": [
+	// 			{
+	// 				// add the directory where our target was built to the PATHs
+	// 				// it gets resolved by CMake Tools:
+	// 				"name": "PATH",
+	// 				"value": "${env:PATH}:${command:cmake.getLaunchTargetDirectory}"
+	// 			},
+	// 			// {
+	// 			// 	"name": "OTHER_VALUE",
+	// 			// 	"value": "Something something"
+	// 			// }
+	// 	],
+	// 	// "console": "externalTerminal",
+	// 	"MIMode": "gdb",
+	// 	"setupCommands": [
+	// 		{
+	// 			"description": "Enable pretty-printing for gdb",
+	// 			"text": "-enable-pretty-printing",
+	// 			"ignoreFailures": true
+	// 		}
+	// 	]
+	// },
+
+
+	// {
+	// 	"name": "deserialize_p_vertices",
+	// 	"type": "cppdbg",
+	// 	"request": "launch",
+	// 	// Resolved by CMake Tools:
+	// 	// "program": "${command:cmake.launchTargetPath}",
+	// 	"program": "build/deserialize_p_vertices",
+	// 	// "args": ["/home/shreyas/Downloads/cloud_data/induvidual_rows/depth_data_300K1-307200_p_vertics_bp1.txt"],
+	// 	"stopAtEntry": false,
+	// 	"cwd": "${workspaceFolder}",
+	// 	"environment": [
+	// 			{
+	// 				// add the directory where our target was built to the PATHs
+	// 				// it gets resolved by CMake Tools:
+	// 				"name": "PATH",
+	// 				"value": "${env:PATH}:${command:cmake.getLaunchTargetDirectory}"
+	// 			},
+	// 			{
+	// 				"name": "OTHER_VALUE",
+	// 				"value": "Something something"
+	// 			}
+	// 	],
+	// 	// "console": "externalTerminal",
+	// 	"MIMode": "gdb",
+	// 	"setupCommands": [
+	// 		{
+	// 			"description": "Enable pretty-printing for gdb",
+	// 			"text": "-enable-pretty-printing",
+	// 			"ignoreFailures": true
+	// 		}
+	// 	]
+	// },
+
 	{
 		"name": "unpzip_array",
 		"type": "cppdbg",
@@ -120,39 +155,6 @@
 		// "program": "${command:cmake.launchTargetPath}",
 		"program": "build/unpigz",
 		"args": ["/home/shreyas/Downloads/cloud_data/induvidual_rows/tbd/test/depth_data_test_p_vertices.txt.gz"],
-		"stopAtEntry": false,
-		"cwd": "${workspaceFolder}",
-		"environment": [
-				{
-					// add the directory where our target was built to the PATHs
-					// it gets resolved by CMake Tools:
-					"name": "PATH",
-					"value": "${env:PATH}:${command:cmake.getLaunchTargetDirectory}"
-				},
-				{
-					"name": "OTHER_VALUE",
-					"value": "Something something"
-				}
-		],
-		// "console": "externalTerminal",
-		"MIMode": "gdb",
-		"setupCommands": [
-			{
-				"description": "Enable pretty-printing for gdb",
-				"text": "-enable-pretty-printing",
-				"ignoreFailures": true
-			}
-		]
-	},
-
-	{
-		"name": "deserialize_p_vertices",
-		"type": "cppdbg",
-		"request": "launch",
-		// Resolved by CMake Tools:
-		// "program": "${command:cmake.launchTargetPath}",
-		"program": "build/deserialize_p_vertices",
-		// "args": ["/home/shreyas/Downloads/cloud_data/induvidual_rows/depth_data_300K1-307200_p_vertics_bp1.txt"],
 		"stopAtEntry": false,
 		"cwd": "${workspaceFolder}",
 		"environment": [
