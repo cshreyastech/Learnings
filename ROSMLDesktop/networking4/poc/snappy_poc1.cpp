@@ -26,6 +26,14 @@ int main()
   snappy::Uncompress(compressed_str.data(), 
     compressed_str.size(), &uncompressed_str);
   
-  std::cout << "uncompressed_str: " << uncompressed_str << std::endl;
+  std::cout << "compare uncompressed_str: " << orginal_str.compare(uncompressed_str) << std::endl;
+
+  char* dst = new char[orginal_str.size()];
+  snappy::ByteArraySource source(orginal_str.data(), orginal_str.size());
+  snappy::UncheckedByteArraySink sink(dst);
+  std::cout << snappy::Uncompress(&source, &sink) << std::endl;
+
+
+
   return 0;
 }
