@@ -85,6 +85,7 @@ int main()
   delete[] p_vertices_compressed_src;
   delete[] p_vertices_uncompressed_dest;
 
+
   long long compression_duration = 
     std::chrono::duration_cast<std::chrono::microseconds>(compression_end_time - compression_start_time).count();
 
@@ -100,6 +101,15 @@ int main()
   printf("vertices_size: %d, p_vertices_compressed_src_size: %ld\n", 
     vertices_size, p_vertices_compressed_src_size);
   printf("Compession ratio: %f\n", compression_ratio);
+
+  // Output
+  // Compression time - microseconds: 62274
+  // Decompression time - microseconds: 26526
+  // vertices_size: 7372800, p_vertices_compressed_src_size: 3962497
+  // Compession ratio: 46.255196
+
+
+
   return 0;
 }
 
