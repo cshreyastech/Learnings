@@ -1,0 +1,4 @@
+[submodule "ROSMLDesktop/ext/snappy"]
+	path = ROSMLDesktop/ext/snappy
+	url = https://github.com/google/snappy.git
+	branch = main
