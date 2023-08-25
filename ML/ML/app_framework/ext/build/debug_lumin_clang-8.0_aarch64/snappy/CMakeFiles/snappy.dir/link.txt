@@ -1,2 +1,0 @@
-C:/Users/cshre/MagicLeap/mlsdk/v0.26.0/tools/toolchains/llvm-8/bin/aarch64-linux-android-gcc-ar.exe qc libsnappy.a "CMakeFiles/snappy.dir/snappy-c.cc.o" "CMakeFiles/snappy.dir/snappy-sinksource.cc.o" "CMakeFiles/snappy.dir/snappy-stubs-internal.cc.o" CMakeFiles/snappy.dir/snappy.cc.o
-C:/Users/cshre/MagicLeap/mlsdk/v0.26.0/tools/toolchains/llvm-8/bin/aarch64-linux-android-ranlib.exe libsnappy.a
