@@ -1,0 +1,23 @@
+KIND = program
+
+SRCS = \
+  # src/snappy_poc/snappy_poc1.cpp \
+  src/snappy_poc/snappy_poc2.cpp \
+
+INCS = \
+  include/ \
+
+DEFS = \
+  ML_DEFAULT_LOG_TAG="snappy_poc" \
+
+USES = \
+  ../samples_common \
+
+SHLIBS =\
+  ml_privileges \
+  ml_connections
+
+REFS = \
+  ../../app_framework/app_framework \
+
+DATAS = data/ : data/

@@ -1,0 +1,13 @@
+C:/lcb/Learnings/ML/ML/app_framework/ext/build/debug_lumin_clang-8.0_aarch64/CMakeFiles/edit_cache.dir
+C:/lcb/Learnings/ML/ML/app_framework/ext/build/debug_lumin_clang-8.0_aarch64/CMakeFiles/rebuild_cache.dir
+C:/lcb/Learnings/ML/ML/app_framework/ext/build/debug_lumin_clang-8.0_aarch64/CMakeFiles/list_install_components.dir
+C:/lcb/Learnings/ML/ML/app_framework/ext/build/debug_lumin_clang-8.0_aarch64/CMakeFiles/install.dir
+C:/lcb/Learnings/ML/ML/app_framework/ext/build/debug_lumin_clang-8.0_aarch64/CMakeFiles/install/local.dir
+C:/lcb/Learnings/ML/ML/app_framework/ext/build/debug_lumin_clang-8.0_aarch64/CMakeFiles/install/strip.dir
+C:/lcb/Learnings/ML/ML/app_framework/ext/build/debug_lumin_clang-8.0_aarch64/snappy/CMakeFiles/snappy.dir
+C:/lcb/Learnings/ML/ML/app_framework/ext/build/debug_lumin_clang-8.0_aarch64/snappy/CMakeFiles/edit_cache.dir
+C:/lcb/Learnings/ML/ML/app_framework/ext/build/debug_lumin_clang-8.0_aarch64/snappy/CMakeFiles/rebuild_cache.dir
+C:/lcb/Learnings/ML/ML/app_framework/ext/build/debug_lumin_clang-8.0_aarch64/snappy/CMakeFiles/list_install_components.dir
+C:/lcb/Learnings/ML/ML/app_framework/ext/build/debug_lumin_clang-8.0_aarch64/snappy/CMakeFiles/install.dir
+C:/lcb/Learnings/ML/ML/app_framework/ext/build/debug_lumin_clang-8.0_aarch64/snappy/CMakeFiles/install/local.dir
+C:/lcb/Learnings/ML/ML/app_framework/ext/build/debug_lumin_clang-8.0_aarch64/snappy/CMakeFiles/install/strip.dir

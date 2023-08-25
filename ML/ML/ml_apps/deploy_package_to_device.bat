@@ -6,11 +6,11 @@ rem echo %mpk%
 
 python build.py
 
-mldb connect 192.168.86.32:5555
-mldb uninstall com.magicleap.capi.sample.ros_ml_server
-mldb install -u BUILD\com.magicleap.capi.sample.ros_ml_server.mpk
-rem mldb launch com.magicleap.capi.sample.ros_ml_server
-rem mldb terminate com.magicleap.capi.sample.ros_ml_server
+mldb connect 192.168.86.37:5555
+mldb uninstall com.magicleap.capi.sample.snappy_poc
+mldb install -u BUILD\com.magicleap.capi.sample.snappy_poc.mpk
+mldb launch com.magicleap.capi.sample.snappy_poc
+rem mldb terminate com.magicleap.capi.sample.snappy_poc
 
 rem mldb uninstall %mpk%
 rem mldb install -u BUILD\%mpk%.mpk

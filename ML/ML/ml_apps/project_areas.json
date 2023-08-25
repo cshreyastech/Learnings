@@ -12,6 +12,7 @@
   ],
 
   "samples": [
-   "ros_ml_server/" 
+   // "ros_ml_server/",
+   "snappy_poc/"
   ]
 }

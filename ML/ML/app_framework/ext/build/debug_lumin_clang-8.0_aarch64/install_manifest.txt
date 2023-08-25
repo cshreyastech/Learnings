@@ -1,0 +1,9 @@
+C:/lcb/Learnings/ML/ML/app_framework/ext/package/debug_lumin_clang-8.0_aarch64/lib/libsnappy.a
+C:/lcb/Learnings/ML/ML/app_framework/ext/package/debug_lumin_clang-8.0_aarch64/include/snappy-c.h
+C:/lcb/Learnings/ML/ML/app_framework/ext/package/debug_lumin_clang-8.0_aarch64/include/snappy-sinksource.h
+C:/lcb/Learnings/ML/ML/app_framework/ext/package/debug_lumin_clang-8.0_aarch64/include/snappy.h
+C:/lcb/Learnings/ML/ML/app_framework/ext/package/debug_lumin_clang-8.0_aarch64/include/snappy-stubs-public.h
+C:/lcb/Learnings/ML/ML/app_framework/ext/package/debug_lumin_clang-8.0_aarch64/lib/cmake/Snappy/SnappyTargets.cmake
+C:/lcb/Learnings/ML/ML/app_framework/ext/package/debug_lumin_clang-8.0_aarch64/lib/cmake/Snappy/SnappyTargets-release.cmake
+C:/lcb/Learnings/ML/ML/app_framework/ext/package/debug_lumin_clang-8.0_aarch64/lib/cmake/Snappy/SnappyConfig.cmake
+C:/lcb/Learnings/ML/ML/app_framework/ext/package/debug_lumin_clang-8.0_aarch64/lib/cmake/Snappy/SnappyConfigVersion.cmake

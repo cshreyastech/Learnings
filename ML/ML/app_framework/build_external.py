@@ -58,7 +58,7 @@ def run_cmake(target, parallel=False):
     if parallel:
         additional_build_params += ['--parallel']
 
-    build_type = 'Release' if 'release' in target else 'Debug'
+    build_type = 'Release' #if 'release' in target else 'Debug'
 
     modified_env = os.environ.copy()
 
@@ -96,6 +96,7 @@ def clean():
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Build ext dependencies that use build systems other than mabu')
+
     register_common_args(parser)
     register_args(parser)
 
@@ -107,6 +108,10 @@ def parse_args():
 
 if __name__ == '__main__':
     build_args = parse_args()
+    # build_args.targets.remove(-1)
+    print(build_args)
+    print(build_args.targets[1]) #.remove(-1)
+    build_args.targets.remove("host")
     if build_args.clean or build_args.rebuild:
         clean()
     if not build_args.clean or build_args.rebuild:

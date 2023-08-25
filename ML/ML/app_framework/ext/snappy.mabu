@@ -1,0 +1,22 @@
+KIND = static
+
+SRCS = \
+    snappy/snappy-c.cc \
+    snappy/snappy-sinksource.cc \
+    snappy/snappy-stubs-internal.cc \
+    snappy/snappy.cc \
+    
+
+INCS = \
+    snappy/ \
+ 
+export INCS = \
+    snappy/ \
+
+USES = \
+    stdc++ \
+    ../common \
+
+LIBPATHS = package/$(SPEC)/lib
+
+STLIBS.release_linux,release_lumin = :libsnappy.a
