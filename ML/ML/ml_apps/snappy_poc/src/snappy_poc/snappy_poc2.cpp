@@ -124,6 +124,7 @@ int main() {
   // vertices_size: 7372800, p_vertices_compressed_src_size: 3962497
   // Compession ratio: 46.255196
 
+
 	return 0;
 }
 
