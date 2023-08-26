@@ -132,18 +132,39 @@ graphics_context_t::~graphics_context_t() {
 // -----------------------------------------------------------------------------
 // 3. App Lifecycle callback functions
 
-static void on_stop(void* user_data) {
-	ML_LOG_TAG(Info, APP_TAG, "Lifecycle call on_stop()");
+// static void on_stop(void* user_data) {
+// 	ML_LOG_TAG(Info, APP_TAG, "Lifecycle call on_stop()");
+// }
+
+// static void on_pause(void* user_data) {
+// 	ML_LOG_TAG(Info, APP_TAG, "Lifecycle call on_pause()");
+// }
+
+// static void on_resume(void* user_data) {
+// 	ML_LOG_TAG(Info, APP_TAG, "Lifecycle call on_resume()");
+// }
+
+
+enum class AppStatus { Stopped, Paused, Running };
+
+// Callbacks
+static void OnStop(void *application_context) {
+  auto status = reinterpret_cast<std::atomic<AppStatus> *>(application_context);
+  *status = AppStatus::Stopped;
+  ML_LOG(Info, "On stop called.");
 }
 
-static void on_pause(void* user_data) {
-	ML_LOG_TAG(Info, APP_TAG, "Lifecycle call on_pause()");
+static void OnPause(void *application_context) {
+  auto status = reinterpret_cast<std::atomic<AppStatus> *>(application_context);
+  *status = AppStatus::Paused;
+  ML_LOG(Info, "On pause called.");
 }
 
-static void on_resume(void* user_data) {
-	ML_LOG_TAG(Info, APP_TAG, "Lifecycle call on_resume()");
+static void OnResume(void *application_context) {
+  auto status = reinterpret_cast<std::atomic<AppStatus> *>(application_context);
+  *status = AppStatus::Running;
+  ML_LOG(Info, "On resume called.");
 }
-
 
 void ParseCloudFromFile(const std::string file_path, float vertices[], const int n_points);
 // -----------------------------------------------------------------------------
@@ -154,22 +175,40 @@ int main() {
 
 	MLLoggingEnableLogLevel(MLLogLevel_Debug);
 
+
+
 	// Assign call application lifecycle callback functions
-	MLLifecycleCallbacks lifecycle_callbacks = {};
-	lifecycle_callbacks.on_stop = on_stop;
-	lifecycle_callbacks.on_pause = on_pause;
-	lifecycle_callbacks.on_resume = on_resume;
 
-	// Initialize application lifecycle
-	MLResult result = MLLifecycleInit(&lifecycle_callbacks, nullptr);
+  // depricated
+	// MLLifecycleCallbacks lifecycle_callbacks = {};
+	// lifecycle_callbacks.on_stop = on_stop;
+	// lifecycle_callbacks.on_pause = on_pause;
+	// lifecycle_callbacks.on_resume = on_resume;
 
-	if (result != MLResult_Ok) {
-		ML_LOG_TAG(Error, APP_TAG, "Failed to initialize lifecycle system");
-		return -1;
-	}
-	else {
-		ML_LOG_TAG(Debug, APP_TAG, "Lifecycle system started");
-	}
+	// // Initialize application lifecycle
+	MLResult result;
+   // = MLLifecycleInit(&lifecycle_callbacks, nullptr);
+
+	// if (result != MLResult_Ok) {
+	// 	ML_LOG_TAG(Error, APP_TAG, "Failed to initialize lifecycle system");
+	// 	return -1;
+	// }
+	// else {
+	// 	ML_LOG_TAG(Debug, APP_TAG, "Lifecycle system started");
+	// }
+
+  MLLifecycleCallbacksEx lifecycle_callbacks = {};
+  MLLifecycleCallbacksExInit(&lifecycle_callbacks);
+  lifecycle_callbacks.on_stop = OnStop;
+  lifecycle_callbacks.on_pause = OnPause;
+  lifecycle_callbacks.on_resume = OnResume;
+
+  std::atomic<AppStatus> status(AppStatus::Running);
+
+  MLLifecycleInitEx(&lifecycle_callbacks, (void *)&status);
+
+
+
 
 	// Initialize perception system
 	MLPerceptionSettings perception_settings;
@@ -225,19 +264,6 @@ int main() {
 	Shader pointShader3D = Shader();
 	pointShader3D.Load("data/res/shaders/basic3D.vert", "data/res/shaders/basic.frag");
 	
-	// Shader shader_square = Shader();
-	// shader_square.Load("data/res/shaders/standard3D.vert", "data/res/shaders/standard.frag");
-
-	// Part 2: Instantiate the objec(s) here 
-	// Cylinder cylinder = Cylinder(16);
-	// cylinder.ApplyShader(shader3D);
-	// cylinder.SetColor(COLOR_RED);
-
-	// Square square = Square(16);
-	// square.ApplyShader(shader_square);
-	// square.SetColor(COLOR_RED);
-
-
 
 	Cube left_eye = Cube();
 	left_eye.ApplyShader(shader3D);
@@ -249,13 +275,7 @@ int main() {
 	Cube fixation = Cube();
 	fixation.ApplyShader(shader3D);
 	fixation.SetColor(COLOR_GREEN);
-	// glm::vec3 pos = fixation.GetPosition();
 	fixation.SetPosition(0.0f, 0.0f, 0.0f);
-
-	// Point point = Point(16);
-	// point.ApplyShader(shader3D);
-	// point.SetColor(COLOR_GREEN);
-	// point.SetPosition(0.0f, 0.0f, 0.0f);
 
 	Cube right_eye = Cube();
 	right_eye.ApplyShader(shader3D);
@@ -289,9 +309,11 @@ int main() {
   int vertices_id = 0;
 	// The main/game loop
 	ML_LOG_TAG(Debug, APP_TAG, "Enter main loop");
-	while (true) {  
-		// Part 2: Get state of the Controller
-		MLInputControllerState input_states[MLInput_MaxControllers];
+
+
+  while (true) {  
+    // Part 2: Get state of the Controller
+    MLInputControllerState input_states[MLInput_MaxControllers];
       CHECK(MLInputGetControllerState(input, input_states));
 
     MLSnapshot *snapshot = nullptr;
@@ -303,87 +325,71 @@ int main() {
     MLTransform ml_head = {};
     MLSnapshotGetTransform(snapshot, &ml_head_static_data_.coord_frame_head, &ml_head);
     MLSnapshotGetTransform(snapshot, &ml_eye_static_data_.fixation, &ml_fixation);
-    // MLSnapshotGetTransform(snapshot, &ml_eye_static_data_.left_center, &ml_left_eye_center);
-    // MLSnapshotGetTransform(snapshot, &eye_static_data_.right_center, &right_eye_center);
-    // MLPerceptionReleaseSnapshot(snapshot);
-		fixation.SetPosition(ml_fixation.position.x, ml_fixation.position.y, ml_fixation.position.z);
-		// ML_LOG_TAG(Info, APP_TAG, "ml_head(%f, %f, %f)", 
-		// 	ml_head.position.x, ml_head.position.y, ml_head.position.z);
-		// ML_LOG_TAG(Info, APP_TAG, "ml_left_eye_center(%f, %f, %f)", 
-		// 	ml_left_eye_center.position.x, ml_left_eye_center.position.y, ml_left_eye_center.position.z);
 
-		// Initialize a frame
-		MLGraphicsFrameParams frame_params;
-		result = MLGraphicsInitFrameParams(&frame_params);
+    fixation.SetPosition(ml_fixation.position.x, ml_fixation.position.y, ml_fixation.position.z);
 
-		if (MLResult_Ok != result) {
-			ML_LOG_TAG(Error, APP_TAG, "MLGraphicsInitFrameParams() error: %d", result);
-		}
+    // Initialize a frame
+    MLGraphicsFrameParamsEx frame_params;
+    MLGraphicsFrameParamsExInit(&frame_params);
 
-		frame_params.surface_scale = 1.0f;
-		frame_params.projection_type = MLGraphicsProjectionType_ReversedInfiniteZ;
-		frame_params.near_clip = 0.38;
-		frame_params.focus_distance = 1.0f;
+    frame_params.surface_scale = 1.0f;
+    frame_params.projection_type = MLGraphicsProjectionType_ReversedInfiniteZ;
+    frame_params.near_clip = 0.38;
+    frame_params.focus_distance = 1.0f;
 
-		MLHandle frame_handle;
-		MLGraphicsVirtualCameraInfoArray virtual_camera_array;
-
-		// Begin the frame
-		MLResult frame_result = MLGraphicsBeginFrame(graphics_client, &frame_params, &frame_handle, &virtual_camera_array);
-
-		if (frame_result == MLResult_Ok) {
-			// Prepare rendering for each camera/eye
-			for (int camera = 0; camera < 2; ++camera) {
-				glBindFramebuffer(GL_FRAMEBUFFER, graphics_context.framebuffer_id);
-				glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, virtual_camera_array.color_id, 0, camera);
-				glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, virtual_camera_array.depth_id, 0, camera);
-
-				const MLRectf& viewport = virtual_camera_array.viewport;
-				glViewport((GLint)viewport.x, (GLint)viewport.y, (GLsizei)viewport.w, (GLsizei)viewport.h);
-
-				glClearColor(0.0, 0.0, 0.0, 0.0);
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-				// Part 2: Get the projection matrix
-				MLGraphicsVirtualCameraInfo &current_camera = virtual_camera_array.virtual_cameras[camera];
-				glm::mat4 projectionMatrix = rb_projection_matrix(current_camera) * rb_camera_matrix(current_camera);
-
-				// glm::vec4 left_eye_center(ml_left_eye_center.position.x, 
-				// ml_left_eye_center.position.y,
-				// ml_left_eye_center.position.z, 1.0);
-				// left_eye_center = rb_camera_matrix(current_camera) * left_eye_center;
-
-				// left_eye.SetPosition(ml_left_eye_center.position.x, 
-				// 	ml_left_eye_center.position.y,
-				// 	ml_left_eye_center.position.z);
+    MLHandle frame_handle;
 
 
-				// Part 2: Render the object
-				// cylinder.Render(projectionMatrix);
-				// square.Render(projectionMatrix);
-				
-				// left_eye.Render(projectionMatrix);
-				fixation.Render(projectionMatrix);
-				// right_eye.Render(projectionMatrix);
 
+    // MLGraphicsVirtualCameraInfoArray virtual_camera_array;
+    MLGraphicsFrameInfo frame_info = {};
+    MLGraphicsFrameInfoInit(&frame_info);
+
+    // Begin the frame
+    MLResult frame_result = MLGraphicsBeginFrameEx(graphics_client, &frame_params, &frame_info);
+
+    frame_handle = frame_info.handle;
+
+
+    if (frame_result == MLResult_Ok) {
+      // Prepare rendering for each camera/eye
+      for (int camera = 0; camera < 2; ++camera) {
+        glBindFramebuffer(GL_FRAMEBUFFER, graphics_context.framebuffer_id);
+        glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, frame_info.color_id, 0, camera);
+        glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, frame_info.depth_id, 0, camera);
+
+        const MLRectf& viewport = frame_info.viewport;
+        glViewport((GLint)viewport.x, (GLint)viewport.y, (GLsizei)viewport.w, (GLsizei)viewport.h);
+
+        glClearColor(0.0, 0.0, 0.0, 0.0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // Part 2: Get the projection matrix
+        MLGraphicsVirtualCameraInfo &current_camera = frame_info.virtual_cameras[camera];
+        glm::mat4 projectionMatrix = rb_projection_matrix(current_camera) * rb_camera_matrix(current_camera);
+
+        // Part 2: Render the object
+
+        fixation.Render(projectionMatrix);
         cloud.Render(projectionMatrix, vertices_0, vertices_size);
-				// Bind the frame buffer
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-				MLGraphicsSignalSyncObjectGL(graphics_client, virtual_camera_array.virtual_cameras[camera].sync_object);
-			}
+        // Bind the frame buffer
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        MLGraphicsSignalSyncObjectGL(graphics_client, frame_info.virtual_cameras[camera].sync_object);
+      }
 
-			// Finish the frame
-			result = MLGraphicsEndFrame(graphics_client, frame_handle);
+      // Finish the frame
+      result = MLGraphicsEndFrame(graphics_client, frame_handle);
 
-			if (MLResult_Ok != result) {
-				ML_LOG_TAG(Error, APP_TAG, "MLGraphicsEndFrame() error: %d", result);
-			}
-		}
-		else if (frame_result != MLResult_Timeout) {
-			// Sometimes it fails with timeout when device is busy
-			ML_LOG_TAG(Error, APP_TAG, "MLGraphicsBeginFrame() error: %d", frame_result);
-		}
-	}
+      if (MLResult_Ok != result) {
+        ML_LOG_TAG(Error, APP_TAG, "MLGraphicsEndFrame() error: %d", result);
+      }
+    }
+    else if (frame_result != MLResult_Timeout) {
+      // Sometimes it fails with timeout when device is busy
+      ML_LOG_TAG(Error, APP_TAG, "MLGraphicsBeginFrame() error: %d", frame_result);
+    }
+  }
+
 
 	// End of game loop, clean app and exit
 	ML_LOG_TAG(Debug, APP_TAG, "End application loop");
@@ -395,11 +401,6 @@ int main() {
 	ML_LOG_TAG(Debug, APP_TAG, "System cleanup done");
 
   delete[] vertices_0;
-  // delete[] vertices_1;
-  // delete[] vertices_2;
-  // delete[] vertices_3;
-  // delete[] vertices_4;
-
   // clean up system
   MLHeadTrackingDestroy(ml_head_tracker_);
   MLEyeTrackingDestroy(ml_eye_tracker_);

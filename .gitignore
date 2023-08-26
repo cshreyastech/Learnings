@@ -67,7 +67,6 @@ ML/gl_eye_tracking3/.out/*
 ML/ML/app_framework/.out/*
 ML/ML/ml_apps/BUILD/*
 
-ML/gl_eye_tracking1/BUILD/*
 ML/gl_eye_tracking2/BUILD/*
 ML/gl_eye_tracking3/BUILD/*
 ML/gl_eye_tracking4/BUILD/*
