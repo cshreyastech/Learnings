@@ -79,7 +79,7 @@ void SocketClient::SendInt(const int value)
 void SocketClient::SendCloud(char data[], const int data_size)
 {
   int sent_data_size = send(sock_fdesc_conn_, data, data_size, 0);
-  printf("data_size: %d Sent sent_data_size: %d\n", data_size, sent_data_size); 
+  // printf("data_size: %d Sent sent_data_size: %d\n", data_size, sent_data_size); 
 }
 
 SocketClient::~SocketClient()

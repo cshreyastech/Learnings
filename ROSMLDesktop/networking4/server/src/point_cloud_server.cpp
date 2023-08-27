@@ -30,41 +30,41 @@ const unsigned int SCR_HEIGHT = 600;
 
 int main()
 {
-//   // glfw: initialize and configure
-//   // ------------------------------
-//   glfwInit();
-//   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-//   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-//   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  // glfw: initialize and configure
+  // ------------------------------
+  glfwInit();
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-// #ifdef __APPLE__
-//   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-// #endif
+#ifdef __APPLE__
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
 
-//   // glfw window creation
-//   // --------------------
-//   GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-//   if (window == NULL)
-//   {
-//     std::cout << "Failed to create GLFW window" << std::endl;
-//     glfwTerminate();
-//     return -1;
-//   }
-//   glfwMakeContextCurrent(window);
-//   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+  // glfw window creation
+  // --------------------
+  GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+  if (window == NULL)
+  {
+    std::cout << "Failed to create GLFW window" << std::endl;
+    glfwTerminate();
+    return -1;
+  }
+  glfwMakeContextCurrent(window);
+  glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-//   // glad: load all OpenGL function pointers
-//   // ---------------------------------------
-//   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-//   {
-//     std::cout << "Failed to initialize GLAD" << std::endl;
-//     return -1;
-//   }
+  // glad: load all OpenGL function pointers
+  // ---------------------------------------
+  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+  {
+    std::cout << "Failed to initialize GLAD" << std::endl;
+    return -1;
+  }
 
-//   // build and compile our shader program
-//   // ------------------------------------
-//   Shader ourShader("../../networking/server/res/shaders/pointcloud.shader.vs", 
-//                    "../../networking/server/res/shaders/pointcloud.shader.fs");
+  // build and compile our shader program
+  // ------------------------------------
+  Shader ourShader("../../networking/server/res/shaders/pointcloud.shader.vs", 
+                   "../../networking/server/res/shaders/pointcloud.shader.fs");
 
   std::unique_ptr<SocketServer> server_ptr(new SocketServer(8080));
   server_ptr->ConnectToNetwork();
@@ -82,23 +82,27 @@ int main()
 
   for(int i = 0; i < 1; i++)
   {
-    auto timeStart = std::chrono::high_resolution_clock::now();
+    auto receive_cloud_start = std::chrono::high_resolution_clock::now();
     
     server_ptr->ReceiveCloud(&p_vertices_compressed, p_vertices_compressed_size);
 
-    auto timeEnd = std::chrono::high_resolution_clock::now();
-    long long duration = std::chrono::duration_cast<std::chrono::microseconds>(timeEnd - timeStart).count();
-    printf("E2E no compression - client - reads cloud from file - microseconds: %lld\n", duration);
+    auto receive_cloud_end = std::chrono::high_resolution_clock::now();
+    long long receive_cloud_duration = 
+      std::chrono::duration_cast<std::chrono::microseconds>(receive_cloud_end - receive_cloud_start).count();
+    printf("Server - snappy - receivecloud(mircosec): %lld\n", receive_cloud_duration);
   }
 
   char* p_vertices_uncompressed = 
     // (char*)malloc(vertices_size);
     new char[vertices_size];
 
-  auto decompression_start_time = std::chrono::high_resolution_clock::now();
+  auto uncompression_start = std::chrono::high_resolution_clock::now();
   bool raw_uncompress = snappy::RawUncompress(p_vertices_compressed, p_vertices_compressed_size,
                      p_vertices_uncompressed);
-  auto decompression_end_time = std::chrono::high_resolution_clock::now();
+  auto uncompression_end = std::chrono::high_resolution_clock::now();
+  long long uncompression_duration = 
+    std::chrono::duration_cast<std::chrono::microseconds>(uncompression_end - uncompression_start).count();
+  printf("Server - snappy - RawUncompression(mircosec): %lld\n", uncompression_duration);
 
   delete[] p_vertices_compressed;
 
@@ -134,86 +138,69 @@ int main()
   // delete[] vertices;
   // Validation end
 
+  // set up vertex data (and buffer(s)) and configure vertex attributes
+  // ------------------------------------------------------------------
 
+  unsigned int VBO, VAO;
+  glGenVertexArrays(1, &VAO);
+  glGenBuffers(1, &VBO);
+  // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+  glBindVertexArray(VAO);
 
+  glBindBuffer(GL_ARRAY_BUFFER, VBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+  // position
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+  glEnableVertexAttribArray(0);
 
+  // The color attribute starts after the position data so the offset is 3 * sizeof(float) 
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+  glEnableVertexAttribArray(1);
 
-
-
-
-
-
-
-
-
-
-  // for(int i = 0; i < vertices_length; i++)
-  // {
-  //   // printf("vertices_src[%d]:%f, p_vertices_dest[%d]:%f\n", 
-  //   // i, vertices_src[i], i, vertices_dest[i]);
-  //   assert(vertices_src[i] == vertices_dest[i]);
-  // }
-  // delete[] vertices;
-
-
-  // // set up vertex data (and buffer(s)) and configure vertex attributes
-  // // ------------------------------------------------------------------
-
-  // unsigned int VBO, VAO;
-  // glGenVertexArrays(1, &VAO);
-  // glGenBuffers(1, &VBO);
-  // // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-  // glBindVertexArray(VAO);
-
-  // glBindBuffer(GL_ARRAY_BUFFER, VBO);
-  // glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-  // // position
-  // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-  // glEnableVertexAttribArray(0);
-
-  // // The color attribute starts after the position data so the offset is 3 * sizeof(float) 
-  // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
-  // glEnableVertexAttribArray(1);
-
-  // glBindVertexArray(VAO);
+  glBindVertexArray(VAO);
   
-  // // render loop
-  // // -----------
-  // while (!glfwWindowShouldClose(window))
-  // {
-  //   // input
-  //   // -----
-  //   processInput(window);
+  // render loop
+  // -----------
+  while (!glfwWindowShouldClose(window))
+  {
+    // input
+    // -----
+    processInput(window);
 
-  //   // render
-  //   // ------
-  //   glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-  //   glClear(GL_COLOR_BUFFER_BIT);
+    // render
+    // ------
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 
-  //   // render the triangle
-  //   ourShader.use();
-  //   glBindVertexArray(VAO);
-  //   glPointSize(5);
-  //   glDrawArrays(GL_POINTS, 0, n_points);
+    // render the triangle
+    ourShader.use();
+    glBindVertexArray(VAO);
+    glPointSize(5);
+    glDrawArrays(GL_POINTS, 0, n_points);
 
-  //   // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-  //   // -------------------------------------------------------------------------------
-  //   glfwSwapBuffers(window);
-  //   glfwPollEvents();
-  // }
+    // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+    // -------------------------------------------------------------------------------
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+  }
 
-  // // optional: de-allocate all resources once they've outlived their purpose:
-  // // ------------------------------------------------------------------------
+  // optional: de-allocate all resources once they've outlived their purpose:
+  // ------------------------------------------------------------------------
   // delete[] vertices;
 
-  // glDeleteVertexArrays(1, &VAO);
-  // glDeleteBuffers(1, &VBO);
+  glDeleteVertexArrays(1, &VAO);
+  glDeleteBuffers(1, &VBO);
 
-  // // glfw: terminate, clearing all previously allocated GLFW resources.
-  // // ------------------------------------------------------------------
-  // glfwTerminate();
+  // glfw: terminate, clearing all previously allocated GLFW resources.
+  // ------------------------------------------------------------------
+  glfwTerminate();
+
+
+  // Stats
+  // p_vertices_compressed_size: 3962497
+  // Server - snappy - receivecloud(mircosec): 2926
+  // Server - snappy - RawUncompression(mircosec): 24644
 
   return 0;
 }

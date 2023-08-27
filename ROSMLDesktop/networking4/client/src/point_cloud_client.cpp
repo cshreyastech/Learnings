@@ -62,26 +62,36 @@ int main()
     new char[snappy::MaxCompressedLength(vertices_size)];
   size_t p_vertices_compressed_size;
 
-  auto compression_start_time = std::chrono::high_resolution_clock::now();
+  auto compression_start = std::chrono::high_resolution_clock::now();
   snappy::RawCompress(p_vertices, vertices_size, 
     p_vertices_compressed, &p_vertices_compressed_size);
-  auto compression_end_time = std::chrono::high_resolution_clock::now();
-  
+  auto compression_end = std::chrono::high_resolution_clock::now();
+  long long compression_duration = 
+    std::chrono::duration_cast<std::chrono::microseconds>(compression_end - compression_start).count();
+  printf("Client - snappy - RawCompression(mircosec): %lld\n", compression_duration);
+
   client_ptr->SendInt(p_vertices_compressed_size);
   std::cout << "p_vertices_compressed_size: " << p_vertices_compressed_size << std::endl;
 
   for(int i = 0; i < 1; i++)
   {
-    auto timeStart = std::chrono::high_resolution_clock::now();
+    auto send_cloud_start = std::chrono::high_resolution_clock::now();
     
     client_ptr->SendCloud(p_vertices_compressed, p_vertices_compressed_size);
 
-    auto timeEnd = std::chrono::high_resolution_clock::now();
-    long long duration = std::chrono::duration_cast<std::chrono::microseconds>(timeEnd - timeStart).count();
-    printf("E2E no compression - client - reads cloud from file - microseconds: %lld\n", duration);
+    auto send_cloud_end = std::chrono::high_resolution_clock::now();
+    long long send_cloud_duration = 
+      std::chrono::duration_cast<std::chrono::microseconds>(send_cloud_end - send_cloud_start).count();
+    printf("Client - snappy - sendcloud(mircosec): %lld\n", send_cloud_duration);
   }
 
   delete[] p_vertices;
+
+  // Stats
+  // n_points: 307200
+  // Client - snappy - RawCompression(mircosec): 56179
+  // p_vertices_compressed_size: 3962497
+  // Client - snappy - sendcloud(mircosec): 1328
 
   return 0;
 }
