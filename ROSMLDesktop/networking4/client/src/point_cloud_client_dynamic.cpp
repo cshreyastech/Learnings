@@ -13,8 +13,8 @@ void serialize(const char* data, float vertices[], const int vertices_length);
 
 int main()
 {
-  // const std::string hostname_ = "127.0.0.1";
-  const std::string hostname_ = "192.168.86.36";
+  const std::string hostname_ = "127.0.0.1";
+  // const std::string hostname_ = "192.168.86.36";
   const int port_ = 8080;
   std::unique_ptr<SocketClient> client_ptr;
 
@@ -48,45 +48,49 @@ int main()
     n_values_read_from_file++;
   }
   assert(n_points == (n_values_read_from_file)/6);
-  // print_array(vertices, vertices_length);
 
-  // https://stackoverflow.com/questions/332030/when-should-static-cast-dynamic-cast-const-cast-and-reinterpret-cast-be-used  
-  // uint8_t const* p_vertices = static_cast<uint8_t const*>(vertices);
-  // uint8_t const* p_vertices = (uint8_t const*)malloc(vertices_size);
-  // serialize(p_vertices, vertices, vertices_length);
 
-  const char* p_vertices = (const char*)malloc(vertices_size);
-  serialize(p_vertices, vertices, vertices_length);
 
-  char* p_vertices_compressed = 
-    new char[snappy::MaxCompressedLength(vertices_size)];
-  size_t p_vertices_compressed_size;
-
-  auto compression_start = std::chrono::high_resolution_clock::now();
-  snappy::RawCompress(p_vertices, vertices_size, 
-    p_vertices_compressed, &p_vertices_compressed_size);
-  auto compression_end = std::chrono::high_resolution_clock::now();
-  long long compression_duration = 
-    std::chrono::duration_cast<std::chrono::microseconds>(compression_end - compression_start).count();
-  printf("Client - snappy - RawCompression(mircosec): %lld\n", compression_duration);
-
-  client_ptr->SendInt(p_vertices_compressed_size);
-  std::cout << "p_vertices_compressed_size: " << p_vertices_compressed_size << std::endl;
-
-  for(int i = 0; i < 1; i++)
+  // for(int i = 0; i < 1; i++)
+  while(true)
   {
-    auto send_cloud_start = std::chrono::high_resolution_clock::now();
+    // Serilize
+    const char* p_vertices = (const char*)malloc(vertices_size);
+    serialize(p_vertices, vertices, vertices_length);
+
+    // Compress
+    char* p_vertices_compressed = 
+      new char[snappy::MaxCompressedLength(vertices_size)];
+    size_t p_vertices_compressed_size;
+
+    // auto compression_start = std::chrono::high_resolution_clock::now();
+    snappy::RawCompress(p_vertices, vertices_size, 
+      p_vertices_compressed, &p_vertices_compressed_size);
+    // auto compression_end = std::chrono::high_resolution_clock::now();
+    // long long compression_duration = 
+    //   std::chrono::duration_cast<std::chrono::microseconds>(compression_end - compression_start).count();
+    // printf("Client - snappy - RawCompression(mircosec): %lld\n", compression_duration);
+
+    // Send
+    client_ptr->SendInt(p_vertices_compressed_size);
+    // std::cout << "p_vertices_compressed_size: " << p_vertices_compressed_size << std::endl;
+
+
+    // auto send_cloud_start = std::chrono::high_resolution_clock::now();
     
     client_ptr->SendCloud(p_vertices_compressed, p_vertices_compressed_size);
 
     auto send_cloud_end = std::chrono::high_resolution_clock::now();
-    long long send_cloud_duration = 
-      std::chrono::duration_cast<std::chrono::microseconds>(send_cloud_end - send_cloud_start).count();
-    printf("Client - snappy - sendcloud(mircosec): %lld\n", send_cloud_duration);
+    // long long send_cloud_duration = 
+    //   std::chrono::duration_cast<std::chrono::microseconds>(send_cloud_end - send_cloud_start).count();
+    // printf("Client - snappy - sendcloud(mircosec): %lld\n", send_cloud_duration);
+
+
+    // Clean up
+    delete[] p_vertices;
+    delete[] p_vertices_compressed;
   }
 
-  delete[] p_vertices;
-  delete[] p_vertices_compressed;
 
   // Stats
   // n_points: 307200
