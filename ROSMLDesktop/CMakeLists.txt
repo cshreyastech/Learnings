@@ -7,5 +7,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/out/bin)
 # add_subdirectory(networking2)
 # add_subdirectory(networking3_no_compress)
 
+
+set(SNAPPY_BUILD_BENCHMARKS OFF CACHE BOOL "")
+set(SNAPPY_BUILD_TESTS OFF CACHE BOOL "")
+
 add_subdirectory(ext/snappy)
-add_subdirectory(networking4)
+# add_subdirectory(networking4)
+add_subdirectory(networking5_udp)
