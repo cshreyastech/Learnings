@@ -10,7 +10,6 @@
 #include <netinet/in.h>
 #include <vector>
 
-#include "app_framework/ml_tag.h"
 #include "ros_ml_server/struct_declarations.hpp"
 
 class SocketServer {
@@ -19,7 +18,7 @@ class SocketServer {
   ~SocketServer();
   void ConnectToNetwork();
   const int ReceiveInt();  
-  void ReceiveCloud(std::vector<uint8_t>&, const int );
+  void ReceiveCloud(char**, const int );
 
  private:
   void DeserializeInt(int*, unsigned char*);

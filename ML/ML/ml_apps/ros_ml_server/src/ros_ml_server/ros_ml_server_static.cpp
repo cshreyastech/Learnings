@@ -105,8 +105,78 @@ int main() {
   const int vertices_size = vertices_length * sizeof(float);
 
 
+  const int p_vertices_compressed_size = server_ptr->ReceiveInt();
+  ML_LOG_TAG(Info, APP_TAG, "p_vertices_compressed_size: %d\n", p_vertices_compressed_size);
 
 
+  char* p_vertices_compressed = 
+    // (char*)malloc(p_vertices_compressed_size);
+    new char[p_vertices_compressed_size];
+
+  for(int i = 0; i < 1; i++)
+  {
+    auto receive_cloud_start = std::chrono::high_resolution_clock::now();
+    
+    server_ptr->ReceiveCloud(&p_vertices_compressed, p_vertices_compressed_size);
+
+    auto receive_cloud_end = std::chrono::high_resolution_clock::now();
+    long long receive_cloud_duration = 
+      std::chrono::duration_cast<std::chrono::microseconds>(receive_cloud_end - receive_cloud_start).count();
+    ML_LOG_TAG(Info, APP_TAG, "Server - snappy - receivecloud(mircosec): %lld\n", receive_cloud_duration);
+  }
+  char* p_vertices_uncompressed = 
+    // (char*)malloc(vertices_size);
+    new char[vertices_size];
+
+  auto uncompression_start = std::chrono::high_resolution_clock::now();
+  bool raw_uncompress = snappy::RawUncompress(p_vertices_compressed, p_vertices_compressed_size,
+                     p_vertices_uncompressed);
+  auto uncompression_end = std::chrono::high_resolution_clock::now();
+  long long uncompression_duration = 
+    std::chrono::duration_cast<std::chrono::microseconds>(uncompression_end - uncompression_start).count();
+  ML_LOG_TAG(Info, APP_TAG, "Server - snappy - RawUncompression(mircosec): %lld\n", uncompression_duration);
+
+  delete[] p_vertices_compressed;
+
+  float* vertices = new float[vertices_length];
+  deserialize(p_vertices_uncompressed, vertices, vertices_length);
+
+  delete[] p_vertices_uncompressed;
+
+
+	// 08-28 12:55:37.592  2202     1 I MAIN    : p_vertices_compressed_size: 3962497
+	// 08-28 12:55:37.806  2202     1 I MAIN    : Server - snappy - receivecloud(mircosec): 213901
+	// 08-28 12:55:37.891  2202     1 I MAIN    : Server - snappy - RawUncompression(mircosec): 85082
+
+  // float* vertices_0 = (float*)malloc(vertices_size);
+
+
+ // Validation beginning
+  std::ifstream file_handler("data/res/cloud/depth_data_0.txt");
+  float vertices_check[vertices_length];
+  // float* vertices_check = new float[vertices_length];
+  std::string each_value_str;
+  int n_values_read_from_file  = 0;
+  while(file_handler >> each_value_str)
+  {
+    std::string each_value_clean_str = 
+      each_value_str.substr(0, each_value_str.find("f", 0));
+
+    float value_float = std::stof(each_value_clean_str);
+
+    vertices_check[n_values_read_from_file] = value_float;
+    n_values_read_from_file++;
+  }
+  assert(n_points == (n_values_read_from_file)/6);
+
+  for(int i = 0; i < vertices_length; i++)
+  {
+    // printf("vertices[%d]:%f, vertices_check[%d]:%f\n", i, vertices[i], i, vertices_check[i]);
+    assert(vertices[i] == vertices_check[i]);
+  }
+  file_handler.close();
+
+  ML_LOG_TAG(Info, APP_TAG, "Cloud data matches");
   ////////////////////
 
   MLHandle ml_head_tracker_ = ML_INVALID_HANDLE;
@@ -127,44 +197,7 @@ int main() {
 	ML_LOG_TAG(Debug, APP_TAG, "Enter main loop");
 
 
-  float* vertices = new float[vertices_length];
-  char* p_vertices_uncompressed = new char[vertices_size];
-
   while (true) {  
-
-    const int p_vertices_compressed_size = server_ptr->ReceiveInt();
-    ML_LOG_TAG(Info, APP_TAG, "p_vertices_compressed_size: %d\n", p_vertices_compressed_size);
-
-
-    char* p_vertices_compressed = 
-      // (char*)malloc(p_vertices_compressed_size);
-      new char[p_vertices_compressed_size];
-
-    auto receive_cloud_start = std::chrono::high_resolution_clock::now();
-    
-    server_ptr->ReceiveCloud(&p_vertices_compressed, p_vertices_compressed_size);
-
-    auto receive_cloud_end = std::chrono::high_resolution_clock::now();
-    long long receive_cloud_duration = 
-      std::chrono::duration_cast<std::chrono::microseconds>(receive_cloud_end - receive_cloud_start).count();
-    ML_LOG_TAG(Info, APP_TAG, "Server - snappy - receivecloud(mircosec): %lld\n", receive_cloud_duration);
-    
-    
-
-    auto uncompression_start = std::chrono::high_resolution_clock::now();
-    bool raw_uncompress = snappy::RawUncompress(p_vertices_compressed, p_vertices_compressed_size,
-                       p_vertices_uncompressed);
-    auto uncompression_end = std::chrono::high_resolution_clock::now();
-    long long uncompression_duration = 
-      std::chrono::duration_cast<std::chrono::microseconds>(uncompression_end - uncompression_start).count();
-    ML_LOG_TAG(Info, APP_TAG, "Server - snappy - RawUncompression(mircosec): %lld\n", uncompression_duration);
-
-    delete[] p_vertices_compressed;
-
-  
-    deserialize(p_vertices_uncompressed, vertices, vertices_length);
-
-    
     // Part 2: Get state of the Controller
     MLInputControllerState input_states[MLInput_MaxControllers];
       CHECK(MLInputGetControllerState(input, input_states));
@@ -246,7 +279,6 @@ int main() {
 
 	// End of game loop, clean app and exit
 	ML_LOG_TAG(Debug, APP_TAG, "End application loop");
-  delete[] p_vertices_uncompressed;
   delete[] vertices;
 	graphics_context.unmakeCurrent();
 	glDeleteFramebuffers(1, &graphics_context.framebuffer_id);

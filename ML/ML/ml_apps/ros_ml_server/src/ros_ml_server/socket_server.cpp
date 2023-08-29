@@ -22,8 +22,7 @@ void SocketServer::ConnectToNetwork() {
   sock_fdesc_init_ = socket(AF_INET, SOCK_STREAM, 0);
   if (sock_fdesc_init_ == -1) {
     close(sock_fdesc_init_);
-    // perror("Couldn't create socket!\n");
-    ML_LOG_TAG(Error, APP_TAG, "Couldn't create socket!");
+    perror("Couldn't create socket!\n");
     exit(1);
   }
 
@@ -38,21 +37,17 @@ void SocketServer::ConnectToNetwork() {
   // Assign server address to initial socket file descriptor
   if (bind(sock_fdesc_init_, (struct sockaddr*)&server_addr_,
            server_addr_size_) == -1) {
-    ML_LOG_TAG(Error, APP_TAG, "Couldn't bind initial socket file descriptor!");
-    ML_LOG_TAG(Error, APP_TAG, "Trying again after killing existing process on port %d", port_);
-    // perror("Couldn't bind initial socket file descriptor!");
-    // printf("Trying again after killing existing process on port %d...\n",
-    //        port_);
+    perror("Couldn't bind initial socket file descriptor!");
+    printf("Trying again after killing existing process on port %d...\n",
+           port_);
     close(sock_fdesc_init_);
     if (bind(sock_fdesc_init_, (struct sockaddr*)&server_addr_,
              server_addr_size_) == -1) {
-      // perror("Couldn't bind initial socket file descriptor after retry!");
-      ML_LOG_TAG(Error, APP_TAG, "Couldn't bind initial socket file descriptor after retry!");
+      perror("Couldn't bind initial socket file descriptor after retry!");
       exit(1);
     }
-    // printf("Successful bind to port %d after killing previous process\n",
-    //        port_);
-    ML_LOG_TAG(Error, APP_TAG, "Successful bind to port %d after killing previous process", port_);
+    printf("Successful bind to port %d after killing previous process\n",
+           port_);
   }
 
   // Enable listening on initial socket file descriptor
@@ -63,8 +58,7 @@ void SocketServer::ConnectToNetwork() {
   sock_fdesc_conn_ = accept(sock_fdesc_init_, (struct sockaddr*)&client_addr_,
                             &client_len_);
   if (sock_fdesc_conn_ == -1) {
-    // perror("ERROR! Client couldn't connect!");
-    ML_LOG_TAG(Error, APP_TAG, "Client couldn't connect!");
+    perror("ERROR! Client couldn't connect!");
     exit(1);
   }
 }
@@ -93,51 +87,42 @@ const int SocketServer::ReceiveInt()
   num_bytes = recv(sock_fdesc_conn_, data_arr, packet_size, 0);
 
   // printf("Received packet_size: %d\n", packet_size);
-  ML_LOG_TAG(Info, APP_TAG, "Received packet_size: %d", packet_size);
   int value;
   DeserializeInt(&value, data_arr);
   return value;
 }
 
-void SocketServer::ReceiveCloud(std::vector<uint8_t>& zlibData, const int zlibData_size)
+void SocketServer::ReceiveCloud(char** data, const int data_size)
 {
   int num_bytes = 0;
   int total_num_bytes = 0;
-  int packet_size = zlibData_size;
+  int packet_size = data_size;
 
   // Allocate space for image buffer
-  uint8_t data_arr[packet_size];
+  char sock_data[data_size];
 
   // Save image data to buffer
-  for (int i = 0; i < packet_size; i += num_bytes) {
-    num_bytes = recv(sock_fdesc_conn_, data_arr + i, packet_size - i, 0);
+  for (int i = 0; i < data_size; i += num_bytes) {
+    num_bytes = recv(sock_fdesc_conn_, sock_data + i, data_size - i, 0);
     total_num_bytes += num_bytes;
 
     if (num_bytes == -1) {
-      ML_LOG_TAG(Error, APP_TAG, 
-        "recv failed: i:%d, sock_fdesc: %d, packet_size: %d, num_bytes: %d",
-      i, sock_fdesc_conn_, packet_size, num_bytes);
-      // printf("ERROR!: recv failed\n"
-      //        "i: %d\n"
-      //        "sock_fdesc: %d\n"
-      //        "packet_size: %d\n"
-      //        "num_bytes: %d\n", i, sock_fdesc_conn_, packet_size, num_bytes);
+      printf("ERROR!: recv failed\n"
+             "i: %d\n"
+             "sock_fdesc: %d\n"
+             "data_size: %d\n"
+             "num_bytes: %d\n", i, sock_fdesc_conn_, data_size, num_bytes);
       exit(1);
     }
   }
 
-  // printf("Received packet_size: %d\n", packet_size);
-  ML_LOG_TAG(Error, APP_TAG, "Received packet_size: %d", packet_size);
+  // printf("data_size: %d, total_num_bytes: %d\n", data_size, total_num_bytes);
 
-  for(int i = 0; i < packet_size; i++)
-  {
-    zlibData.emplace_back(data_arr[i]);    
-  }
+  memcpy(*data, sock_data, data_size);
 }
 
 SocketServer::~SocketServer()
 {
   close(sock_fdesc_conn_);
-  // printf("Closed socket at port %d\n", port_);
-  ML_LOG_TAG(Info, APP_TAG, "Closed socket at port %d", port_);
+  printf("Closed socket at port %d\n", port_);    
 }
