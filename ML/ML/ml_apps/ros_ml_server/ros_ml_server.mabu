@@ -6,8 +6,7 @@ SRCS = \
   src/render/RBPoint.cpp \
   src/ros_ml_server/socket_server.cpp \
   src/ros_ml_server/zlib_compression.cpp \
-  # src/ros_ml_server/ros_ml_server.cpp \
-  src/ros_ml_server/ros_ml_server_dynamic.cpp \
+  src/ros_ml_server/ros_ml_server.cpp \
 
 INCS = \
   include/ \

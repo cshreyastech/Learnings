@@ -92,7 +92,8 @@ const int SocketServer::ReceiveInt()
 
   num_bytes = recv(sock_fdesc_conn_, data_arr, packet_size, 0);
 
-  // ML_LOG_TAG(Info, APP_TAG, "Received packet_size: %d", packet_size);
+  // printf("Received packet_size: %d\n", packet_size);
+  ML_LOG_TAG(Info, APP_TAG, "Received packet_size: %d", packet_size);
   int value;
   DeserializeInt(&value, data_arr);
   return value;
@@ -116,11 +117,17 @@ void SocketServer::ReceiveCloud(std::vector<uint8_t>& zlibData, const int zlibDa
       ML_LOG_TAG(Error, APP_TAG, 
         "recv failed: i:%d, sock_fdesc: %d, packet_size: %d, num_bytes: %d",
       i, sock_fdesc_conn_, packet_size, num_bytes);
+      // printf("ERROR!: recv failed\n"
+      //        "i: %d\n"
+      //        "sock_fdesc: %d\n"
+      //        "packet_size: %d\n"
+      //        "num_bytes: %d\n", i, sock_fdesc_conn_, packet_size, num_bytes);
       exit(1);
     }
   }
 
-  // ML_LOG_TAG(Error, APP_TAG, "Received packet_size: %d", packet_size);
+  // printf("Received packet_size: %d\n", packet_size);
+  ML_LOG_TAG(Error, APP_TAG, "Received packet_size: %d", packet_size);
 
   for(int i = 0; i < packet_size; i++)
   {

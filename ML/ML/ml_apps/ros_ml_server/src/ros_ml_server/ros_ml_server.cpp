@@ -25,10 +25,6 @@
 #include <cassert>
 #include <fstream>
 #include <string>
-#include <chrono>
-
-#include <fstream>
-#include <cassert>
 
 // 3. App Lifecycle callback functions
 
@@ -45,7 +41,6 @@ static void on_resume(void* user_data) {
 }
 
 void deserialize(std::vector<uint8_t>& data, float vertices[], const int vertices_length);
-void ParseCloudFromFile(const std::string file_path, float vertices[], const int n_points);
 
 int main() {
   std::unique_ptr<SocketServer> server_ptr(new SocketServer(8080));
@@ -56,27 +51,42 @@ int main() {
   const int vertices_size = vertices_length * sizeof(float);
   ML_LOG_TAG(Error, APP_TAG, "n_points:%d ", n_points);
   
-  // Receive Cloud data
-  std::vector<uint8_t> p_vertices_vec;
-  server_ptr->ReceiveCloud(p_vertices_vec, vertices_size);
-  assert(p_vertices_vec.size() == vertices_size);
-  ML_LOG_TAG(Error, APP_TAG, "p_vertices_vec.size():%lu ", p_vertices_vec.size());
+  // for(int i = 0; i < vertices_length; i++)
+  // {
+  //   ML_LOG_TAG(Info, APP_TAG, "vertices[%d]:%f\n", i, vertices[i]);
+  // }
+  // // Validation beginning
+  // std::ifstream file_handler("data/res/cloud/depth_data.txt");
+  // // float vertices_check[vertices_length];
+  // float* vertices_check = new float[vertices_length];
+  // std::string each_value_str;
+  // int n_values_read_from_file  = 0;
+  // while(file_handler >> each_value_str)
+  // {
+  //   std::string each_value_clean_str = 
+  //     each_value_str.substr(0, each_value_str.find("f", 0));
+
+  //   float value_float = std::stof(each_value_clean_str);
+
+  //   vertices_check[n_values_read_from_file] = value_float;
+  //   n_values_read_from_file++;
+  // }
+  // assert(n_points == (n_values_read_from_file)/6);
+
+  // for(int i = 0; i < vertices_length; i++)
+  // {
+  //   // ML_LOG_TAG(Info, APP_TAG, "vertices_check[%d]:%f\n", i, vertices_check[i]);
+    
+  //   // ML_LOG_TAG(Info, APP_TAG, 
+  //   //   "vertices_check[%d]:%f, vertices[%d]:%f\n", i, vertices_check[i], i, vertices[i]);
+
+  //   assert(vertices[i] == vertices_check[i]);
+  // }
+  // file_handler.close();
+  // delete[] vertices_check;
+  // // Validation end
+
   
-  // convert it to float array
-  float* vertices = (float*)malloc(vertices_size);
-
-  deserialize(p_vertices_vec, vertices, vertices_length);
-
-  ML_LOG_TAG(Info, APP_TAG, "Starting Cloud data validation");
-  float* vertices_0_check = (float*)malloc(vertices_size);
-  ParseCloudFromFile("data/res/cloud/depth_data_0.txt", vertices_0_check, n_points);
-  for(int i = 0; i < vertices_length; i++)
-    assert(vertices_0_check[i] == vertices[i]);
-
-  // delete[] vertices;
-  delete[] vertices_0_check;
-  ML_LOG_TAG(Info, APP_TAG, "Cloud data matches");
-
   graphics_context_t graphics_context;
 
 	MLLoggingEnableLogLevel(MLLogLevel_Debug);
@@ -169,8 +179,9 @@ int main() {
 	// right_eye.SetColor(COLOR_BLUE);
 	// right_eye.SetPosition(0.1f, 0.0f, 0.0f);
 
-  Point cloud = Point(pointShader3D, n_points, vertices_size);
-
+	Point cloud = Point();
+	// cloud.ApplyShader(pointShader3D);
+  // cloud.ApplyShader(pointShader3D, vertices, n_points, vertices_size);
 
   MLHandle ml_head_tracker_ = ML_INVALID_HANDLE;
   MLHeadTrackingStaticData ml_head_static_data_ = {};
@@ -186,6 +197,25 @@ int main() {
 	// The main/game loop
 	ML_LOG_TAG(Debug, APP_TAG, "Enter main loop");
 	while (true) {
+    const int zlibData_size = server_ptr->ReceiveInt();
+    ML_LOG_TAG(Error, APP_TAG, "zlibData_size:%d ", zlibData_size);
+
+    std::vector<uint8_t> zlibData_vec;
+    server_ptr->ReceiveCloud(zlibData_vec, zlibData_size);
+    ML_LOG_TAG(Error, APP_TAG, "zlibData_vec.size():%lu ", zlibData_vec.size());
+
+    uint8_t* zlibData_array = (uint8_t*)malloc(zlibData_vec.size());
+    std::copy(zlibData_vec.begin(), zlibData_vec.end(), zlibData_array);
+
+    ZlibCompression zlib;
+    std::vector<uint8_t> plainData = zlib.Decompress(zlibData_array, zlibData_vec.size());
+    
+    // convert it to float array
+    float* vertices = (float*)malloc(vertices_size);
+    // float* vertices[vertices_size];
+    deserialize(plainData, vertices, vertices_length);
+    cloud.ApplyShader(pointShader3D, vertices, n_points, vertices_size);
+
 		// Part 2: Get state of the Controller
 		MLInputControllerState input_states[MLInput_MaxControllers];
       CHECK(MLInputGetControllerState(input, input_states));
@@ -253,13 +283,16 @@ int main() {
 				// 	ml_left_eye_center.position.y,
 				// 	ml_left_eye_center.position.z);
 
+
+				// Part 2: Render the object
+				// cylinder.Render(projectionMatrix);
+				// square.Render(projectionMatrix);
 				
 				// left_eye.Render(projectionMatrix);
 				fixation.Render(projectionMatrix);
 				// right_eye.Render(projectionMatrix);
 				// point.Render(projectionMatrix);
-				// cloud.Render(projectionMatrix);
-        cloud.Render(projectionMatrix, vertices, vertices_size);
+				cloud.Render(projectionMatrix);
 				// Bind the frame buffer
 				glBindFramebuffer(GL_FRAMEBUFFER, 0);
 				MLGraphicsSignalSyncObjectGL(graphics_client, virtual_camera_array.virtual_cameras[camera].sync_object);
@@ -275,7 +308,9 @@ int main() {
 		else if (frame_result != MLResult_Timeout) {
 			// Sometimes it fails with timeout when device is busy
 			ML_LOG_TAG(Error, APP_TAG, "MLGraphicsBeginFrame() error: %d", frame_result);
-		}    
+		}
+
+    delete[] vertices;
 	}
 
 	// End of game loop, clean app and exit
@@ -288,7 +323,6 @@ int main() {
 	ML_LOG_TAG(Debug, APP_TAG, "System cleanup done");
 
   // clean up system
-  delete[] vertices;
   MLHeadTrackingDestroy(ml_head_tracker_);
   MLEyeTrackingDestroy(ml_eye_tracker_);
 
@@ -310,27 +344,4 @@ void deserialize(std::vector<uint8_t>& data, float vertices[], const int vertice
   {
     vertices[i] = *q; q++; 
   }
-}
-
-void ParseCloudFromFile(const std::string file_path, float vertices[], const int n_points)
-{
-  std::ifstream file_handler(file_path);
-  ML_LOG_TAG(Debug, APP_TAG, "file_path: %s", file_path.c_str());
-
-  std::string each_value_str;
-
-  int n_values_read_from_file  = 0;
-  while(file_handler >> each_value_str)
-  {
-    std::string each_value_clean_str = 
-      each_value_str.substr(0, each_value_str.find("f", 0));
-
-    float value_float = std::stof(each_value_clean_str);
-
-    vertices[n_values_read_from_file] = value_float;
-    n_values_read_from_file++;
-  }
-
-  file_handler.close();
-  assert(n_points == (n_values_read_from_file / 6));
 }
