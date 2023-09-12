@@ -8,5 +8,5 @@ assimp,ext/repos/assimp-v.5.0.0.rc1.zip,https://github.com/assimp/assimp/archive
 imgui,ext/repos/imgui-1.6.8.zip,https://github.com/ocornut/imgui/archive/v1.68.zip,ext/repos
 json,ext/repos/json-3.6.1.zip,https://github.com/nlohmann/json/archive/v3.6.1.zip,ext/repos
 png,ext/repos/libpng-1.6.36.tar.gz,https://sourceforge.net/projects/libpng/files/libpng16/1.6.36/libpng-1.6.36.tar.gz,ext/repos
-zlib,ext/repos/zlib-1.2.13.tar.gz,https://www.zlib.net/zlib-1.2.13.tar.gz,ext/repos
+zlib,ext/repos/zlib-1.3.tar.gz,https://www.zlib.net/zlib-1.3.tar.gz,ext/repos
 asio,ext/repos/asio-1.28.0.zip,https://sourceforge.net/projects/asio/files/asio/1.28.0%20%28Stable%29/asio-1.28.0.zip/download,ext/repos
