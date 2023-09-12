@@ -24,3 +24,5 @@ REFS = \
   ../../app_framework/app_framework \
 
 DATAS = data/ : data/
+
+OPTIONS=standard-c++/17

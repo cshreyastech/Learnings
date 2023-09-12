@@ -9,6 +9,7 @@ REFS = \
 	# ext/imgui \
 	# ext/stb \
   ext/snappy \
+
   
 SRCS = \
   # src/graphics_context.cpp \
@@ -19,13 +20,15 @@ USES = \
 	# ext/assimp \
 	# ext/gflags \
 	ext/glm \
+	ext/asio \
 	ml_sdk \
 	stdc++
 
-# SRCS.lumin = src/device/graphics_context.cpp
+
 DEFS.win = \
 	GLFW_INCLUDE_NONE=1 \
 	ML_USE_HIGH_PERFORMANCE_GPU=1
 
 # SRCS.win = src/host/graphics_context.cpp
 USES.win = ext/glfw
+OPTIONS=standard-c++/17
