@@ -50,10 +50,12 @@ ML/FromMLSamples/app_framework/external/libpng-1.6.36/*
 ML/FromMLSamples/app_framework/external/package/*
 ML/FromMLSamples/app_framework/external/stb-master/*
 ML/FromMLSamples/app_framework/external/zlib-1.2.13/*
+
 ML/FromMLSamples/samples/BUILD/*
 ML/FromMLSamples/samples/dist/*
 ML/ML/app_framework/ext/build/*
 ML/ML/app_framework/ext/.out/*
+ML/ML/app_framework/ext/repos/*
 
 ML/FromTheCherno/opengl_app/.out/*
 ML/FromTheCherno/opengl_app/Dependencies/.out/
