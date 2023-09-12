@@ -7,15 +7,19 @@
 #include<netinet/in.h>
 #include<unistd.h>
 #include<stdlib.h>
+#include<iostream>
 
 #define PORT 5000
 #define MAXLINE 1000
+
+// g++ -std=c++17 04-ucp_connect_client.c -o 04-ucp_connect_client
 
 // Driver code
 int main()
 {
 	char buffer[100];
-	char *message = "Hello Server";
+	std::string message = "Hello from Client";
+  // char *message = "Hello Server";
 	int sockfd, n;
 	struct sockaddr_in servaddr;
 	
@@ -38,7 +42,7 @@ int main()
 	// request to send datagram
 	// no need to specify server address in sendto
 	// connect stores the peers IP and port
-	sendto(sockfd, message, MAXLINE, 0, (struct sockaddr*)NULL, sizeof(servaddr));
+	sendto(sockfd, message.c_str(), MAXLINE, 0, (struct sockaddr*)NULL, sizeof(servaddr));
 	
 	// waiting for response
 	recvfrom(sockfd, buffer, sizeof(buffer), 0, (struct sockaddr*)NULL, NULL);
