@@ -25,6 +25,17 @@
 #include <cassert>
 #include <signal.h>
 
+#include <ml_api.h>
+#include <ml_connections.h>
+#include <ml_privileges.h>
+
+#include <ml_logging.h>
+
+#include <ml_graphics.h>
+#include <ml_lifecycle.h>
+#include <ml_perception.h>
+
+const char APP_TAG[] = "MAIN";
 
 namespace olc
 {
@@ -55,6 +66,9 @@ namespace olc
     std::string sAppName;
     int n_points;
     float* vertices;
+
+  private:
+    void RequestPrivileges();
 
   private:
     // GLFWwindow* window_;

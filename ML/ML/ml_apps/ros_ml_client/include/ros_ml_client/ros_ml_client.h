@@ -9,8 +9,7 @@
 #include <unordered_map>
 #include <cassert>
 
-#include <ml_logging.h>
-const char APP_TAG[] = "MAIN";
+
 
 
 class RosMLClient : public olc::GameEngine, olc::net::client_interface<GameMsg>

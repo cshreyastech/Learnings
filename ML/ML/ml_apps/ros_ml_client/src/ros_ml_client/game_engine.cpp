@@ -1,15 +1,18 @@
 #include "ros_ml_client/game_engine.h"
+
+
+
 namespace olc
 {
   GameEngine::GameEngine()
   {
-
+    ML_LOG_TAG(Info, APP_TAG, "Inside GameEngine()");
   }
 
   GameEngine::~GameEngine()
   {
-    std::cout << "Inside ~GameEngine()\n";
-    delete[] vertices;
+    ML_LOG_TAG(Info, APP_TAG, "Inside ~GameEngine()");
+
   }
 
   olc::rcode GameEngine::Construct(int32_t screen_w, int32_t screen_h)
@@ -45,6 +48,10 @@ namespace olc
 
   bool GameEngine::OnUserDestroy()
   {
+
+    ML_LOG_TAG(Info, APP_TAG, "Inside OnUserDestroy()");    
+    delete[] vertices;
+
     return true;
   }
 
