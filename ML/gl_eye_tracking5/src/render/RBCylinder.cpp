@@ -1,10 +1,10 @@
-#include "RBCylinder.h"
-#include "RBShader.h"
+#include "render/RBCylinder.h"
+#include "render/RBShader.h"
 
 #include <iostream>
 
 #define GLM_FORCE_RADIANS
-#include "../glm/gtc/matrix_transform.hpp"
+#include "../../glm/gtc/matrix_transform.hpp"
 
 const char APP_TAG[] = "C-ENGINE-CYL";
 #include <ml_logging.h>

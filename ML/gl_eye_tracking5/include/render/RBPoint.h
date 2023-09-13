@@ -1,13 +1,13 @@
 #pragma once
 
-#include "platform_includes.h"
+#include "core/platform_includes.h"
 
 class Shader;
 
-class Square {
+class Point {
 public:
-	Square(int steps);
-	~Square();
+	Point(Shader&);
+	~Point();
 
 public:
 	void SetPosition(float x, float y, float z) { _position = glm::vec3(x, y, z); }
@@ -19,7 +19,9 @@ public:
 	void SetColor(glm::vec3 color) { _color = color; }
 	glm::vec3 GetColor() { return _color; }
 
-	void ApplyShader(Shader& shader);
+
+  // void ApplyShader(Shader&, float[], const int, const int);
+  void ApplyShader(float[], const int, const int);
 	void Render(glm::mat4 projectionMatrix);
 
 	void Dump();
@@ -35,9 +37,8 @@ private:
 	glm::vec3 _position;
 	glm::vec3 _rotation;
 	glm::vec3 _scale;
+  GLuint _location;
 
 	// Part 3: Added to support laserpointer
 	glm::mat4 _transform;
-
-	int _indices_n;
 };

@@ -12,11 +12,11 @@
 #include <ml_head_tracking.h>
 #include <ml_input.h>
 
-#include "RBShader.h"
-#include "RBCylinder.h"
-#include "RBSquare.h"
-#include "RBCube.h"
-#include "RBPointDynamic.h"
+#include "render/RBShader.h"
+#include "render/RBCylinder.h"
+#include "render/RBSquare.h"
+#include "render/RBCube.h"
+#include "render/RBPointDynamic.h"
 #include <fstream>
 #include <cassert>
 

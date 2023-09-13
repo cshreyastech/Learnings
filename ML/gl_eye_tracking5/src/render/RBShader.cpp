@@ -8,7 +8,7 @@
 
 #include <ml_logging.h>
 
-#include "RBShader.h"
+#include "render/RBShader.h"
 
 GLuint Shader::GetAttributeLocation(std::string name) {
 	return glGetAttribLocation(_programID, name.c_str());
