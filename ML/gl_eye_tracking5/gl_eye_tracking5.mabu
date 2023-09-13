@@ -1,0 +1,32 @@
+KIND = program
+
+INCS =  src/
+
+SRCS = \
+    # src/main_asio.cpp \
+    src/main.cpp \
+    src/RBShader.cpp \
+    src/RBCylinder.cpp \
+    src/RBSquare.cpp \
+    src/RBCube.cpp \
+    src/RBPointDynamic.cpp
+
+DEFS = \
+    ML_DEFAULT_LOG_TAG="gl_eye_tracking4" \
+
+DEFS.device = ML_DEVICE
+
+USES = \
+    ml_sdk OpenGL stdc++ \
+    samples_common \
+
+# REFS = \
+    # asio
+    # glad \
+    # glew \
+    # stb \
+
+
+DATAS = data/ : data/
+
+OPTIONS = standard-c++/17 exceptions/on warn/on
