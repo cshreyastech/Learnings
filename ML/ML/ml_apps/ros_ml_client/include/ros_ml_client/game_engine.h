@@ -22,6 +22,10 @@
 // #include "glad/glad.h"
 // #include <GLFW/glfw3.h>
 #include <memory>
+#include <cassert>
+#include <signal.h>
+
+
 namespace olc
 {
   enum rcode { FAIL = 0, OK = 1, NO_FILE = -1 };
@@ -48,7 +52,9 @@ namespace olc
   //   // To be filled later
 
   public: // Branding
-		std::string sAppName;
+    std::string sAppName;
+    int n_points;
+    float* vertices;
 
   private:
     // GLFWwindow* window_;
