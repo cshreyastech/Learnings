@@ -7,8 +7,6 @@
 #include <unordered_map>
 #include <cassert>
 
-
-
 class RosMLClient : public olc::GameEngine
 {
 public:
@@ -17,6 +15,7 @@ public:
 
 
 private:
+
 
 public:
 	bool OnUserCreate() override;

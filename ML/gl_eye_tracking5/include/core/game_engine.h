@@ -2,13 +2,12 @@
 #define GAME_ENGINE_H
 
 
-#include "render/RBShader.h"
-// #include "render/RBCylinder.h"
-// #include "render/RBSquare.h"
-// #include "render/RBCube.h"
-#include "render/RBPointDynamic.h"
+#include<string>
+#include <iostream>
 
+// #include <ml_logging.h>
 
+const char APP_TAG[] = "MAIN";
 
 namespace olc
 {
@@ -19,7 +18,7 @@ namespace olc
     GameEngine();
     virtual ~GameEngine();
   public:
-    olc::rcode Construct(int32_t screen_w, int32_t screen_h);
+    olc::rcode Construct();
     olc::rcode Start();
 
   public: // User override interface
@@ -30,12 +29,15 @@ namespace olc
   // Called once an application termination, used for clearing resources
   virtual bool OnUserDestroy();
 
+  olc::rcode PublishCloud(float vertices[]);
+
   public: // Branding
 		std::string sAppName;
 		int n_points;
     float* vertices;
 
   private:
+    // graphics_context_t graphics_context_;
     // GLFWwindow* window_;
   }; 
 

@@ -1,22 +1,23 @@
 #include "core/game_engine.h"
-#include "core/ml_utilities.h"
+
 
 namespace olc
 {
   GameEngine::GameEngine()
   {
-
+    std::cout << "GameEngine::GameEngine()\n";
   }
 
   GameEngine::~GameEngine()
   {
-    ML_LOG_TAG(Debug, APP_TAG, "inside GameEngine::~GameEngine()");
+    std::cout << "GameEngine::~GameEngine()\n"; 
+    // ML_LOG_TAG(Debug, APP_TAG, "inside GameEngine::~GameEngine()");
     // delete[] vertices;
   }
 
-  olc::rcode GameEngine::Construct(int32_t screen_w, int32_t screen_h)
+  olc::rcode GameEngine::Construct()
   {
-    ML_LOG_TAG(Debug, APP_TAG, "inside GameEngine::Construct()");
+    std::cout << "GameEngine::Construct()\n"; 
   // glfw: initialize and configure
   // ------------------------------
 
@@ -26,21 +27,16 @@ namespace olc
 
   bool GameEngine::OnUserCreate()
   {
-    ML_LOG_TAG(Debug, APP_TAG, "inside GameEngine::Create()");
     return false;
   }
 
   bool GameEngine::OnUserUpdate(float fElaspedTime)
   {
-    ML_LOG_TAG(Debug, APP_TAG, "inside GameEngine::OnUserUpdate()");
+    std::cout << "GameEngine::OnUserUpdate()\n"; 
     // const int vertices_length = n_points * 6;
-		// const int vertices_size = vertices_length * sizeof(float);
+    // const int vertices_size = vertices_length * sizeof(float);
 
     // assert(vertices[vertices_length - 1] == 0.619608f);
-
-
-
-    
     // std::cout << "GameEngine::OnUserUpdate() - validated:" << std::endl;
 
     // assert(vertices[vertices_length - 1] == 0.619608f);
@@ -53,19 +49,29 @@ namespace olc
   }
 
   bool GameEngine::OnUserDestroy()
-	{
-    ML_LOG_TAG(Debug, APP_TAG, "inside GameEngine::OnUserDestroy()");
-		return true;
-	}
+  {
+    std::cout << "GameEngine::OnUserDestroy()\n"; 
+    return true;
+  }
 
   olc::rcode GameEngine::Start()
   {
-    ML_LOG_TAG(Debug, APP_TAG, "inside GameEngine::Start()");
+    std::cout << "GameEngine::OnuserStart()\n"; 
     OnUserCreate();
 
     while(true)
       OnUserUpdate(0.0f);
     return olc::rcode::OK;
   }
+
+  olc::rcode GameEngine::PublishCloud(float vertices[])
+  {
+    std::cout << "Inside GameEngine::PublishCloud()\n";
+    std::cout << "vertices[10] = 0.133333f: " << vertices[10] << std::endl;
+
+    return olc::rcode::OK;
+  }
+
+
 
 } // namespace olc

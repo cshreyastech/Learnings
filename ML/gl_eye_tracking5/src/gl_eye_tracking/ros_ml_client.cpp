@@ -1,29 +1,31 @@
 
 #include "gl_eye_tracking/ros_ml_client.h"
 
-
 RosMLClient::RosMLClient() : olc::GameEngine()
 {
-	ML_LOG_TAG(Debug, APP_TAG, "inside RosMLClient::RosMLClient()");
+	// ML_LOG_TAG(Debug, APP_TAG, "inside RosMLClient::RosMLClient()");
+	std::cout << "RosMLClient::RosMLClient()\n";
 	sAppName = "MMO Client";
 }
 
 RosMLClient::~RosMLClient()
 {
-	ML_LOG_TAG(Debug, APP_TAG, "inside ~RosMLClient()");
+	std::cout << "RosMLClient::~RosMLClient()\n";
+	// ML_LOG_TAG(Debug, APP_TAG, "inside ~RosMLClient()");
 	// delete[] vertices;
 }
 
+
 bool RosMLClient::OnUserCreate()
 {
-
-	return false;
+	std::cout << "RosMLClient::OnUserCreate()\n";
+	return true;
 }
 
 bool RosMLClient::OnUserUpdate(float fElapsedTime)
 {
-	// Check for incoming network messages
-	ML_LOG_TAG(Debug, APP_TAG, "inside RosMLClient::OnUserUpdate()");
+	std::cout << "RosMLClient::OnUserUpdate()\n";
+	GameEngine::OnUserUpdate(fElapsedTime);
 	return true;
 }
 
@@ -34,12 +36,4 @@ void RosMLClient::Deserialize(const char* data, float vertices[], const int vert
   {
     vertices[i] = *q; q++;
   }
-}
-
-int main()
-{
-	RosMLClient ros_ml_client;
-	if (ros_ml_client.Construct(800, 600))
-		ros_ml_client.Start();
-	return 0;
 }
