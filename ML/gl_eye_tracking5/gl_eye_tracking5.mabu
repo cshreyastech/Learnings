@@ -3,7 +3,9 @@ KIND = program
 INCS =  include/
 
 SRCS = \
-    src/gl_eye_tracking5/main.cpp \
+    # src/gl_eye_tracking5/main.cpp \
+    src/gl_eye_tracking/ros_ml_client.cpp \
+    src/core/game_engine.cpp \
     src/render/RBShader.cpp \
     src/render/RBCylinder.cpp \
     src/render/RBSquare.cpp \
