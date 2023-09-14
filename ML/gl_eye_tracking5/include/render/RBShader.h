@@ -1,8 +1,9 @@
-#pragma once
+#ifndef RBSHADER_H
+#define RBSHADER_H
 
 #include "core/platform_includes.h"
 
-#include <string>
+
 
 class Shader {
 public:
@@ -18,3 +19,4 @@ public:
 private:
 	GLuint _programID;
 };
+#endif

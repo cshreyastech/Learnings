@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RBDYNAMICPOINT_H
+#define RBDYNAMICPOINT_H
 
 #include "core/platform_includes.h"
 // #include "StructDeclarations.h"
@@ -40,3 +41,5 @@ private:
 	// Part 3: Added to support laserpointer
 	glm::mat4 _transform;
 };
+
+#endif

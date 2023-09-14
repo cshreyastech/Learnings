@@ -4,12 +4,13 @@
 
 RosMLClient::RosMLClient() : olc::GameEngine()
 {
+	ML_LOG_TAG(Debug, APP_TAG, "inside RosMLClient::RosMLClient()");
 	sAppName = "MMO Client";
 }
 
 RosMLClient::~RosMLClient()
 {
-	std::cout << "inside ~RosMLClient()\n";
+	ML_LOG_TAG(Debug, APP_TAG, "inside ~RosMLClient()");
 	// delete[] vertices;
 }
 
@@ -22,7 +23,7 @@ bool RosMLClient::OnUserCreate()
 bool RosMLClient::OnUserUpdate(float fElapsedTime)
 {
 	// Check for incoming network messages
-
+	ML_LOG_TAG(Debug, APP_TAG, "inside RosMLClient::OnUserUpdate()");
 	return true;
 }
 
@@ -35,14 +36,8 @@ void RosMLClient::Deserialize(const char* data, float vertices[], const int vert
   }
 }
 
-int main(void)
+int main()
 {
-	// struct sigaction sa;
-	// memset( &sa, 0, sizeof(sa) );
-	// sa.sa_handler = got_signal;
-	// sigfillset(&sa.sa_mask);
-	// sigaction(SIGINT,&sa,NULL);
-
 	RosMLClient ros_ml_client;
 	if (ros_ml_client.Construct(800, 600))
 		ros_ml_client.Start();

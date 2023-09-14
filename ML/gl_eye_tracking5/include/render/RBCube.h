@@ -1,6 +1,8 @@
-#pragma once
+#ifndef RBCUBE_H
+#define RBCUBE_H
 
 #include "core/platform_includes.h"
+
 
 class Shader;
 
@@ -41,3 +43,5 @@ private:
 
 	int _indices_n;
 };
+
+#endif
