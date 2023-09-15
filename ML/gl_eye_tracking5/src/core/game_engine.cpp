@@ -35,7 +35,18 @@ namespace olc
 
     MLLifecycleInitEx(&lifecycle_callbacks, (void *)&status);
 
-    
+
+    // Initialize perception system
+    MLPerceptionSettings perception_settings;
+    if (MLResult_Ok != MLPerceptionInitSettings(&perception_settings)) {
+      ML_LOG_TAG(Error, APP_TAG, "Failed to initialize perception");
+      return olc::rcode::NO_FILE;
+    }
+
+    if (MLResult_Ok != MLPerceptionStartup(&perception_settings)) {
+      ML_LOG_TAG(Error, APP_TAG, "Failed to startup perception");
+      return olc::rcode::NO_FILE;
+    }
 
     return olc::rcode::OK;
   }
