@@ -41,6 +41,17 @@ namespace olc
   private:
     graphics_context_t graphics_context_;
     MLResult result_;
+    MLHandle opengl_context_;
+    MLHandle graphics_client_ = ML_INVALID_HANDLE;
+    
+    MLHandle ml_head_tracker_ = ML_INVALID_HANDLE;
+    MLHeadTrackingStaticData ml_head_static_data_ = {};
+    
+    MLHandle ml_eye_tracker_ = ML_INVALID_HANDLE;
+    MLEyeTrackingStaticData ml_eye_static_data_ = {};
+
+    Cube* fixation_ = nullptr;
+
   }; 
 
 }
