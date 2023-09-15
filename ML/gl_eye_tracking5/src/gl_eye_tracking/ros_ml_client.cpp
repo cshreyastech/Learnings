@@ -3,15 +3,15 @@
 
 RosMLClient::RosMLClient() : olc::GameEngine()
 {
-	// ML_LOG_TAG(Debug, APP_TAG, "inside RosMLClient::RosMLClient()");
-	std::cout << "RosMLClient::RosMLClient()\n";
+	// std::cout << "RosMLClient::RosMLClient()\n";
+	ML_LOG_TAG(Debug, APP_TAG, "RosMLClient::RosMLClient()");
 	sAppName = "MMO Client";
 }
 
 RosMLClient::~RosMLClient()
 {
-	std::cout << "RosMLClient::~RosMLClient()\n";
-	// ML_LOG_TAG(Debug, APP_TAG, "inside ~RosMLClient()");
+	// std::cout << "RosMLClient::~RosMLClient()\n";
+	ML_LOG_TAG(Debug, APP_TAG, "RosMLClient::~RosMLClient()");
 	// delete[] vertices;
 }
 
@@ -24,7 +24,8 @@ bool RosMLClient::OnUserCreate()
 
 bool RosMLClient::OnUserUpdate(float fElapsedTime)
 {
-	std::cout << "RosMLClient::OnUserUpdate()\n";
+	// std::cout << "RosMLClient::OnUserUpdate()\n";
+	ML_LOG_TAG(Debug, APP_TAG, "RosMLClient::OnUserUpdate()");
 	GameEngine::OnUserUpdate(fElapsedTime);
 	return true;
 }

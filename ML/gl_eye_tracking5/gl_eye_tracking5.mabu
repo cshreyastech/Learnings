@@ -5,7 +5,9 @@ INCS =  include/
 SRCS = \
     src/gl_eye_tracking/main.cpp \
     src/gl_eye_tracking/ros_ml_client.cpp \
+    src/core/ml_graphics_context.cpp \
     src/core/game_engine.cpp \
+
     # src/render/RBShader.cpp \
     # src/render/RBCube.cpp \
     # src/render/RBPointDynamic.cpp

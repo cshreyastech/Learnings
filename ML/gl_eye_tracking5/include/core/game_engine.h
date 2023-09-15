@@ -5,9 +5,7 @@
 #include<string>
 #include <iostream>
 
-// #include <ml_logging.h>
-
-const char APP_TAG[] = "MAIN";
+#include "core/ml_graphics_context.h"
 
 namespace olc
 {
@@ -37,7 +35,7 @@ namespace olc
     float* vertices;
 
   private:
-    // graphics_context_t graphics_context_;
+    graphics_context_t graphics_context_;
     // GLFWwindow* window_;
   }; 
 

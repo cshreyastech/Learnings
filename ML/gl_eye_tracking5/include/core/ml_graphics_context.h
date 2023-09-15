@@ -4,7 +4,7 @@
 #include "core/platform_includes.h"
 // 1. Types and definitions
 
-// const char APP_TAG[] = "MAIN";
+const char APP_TAG[] = "MAIN";
 
 struct graphics_context_t {
   EGLDisplay egl_display;
@@ -18,52 +18,7 @@ struct graphics_context_t {
   void unmakeCurrent();
 };
 
-// -----------------------------------------------------------------------------
-// 2. OpenGL context functions
 
-graphics_context_t::graphics_context_t() {
-  egl_display = eglGetDisplay(EGL_DEFAULT_DISPLAY);
-
-  EGLint major = 4;
-  EGLint minor = 0;
-  eglInitialize(egl_display, &major, &minor);
-  eglBindAPI(EGL_OPENGL_API);
-
-  EGLint config_attribs[] = {
-    EGL_RED_SIZE, 5,
-    EGL_GREEN_SIZE, 6,
-    EGL_BLUE_SIZE, 5,
-    EGL_ALPHA_SIZE, 0,
-    EGL_DEPTH_SIZE, 24,
-    EGL_STENCIL_SIZE, 8,
-    EGL_NONE
-  };
-
-  EGLConfig egl_config = nullptr;
-  EGLint config_size = 0;
-  eglChooseConfig(egl_display, config_attribs, &egl_config, 1, &config_size);
-
-  EGLint context_attribs[] = {
-    EGL_CONTEXT_MAJOR_VERSION_KHR, 3,
-    EGL_CONTEXT_MINOR_VERSION_KHR, 0,
-    EGL_NONE
-  };
-
-  egl_context = eglCreateContext(egl_display, egl_config, EGL_NO_CONTEXT, context_attribs);
-}
-
-void graphics_context_t::makeCurrent() {
-  eglMakeCurrent(egl_display, EGL_NO_SURFACE, EGL_NO_SURFACE, egl_context);
-}
-
-void graphics_context_t::unmakeCurrent() {
-  eglMakeCurrent(NULL, EGL_NO_SURFACE, EGL_NO_SURFACE, NULL);
-}
-
-graphics_context_t::~graphics_context_t() {
-  eglDestroyContext(egl_display, egl_context);
-  eglTerminate(egl_display);
-}
 
 // -----------------------------------------------------------------------------
 // 3. App Lifecycle callback functions
@@ -109,28 +64,28 @@ static void OnResume(void *application_context) {
 // -----------------------------------------------------------------------------
 // Part 2: glm helper functions
 
-glm::mat4 rb_convert_ml_to_glm(const MLTransform &ml) {
-  glm::quat q;
-  q.w = ml.rotation.w;
-  q.x = ml.rotation.x;
-  q.y = ml.rotation.y;
-  q.z = ml.rotation.z;
+// glm::mat4 rb_convert_ml_to_glm(const MLTransform &ml) {
+//   glm::quat q;
+//   q.w = ml.rotation.w;
+//   q.x = ml.rotation.x;
+//   q.y = ml.rotation.y;
+//   q.z = ml.rotation.z;
 
-  return glm::translate(glm::mat4(), glm::vec3(ml.position.x, ml.position.y, ml.position.z)) * glm::toMat4(q);
-}
+//   return glm::translate(glm::mat4(), glm::vec3(ml.position.x, ml.position.y, ml.position.z)) * glm::toMat4(q);
+// }
 
-glm::mat4 rb_projection_matrix(MLGraphicsVirtualCameraInfo &camera) {
-  return (glm::make_mat4(camera.projection.matrix_colmajor));
-}
+// glm::mat4 rb_projection_matrix(MLGraphicsVirtualCameraInfo &camera) {
+//   return (glm::make_mat4(camera.projection.matrix_colmajor));
+// }
 
-glm::mat4 rb_camera_matrix(MLGraphicsVirtualCameraInfo &camera) {
-  glm::mat4 proj = glm::make_mat4(camera.projection.matrix_colmajor);
-  glm::vec3 trans = glm::make_vec3(camera.transform.position.values);
-  glm::mat4 rotMat = glm::mat4_cast(glm::make_quat(camera.transform.rotation.values));
-  glm::mat4 transMat = glm::translate(glm::mat4(1.0f), trans);
-  glm::mat4 worldFromCamera = transMat * rotMat;
+// glm::mat4 rb_camera_matrix(MLGraphicsVirtualCameraInfo &camera) {
+//   glm::mat4 proj = glm::make_mat4(camera.projection.matrix_colmajor);
+//   glm::vec3 trans = glm::make_vec3(camera.transform.position.values);
+//   glm::mat4 rotMat = glm::mat4_cast(glm::make_quat(camera.transform.rotation.values));
+//   glm::mat4 transMat = glm::translate(glm::mat4(1.0f), trans);
+//   glm::mat4 worldFromCamera = transMat * rotMat;
 
-  return (glm::inverse(worldFromCamera));
-}
+//   return (glm::inverse(worldFromCamera));
+// }
 
 #endif
