@@ -15,6 +15,7 @@ namespace olc
     ML_LOG_TAG(Debug, APP_TAG, "GameEngine::~GameEngine()");
 
     delete fixation_;
+    delete cloud_;
 
     graphics_context_.unmakeCurrent();
     glDeleteFramebuffers(1, &graphics_context_.framebuffer_id);
@@ -22,12 +23,12 @@ namespace olc
     MLPerceptionShutdown();
     ML_LOG_TAG(Debug, APP_TAG, "System cleanup done");
 
-    // delete[] vertices_0;
+    
     // clean up system
-    // MLHeadTrackingDestroy(ml_head_tracker_);
-    // MLEyeTrackingDestroy(ml_eye_tracker_);
+    MLHeadTrackingDestroy(ml_head_tracker_);
+    MLEyeTrackingDestroy(ml_eye_tracker_);
 
-    // delete[] vertices;
+    delete[] vertices;
   }
 
   olc::rcode GameEngine::Construct()
@@ -107,7 +108,7 @@ namespace olc
     fixation_->SetColor(COLOR_GREEN);
     fixation_->SetPosition(0.0f, 0.0f, 0.0f);
 
-
+    cloud_ = new Point(pointShader3D, n_points, vertices_size);;
 
 
     MLHeadTrackingCreate(&ml_head_tracker_);
@@ -133,7 +134,7 @@ namespace olc
   bool GameEngine::OnUserUpdate(float fElaspedTime)
   {
     // std::cout << "GameEngine::OnUserUpdate()\n"; 
-    ML_LOG_TAG(Debug, APP_TAG, "GameEngine::OnUserUpdate()");
+    // ML_LOG_TAG(Debug, APP_TAG, "GameEngine::OnUserUpdate()");
     // const int vertices_length = n_points * 6;
     // const int vertices_size = vertices_length * sizeof(float);
 
@@ -204,7 +205,7 @@ namespace olc
         // Part 2: Render the object
 
         fixation_->Render(projectionMatrix);
-        // cloud.Render(projectionMatrix, vertices_0, vertices_size);
+        cloud_->Render(projectionMatrix, vertices, vertices_size);
         // Bind the frame buffer
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         MLGraphicsSignalSyncObjectGL(graphics_client_, frame_info.virtual_cameras[camera].sync_object);

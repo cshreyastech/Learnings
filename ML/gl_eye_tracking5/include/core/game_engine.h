@@ -35,15 +35,17 @@ namespace olc
 
   public: // Branding
 		std::string sAppName;
-		int n_points;
-    float* vertices;
+		int n_points{0};
+    int vertices_length{0};
+    int vertices_size{0};
+    float* vertices{nullptr};
 
   private:
     graphics_context_t graphics_context_;
     MLResult result_;
     MLHandle opengl_context_;
     MLHandle graphics_client_ = ML_INVALID_HANDLE;
-    
+
     MLHandle ml_head_tracker_ = ML_INVALID_HANDLE;
     MLHeadTrackingStaticData ml_head_static_data_ = {};
     
@@ -51,6 +53,7 @@ namespace olc
     MLEyeTrackingStaticData ml_eye_static_data_ = {};
 
     Cube* fixation_ = nullptr;
+    Point* cloud_ = nullptr;
 
   }; 
 

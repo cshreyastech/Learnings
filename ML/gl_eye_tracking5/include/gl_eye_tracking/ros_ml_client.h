@@ -6,6 +6,7 @@
 
 #include <unordered_map>
 #include <cassert>
+#include <fstream>
 
 class RosMLClient : public olc::GameEngine
 {
@@ -23,6 +24,7 @@ public:
 
 private:
 	void Deserialize(const char* data, float vertices[], const int vertices_length);
+	void ParseCloudFromFile(const std::string file_path, float vertices[], const int n_points);
 };
 
 #endif
