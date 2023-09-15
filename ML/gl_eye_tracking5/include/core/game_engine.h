@@ -7,6 +7,10 @@
 
 #include "core/ml_graphics_context.h"
 
+#include "render/RBShader.h"
+#include "render/RBCube.h"
+#include "render/RBPointDynamic.h"
+
 namespace olc
 {
   enum rcode { FAIL = 0, OK = 1, NO_FILE = -1 };

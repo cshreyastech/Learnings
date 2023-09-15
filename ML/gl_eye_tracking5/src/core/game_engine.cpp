@@ -13,6 +13,18 @@ namespace olc
   {
     // std::cout << "GameEngine::~GameEngine()\n"; 
     ML_LOG_TAG(Debug, APP_TAG, "GameEngine::~GameEngine()");
+
+    graphics_context_.unmakeCurrent();
+    // glDeleteFramebuffers(1, &graphics_context.framebuffer_id);
+    // MLGraphicsDestroyClient(&graphics_client);
+    MLPerceptionShutdown();
+    ML_LOG_TAG(Debug, APP_TAG, "System cleanup done");
+
+    // delete[] vertices_0;
+    // clean up system
+    // MLHeadTrackingDestroy(ml_head_tracker_);
+    // MLEyeTrackingDestroy(ml_eye_tracker_);
+
     // delete[] vertices;
   }
 
@@ -47,6 +59,40 @@ namespace olc
       ML_LOG_TAG(Error, APP_TAG, "Failed to startup perception");
       return olc::rcode::NO_FILE;
     }
+
+
+    // Create OpenGL context and create framebuffer
+    graphics_context_.makeCurrent();
+    glGenFramebuffers(1, &graphics_context_.framebuffer_id);
+
+    MLGraphicsOptions graphics_options = { 0, MLSurfaceFormat_RGBA8UNorm, MLSurfaceFormat_D32Float };
+    MLHandle opengl_context = reinterpret_cast<MLHandle>(graphics_context_.egl_context);
+    MLHandle graphics_client = ML_INVALID_HANDLE;
+    MLGraphicsCreateClientGL(&graphics_options, opengl_context, &graphics_client);
+
+    // Part 2: Set up the head tracker
+    MLHandle head_tracker;
+    MLResult head_track_result = MLHeadTrackingCreate(&head_tracker);
+    MLHeadTrackingStaticData head_static_data;
+
+    if (MLResult_Ok == head_track_result && MLHandleIsValid(head_tracker)) {
+      MLHeadTrackingGetStaticData(head_tracker, &head_static_data);
+    }
+    else {
+      ML_LOG_TAG(Error, APP_TAG, "Failed to create head tracker");
+    }
+
+    // Ready for application lifecycle
+    if (MLLifecycleSetReadyIndication() != MLResult_Ok) {
+      ML_LOG_TAG(Error, APP_TAG, "Failed to indicate lifecycle readyness");
+      return olc::rcode::NO_FILE;
+    }
+    else {
+      ML_LOG_TAG(Debug, APP_TAG, "Lifecycle system ready");
+    }
+
+
+
 
     return olc::rcode::OK;
   }

@@ -6,15 +6,6 @@
 #include <GLES3/gl3.h>
 #include <GLES3/gl3ext.h>
 
-// #define GLM_ENABLE_EXPERIMENTAL 1
-// #include "../../glm/gtx/quaternion.hpp"
-
-// #include "../../glm/glm.hpp"
-// #include "../../glm/ext.hpp"
-// #include "../../glm/gtx/vector_angle.hpp"
-// #include "../../glm/gtx/transform.hpp" 
-// #include "../../glm/gtc/matrix_transform.hpp"
-
 #ifndef EGL_EGLEXT_PROTOTYPES
 	#define EGL_EGLEXT_PROTOTYPES
 #endif
@@ -45,7 +36,7 @@
 
 #include <ml_logging.h>
 
-// const char APP_TAG[] = "MAIN";
+const char APP_TAG[] = "MAIN";
 
 #include <ml_graphics.h>
 #include <ml_lifecycle.h>

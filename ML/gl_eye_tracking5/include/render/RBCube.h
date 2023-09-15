@@ -2,7 +2,7 @@
 #define RBCUBE_H
 
 #include "core/platform_includes.h"
-
+#include "core/glm.h"
 
 class Shader;
 

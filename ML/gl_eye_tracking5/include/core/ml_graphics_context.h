@@ -4,7 +4,7 @@
 #include "core/platform_includes.h"
 // 1. Types and definitions
 
-const char APP_TAG[] = "MAIN";
+// const char APP_TAG[] = "MAIN";
 
 struct graphics_context_t {
   EGLDisplay egl_display;
