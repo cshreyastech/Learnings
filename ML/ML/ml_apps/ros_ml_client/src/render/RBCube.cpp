@@ -1,13 +1,6 @@
 #include "render/RBCube.h"
-#include "core/RBShader.h"
+#include "render/RBShader.h"
 
-// #include <iostream>
-
-#define GLM_FORCE_RADIANS
-#include "glm/gtc/matrix_transform.hpp"
-
-const char APP_TAG[] = "C-ENGINE-CYL";
-#include <ml_logging.h>
 
 #define BOTTOM_RADIUS 0.5
 #define TOP_RADIUS 0.5

@@ -122,6 +122,11 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 
 					break;
 				}
+
+				case(GameMsg::Client_RegisterWithServer):
+				{
+					break;
+				}
 			}
 		}
 	}

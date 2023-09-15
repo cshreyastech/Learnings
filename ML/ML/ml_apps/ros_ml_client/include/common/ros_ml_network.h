@@ -44,7 +44,8 @@
 	David Barr, aka javidx9, ©OneLoneCoder 2019, 2020, 2021
 */
 
-#pragma once 
+#ifndef ROS_ML_NETWORK_H
+#define ROS_ML_NETWORK_H
 
 #include <memory>
 #include <thread>
@@ -1071,3 +1072,5 @@ namespace olc
 		};
 	}
 }
+
+#endif

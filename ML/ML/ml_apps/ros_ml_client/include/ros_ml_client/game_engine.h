@@ -2,40 +2,14 @@
 #define GAME_ENGINE_H
 
 
-#include <cmath>
-#include <cstdint>
-#include <string>
+#include<string>
 #include <iostream>
-#include <streambuf>
-#include <sstream>
-#include <chrono>
-#include <vector>
-#include <list>
-#include <thread>
-#include <atomic>
-#include <fstream>
-#include <map>
-#include <functional>
-#include <algorithm>
-#include <array>
-#include <cstring>
-// #include "glad/glad.h"
-// #include <GLFW/glfw3.h>
-#include <memory>
-#include <cassert>
-#include <signal.h>
 
-#include <ml_api.h>
-#include <ml_connections.h>
-#include <ml_privileges.h>
+#include "core/ml_graphics_context.h"
 
-#include <ml_logging.h>
-
-#include <ml_graphics.h>
-#include <ml_lifecycle.h>
-#include <ml_perception.h>
-
-const char APP_TAG[] = "MAIN";
+#include "render/RBShader.h"
+#include "render/RBCube.h"
+#include "render/RBPointDynamic.h"
 
 namespace olc
 {

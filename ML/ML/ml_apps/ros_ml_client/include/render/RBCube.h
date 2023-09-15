@@ -1,6 +1,8 @@
-#pragma once
+#ifndef RBCUBE_H
+#define RBCUBE_H
 
-#include "app_framework/platform_includes.h"
+#include "core/platform_includes.h"
+#include "core/glm_include.h"
 
 class Shader;
 
@@ -41,3 +43,5 @@ private:
 
 	int _indices_n;
 };
+
+#endif

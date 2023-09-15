@@ -1,6 +1,8 @@
-#pragma once
+#ifndef RBDYNAMICPOINT_H
+#define RBDYNAMICPOINT_H
 
-#include "app_framework/platform_includes.h"
+#include "core/platform_includes.h"
+#include "core/glm_include.h"
 
 class Shader;
 
@@ -39,3 +41,5 @@ private:
 	// Part 3: Added to support laserpointer
 	glm::mat4 _transform;
 };
+
+#endif
