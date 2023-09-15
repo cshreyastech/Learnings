@@ -22,7 +22,20 @@ namespace olc
     ML_LOG_TAG(Debug, APP_TAG, "GameEngine::Construct()");
   // glfw: initialize and configure
   // ------------------------------
+    MLLoggingEnableLogLevel(MLLogLevel_Debug);
 
+
+    MLLifecycleCallbacksEx lifecycle_callbacks = {};
+    MLLifecycleCallbacksExInit(&lifecycle_callbacks);
+    lifecycle_callbacks.on_stop = OnStop;
+    lifecycle_callbacks.on_pause = OnPause;
+    lifecycle_callbacks.on_resume = OnResume;
+
+    std::atomic<AppStatus> status(AppStatus::Running);
+
+    MLLifecycleInitEx(&lifecycle_callbacks, (void *)&status);
+
+    
 
     return olc::rcode::OK;
   }

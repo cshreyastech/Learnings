@@ -18,8 +18,6 @@ struct graphics_context_t {
   void unmakeCurrent();
 };
 
-
-
 // -----------------------------------------------------------------------------
 // 3. App Lifecycle callback functions
 

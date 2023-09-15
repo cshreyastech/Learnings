@@ -36,7 +36,7 @@ namespace olc
 
   private:
     graphics_context_t graphics_context_;
-    // GLFWwindow* window_;
+    MLResult result_;
   }; 
 
 }
