@@ -32,7 +32,8 @@ namespace olc
     // delete[] vertices;
   }
 
-  olc::rcode GameEngine::Construct()
+  // olc::rcode GameEngine::Construct()
+  bool GameEngine::Construct()
   {
     ML_LOG_TAG(Debug, APP_TAG, "GameEngine::Construct()");
     // glfw: initialize and configure
@@ -120,7 +121,8 @@ namespace olc
 
     // The main/game loop
     ML_LOG_TAG(Debug, APP_TAG, "Enter main loop");
-    return olc::rcode::OK;
+    // return olc::rcode::OK;
+    return true;
   }
 
   bool GameEngine::OnUserCreate()
@@ -219,13 +221,15 @@ namespace olc
     return true;
   }
 
-  olc::rcode GameEngine::Start()
+  // olc::rcode GameEngine::Start()
+  bool GameEngine::Start()
   {
     OnUserCreate();
 
     while(true)
       OnUserUpdate(0.0f);
-    return olc::rcode::OK;
+    // return olc::rcode::OK;
+    return true;
   }
 
   // olc::rcode GameEngine::PublishCloud(float vertices[])

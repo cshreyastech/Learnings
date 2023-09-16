@@ -20,8 +20,10 @@ namespace olc
     GameEngine();
     virtual ~GameEngine();
   public:
-    olc::rcode Construct();
-    olc::rcode Start();
+    // olc::rcode Construct();
+    bool Construct();
+    // olc::rcode Start();
+    bool Start();
 
   public: // User override interface
   // Called once on application startup, use to load your resources
