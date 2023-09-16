@@ -6,7 +6,7 @@ namespace olc
 {
   GameEngine::GameEngine()
   {
-    ML_LOG_TAG(Info, APP_TAG, "Inside GameEngine()");
+    ML_LOG_TAG(Info, APP_TAG, "GameEngine::GameEngine()");
   }
 
   GameEngine::~GameEngine()
@@ -15,7 +15,7 @@ namespace olc
 
   }
 
-  olc::rcode GameEngine::Construct(int32_t screen_w, int32_t screen_h)
+  olc::rcode GameEngine::Construct()
   {
   // glfw: initialize and configure
   // ------------------------------
@@ -31,6 +31,8 @@ namespace olc
 
   bool GameEngine::OnUserUpdate(float fElaspedTime)
   {
+    // ML_LOG_TAG(Info, APP_TAG, "GameEngine::OnUserUpdate()");
+
     const int vertices_length = n_points * 6;
     const int vertices_size = vertices_length * sizeof(float);
 

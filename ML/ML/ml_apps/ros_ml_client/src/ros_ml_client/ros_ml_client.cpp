@@ -9,7 +9,7 @@ RosMLClient::RosMLClient() : olc::GameEngine() , olc::net::client_interface<Game
 
 RosMLClient::~RosMLClient()
 {
-	std::cout << "inside ~RosMLClient()\n";
+	// std::cout << "inside ~RosMLClient()\n";
 	// delete[] vertices;
 }
 
@@ -28,6 +28,7 @@ bool RosMLClient::OnUserCreate()
 
 bool RosMLClient::OnUserUpdate(float fElapsedTime)
 {
+	// ML_LOG_TAG(Info, APP_TAG, "RosMLClient::OnUserUpdate()");
 	// Check for incoming network messages
 	if (IsConnected())
 	{
@@ -39,7 +40,7 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 			{
 				case(GameMsg::Client_Accepted):
 				{
-					std::cout << "Server accepted client - you're in!\n";
+					ML_LOG_TAG(Info, APP_TAG, "Server accepted client - you're in!");
 					olc::net::message<GameMsg> msg;
 					msg.header.id = GameMsg::Client_RegisterWithServer;
 					// descPlayer_.vPos = { 3.0f, 3.0f };
@@ -52,12 +53,18 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 				case(GameMsg::Client_AssignID):
 				{
 					// Server is assigning us OUR id
-					uint32_t n_points;
+					// uint32_t n_points;
 					msg >> n_points;
 					msg >> nPlayerID_;
 
-					std::cout << "Assigned Client ID = " << nPlayerID_ << "\n";
-					std::cout << "n_points = " << n_points << "\n";
+					// std::cout << "Assigned Client ID = " << nPlayerID_ << "\n";
+					// std::cout << "n_points = " << n_points << "\n";
+
+	
+					// const int n_points = desc_from_server->n_points;
+					// n_points = n_points;
+					vertices_length = n_points * 6;
+					vertices_size = vertices_length * sizeof(float);
 					
 					break;
 				}
@@ -99,9 +106,9 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 					// desc_from_server->cloud_set_for_client = true;
 					mapObjects_.insert_or_assign(desc_from_server->nUniqueID, *desc_from_server);
 	
-					const int n_points = desc_from_server->n_points;
-					const int vertices_length = n_points * 6;
-					const int vertices_size = vertices_length * sizeof(float);
+					// const int n_points = desc_from_server->n_points;
+					// const int vertices_length = n_points * 6;
+					// const int vertices_size = vertices_length * sizeof(float);
 
 					char* p_vertices_compressed = 
 						new char[p_vertices_compressed_length];
@@ -123,10 +130,10 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 					break;
 				}
 
-				case(GameMsg::Client_RegisterWithServer):
-				{
-					break;
-				}
+				// case(GameMsg::Client_RegisterWithServer):
+				// {
+				// 	break;
+				// }
 			}
 		}
 	}
@@ -137,15 +144,10 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 	}
 
 
+	// ML_LOG_TAG(Info, APP_TAG, "RosMLClient::OnUserUpdate()");
 	if(mapObjects_[nPlayerID_].cloud_set_for_client)
 	{
-		n_points =  mapObjects_[nPlayerID_].n_points;
-		// const int vertices_length = n_points * 6;
-		// const int vertices_size = vertices_length * sizeof(float);
-
-		// assert(vertices[vertices_length - 1] == 0.031373f);
-		// assert(vertices[vertices_length - 1] == 0.619608f);
-
+		// ML_LOG_TAG(Info, APP_TAG, "RosMLClient::OnUserUpdate() - calling parent");
 		GameEngine::OnUserUpdate(0.0f);
 	}
 
@@ -181,7 +183,7 @@ int main(void)
 	// sigaction(SIGINT,&sa,NULL);
 
 	RosMLClient ros_ml_client;
-	if (ros_ml_client.Construct(800, 600))
+	if (ros_ml_client.Construct())
 		ros_ml_client.Start();
 	return 0;
 }

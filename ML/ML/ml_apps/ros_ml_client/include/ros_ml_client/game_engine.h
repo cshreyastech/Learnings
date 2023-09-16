@@ -20,7 +20,7 @@ namespace olc
     GameEngine();
     virtual ~GameEngine();
   public:
-    olc::rcode Construct(int32_t screen_w, int32_t screen_h);
+    olc::rcode Construct();
     olc::rcode Start();
 
   public: // User override interface
@@ -32,20 +32,29 @@ namespace olc
   virtual bool OnUserDestroy();
 
   olc::rcode PublishCloud(float vertices[]);
-  // public: // DRAWING ROUTINES
-  //   // Draws a single Pixel
-  //   // To be filled later
 
   public: // Branding
     std::string sAppName;
-    int n_points;
-    float* vertices;
+    int n_points{0};
+    int vertices_length{0};
+    int vertices_size{0};
+    float* vertices{nullptr};
 
   private:
-    void RequestPrivileges();
+    graphics_context_t graphics_context_;
+    MLResult result_;
+    MLHandle opengl_context_;
+    MLHandle graphics_client_ = ML_INVALID_HANDLE;
 
-  private:
-    // GLFWwindow* window_;
+    MLHandle ml_head_tracker_ = ML_INVALID_HANDLE;
+    MLHeadTrackingStaticData ml_head_static_data_ = {};
+    
+    MLHandle ml_eye_tracker_ = ML_INVALID_HANDLE;
+    MLEyeTrackingStaticData ml_eye_static_data_ = {};
+
+    Cube* fixation_ = nullptr;
+    Point* cloud_ = nullptr;
+
   }; 
 
 }
