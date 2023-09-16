@@ -58,7 +58,7 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 					vertices_length = n_points * 6;
 					vertices_size = vertices_length * sizeof(float);
 
-					vertices = new float[vertices_length];
+					// vertices = new float[vertices_length];
 					break;
 				}
 
@@ -99,22 +99,22 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 					// desc_from_server->cloud_set_for_client = true;
 					mapObjects_.insert_or_assign(desc_from_server->nUniqueID, *desc_from_server);
 
-					char* p_vertices_compressed = 
-						new char[p_vertices_compressed_length];
-					memcpy(p_vertices_compressed, desc_from_server->p_vertices_compressed, 
-						p_vertices_compressed_length);
+					// char* p_vertices_compressed = 
+					// 	new char[p_vertices_compressed_length];
+					// memcpy(p_vertices_compressed, desc_from_server->p_vertices_compressed, 
+					// 	p_vertices_compressed_length);
 								
-					char* p_vertices = new char[vertices_size];
-					bool raw_uncompress = 
-						snappy::RawUncompress(p_vertices_compressed, p_vertices_compressed_length,
-															p_vertices);
+					// char* p_vertices = new char[vertices_size];
+					// bool raw_uncompress = 
+					// 	snappy::RawUncompress(p_vertices_compressed, p_vertices_compressed_length,
+					// 										p_vertices);
 
-					// vertices = new float[vertices_length];
-					std::fill_n(vertices, vertices_length, 0.0f);
-					Deserialize(p_vertices, vertices, vertices_length);
+					// // vertices = new float[vertices_length];
+					// std::fill_n(vertices, vertices_length, 0.0f);
+					// Deserialize(p_vertices, vertices, vertices_length);
 					
-					delete[] p_vertices_compressed;
-					// delete[] p_vertices;
+					// delete[] p_vertices_compressed;
+					// // delete[] p_vertices;
 					delete desc_from_server;
 
 					break;

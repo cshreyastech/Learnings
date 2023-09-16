@@ -29,7 +29,7 @@ namespace olc
     MLHeadTrackingDestroy(ml_head_tracker_);
     MLEyeTrackingDestroy(ml_eye_tracker_);
 
-    delete[] vertices;
+    // delete[] vertices;
   }
 
   olc::rcode GameEngine::Construct()
@@ -108,7 +108,7 @@ namespace olc
     fixation_->SetColor(COLOR_GREEN);
     fixation_->SetPosition(0.0f, 0.0f, 0.0f);
 
-    cloud_ = new Point(pointShader3D, n_points, vertices_size);;
+    // cloud_ = new Point(pointShader3D, n_points, vertices_size);;
 
 
     MLHeadTrackingCreate(&ml_head_tracker_);
@@ -131,7 +131,7 @@ namespace olc
   bool GameEngine::OnUserUpdate(float fElaspedTime)
   {
     // ML_LOG_TAG(Info, APP_TAG, "GameEngine::OnUserUpdate()");
-    assert(vertices[vertices_length - 1] == 0.619608f);
+    // assert(vertices[vertices_length - 1] == 0.619608f);
 
 
     MLSnapshot *snapshot = nullptr;
@@ -189,7 +189,7 @@ namespace olc
         // Part 2: Render the object
 
         fixation_->Render(projectionMatrix);
-        cloud_->Render(projectionMatrix, vertices, vertices_size);
+        // cloud_->Render(projectionMatrix, vertices, vertices_size);
         // Bind the frame buffer
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         MLGraphicsSignalSyncObjectGL(graphics_client_, frame_info.virtual_cameras[camera].sync_object);
@@ -207,7 +207,6 @@ namespace olc
       ML_LOG_TAG(Error, APP_TAG, "MLGraphicsBeginFrame() error: %d", frame_result);
     }
 
-    delete[] vertices;
     return false;
   }
 
