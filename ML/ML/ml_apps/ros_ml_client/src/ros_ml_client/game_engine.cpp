@@ -131,9 +131,10 @@ namespace olc
   bool GameEngine::OnUserUpdate(float fElaspedTime)
   {
     // ML_LOG_TAG(Info, APP_TAG, "GameEngine::OnUserUpdate()");
-    // assert(vertices[vertices_length - 1] == 0.619608f);
+    assert(vertices[vertices_length - 1] == 0.619608f);
+    
 
-      MLSnapshot *snapshot = nullptr;
+    MLSnapshot *snapshot = nullptr;
     MLPerceptionGetSnapshot(&snapshot);
 
     MLTransform ml_fixation = {};

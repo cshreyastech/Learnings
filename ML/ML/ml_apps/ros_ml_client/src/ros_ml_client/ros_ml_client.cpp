@@ -57,7 +57,8 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 
 					vertices_length = n_points * 6;
 					vertices_size = vertices_length * sizeof(float);
-					
+
+					vertices = new float[vertices_length];
 					break;
 				}
 
@@ -108,7 +109,8 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 						snappy::RawUncompress(p_vertices_compressed, p_vertices_compressed_length,
 															p_vertices);
 
-					vertices = new float[vertices_length];
+					// vertices = new float[vertices_length];
+					std::fill_n(vertices, vertices_length, 0.0f);
 					Deserialize(p_vertices, vertices, vertices_length);
 					
 					delete[] p_vertices_compressed;
