@@ -132,7 +132,7 @@ namespace olc
   {
     // ML_LOG_TAG(Info, APP_TAG, "GameEngine::OnUserUpdate()");
     assert(vertices[vertices_length - 1] == 0.619608f);
-    
+
 
     MLSnapshot *snapshot = nullptr;
     MLPerceptionGetSnapshot(&snapshot);
@@ -207,7 +207,7 @@ namespace olc
       ML_LOG_TAG(Error, APP_TAG, "MLGraphicsBeginFrame() error: %d", frame_result);
     }
 
-
+    delete[] vertices;
     return false;
   }
 
@@ -215,7 +215,7 @@ namespace olc
   {
 
     ML_LOG_TAG(Info, APP_TAG, "Inside OnUserDestroy()");    
-    delete[] vertices;
+    // delete[] vertices;
 
     return true;
   }

@@ -114,7 +114,7 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 					Deserialize(p_vertices, vertices, vertices_length);
 					
 					delete[] p_vertices_compressed;
-
+					// delete[] p_vertices;
 					delete desc_from_server;
 
 					break;
@@ -139,7 +139,9 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 	{
 		// ML_LOG_TAG(Info, APP_TAG, "RosMLClient::OnUserUpdate() - calling parent");
 		GameEngine::OnUserUpdate(0.0f);
+		// delete[] vertices;
 	}
+
 
 
 	// Get head and eye pose from ML and send it back to server
