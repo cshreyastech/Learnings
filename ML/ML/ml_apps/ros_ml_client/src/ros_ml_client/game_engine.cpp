@@ -12,7 +12,23 @@ namespace olc
   GameEngine::~GameEngine()
   {
     ML_LOG_TAG(Info, APP_TAG, "Inside ~GameEngine()");
+    ML_LOG_TAG(Debug, APP_TAG, "GameEngine::~GameEngine()");
 
+    delete fixation_;
+    delete cloud_;
+
+    graphics_context_.unmakeCurrent();
+    glDeleteFramebuffers(1, &graphics_context_.framebuffer_id);
+    MLGraphicsDestroyClient(&graphics_client_);
+    MLPerceptionShutdown();
+    ML_LOG_TAG(Debug, APP_TAG, "System cleanup done");
+
+    
+    // clean up system
+    MLHeadTrackingDestroy(ml_head_tracker_);
+    MLEyeTrackingDestroy(ml_eye_tracker_);
+
+    delete[] vertices;
   }
 
   olc::rcode GameEngine::Construct()
@@ -33,8 +49,8 @@ namespace olc
   {
     // ML_LOG_TAG(Info, APP_TAG, "GameEngine::OnUserUpdate()");
 
-    const int vertices_length = n_points * 6;
-    const int vertices_size = vertices_length * sizeof(float);
+    // const int vertices_length = n_points * 6;
+    // const int vertices_size = vertices_length * sizeof(float);
 
     assert(vertices[vertices_length - 1] == 0.619608f);
     // std::cout << "GameEngine::OnUserUpdate() - validated:" << std::endl;

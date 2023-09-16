@@ -43,7 +43,6 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 					ML_LOG_TAG(Info, APP_TAG, "Server accepted client - you're in!");
 					olc::net::message<GameMsg> msg;
 					msg.header.id = GameMsg::Client_RegisterWithServer;
-					// descPlayer_.vPos = { 3.0f, 3.0f };
 					descPlayer_.n_points = 0;
 					msg << descPlayer_;
 					Send(msg);
@@ -53,16 +52,9 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 				case(GameMsg::Client_AssignID):
 				{
 					// Server is assigning us OUR id
-					// uint32_t n_points;
 					msg >> n_points;
 					msg >> nPlayerID_;
 
-					// std::cout << "Assigned Client ID = " << nPlayerID_ << "\n";
-					// std::cout << "n_points = " << n_points << "\n";
-
-	
-					// const int n_points = desc_from_server->n_points;
-					// n_points = n_points;
 					vertices_length = n_points * 6;
 					vertices_size = vertices_length * sizeof(float);
 					
@@ -105,10 +97,6 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 					
 					// desc_from_server->cloud_set_for_client = true;
 					mapObjects_.insert_or_assign(desc_from_server->nUniqueID, *desc_from_server);
-	
-					// const int n_points = desc_from_server->n_points;
-					// const int vertices_length = n_points * 6;
-					// const int vertices_size = vertices_length * sizeof(float);
 
 					char* p_vertices_compressed = 
 						new char[p_vertices_compressed_length];
