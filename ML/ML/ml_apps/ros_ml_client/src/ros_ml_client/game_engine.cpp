@@ -29,7 +29,7 @@ namespace olc
     MLHeadTrackingDestroy(ml_head_tracker_);
     MLEyeTrackingDestroy(ml_eye_tracker_);
 
-    // delete[] vertices;
+    delete[] vertices;
   }
 
   // olc::rcode GameEngine::Construct()
@@ -133,7 +133,7 @@ namespace olc
   bool GameEngine::OnUserUpdate(float fElaspedTime)
   {
     // ML_LOG_TAG(Info, APP_TAG, "GameEngine::OnUserUpdate()");
-    // assert(vertices[vertices_length - 1] == 0.619608f);
+    assert(vertices[vertices_length - 1] == 0.619608f);
 
 
     MLSnapshot *snapshot = nullptr;

@@ -94,28 +94,40 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 					sPlayerDescription *desc_from_server = new sPlayerDescription();
 					desc_from_server = (sPlayerDescription*)malloc(data_size);
 
+
 					ReadMessage(msg, *desc_from_server, data_size);
-					
+					sPlayerDescription desc_from_server_stack;
+
+					desc_from_server_stack.p_vertices_compressed_length = desc_from_server->p_vertices_compressed_length;
+					desc_from_server_stack.nUniqueID = desc_from_server->nUniqueID;
+					desc_from_server_stack.n_points = desc_from_server->n_points;
+					desc_from_server_stack.data_from_ml = desc_from_server->data_from_ml;
+					desc_from_server_stack.cloud_set_for_client = desc_from_server->cloud_set_for_client;
+					desc_from_server_stack.cloud_set_for_client = desc_from_server->cloud_set_for_client;
+
 					// desc_from_server->cloud_set_for_client = true;
-					mapObjects_.insert_or_assign(desc_from_server->nUniqueID, *desc_from_server);
+					mapObjects_.insert_or_assign(desc_from_server->nUniqueID, desc_from_server_stack);
+	
+					const int n_points = desc_from_server->n_points;
+					const int vertices_length = n_points * 6;
+					const int vertices_size = vertices_length * sizeof(float);
 
-					// char* p_vertices_compressed = 
-					// 	new char[p_vertices_compressed_length];
-					// memcpy(p_vertices_compressed, desc_from_server->p_vertices_compressed, 
-					// 	p_vertices_compressed_length);
-								
-					// char* p_vertices = new char[vertices_size];
-					// bool raw_uncompress = 
-					// 	snappy::RawUncompress(p_vertices_compressed, p_vertices_compressed_length,
-					// 										p_vertices);
+					char p_vertices[vertices_size];
 
-					// // vertices = new float[vertices_length];
-					// std::fill_n(vertices, vertices_length, 0.0f);
-					// Deserialize(p_vertices, vertices, vertices_length);
-					
-					// delete[] p_vertices_compressed;
-					// // delete[] p_vertices;
-					delete desc_from_server;
+					bool raw_uncompress = 
+						snappy::RawUncompress(desc_from_server->p_vertices_compressed, 
+							p_vertices_compressed_length,
+							p_vertices);
+
+					vertices = new float[vertices_length];
+					// float vertices[vertices_length];
+					Deserialize(p_vertices, vertices, vertices_length);
+
+
+
+					// assert(vertices[vertices_length - 1] == 0.619608f);
+
+					delete[] desc_from_server;
 
 					break;
 				}
