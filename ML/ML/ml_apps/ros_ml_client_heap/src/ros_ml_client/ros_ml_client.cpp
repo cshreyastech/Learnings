@@ -28,6 +28,10 @@ bool RosMLClient::OnUserCreate()
 
 bool RosMLClient::OnUserUpdate(float fElapsedTime)
 {
+  int n_points = 0;
+  int vertices_length = 0;
+  int vertices_size = 0;
+
 	// ML_LOG_TAG(Info, APP_TAG, "RosMLClient::OnUserUpdate()");
 	// Check for incoming network messages
 	if (IsConnected())
@@ -87,6 +91,8 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 
 				case(GameMsg::Game_UpdatePlayer):
 				{
+          ML_LOG_TAG(Info, APP_TAG, "RosMLClient::OnUserUpdate()");
+
 					size_t* q = (size_t*)msg.body.data();
 					size_t p_vertices_compressed_length = *q;
 
@@ -108,9 +114,9 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 					// desc_from_server->cloud_set_for_client = true;
 					mapObjects_.insert_or_assign(desc_from_server->nUniqueID, desc_from_server_stack);
 	
-					const int n_points = desc_from_server->n_points;
-					const int vertices_length = n_points * 6;
-					const int vertices_size = vertices_length * sizeof(float);
+					n_points = desc_from_server->n_points;
+					vertices_length = n_points * 6;
+					vertices_size = vertices_length * sizeof(float);
 
 					char p_vertices[vertices_size];
 
@@ -119,14 +125,14 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 							p_vertices_compressed_length,
 							p_vertices);
 
-					vertices = new float[vertices_length];
+					float* vertices = new float[vertices_length];
 					// float vertices[vertices_length];
 					Deserialize(p_vertices, vertices, vertices_length);
 
-
+          PublishCloud(vertices, n_points);
 
 					// assert(vertices[vertices_length - 1] == 0.619608f);
-
+          delete[] vertices;
 					delete[] desc_from_server;
 
 					break;

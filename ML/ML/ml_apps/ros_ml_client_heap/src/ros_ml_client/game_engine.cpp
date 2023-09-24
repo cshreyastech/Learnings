@@ -28,8 +28,6 @@ namespace olc
     // clean up system
     MLHeadTrackingDestroy(ml_head_tracker_);
     MLEyeTrackingDestroy(ml_eye_tracker_);
-
-    delete[] vertices;
   }
 
   // olc::rcode GameEngine::Construct()
@@ -133,83 +131,92 @@ namespace olc
   bool GameEngine::OnUserUpdate(float fElaspedTime)
   {
     // ML_LOG_TAG(Info, APP_TAG, "GameEngine::OnUserUpdate()");
-    assert(vertices[vertices_length - 1] == 0.619608f);
+    // assert(vertices[vertices_length - 1] == 0.619608f);
+    // ML_LOG_TAG(Info, APP_TAG, "GameEngine::OnUserUpdate: %f", vertices[vertices_length - 1]);
+
+    // MLSnapshot *snapshot = nullptr;
+    // MLPerceptionGetSnapshot(&snapshot);
+
+    // MLTransform ml_fixation = {};
+    // MLTransform ml_left_eye_center = {};
+    // MLTransform ml_right_eye_center = {};
+    // MLTransform ml_head = {};
+    // MLSnapshotGetTransform(snapshot, &ml_head_static_data_.coord_frame_head, &ml_head);
+    // MLSnapshotGetTransform(snapshot, &ml_eye_static_data_.fixation, &ml_fixation);
+
+    // fixation_->SetPosition(ml_fixation.position.x, ml_fixation.position.y, ml_fixation.position.z);
+
+    // // Initialize a frame
+    // MLGraphicsFrameParamsEx frame_params;
+    // MLGraphicsFrameParamsExInit(&frame_params);
+
+    // frame_params.surface_scale = 1.0f;
+    // frame_params.projection_type = MLGraphicsProjectionType_ReversedInfiniteZ;
+    // frame_params.near_clip = 0.38;
+    // frame_params.focus_distance = 1.0f;
+
+    // MLHandle frame_handle;
 
 
-    MLSnapshot *snapshot = nullptr;
-    MLPerceptionGetSnapshot(&snapshot);
 
-    MLTransform ml_fixation = {};
-    MLTransform ml_left_eye_center = {};
-    MLTransform ml_right_eye_center = {};
-    MLTransform ml_head = {};
-    MLSnapshotGetTransform(snapshot, &ml_head_static_data_.coord_frame_head, &ml_head);
-    MLSnapshotGetTransform(snapshot, &ml_eye_static_data_.fixation, &ml_fixation);
+    // // MLGraphicsVirtualCameraInfoArray virtual_camera_array;
+    // MLGraphicsFrameInfo frame_info = {};
+    // MLGraphicsFrameInfoInit(&frame_info);
 
-    fixation_->SetPosition(ml_fixation.position.x, ml_fixation.position.y, ml_fixation.position.z);
+    // // Begin the frame
+    // MLResult frame_result = MLGraphicsBeginFrameEx(graphics_client_, &frame_params, &frame_info);
 
-    // Initialize a frame
-    MLGraphicsFrameParamsEx frame_params;
-    MLGraphicsFrameParamsExInit(&frame_params);
-
-    frame_params.surface_scale = 1.0f;
-    frame_params.projection_type = MLGraphicsProjectionType_ReversedInfiniteZ;
-    frame_params.near_clip = 0.38;
-    frame_params.focus_distance = 1.0f;
-
-    MLHandle frame_handle;
+    // frame_handle = frame_info.handle;
 
 
+    // if (frame_result == MLResult_Ok) {
+    //   // Prepare rendering for each camera/eye
+    //   for (int camera = 0; camera < 2; ++camera) {
+    //     glBindFramebuffer(GL_FRAMEBUFFER, graphics_context_.framebuffer_id);
+    //     glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, frame_info.color_id, 0, camera);
+    //     glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, frame_info.depth_id, 0, camera);
 
-    // MLGraphicsVirtualCameraInfoArray virtual_camera_array;
-    MLGraphicsFrameInfo frame_info = {};
-    MLGraphicsFrameInfoInit(&frame_info);
+    //     const MLRectf& viewport = frame_info.viewport;
+    //     glViewport((GLint)viewport.x, (GLint)viewport.y, (GLsizei)viewport.w, (GLsizei)viewport.h);
 
-    // Begin the frame
-    MLResult frame_result = MLGraphicsBeginFrameEx(graphics_client_, &frame_params, &frame_info);
+    //     glClearColor(0.0, 0.0, 0.0, 0.0);
+    //     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    frame_handle = frame_info.handle;
+    //     // Part 2: Get the projection matrix
+    //     MLGraphicsVirtualCameraInfo &current_camera = frame_info.virtual_cameras[camera];
+    //     glm::mat4 projectionMatrix = rb_projection_matrix(current_camera) * rb_camera_matrix(current_camera);
 
+    //     // Part 2: Render the object
 
-    if (frame_result == MLResult_Ok) {
-      // Prepare rendering for each camera/eye
-      for (int camera = 0; camera < 2; ++camera) {
-        glBindFramebuffer(GL_FRAMEBUFFER, graphics_context_.framebuffer_id);
-        glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, frame_info.color_id, 0, camera);
-        glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, frame_info.depth_id, 0, camera);
+    //     fixation_->Render(projectionMatrix);
+    //     // cloud_->Render(projectionMatrix, vertices, vertices_size);
+    //     // Bind the frame buffer
+    //     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    //     MLGraphicsSignalSyncObjectGL(graphics_client_, frame_info.virtual_cameras[camera].sync_object);
+    //   }
 
-        const MLRectf& viewport = frame_info.viewport;
-        glViewport((GLint)viewport.x, (GLint)viewport.y, (GLsizei)viewport.w, (GLsizei)viewport.h);
+    //   // Finish the frame
+    //   result_ = MLGraphicsEndFrame(graphics_client_, frame_handle);
 
-        glClearColor(0.0, 0.0, 0.0, 0.0);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // Part 2: Get the projection matrix
-        MLGraphicsVirtualCameraInfo &current_camera = frame_info.virtual_cameras[camera];
-        glm::mat4 projectionMatrix = rb_projection_matrix(current_camera) * rb_camera_matrix(current_camera);
-
-        // Part 2: Render the object
-
-        fixation_->Render(projectionMatrix);
-        // cloud_->Render(projectionMatrix, vertices, vertices_size);
-        // Bind the frame buffer
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        MLGraphicsSignalSyncObjectGL(graphics_client_, frame_info.virtual_cameras[camera].sync_object);
-      }
-
-      // Finish the frame
-      result_ = MLGraphicsEndFrame(graphics_client_, frame_handle);
-
-      if (MLResult_Ok != result_) {
-        ML_LOG_TAG(Error, APP_TAG, "MLGraphicsEndFrame() error: %d", result_);
-      }
-    }
-    else if (frame_result != MLResult_Timeout) {
-      // Sometimes it fails with timeout when device is busy
-      ML_LOG_TAG(Error, APP_TAG, "MLGraphicsBeginFrame() error: %d", frame_result);
-    }
+    //   if (MLResult_Ok != result_) {
+    //     ML_LOG_TAG(Error, APP_TAG, "MLGraphicsEndFrame() error: %d", result_);
+    //   }
+    // }
+    // else if (frame_result != MLResult_Timeout) {
+    //   // Sometimes it fails with timeout when device is busy
+    //   ML_LOG_TAG(Error, APP_TAG, "MLGraphicsBeginFrame() error: %d", frame_result);
+    // }
 
     return false;
+  }
+
+  void GameEngine::PublishCloud(float vertices[], const int n_points)
+  {
+    ML_LOG_TAG(Info, APP_TAG, "Inside GameEngine::PublishCoud()");
+    
+    const int vertices_length = n_points * 6;
+
+    ML_LOG_TAG(Info, APP_TAG, "GameEngine::PublishCoud - vertices[vertices_length - 1] 0.619608: %f", vertices[vertices_length - 1]);
   }
 
   bool GameEngine::OnUserDestroy()

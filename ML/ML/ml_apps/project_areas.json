@@ -12,7 +12,7 @@
   ],
 
   "samples": [
-    "ros_ml_client_heap/",
+    "ros_ml_client_heap/"
     // "ros_ml_client_stack/"
    // "ros_ml_server/"
    // "snappy_poc/"

@@ -33,14 +33,10 @@ namespace olc
   // Called once an application termination, used for clearing resources
   virtual bool OnUserDestroy();
 
-  olc::rcode PublishCloud(float vertices[]);
+  void PublishCloud(float vertices[], const int n_points);
 
   public: // Branding
     std::string sAppName;
-    int n_points{0};
-    int vertices_length{0};
-    int vertices_size{0};
-    float* vertices{nullptr};
 
   private:
     graphics_context_t graphics_context_;
