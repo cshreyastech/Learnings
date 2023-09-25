@@ -29,6 +29,7 @@ private:
   GLuint _progId;
   GLuint _vaoId;
   unsigned int _vboId;
+  unsigned int _iboId;
 
   // const int a = 0.02;
   float _vertices[24] = {
@@ -44,6 +45,17 @@ private:
     -0.02, -0.02, -0.02
   };
 
+  unsigned int _indices[36] = {  // note that we start from 0!
+  // X clockwise
+  0, 1, 3, 1, 2, 2,
+  6, 0, 7, 0, 3, 7,
+  4, 6, 5, 6, 7, 5,
+  1, 4, 2, 4, 5, 2,
+  
+  // Y clockwise
+  0, 6, 1, 6, 4, 1,
+  2, 5, 3, 5, 7, 3
+  };
 
   GLuint _projId;
   GLuint _colorId;

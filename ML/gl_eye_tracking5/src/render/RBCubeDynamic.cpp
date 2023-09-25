@@ -6,9 +6,6 @@
 #define TOP_RADIUS 0.5
 
 Cube::Cube() {
-  // _steps = steps;
-  // _verts = (_steps + 1) * 2; 
-
   _position = glm::vec3(0);
   _rotation = glm::vec3(0);
   _scale = glm::vec3(0.25);
@@ -26,41 +23,11 @@ void Cube::ApplyShader(Shader& shader) {
   _projId = glGetUniformLocation(_progId, "projFrom3D");
   GLuint location = glGetAttribLocation(_progId, "coord3D");
 
-  // float a = 1.0f;
-  // float multiplyer = 0.02f;
-  // a *= multiplyer;
-
-  // _vertices = {
-  //    a,  a, -a,
-  //    a,  a,  a,
-  //   -a,  a,  a,
-  //   -a,  a, -a,
-
-  //    a, -a,  a,
-  //   -a, -a,  a,
-  //    a, -a, -a,
-
-  //   -a, -a, -a
-  // };
-
-
-  unsigned int indices[] = {  // note that we start from 0!
-  // X clockwise
-  0, 1, 3, 1, 2, 2,
-  6, 0, 7, 0, 3, 7,
-  4, 6, 5, 6, 7, 5,
-  1, 4, 2, 4, 5, 2,
-  
-  // Y clockwise
-  0, 6, 1, 6, 4, 1,
-  2, 5, 3, 5, 7, 3
-  };
-
   const int dimention = 3;
   int _verts = sizeof(_vertices) / sizeof(_vertices[0]);
   const int sides_n = _verts / dimention;
 
-  _indices_n = sizeof(indices) / sizeof(indices[0]);
+  _indices_n = sizeof(_indices) / sizeof(_indices[0]);
   // unsigned int VBO;
   // 1. bind Vertex Array Object
   glGenVertexArrays(1, &_vaoId);
@@ -81,31 +48,26 @@ void Cube::ApplyShader(Shader& shader) {
   glEnableVertexAttribArray(0);
 
 
-
-  unsigned int EBO;
-  glGenBuffers(1, &EBO);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+  glGenBuffers(1, &_iboId);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _iboId);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices), _indices, GL_DYNAMIC_DRAW);
 
   
-  // std::cout << "stride: " << stride << std::endl;
-
-
   // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-  // glBindBuffer(GL_ARRAY_BUFFER, 0); 
+  glBindBuffer(GL_ARRAY_BUFFER, 0); 
 
-  // glBindVertexArray(0);
-  // glUseProgram(0);
+  glBindVertexArray(0);
+  glUseProgram(0);
 
   ML_LOG_TAG(Debug, APP_TAG, "Uniform location (%d, %d, %d), program %d", _colorId, _projId, location, _progId);
-
-  // glDeleteBuffers(1, &_vboId);
-  // glDeleteBuffers(1, &EBO);
 }
 
 void Cube::Render(glm::mat4 projectionMatrix) {
   glBindBuffer(GL_ARRAY_BUFFER, _vboId);
   glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(_vertices), _vertices);
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _iboId);
+  glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(_indices), _indices);
 
   glUseProgram(_progId);
 
@@ -117,9 +79,11 @@ void Cube::Render(glm::mat4 projectionMatrix) {
   glUniformMatrix4fv(_projId, 1, GL_FALSE, &transform[0][0]);
   glUniform3f(_colorId, _color[0], _color[1], _color[2]);
   glDrawElements(GL_TRIANGLES, _indices_n, GL_UNSIGNED_INT, 0);
-  // glBindVertexArray(0);
 
-  // glUseProgram(0);
+
+
+  glBindVertexArray(0);
+  glUseProgram(0);
 
 
 
