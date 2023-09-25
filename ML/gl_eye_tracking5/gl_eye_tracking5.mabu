@@ -9,7 +9,7 @@ SRCS = \
     src/core/game_engine.cpp \
     \
     src/render/RBShader.cpp \
-    src/render/RBCube.cpp \
+    src/render/RBCubeDynamic.cpp \
     src/render/RBPointDynamic.cpp
 
 DEFS = \

@@ -11,8 +11,8 @@ RosMLClient::RosMLClient() : olc::GameEngine()
 	vertices_length = n_points * 6;
   vertices_size = vertices_length * sizeof(float);
 
-	vertices = new float[vertices_length];
-	ParseCloudFromFile("data/res/cloud/depth_data.txt", vertices, n_points);
+	// vertices = new float[vertices_length];
+	// ParseCloudFromFile("data/res/cloud/depth_data.txt", vertices, n_points);
 }
 
 RosMLClient::~RosMLClient()

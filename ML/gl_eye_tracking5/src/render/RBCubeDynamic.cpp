@@ -6,42 +6,42 @@
 #define TOP_RADIUS 0.5
 
 Cube::Cube() {
-	// _steps = steps;
-	// _verts = (_steps + 1) * 2; 
+  // _steps = steps;
+  // _verts = (_steps + 1) * 2; 
 
-	_position = glm::vec3(0);
-	_rotation = glm::vec3(0);
-	_scale = glm::vec3(0.25);
+  _position = glm::vec3(0);
+  _rotation = glm::vec3(0);
+  _scale = glm::vec3(0.25);
 }
 
 Cube::~Cube() {
-	glDeleteVertexArrays(1, &_vaoId);
+  glDeleteVertexArrays(1, &_vaoId);
 }
 
 void Cube::ApplyShader(Shader& shader) {
-	_progId = shader.GetProgramID();
-	glUseProgram(_progId);
+  _progId = shader.GetProgramID();
+  glUseProgram(_progId);
 
-	_colorId = glGetUniformLocation(_progId, "color");
-	_projId = glGetUniformLocation(_progId, "projFrom3D");
-	GLuint location = glGetAttribLocation(_progId, "coord3D");
+  _colorId = glGetUniformLocation(_progId, "color");
+  _projId = glGetUniformLocation(_progId, "projFrom3D");
+  GLuint location = glGetAttribLocation(_progId, "coord3D");
 
-  float a = 1.0f;
-  float multiplyer = 0.02f;
-  a *= multiplyer;
+  // float a = 1.0f;
+  // float multiplyer = 0.02f;
+  // a *= multiplyer;
 
-  float vertices[] = {
-     a,  a, -a,
-     a,  a,  a,
-    -a,  a,  a,
-    -a,  a, -a,
+  // _vertices = {
+  //    a,  a, -a,
+  //    a,  a,  a,
+  //   -a,  a,  a,
+  //   -a,  a, -a,
 
-     a, -a,  a,
-    -a, -a,  a,
-     a, -a, -a,
+  //    a, -a,  a,
+  //   -a, -a,  a,
+  //    a, -a, -a,
 
-    -a, -a, -a
-  };
+  //   -a, -a, -a
+  // };
 
 
   unsigned int indices[] = {  // note that we start from 0!
@@ -57,80 +57,99 @@ void Cube::ApplyShader(Shader& shader) {
   };
 
   const int dimention = 3;
-  _verts_size = sizeof(vertices);
-  int _verts = _verts_size / sizeof(vertices[0]);
+  int _verts = sizeof(_vertices) / sizeof(_vertices[0]);
   const int sides_n = _verts / dimention;
 
   _indices_n = sizeof(indices) / sizeof(indices[0]);
-  unsigned int VBO;
+  // unsigned int VBO;
   // 1. bind Vertex Array Object
   glGenVertexArrays(1, &_vaoId);
-	glBindVertexArray(_vaoId);
+  glBindVertexArray(_vaoId);
 
 
-  glGenBuffers(1, &VBO);
+  glGenBuffers(1, &_vboId);
 
   // 2. copy our vertices array in a vertex buffer for OpenGL to use
-  glBindBuffer(GL_ARRAY_BUFFER, VBO);
+  glBindBuffer(GL_ARRAY_BUFFER, _vboId);
   // glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), nullptr, GL_DYNAMIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(_vertices), nullptr, GL_DYNAMIC_DRAW);
 
   // 3. copy our index array in a element buffer for OpenGL to use
-  unsigned int EBO;
-  glGenBuffers(1, &EBO);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-   // glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), nullptr, GL_DYNAMIC_DRAW);
-
   unsigned int stride = sizeof(float) * dimention; 
-  // std::cout << "stride: " << stride << std::endl;
-
   // glVertexAttribPointer(location, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(0));
   glVertexAttribPointer(0, dimention, GL_FLOAT, GL_FALSE, stride, (void*)0);
   glEnableVertexAttribArray(0);
 
-  // // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+
+
+  unsigned int EBO;
+  glGenBuffers(1, &EBO);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+  
+  // std::cout << "stride: " << stride << std::endl;
+
+
+  // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
   // glBindBuffer(GL_ARRAY_BUFFER, 0); 
 
-// 	glBindVertexArray(0);
-// 	glUseProgram(0);
+  // glBindVertexArray(0);
+  // glUseProgram(0);
 
-// 	ML_LOG_TAG(Debug, APP_TAG, "Uniform location (%d, %d, %d), program %d", _colorId, _projId, location, _progId);
+  ML_LOG_TAG(Debug, APP_TAG, "Uniform location (%d, %d, %d), program %d", _colorId, _projId, location, _progId);
 
-// 	glDeleteBuffers(1, &VBO);
+  // glDeleteBuffers(1, &_vboId);
   // glDeleteBuffers(1, &EBO);
 }
 
 void Cube::Render(glm::mat4 projectionMatrix) {
-   glBindBuffer(GL_ARRAY_BUFFER, VBO);
-   glBufferSubData(GL_ARRAY_BUFFER, 0, _verts_size, );
+  glBindBuffer(GL_ARRAY_BUFFER, _vboId);
+  glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(_vertices), _vertices);
 
-	glUseProgram(_progId);
+  glUseProgram(_progId);
 
-	glm::mat4 translate = glm::translate(glm::mat4(1.0f), _position);
-	glm::mat4 scale = glm::scale(_scale);
-	glm::mat4 transform = projectionMatrix * translate * scale;
+  glm::mat4 translate = glm::translate(glm::mat4(1.0f), _position);
+  glm::mat4 scale = glm::scale(_scale);
+  glm::mat4 transform = projectionMatrix * translate * scale;
 
   glBindVertexArray(_vaoId);
   glUniformMatrix4fv(_projId, 1, GL_FALSE, &transform[0][0]);
-	glUniform3f(_colorId, _color[0], _color[1], _color[2]);
+  glUniform3f(_colorId, _color[0], _color[1], _color[2]);
   glDrawElements(GL_TRIANGLES, _indices_n, GL_UNSIGNED_INT, 0);
-  glBindVertexArray(0);
+  // glBindVertexArray(0);
 
-	glUseProgram(0);
+  // glUseProgram(0);
+
+
+
+
+  // glUseProgram(_progId);
+
+  // glm::mat4 translate = glm::translate(glm::mat4(1.0f), _position);
+  // glm::mat4 scale = glm::scale(_scale);
+  // glm::mat4 transform = projectionMatrix * translate * scale;
+
+  // glBindVertexArray(_vaoId);
+  // glUniformMatrix4fv(_projId, 1, GL_FALSE, &transform[0][0]);
+  // glDrawArrays(GL_POINTS, 0, _verts);
+  // glBindVertexArray(0);
+
+  // glUseProgram(0);
 }
 
+
 void Cube::Dump() {
-	ML_LOG_TAG(Debug, APP_TAG, "---------------- Dump of Cube ----------------");
-	ML_LOG_TAG(Debug, APP_TAG, "Prog ID:  %d", _progId);
-	ML_LOG_TAG(Debug, APP_TAG, "VAO ID:   %d", _vaoId);
-	ML_LOG_TAG(Debug, APP_TAG, "Proj ID:  %d", _projId);
-	ML_LOG_TAG(Debug, APP_TAG, "Color ID: %d", _colorId);
-	ML_LOG_TAG(Debug, APP_TAG, "Steps:    %d",    _steps);
-	ML_LOG_TAG(Debug, APP_TAG, "Verts:    %d",    _verts);
-	ML_LOG_TAG(Debug, APP_TAG, "Color:    %f,%f,%f", _color[0], _color[1], _color[2]);
-	ML_LOG_TAG(Debug, APP_TAG, "Position: %f,%f,%f", _position.x, _position.y, _position.z);
-	ML_LOG_TAG(Debug, APP_TAG, "Rotation: %f,%f,%f", _rotation.x, _rotation.y, _rotation.z);
-	ML_LOG_TAG(Debug, APP_TAG, "Scale:    %f,%f,%f", _scale.x, _scale.y, _scale.z);
-	ML_LOG_TAG(Debug, APP_TAG, "--------------------------------------------------");
+  ML_LOG_TAG(Debug, APP_TAG, "---------------- Dump of Cube ----------------");
+  ML_LOG_TAG(Debug, APP_TAG, "Prog ID:  %d", _progId);
+  ML_LOG_TAG(Debug, APP_TAG, "VAO ID:   %d", _vaoId);
+  ML_LOG_TAG(Debug, APP_TAG, "Proj ID:  %d", _projId);
+  ML_LOG_TAG(Debug, APP_TAG, "Color ID: %d", _colorId);
+  ML_LOG_TAG(Debug, APP_TAG, "Steps:    %d",    _steps);
+  ML_LOG_TAG(Debug, APP_TAG, "Verts:    %d",    _verts);
+  ML_LOG_TAG(Debug, APP_TAG, "Color:    %f,%f,%f", _color[0], _color[1], _color[2]);
+  ML_LOG_TAG(Debug, APP_TAG, "Position: %f,%f,%f", _position.x, _position.y, _position.z);
+  ML_LOG_TAG(Debug, APP_TAG, "Rotation: %f,%f,%f", _rotation.x, _rotation.y, _rotation.z);
+  ML_LOG_TAG(Debug, APP_TAG, "Scale:    %f,%f,%f", _scale.x, _scale.y, _scale.z);
+  ML_LOG_TAG(Debug, APP_TAG, "--------------------------------------------------");
 }
