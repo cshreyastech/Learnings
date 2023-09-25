@@ -33,6 +33,7 @@ namespace olc
   // Called once an application termination, used for clearing resources
   virtual bool OnUserDestroy();
 
+  void InitializePointCloud(const int n_points);
   void PublishCloud(float vertices[], const int n_points);
 
   public: // Branding
@@ -52,6 +53,10 @@ namespace olc
 
     Cube* fixation_ = nullptr;
     Point* cloud_ = nullptr;
+
+    int n_points_{0};
+    int vertices_length_{0};
+    int vertices_size_{0};
 
   }; 
 

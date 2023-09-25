@@ -5,6 +5,7 @@
 RosMLClient::RosMLClient() : olc::GameEngine() , olc::net::client_interface<GameMsg>()
 {
 	sAppName = "MMO Client";
+
 }
 
 RosMLClient::~RosMLClient()
@@ -70,6 +71,8 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 				{
 					sPlayerDescription desc;
 					msg >> desc;
+
+          InitializePointCloud(desc.n_points);
 
 					mapObjects_.insert_or_assign(desc.nUniqueID, desc);
 
