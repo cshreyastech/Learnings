@@ -11,14 +11,9 @@ RosMLClient::RosMLClient() : olc::GameEngine()
 	vertices_length = n_points * 6;
   vertices_size = vertices_length * sizeof(float);
 
-  vertices_sa = new Vertex[n_points];
+  vertices = new Vertex[n_points];
 
   ParseCloudFromFile("data/res/cloud/depth_data.txt");
-
-  // assert(vertices_sa[1].Position.v2 == -0.931193f);
-  // assert(vertices_sa[1].Color.v2 == 0.635294f);
-
-
 }
 
 RosMLClient::~RosMLClient()
@@ -84,6 +79,6 @@ void RosMLClient::ParseCloudFromFile(const std::string cloud_file_path)
     file_handler >> each_value_str;
     v.Color.v2 = std::stof(each_value_str);
 
-    vertices_sa[i] = v;
+    vertices[i] = v;
   }
 }

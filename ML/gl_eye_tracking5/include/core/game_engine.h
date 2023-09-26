@@ -48,9 +48,8 @@ namespace olc
 		int n_points{0};
     int vertices_length{0};
     int vertices_size{0};
-    // float* vertices{nullptr}; 
 
-    Vertex* vertices_sa{nullptr};
+    Vertex* vertices{nullptr};
 
   private:
     graphics_context_t graphics_context_;
