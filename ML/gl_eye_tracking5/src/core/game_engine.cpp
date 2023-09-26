@@ -28,7 +28,8 @@ namespace olc
     MLHeadTrackingDestroy(ml_head_tracker_);
     MLEyeTrackingDestroy(ml_eye_tracker_);
 
-    // delete[] vertices;
+
+    delete[] vertices_sa;
   }
 
   olc::rcode GameEngine::Construct()
@@ -205,7 +206,10 @@ namespace olc
         // Part 2: Render the object
 
         fixation_->Render(projectionMatrix);
-        cloud_->Render(projectionMatrix, vertices, vertices_size);
+
+        cloud_->Render(projectionMatrix, vertices_sa, vertices_size);
+
+        
         // Bind the frame buffer
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         MLGraphicsSignalSyncObjectGL(graphics_client_, frame_info.virtual_cameras[camera].sync_object);

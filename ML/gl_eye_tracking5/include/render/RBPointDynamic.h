@@ -4,6 +4,17 @@
 #include "core/platform_includes.h"
 #include "core/glm.h"
 
+struct Vec3
+{
+  float v0, v1, v2;
+};
+
+struct Vertex
+{
+  Vec3 Position;
+  Vec3 Color;
+};
+
 class Shader;
 
 class Point {
@@ -21,6 +32,8 @@ public:
 	void SetColor(glm::vec3 color) { _color = color; }
 	glm::vec3 GetColor() { return _color; }
 	void Render(glm::mat4, float[], const int);
+
+  void Render(glm::mat4, Vertex[], const int);
 
 	void Dump();
 private:

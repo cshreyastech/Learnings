@@ -1,9 +1,4 @@
-// #include "core/ml_utilities.h"
-// #include "core/ml_graphics_context.h"
-
 #include "gl_eye_tracking/ros_ml_client.h"
-
-
 
 int main()
 {

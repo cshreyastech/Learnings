@@ -27,11 +27,13 @@ Point::Point(Shader& shader, const int n_points, const int vertices_size)
   glBufferData(GL_ARRAY_BUFFER, vertices_size, nullptr, GL_DYNAMIC_DRAW);
 
   // position
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), reinterpret_cast<void*>(0));
+  // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), reinterpret_cast<void*>(0));
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, Position));
   glEnableVertexAttribArray(_location);
 
   // The color attribute starts after the position data so the offset is 3 * sizeof(float) 
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+  // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3* sizeof(float)));
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, Color));
   glEnableVertexAttribArray(1);
 
   glBindVertexArray(_vaoId);
@@ -61,6 +63,25 @@ void Point::Render(glm::mat4 projectionMatrix, float vertices[], const int verti
 	glBindVertexArray(0);
 
 	glUseProgram(0);
+}
+
+
+void Point::Render(glm::mat4 projectionMatrix, Vertex vertices[], const int vertices_size) {
+  glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+  glBufferSubData(GL_ARRAY_BUFFER, 0, vertices_size, vertices);
+
+  glUseProgram(_progId);
+
+  glm::mat4 translate = glm::translate(glm::mat4(1.0f), _position);
+  glm::mat4 scale = glm::scale(_scale);
+  glm::mat4 transform = projectionMatrix * translate * scale;
+
+  glBindVertexArray(_vaoId);
+  glUniformMatrix4fv(_projId, 1, GL_FALSE, &transform[0][0]);
+  glDrawArrays(GL_POINTS, 0, _verts);
+  glBindVertexArray(0);
+
+  glUseProgram(0);
 }
 
 void Point::Dump() {

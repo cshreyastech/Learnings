@@ -11,8 +11,14 @@ RosMLClient::RosMLClient() : olc::GameEngine()
 	vertices_length = n_points * 6;
   vertices_size = vertices_length * sizeof(float);
 
-	vertices = new float[vertices_length];
-	ParseCloudFromFile("data/res/cloud/depth_data.txt", vertices, n_points);
+  vertices_sa = new Vertex[n_points];
+
+  ParseCloudFromFile("data/res/cloud/depth_data.txt");
+
+  // assert(vertices_sa[1].Position.v2 == -0.931193f);
+  // assert(vertices_sa[1].Color.v2 == 0.635294f);
+
+
 }
 
 RosMLClient::~RosMLClient()
@@ -46,25 +52,38 @@ void RosMLClient::Deserialize(const char* data, float vertices[], const int vert
   }
 }
 
-void RosMLClient::ParseCloudFromFile(const std::string file_path, float vertices[], const int n_points)
+void RosMLClient::ParseCloudFromFile(const std::string cloud_file_path)
 {
-  std::ifstream file_handler(file_path);
-  ML_LOG_TAG(Debug, APP_TAG, "file_path: %s", file_path.c_str());
-
-  std::string each_value_str;
-
   int n_values_read_from_file  = 0;
-  while(file_handler >> each_value_str)
+
+  std::ifstream file_handler(cloud_file_path);
+  std::string each_value_str;
+  // std::string each_value_clean_str;
+  float value_float;
+
+  for(int i = 0; i < n_points; i++)
   {
-    std::string each_value_clean_str = 
-      each_value_str.substr(0, each_value_str.find("f", 0));
+    Vertex v;
 
-    float value_float = std::stof(each_value_clean_str);
+    file_handler >> each_value_str;
+    v.Position.v0 = std::stof(each_value_str);
 
-    vertices[n_values_read_from_file] = value_float;
-    n_values_read_from_file++;
+    file_handler >> each_value_str;
+    v.Position.v1 = std::stof(each_value_str);
+
+    file_handler >> each_value_str;
+    v.Position.v2 = std::stof(each_value_str);
+
+
+    file_handler >> each_value_str;
+    v.Color.v0 = std::stof(each_value_str);
+
+    file_handler >> each_value_str;
+    v.Color.v1 = std::stof(each_value_str);
+
+    file_handler >> each_value_str;
+    v.Color.v2 = std::stof(each_value_str);
+
+    vertices_sa[i] = v;
   }
-
-  file_handler.close();
-  assert(n_points == (n_values_read_from_file / 6));
 }

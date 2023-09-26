@@ -10,6 +10,16 @@
 #include "render/RBShader.h"
 #include "render/RBCubeDynamic.h"
 #include "render/RBPointDynamic.h"
+#include <memory>
+
+static Vertex PointVertex(const float x, const float y, const float z, const float r, const float g, const float b)
+{
+  Vertex v;
+  v.Position = { x, y, z };
+  v.Color = { r, g, b };
+
+  return v;
+}
 
 namespace olc
 {
@@ -38,7 +48,9 @@ namespace olc
 		int n_points{0};
     int vertices_length{0};
     int vertices_size{0};
-    float* vertices{nullptr};
+    // float* vertices{nullptr}; 
+
+    Vertex* vertices_sa{nullptr};
 
   private:
     graphics_context_t graphics_context_;
