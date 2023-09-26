@@ -1,4 +1,4 @@
-#include "render/RBCube.h"
+#include "render/RBCubeDynamic.h"
 #include "render/RBShader.h"
 
 

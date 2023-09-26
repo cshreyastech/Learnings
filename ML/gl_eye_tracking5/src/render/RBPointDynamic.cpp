@@ -47,24 +47,6 @@ Point::Point(Shader& shader, const int n_points, const int vertices_size)
 Point::~Point() {
 }
 
-void Point::Render(glm::mat4 projectionMatrix, float vertices[], const int vertices_size) {
-  glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-  glBufferSubData(GL_ARRAY_BUFFER, 0, vertices_size, vertices);
-
-	glUseProgram(_progId);
-
-	glm::mat4 translate = glm::translate(glm::mat4(1.0f), _position);
-	glm::mat4 scale = glm::scale(_scale);
-	glm::mat4 transform = projectionMatrix * translate * scale;
-
-	glBindVertexArray(_vaoId);
-	glUniformMatrix4fv(_projId, 1, GL_FALSE, &transform[0][0]);
-	glDrawArrays(GL_POINTS, 0, _verts);
-	glBindVertexArray(0);
-
-	glUseProgram(0);
-}
-
 
 void Point::Render(glm::mat4 projectionMatrix, Vertex vertices[], const int vertices_size) {
   glBindBuffer(GL_ARRAY_BUFFER, _vbo);

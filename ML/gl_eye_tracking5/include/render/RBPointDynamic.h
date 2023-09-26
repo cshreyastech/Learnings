@@ -31,8 +31,7 @@ public:
 	glm::vec3 GetScale() { return _scale; }
 	void SetColor(glm::vec3 color) { _color = color; }
 	glm::vec3 GetColor() { return _color; }
-	void Render(glm::mat4, float[], const int);
-
+	
   void Render(glm::mat4, Vertex[], const int);
 
 	void Dump();
