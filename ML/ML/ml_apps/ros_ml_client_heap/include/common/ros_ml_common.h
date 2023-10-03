@@ -35,4 +35,15 @@ struct sPlayerDescription
 	char p_vertices_compressed[1]; // Flexible array member
 };
 
+struct Vec3
+{
+  float v0, v1, v2;
+};
+
+struct Vertex
+{
+  Vec3 Position;
+  Vec3 Color;
+};
+
 #endif

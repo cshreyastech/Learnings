@@ -3,6 +3,7 @@
 
 #include "core/platform_includes.h"
 #include "core/glm_include.h"
+#include "common/ros_ml_common.h"
 
 class Shader;
 
