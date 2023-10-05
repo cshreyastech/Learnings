@@ -20,6 +20,7 @@ USES = \
 	# ext/assimp \
 	# ext/gflags \
 	ext/glm \
+  ext/cereal \
 	ext/asio \
 	ml_sdk \
 	stdc++

@@ -7,9 +7,12 @@
 
 #include "core/ml_graphics_context.h"
 
+#include "common/ros_ml_common.h"
 #include "render/RBShader.h"
 #include "render/RBCubeDynamic.h"
 #include "render/RBPointDynamic.h"
+#include <memory>
+
 
 namespace olc
 {
@@ -20,10 +23,8 @@ namespace olc
     GameEngine();
     virtual ~GameEngine();
   public:
-    // olc::rcode Construct();
-    bool Construct();
-    // olc::rcode Start();
-    bool Start();
+    olc::rcode Construct();
+    olc::rcode Start();
 
   public: // User override interface
   // Called once on application startup, use to load your resources
@@ -34,7 +35,7 @@ namespace olc
   virtual bool OnUserDestroy();
 
   void InitializePointCloud(const int n_points);
-  void PublishCloud(float vertices[], const int n_points);
+  void PublishCloud(PointCloud &point_cloud);
 
   public: // Branding
     std::string sAppName;
@@ -51,12 +52,10 @@ namespace olc
     MLHandle ml_eye_tracker_ = ML_INVALID_HANDLE;
     MLEyeTrackingStaticData ml_eye_static_data_ = {};
 
-    Cube* fixation_ = nullptr;
-    Point* cloud_ = nullptr;
+    RBCube fixation_;
 
     int n_points_{0};
-    int vertices_length_{0};
-    int vertices_size_{0};
+    RBPoint render_point_cloud_;
 
   }; 
 

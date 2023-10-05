@@ -7,15 +7,17 @@ namespace olc
 {
   GameEngine::GameEngine()
   {
-    ML_LOG_TAG(Info, APP_TAG, "GameEngine::GameEngine()");
+    // std::cout << "GameEngine::GameEngine()\n";
+    ML_LOG_TAG(Debug, APP_TAG, "GameEngine::GameEngine()");
   }
 
   GameEngine::~GameEngine()
   {
+    // std::cout << "GameEngine::~GameEngine()\n"; 
     ML_LOG_TAG(Debug, APP_TAG, "GameEngine::~GameEngine()");
 
-    delete fixation_;
-    delete cloud_;
+    // delete fixation_;
+    // delete cloud_;
 
     graphics_context_.unmakeCurrent();
     glDeleteFramebuffers(1, &graphics_context_.framebuffer_id);
@@ -27,13 +29,17 @@ namespace olc
     // clean up system
     MLHeadTrackingDestroy(ml_head_tracker_);
     MLEyeTrackingDestroy(ml_eye_tracker_);
+
+
+    // delete[] vertices;
   }
 
-  // olc::rcode GameEngine::Construct()
-  bool GameEngine::Construct()
+  olc::rcode GameEngine::Construct()
   {
+    // std::cout << "GameEngine::Construct()\n"; 
     ML_LOG_TAG(Debug, APP_TAG, "GameEngine::Construct()");
-
+  // glfw: initialize and configure
+  // ------------------------------
     MLLoggingEnableLogLevel(MLLogLevel_Debug);
 
 
@@ -100,10 +106,10 @@ namespace olc
     // pointShader3D.Load("data/res/shaders/basic3D.vert", "data/res/shaders/basic.frag");
     
 
-    fixation_ = new Cube();
-    fixation_->ApplyShader(shader3D);
-    fixation_->SetColor(COLOR_GREEN);
-    fixation_->SetPosition(0.0f, 0.0f, 0.0f);
+    // fixation_ = new Cube();
+    fixation_.ApplyShader(shader3D);
+    fixation_.SetColor(COLOR_GREEN);
+    fixation_.SetPosition(0.0f, 0.0f, 0.0f);
 
     // cloud_ = new Point(pointShader3D, n_points, vertices_size);;
 
@@ -119,40 +125,36 @@ namespace olc
     ML_LOG_TAG(Debug, APP_TAG, "Enter main loop");
 
 
-    // return olc::rcode::OK;
-    return true;
+    return olc::rcode::OK;
   }
 
   bool GameEngine::OnUserCreate()
   {
+    ML_LOG_TAG(Debug, APP_TAG, "GameEngine::OnUserCreate()");
     return false;
   }
+
 
   bool GameEngine::OnUserUpdate(float fElaspedTime)
   {
-    // ML_LOG_TAG(Info, APP_TAG, "GameEngine::OnUserUpdate()");
-
     return false;
   }
 
+
   void GameEngine::InitializePointCloud(const int n_points)
   {
+    n_points_ = n_points;
+
     Shader pointShader3D = Shader();
     pointShader3D.Load("data/res/shaders/basic3D.vert", "data/res/shaders/basic.frag");
 
-    vertices_length_ = n_points * 6;
-    vertices_size_ = vertices_length_ * sizeof(float);
-    cloud_ = new Point(pointShader3D, n_points, vertices_size_);
+    render_point_cloud_.SetShader(pointShader3D, n_points);
   }
 
-  void GameEngine::PublishCloud(float vertices[], const int n_points)
+  void GameEngine::PublishCloud(PointCloud &point_cloud)
   {
-    ML_LOG_TAG(Info, APP_TAG, "Inside GameEngine::PublishCoud()");
-    
-    // const int vertices_length = n_points * 6;
 
-    ML_LOG_TAG(Info, APP_TAG, "GameEngine::PublishCoud - vertices[vertices_length_ - 1] 0.619608: %f", vertices[vertices_length_ - 1]);
-
+    // ML_LOG_TAG(Info, APP_TAG, "%f", point_cloud.points[n_points_ - 1].Color.v0);
 
     MLSnapshot *snapshot = nullptr;
     MLPerceptionGetSnapshot(&snapshot);
@@ -164,7 +166,7 @@ namespace olc
     MLSnapshotGetTransform(snapshot, &ml_head_static_data_.coord_frame_head, &ml_head);
     MLSnapshotGetTransform(snapshot, &ml_eye_static_data_.fixation, &ml_fixation);
 
-    fixation_->SetPosition(ml_fixation.position.x, ml_fixation.position.y, ml_fixation.position.z);
+    fixation_.SetPosition(ml_fixation.position.x, ml_fixation.position.y, ml_fixation.position.z);
 
     // Initialize a frame
     MLGraphicsFrameParamsEx frame_params;
@@ -208,8 +210,13 @@ namespace olc
 
         // Part 2: Render the object
 
-        fixation_->Render(projectionMatrix);
-        cloud_->Render(projectionMatrix, vertices, vertices_size_);
+        fixation_.Render(projectionMatrix);
+
+        // cloud_->Render(projectionMatrix, vertices, vertices_size);
+
+        render_point_cloud_.Render(projectionMatrix, point_cloud);
+
+        
         // Bind the frame buffer
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         MLGraphicsSignalSyncObjectGL(graphics_client_, frame_info.virtual_cameras[camera].sync_object);
@@ -230,30 +237,22 @@ namespace olc
 
   bool GameEngine::OnUserDestroy()
   {
-
-    ML_LOG_TAG(Info, APP_TAG, "Inside OnUserDestroy()");    
-    // delete[] vertices;
-
+    // std::cout << "GameEngine::OnUserDestroy()\n"; 
+    ML_LOG_TAG(Debug, APP_TAG, "GameEngine::OnUserDestroy()");
     return true;
   }
 
-  // olc::rcode GameEngine::Start()
-  bool GameEngine::Start()
+  olc::rcode GameEngine::Start()
   {
+    // std::cout << "GameEngine::OnuserStart()\n"; 
+    ML_LOG_TAG(Debug, APP_TAG, "GameEngine::Start()");
     OnUserCreate();
 
     while(true)
       OnUserUpdate(0.0f);
-    // return olc::rcode::OK;
-    return true;
+    return olc::rcode::OK;
   }
 
-  // olc::rcode GameEngine::PublishCloud(float vertices[])
-  // {
-  //   std::cout << "Inside GameEngine::PublishCloud()\n";
-  //   std::cout << "vertices[10] = 0.133333f: " << vertices[10] << std::endl;
 
-  //   return olc::rcode::OK;
-  // }
 
 } // namespace olc

@@ -2,7 +2,7 @@
 #define ROS_ML_CLIENT_H
 
 
-#include "common/ros_ml_common.h"
+
 #include "common/ros_ml_network.h"
 #include "ros_ml_client/game_engine.h"
 
@@ -12,23 +12,20 @@
 class RosMLClient : public olc::GameEngine, olc::net::client_interface<GameMsg>
 {
 public:
-	RosMLClient();
+  RosMLClient();
  ~RosMLClient();
 
-private:
-	std::unordered_map<uint32_t, sPlayerDescription> mapObjects_;
-	uint32_t nPlayerID_ = 0;
-	bool bWaitingForConnection_{true};
 
-	// Should be the last declared variable as it as flexible array member
-	sPlayerDescription descPlayer_;
+private:
+  std::unordered_map<uint32_t, sPlayerDescription> mapObjects_;
+  uint32_t nPlayerID_ = 0;
+  bool bWaitingForConnection_{true};
+  sPlayerDescription descPlayer_;
+  PointCloud point_cloud_;
 
 public:
-	bool OnUserCreate() override;
+  bool OnUserCreate() override;
   bool OnUserUpdate(float fElapsedTime) override;
 
-private:
-	void Deserialize(const char* data, float vertices[], const int vertices_length);
 };
-
 #endif
