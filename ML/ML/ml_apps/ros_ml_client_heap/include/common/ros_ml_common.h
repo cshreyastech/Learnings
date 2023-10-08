@@ -7,14 +7,13 @@
 #include "snappy-sinksource.h"
 #include "snappy.h"
 #include <cereal/archives/binary.hpp>
-#include <stdexcept>
 #include <memory>
+#include "common/Timer.h"
+
+const int N_POINTS = 7200;
 
 enum class GameMsg : uint32_t
 {
-  Server_GetStatus,
-  Server_GetPing,
-
   Client_Accepted,
   Client_AssignID,
   Client_RegisterWithServer,
@@ -27,15 +26,12 @@ enum class GameMsg : uint32_t
 
 struct sPlayerDescription
 {
-  // p_vertices_compressed_length should be the first element of the struct
+  // point_cloud_compressed_length should be the first element of the struct
   // as this is extracted by the client for creating heap variable. 
-  size_t point_cloud_compressed_length = 0;
-  
+  size_t point_cloud_compressed_length = 0; 
   uint32_t nUniqueID = 0;
-  uint32_t n_points = 0;
 
   float data_from_ml = 0.0f; 
-  bool cloud_set_for_client = false;
   char point_cloud_compressed[1]; // Flexible array member
 };
 
@@ -60,16 +56,15 @@ struct Point
   }
 };
 
-struct PointCloud {
+struct ToSerilizePointCloud {
   // number of points
-  Point points[7200];
+  Point point_cloud[N_POINTS];
 
   template <class Archive>
   void serialize(Archive& archive) {
-    archive(points);
+    archive(point_cloud);
   }
 };
-
 
 
 #endif

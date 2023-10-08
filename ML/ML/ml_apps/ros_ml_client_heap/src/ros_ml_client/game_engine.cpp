@@ -97,22 +97,18 @@ namespace olc
       ML_LOG_TAG(Debug, APP_TAG, "Lifecycle system ready");
     }
 
-
     // Part 2: Instantiate the shader 
     Shader shader3D = Shader();
     shader3D.Load("data/res/shaders/standard3D.vert", "data/res/shaders/standard.frag");
 
-    // Shader pointShader3D = Shader();
-    // pointShader3D.Load("data/res/shaders/basic3D.vert", "data/res/shaders/basic.frag");
-    
+    Shader pointShader3D = Shader();
+    pointShader3D.Load("data/res/shaders/basic3D.vert", "data/res/shaders/basic.frag");
 
-    // fixation_ = new Cube();
+    render_point_cloud_.SetShader(pointShader3D);
+
     fixation_.ApplyShader(shader3D);
     fixation_.SetColor(COLOR_GREEN);
     fixation_.SetPosition(0.0f, 0.0f, 0.0f);
-
-    // cloud_ = new Point(pointShader3D, n_points, vertices_size);;
-
 
     MLHeadTrackingCreate(&ml_head_tracker_);
     MLHeadTrackingGetStaticData(ml_head_tracker_, &ml_head_static_data_);
@@ -120,10 +116,8 @@ namespace olc
     MLEyeTrackingCreate(&ml_eye_tracker_);
     MLEyeTrackingGetStaticData(ml_eye_tracker_, &ml_eye_static_data_);
 
-
     // The main/game loop
     ML_LOG_TAG(Debug, APP_TAG, "Enter main loop");
-
 
     return olc::rcode::OK;
   }
@@ -140,22 +134,8 @@ namespace olc
     return false;
   }
 
-
-  void GameEngine::InitializePointCloud(const int n_points)
+  void GameEngine::PublishCloud(const Point point_cloud[])
   {
-    n_points_ = n_points;
-
-    Shader pointShader3D = Shader();
-    pointShader3D.Load("data/res/shaders/basic3D.vert", "data/res/shaders/basic.frag");
-
-    render_point_cloud_.SetShader(pointShader3D, n_points);
-  }
-
-  void GameEngine::PublishCloud(PointCloud &point_cloud)
-  {
-
-    // ML_LOG_TAG(Info, APP_TAG, "%f", point_cloud.points[n_points_ - 1].Color.v0);
-
     MLSnapshot *snapshot = nullptr;
     MLPerceptionGetSnapshot(&snapshot);
 
@@ -178,8 +158,6 @@ namespace olc
     frame_params.focus_distance = 1.0f;
 
     MLHandle frame_handle;
-
-
 
     // MLGraphicsVirtualCameraInfoArray virtual_camera_array;
     MLGraphicsFrameInfo frame_info = {};
@@ -212,10 +190,7 @@ namespace olc
 
         fixation_.Render(projectionMatrix);
 
-        // cloud_->Render(projectionMatrix, vertices, vertices_size);
-
         render_point_cloud_.Render(projectionMatrix, point_cloud);
-
         
         // Bind the frame buffer
         glBindFramebuffer(GL_FRAMEBUFFER, 0);

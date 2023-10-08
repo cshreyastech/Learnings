@@ -9,7 +9,6 @@ class Shader;
 
 class RBPoint {
 public:
-	// RBPoint(Shader&, const int);
   RBPoint();
 	~RBPoint();
 
@@ -23,12 +22,10 @@ public:
 	void SetColor(glm::vec3 color) { _color = color; }
 	glm::vec3 GetColor() { return _color; }
 
-  void SetShader(Shader& shader, const int n_points);
+  void SetShader(Shader& shader);
 	
-  // void Render(glm::mat4, float[], const int);
-  void Render(glm::mat4 projectionMatrix, PointCloud &point_cloud);
+  void Render(glm::mat4 projectionMatrix, const Point point_cloud[]);
 
-	// void Dump();
 private:
 	GLuint _progId;
 	GLuint _vaoId;
@@ -44,7 +41,7 @@ private:
 	glm::vec3 _scale;
   GLuint _location;
 
-  int n_points_{0};
+  // int n_points_{0};
   int vertices_size_{0};
 
 	// Part 3: Added to support laserpointer

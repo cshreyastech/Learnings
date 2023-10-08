@@ -34,8 +34,7 @@ namespace olc
   // Called once an application termination, used for clearing resources
   virtual bool OnUserDestroy();
 
-  void InitializePointCloud(const int n_points);
-  void PublishCloud(PointCloud &point_cloud);
+  void PublishCloud(const Point point_cloud[]);
 
   public: // Branding
     std::string sAppName;
@@ -53,8 +52,6 @@ namespace olc
     MLEyeTrackingStaticData ml_eye_static_data_ = {};
 
     RBCube fixation_;
-
-    int n_points_{0};
     RBPoint render_point_cloud_;
 
   }; 
