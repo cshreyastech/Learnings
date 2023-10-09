@@ -31,7 +31,7 @@ public:
     double ms = duration * 0.001;
 
     // std::cout << caption_ << ": "<< duration << "us (" << ms << "ms)\n";
-    ML_LOG_TAG(Debug, APP_TAG, "%s: (%lldms)", caption_.c_str(), duration);
+    ML_LOG_TAG(Debug, APP_TAG, "%s: (%f ms)", caption_.c_str(), ms);
   }
 private:
   std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTimePoint;

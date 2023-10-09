@@ -128,13 +128,23 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
 
           std::istringstream iss(std::string(decompressed_data.begin(), decompressed_data.begin() + decompressed_data.size()));
           {
-            Timer timer("decompress");
+            Timer timer("Deserialize");
             cereal::BinaryInputArchive archive(iss);
             archive(to_serilize_point_cloud_);
           }
 
           mapObjects_.insert_or_assign(desc_from_server->nUniqueID, desc_from_server_stack);
 
+
+
+          {
+            Timer timer("PublishCloud");
+            GameEngine::PublishCloud(to_serilize_point_cloud_.point_cloud);
+          }
+
+          // Get head and eye pose from ML and send it back to server
+          mapObjects_[nPlayerID_].data_from_ml = 1.001f;
+          
           break;
         }
       }
@@ -146,13 +156,13 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
     return true;
   }
 
-  {
-    Timer timer("PublishCloud");
-    GameEngine::PublishCloud(to_serilize_point_cloud_.point_cloud);
-  }
+  // {
+  //   Timer timer("PublishCloud");
+  //   GameEngine::PublishCloud(to_serilize_point_cloud_.point_cloud);
+  // }
 
-  // Get head and eye pose from ML and send it back to server
-  mapObjects_[nPlayerID_].data_from_ml = 1.001f;
+  // // Get head and eye pose from ML and send it back to server
+  // mapObjects_[nPlayerID_].data_from_ml = 1.001f;
 
   // Send player description
   olc::net::message<GameMsg> msg;
