@@ -29,3 +29,5 @@ REFS = \
 DATAS = data/ : data/
 
 OPTIONS=standard-c++/17
+
+CFLAGS.gcc,clang=-O3
