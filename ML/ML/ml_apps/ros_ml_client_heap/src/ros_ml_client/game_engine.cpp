@@ -131,6 +131,8 @@ namespace olc
     return false;
   }
 
+
+
   void GameEngine::PublishCloud(const Point point_cloud[])
   {
     MLSnapshot *snapshot = nullptr;
@@ -207,17 +209,13 @@ namespace olc
       ML_LOG_TAG(Error, APP_TAG, "MLGraphicsBeginFrame() error: %d", frame_result);
     }
 
-    // ML_LOG_TAG(ml_fixation.position.x, ml_fixation.position.y, ml_fixation.position.z)
-
     t_ml_ros = 
       {
-    //     // Head
-        glm::quat(1.1f, 1.2f, 1.2f, 1.3f),
-        glm::vec3(1.11f, 1.22f, 1.33f),
-      
-        // Fix
-        glm::quat(2.1f, 2.2f, 2.2f, 2.3f),
-        glm::vec3(2.11f, 2.22f, 2.33f)
+        quat_ml_to_glm(ml_head),
+        vec_ml_to_glm(ml_head),
+
+        quat_ml_to_glm(ml_fixation),
+        vec_ml_to_glm(ml_fixation)
       };
   }
 

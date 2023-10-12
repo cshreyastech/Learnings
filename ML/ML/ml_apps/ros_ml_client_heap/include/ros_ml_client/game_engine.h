@@ -55,6 +55,8 @@ namespace olc
     RBCube fixation_;
     RBPoint render_point_cloud_;
 
+  private:
+    T_ML_ROS MLToGLMTransfrom(const MLTransform &ml);
   }; 
 
 }

@@ -30,4 +30,24 @@ glm::mat4 rb_camera_matrix(MLGraphicsVirtualCameraInfo &camera) {
   return (glm::inverse(worldFromCamera));
 }
 
+static glm::quat quat_ml_to_glm(const MLTransform &ml) {
+  glm::quat q;
+
+  q.w = ml.rotation.w;
+  q.x = ml.rotation.x;
+  q.y = ml.rotation.y;
+  q.z = ml.rotation.z;
+
+  return q;
+}
+
+static glm::vec3 vec_ml_to_glm(const MLTransform &ml) {
+  glm::vec3 v;
+  v.x = ml.position.x;
+  v.y = ml.position.y;
+  v.z = ml.position.z;
+
+  return v;
+}
+
 #endif
