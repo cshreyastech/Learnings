@@ -38,6 +38,7 @@ namespace olc
 
   public: // Branding
     std::string sAppName;
+    T_ML_ROS t_ml_ros;
 
   private:
     graphics_context_t graphics_context_;

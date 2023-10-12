@@ -1,7 +1,6 @@
 #ifndef ROS_ML_COMMON_H
 #define ROS_ML_COMMON_H
 
-
 #include <cstdint>
 #include "snappy-internal.h"
 #include "snappy-sinksource.h"
@@ -9,8 +8,19 @@
 #include <cereal/archives/binary.hpp>
 #include <memory>
 #include "common/Timer.h"
+#include "core/glm_include.h"
 
-const int N_POINTS = 7200;
+const int N_POINTS = 100000;
+
+// Endoscope to eye or head transformation
+struct T_ML_ROS
+{
+  glm::quat Q_EC_HEAD;
+  glm::vec3 P_EC_HEAD;
+
+  glm::quat Q_EC_FIX;
+  glm::vec3 P_EC_FIX;
+};
 
 enum class GameMsg : uint32_t
 {
@@ -21,7 +31,7 @@ enum class GameMsg : uint32_t
 
   Game_AddPlayer,
   Game_RemovePlayer,
-  Game_UpdatePlayer,
+  Game_UpdatePlayer
 };
 
 struct sPlayerDescription
@@ -31,7 +41,14 @@ struct sPlayerDescription
   size_t point_cloud_compressed_length = 0; 
   uint32_t nUniqueID = 0;
 
-  float data_from_ml = 0.0f; 
+  T_ML_ROS t_ml_ros;
+  // glm::quat Q_EC_HEAD;
+  // glm::vec3 P_EC_HEAD;
+
+  // glm::quat Q_EC_FIX;
+  // glm::vec3 P_EC_FIX;
+
+  // float pose_from_client = 0;
   char point_cloud_compressed[1]; // Flexible array member
 };
 
@@ -65,6 +82,5 @@ struct ToSerilizePointCloud {
     archive(point_cloud);
   }
 };
-
 
 #endif

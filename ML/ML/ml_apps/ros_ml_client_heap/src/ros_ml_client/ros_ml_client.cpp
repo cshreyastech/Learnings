@@ -114,7 +114,6 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
           desc_from_server_stack.nUniqueID = desc_from_server->nUniqueID;
           desc_from_server_stack.point_cloud_compressed_length = 
             desc_from_server->point_cloud_compressed_length;
-          desc_from_server_stack.data_from_ml = desc_from_server->data_from_ml;
 
           std::string decompressed_data;
           
@@ -142,8 +141,6 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
             GameEngine::PublishCloud(to_serilize_point_cloud_.point_cloud);
           }
 
-          // Get head and eye pose from ML and send it back to server
-          mapObjects_[nPlayerID_].data_from_ml = 1.001f;
           
           break;
         }
@@ -156,17 +153,13 @@ bool RosMLClient::OnUserUpdate(float fElapsedTime)
     return true;
   }
 
-  // {
-  //   Timer timer("PublishCloud");
-  //   GameEngine::PublishCloud(to_serilize_point_cloud_.point_cloud);
-  // }
-
-  // // Get head and eye pose from ML and send it back to server
-  // mapObjects_[nPlayerID_].data_from_ml = 1.001f;
-
   // Send player description
   olc::net::message<GameMsg> msg;
   msg.header.id = GameMsg::Game_UpdatePlayer;
+  mapObjects_[nPlayerID_].t_ml_ros = t_ml_ros;
+
+  // Has to be modifed
+  usleep(100000);
   msg << mapObjects_[nPlayerID_];
 
   Send(msg);

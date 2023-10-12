@@ -29,9 +29,6 @@ namespace olc
     // clean up system
     MLHeadTrackingDestroy(ml_head_tracker_);
     MLEyeTrackingDestroy(ml_eye_tracker_);
-
-
-    // delete[] vertices;
   }
 
   olc::rcode GameEngine::Construct()
@@ -139,10 +136,11 @@ namespace olc
     MLSnapshot *snapshot = nullptr;
     MLPerceptionGetSnapshot(&snapshot);
 
-    MLTransform ml_fixation = {};
-    MLTransform ml_left_eye_center = {};
-    MLTransform ml_right_eye_center = {};
     MLTransform ml_head = {};
+    MLTransform ml_fixation = {};
+    // MLTransform ml_left_eye_center = {};
+    // MLTransform ml_right_eye_center = {};
+    
     MLSnapshotGetTransform(snapshot, &ml_head_static_data_.coord_frame_head, &ml_head);
     MLSnapshotGetTransform(snapshot, &ml_eye_static_data_.fixation, &ml_fixation);
 
@@ -208,6 +206,19 @@ namespace olc
       // Sometimes it fails with timeout when device is busy
       ML_LOG_TAG(Error, APP_TAG, "MLGraphicsBeginFrame() error: %d", frame_result);
     }
+
+    // ML_LOG_TAG(ml_fixation.position.x, ml_fixation.position.y, ml_fixation.position.z)
+
+    t_ml_ros = 
+      {
+    //     // Head
+        glm::quat(1.1f, 1.2f, 1.2f, 1.3f),
+        glm::vec3(1.11f, 1.22f, 1.33f),
+      
+        // Fix
+        glm::quat(2.1f, 2.2f, 2.2f, 2.3f),
+        glm::vec3(2.11f, 2.22f, 2.33f)
+      };
   }
 
   bool GameEngine::OnUserDestroy()
