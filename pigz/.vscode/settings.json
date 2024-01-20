@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "dirent.h": "c",
-        "condition_variable": "c"
-    },
-    "C_Cpp.default.compilerPath": "/usr/lib/ccache/g++-9"
-}
