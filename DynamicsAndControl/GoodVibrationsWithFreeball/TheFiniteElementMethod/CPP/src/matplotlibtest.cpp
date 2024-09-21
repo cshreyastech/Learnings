@@ -1,10 +1,8 @@
 // https://www.youtube.com/watch?v=OlbtdOAWNf8
 
-#include "matplotlibcpp/matplotlibcpp.h"
 
-namespace plt = matplotlibcpp;
+#include "pch/pch.h"
 
-#include <iostream>
 int main()
 {
   plt::plot({1, 2, 3, 4}, "*");

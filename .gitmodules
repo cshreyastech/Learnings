@@ -2,3 +2,7 @@
 	path = ROSMLDesktop/ext/snappy
 	url = https://github.com/google/snappy.git
 	branch = main
+[submodule "DynamicsAndControl/external/eigen"]
+	path = DynamicsAndControl/external/eigen
+	url = https://gitlab.com/libeigen/eigen.git
+	branch = 3.4

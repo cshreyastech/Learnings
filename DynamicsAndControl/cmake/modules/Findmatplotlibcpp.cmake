@@ -1,6 +1,6 @@
 find_path(matplotlibcpp_INCLUDE_DIR
   NAMES matplotlibcpp/matplotlibcpp.h
-  HINTS ${CMAKE_SOURCE_DIR}/external/matplotlibcpp
+  HINTS ${CMAKE_SOURCE_DIR}/pchpkg/external/matplotlibcpp
   PATH_SUFFIXES include
   )
 

@@ -15,19 +15,13 @@ ADD_EXECUTABLE(${project_app}
   ${SRC_FILES}
 )
 
-# target_precompile_headers(${project_app} PRIVATE ${CMAKE_SOURCE_DIR}/PCH/include/PCH/pch.h)
-target_precompile_headers(${project_app} PRIVATE ${CMAKE_SOURCE_DIR}/external/matplotlibcpp/include/matplotlibcpp/matplotlibcpp.h)
-
+target_precompile_headers(${project_app} PRIVATE ${pch_INCLUDE_DIR}/pch/pch.h)
 
 target_include_directories(${project_app}
-  # PRIVATE ${CMAKE_SOURCE_DIR}/PCH/include
-  # PRIVATE ${HEADER_DIR}
-  PRIVATE ${Python3_INCLUDE_DIRS}
-  PRIVATE ${matplotlibcpp_INCLUDE_DIR}
   PRIVATE include
 )
 
-target_link_libraries(${project_app} ${Python3_LIBRARY_RELEASE})
+target_link_libraries(${project_app} ${PYTHON38_LIBRARY})
 
 set_target_properties(${project_app} PROPERTIES 
   CXX_STANDARD 20
