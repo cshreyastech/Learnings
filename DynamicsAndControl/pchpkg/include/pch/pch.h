@@ -20,8 +20,8 @@
 #include <vector>
 #include <deque>
 
-// #include <Eigen/Dense>
-// #include <Eigen/Core>
+#include "eigen3/Eigen/Dense"
+#include "eigen3/Eigen/Core"
 // #include <eigen_conversions/eigen_msg.h>
 
 #include <stdio.h>
@@ -45,7 +45,7 @@
 #include <boost/assign/list_of.hpp>
 #include <boost/circular_buffer.hpp>
 
-// using namespace Eigen;
+using Eigen::MatrixXd;
 #include "matplotlibcpp/matplotlibcpp.h"
 
 namespace plt = matplotlibcpp;
