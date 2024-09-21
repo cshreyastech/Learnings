@@ -28,3 +28,4 @@ scripts/__pycache__
 # Ignore all build folders
 [Bb][Uu][Ii][Ll][Dd]/*
 
+DynamicsAndControl/build/*
