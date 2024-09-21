@@ -1,3 +1,0 @@
-C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/glm/glm/out/build/x64-Debug/CMakeFiles/glm_dummy.dir
-C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/glm/glm/out/build/x64-Debug/CMakeFiles/edit_cache.dir
-C:/lcb/Learnings/ML/FromTheCherno/opengl_app/Dependencies/glm/glm/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir

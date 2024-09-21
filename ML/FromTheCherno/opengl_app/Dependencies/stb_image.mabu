@@ -1,6 +1,0 @@
-export INCS = stb_image/
-INCS = stb_image/
-KIND = static
-SRCS = stb_image/stb_image/stb_image.cpp
-USES = \
-	stdc++
