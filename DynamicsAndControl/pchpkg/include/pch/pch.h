@@ -46,6 +46,7 @@
 #include <boost/circular_buffer.hpp>
 
 using Eigen::MatrixXd;
+using Eigen::VectorXd;
 #include "matplotlibcpp/matplotlibcpp.h"
 
 namespace plt = matplotlibcpp;
