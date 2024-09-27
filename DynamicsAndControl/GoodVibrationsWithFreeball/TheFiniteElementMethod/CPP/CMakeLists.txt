@@ -6,7 +6,6 @@ set(HEADER_DIR
 )
 
 MACRO(add_project project_name)
-  message("project_name: " ${project_name})
   set(SRC_FILES
     src/${project_name}.cpp
   )
@@ -21,9 +20,13 @@ MACRO(add_project project_name)
 
   target_include_directories(${project_app}
     PRIVATE ${HEADER_DIR}
+    PRIVATE ${eigen_utils_lib_SOURCE_DIR}/include
   )
 
-  target_link_libraries(${project_app} ${PYTHON38_LIBRARY})
+  target_link_libraries(${project_app} 
+    PRIVATE ${PYTHON38_LIBRARY}
+    PRIVATE eigen_utils_lib
+  )
 
   set_target_properties(${project_app} PROPERTIES 
     CXX_STANDARD 20
@@ -32,5 +35,5 @@ MACRO(add_project project_name)
 ENDMACRO()
 
 # add_project(matplotlibtest)
-add_project(03_bar_element)
+# add_project(03_bar_element)
 add_project(05_improved_bar_element)

@@ -10,33 +10,13 @@ ImprovedBarElement::~ImprovedBarElement()
 
 }
 
-void ImprovedBarElement::RemoveRow(Eigen::MatrixXd& matrix, unsigned int rowToRemove)
-{
-  unsigned int numRows = matrix.rows()-1;
-  unsigned int numCols = matrix.cols();
-
-  if( rowToRemove < numRows )
-    matrix.block(rowToRemove,0,numRows-rowToRemove,numCols) = matrix.bottomRows(numRows-rowToRemove);
-
-  matrix.conservativeResize(numRows,numCols);
-}
-
-void ImprovedBarElement::RemoveColumn(Eigen::MatrixXd& matrix, unsigned int colToRemove)
-{
-  unsigned int numRows = matrix.rows();
-  unsigned int numCols = matrix.cols()-1;
-
-  if( colToRemove < numCols )
-    matrix.block(0,colToRemove,numRows,numCols-colToRemove) = matrix.rightCols(numCols-colToRemove);
-
-  matrix.conservativeResize(numRows,numCols);
-}
-
 void ImprovedBarElement::ReduceDimention(const int& dof, MatrixXd& M)
 {
-  M.block(dof, 0, M.rows() - 1, M.cols()) = M.bottomRows(M.rows() - 1);
-  M.block(0, dof, M.rows(), M.cols() - 1) = M.rightCols(M.cols() - 1);
-  M.conservativeResize(M.rows() - 1, M.cols() - 1);
+  // M.block(dof, 0, M.rows() - 1, M.cols()) = M.bottomRows(M.rows() - 1);
+  // M.block(0, dof, M.rows(), M.cols() - 1) = M.rightCols(M.cols() - 1);
+  // M.conservativeResize(M.rows() - 1, M.cols() - 1);
+  EigenUtils::RemoveRow(M, M.rows() - 1);
+  EigenUtils::RemoveColumn(M, M.cols() - 1);
 }
 
 std::tuple<MatrixXd, MatrixXd, VectorXd, MatrixXd> ImprovedBarElement::Bar(const int num_elems)
