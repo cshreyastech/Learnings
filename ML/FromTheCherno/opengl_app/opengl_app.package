@@ -1,4 +1,0 @@
-REFS = opengl_app
-
-DATAS.device= \
-  		res/ : res/

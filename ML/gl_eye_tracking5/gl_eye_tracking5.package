@@ -1,4 +1,0 @@
-REFS = gl_eye_tracking5
-
-DATAS.device= \
-	data/ : data/

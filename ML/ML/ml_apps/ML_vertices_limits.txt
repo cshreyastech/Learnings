@@ -1,4 +1,0 @@
-ML vertices - number of points supported
-
-1) No zipping
-a) static array - Passeds for 100K. Fails for 125K
